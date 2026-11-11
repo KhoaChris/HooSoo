@@ -1,0 +1,41 @@
+/* components/badge: keep responsive rules with the styles they adjust. */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 550;
+  white-space: nowrap;
+  background: #eef2f5;
+  color: #667b8a;
+}
+.badge.active,
+.badge.approved,
+.badge.enabled,
+.badge.on_time {
+  background: #eaf5ef;
+  color: #2a8062;
+}
+.badge.pending,
+.badge.probation,
+.badge.late,
+.badge.missing_checkout {
+  background: #fff5df;
+  color: #a27925;
+}
+.badge.rejected,
+.badge.terminated {
+  background: #fcefeb;
+  color: #b86b55;
+}
+.badge.working {
+  background: #eaf1f9;
+  color: #557d9c;
+}
+.badge.cancelled,
+.badge.disabled {
+  background: #f0f2f4;
+  color: #83919b;
+}

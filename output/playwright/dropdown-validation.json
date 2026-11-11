@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-11-11T03:19:46.804907+00:00",
+  "scope": "Actual shared UI components in isolated browser preview; no cloud reads or writes",
+  "lint": "passed",
+  "typecheck": "passed",
+  "frontendBuild": "passed",
+  "browserChecks": [
+    "pointer selection",
+    "Arrow/End/Enter keyboard selection",
+    "Escape and focus restoration",
+    "required validation and first invalid field focus",
+    "empty manager value preserved on submit",
+    "all-departments filter reset",
+    "default status preserved",
+    "disabled and empty lists",
+    "native dialog portal visible and clickable",
+    "Escape retains native dialog",
+    "modal role payload preserved",
+    "80-item list and last-item selection",
+    "outside click dismissal",
+    "390x844 viewport collision bounds"
+  ],
+  "previewRemoved": true,
+  "fullBackendE2ERun": false
+}

@@ -1,0 +1,48 @@
+{
+  "name": "hoosoo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev:frontend": "npm run dev -w frontend",
+    "dev:backend": "npm run dev -w backend",
+    "emulators": "firebase emulators:start --config firebase/firebase.json --project demo-hoosoo --import .emulator-data --export-on-exit .emulator-data",
+    "seed": "npm run seed -w backend",
+    "lint": "eslint .",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w backend && npm run test:frontend",
+    "test:frontend": "npm exec -w backend -- vitest run --root .. --config backend/vitest.config.ts frontend/tests",
+    "test:integration": "npm run test:integration -w backend",
+    "test:e2e": "playwright test",
+    "test:rules": "npm run test:rules -w backend",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "build:demo": "npm run build -w backend && npm run build:demo -w frontend",
+    "check:firebase": "npm run check:env -w frontend && npm run check:env -w backend && npm run check:firebase -w backend",
+    "check:cloud-api": "node scripts/check-cloud-api.mjs",
+    "api:request": "node scripts/api-request.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@playwright/test": "^1.56.1",
+    "eslint": "^9.39.0",
+    "firebase-tools": "^15.3.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "1.14.7",
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.14.7"
+    }
+  }
+}

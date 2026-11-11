@@ -1,0 +1,71 @@
+import type { Table } from "./index";
+
+export function queryCollections(path: string): Table[] | null {
+  const route = path.split("?")[0];
+  const authorization: Table[] = ["memberships", "employees"];
+  let data: Table[];
+  if (route === "/me" || route === "/settings") data = ["settings"];
+  else if (route === "/organization/tree")
+    data = ["settings", "departments", "positions"];
+  else if (route === "/departments") data = ["departments"];
+  else if (route === "/positions") data = ["positions"];
+  else if (route === "/users") data = ["accountJobs"];
+  else if (route === "/audit-logs" || route.endsWith("/history"))
+    data = ["auditLogs"];
+  else if (route.startsWith("/employees")) data = [];
+  else if (route.startsWith("/attendance") || route === "/reports/attendance")
+    data = ["attendanceRecords", "leaveRequests"];
+  else if (route.startsWith("/leave-requests") || route === "/reports/leave")
+    data = ["leaveRequests"];
+  else if (route === "/leave-types") data = ["leaveTypes"];
+  else if (route === "/leave-balances" || route === "/reports/balances")
+    data = [
+      "settings",
+      "leaveBalances",
+      "leaveRequests",
+      "leaveBalanceTransactions",
+    ];
+  else if (route === "/reports/employees") data = ["departments", "positions"];
+  else if (route === "/dashboard")
+    data = [
+      "settings",
+      "departments",
+      "attendanceRecords",
+      "leaveRequests",
+      "leaveBalances",
+      "leaveBalanceTransactions",
+    ];
+  else if (route.startsWith("/system/")) data = [];
+  else return null;
+  return [...authorization, ...data];
+}
+
+export function mutationCollections(path: string): Table[] | null {
+  const route = path.split("/").filter(Boolean)[0];
+  const map: Record<string, Table[]> = {
+    me: ["employees"],
+    employees: ["employees", "memberships"],
+    departments: ["departments"],
+    positions: ["positions"],
+    settings: ["settings"],
+    users: ["employees", "memberships", "accountJobs"],
+    attendance: ["attendanceRecords"],
+    "leave-types": ["leaveTypes"],
+    "leave-requests": [
+      "leaveRequests",
+      "leaveBalances",
+      "leaveBalanceTransactions",
+    ],
+    "leave-balances": ["leaveBalances", "leaveBalanceTransactions"],
+  };
+  return map[route] ? [...map[route], "auditLogs"] : null;
+}
+
+export function queryAffected(path: string, changed: readonly string[] | null) {
+  const dependencies = queryCollections(path);
+  return (
+    changed === null ||
+    dependencies === null ||
+    dependencies.some((table) => changed.includes(table))
+  );
+}

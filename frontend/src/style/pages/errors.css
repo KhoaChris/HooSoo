@@ -1,0 +1,10 @@
+/* pages/errors: keep responsive rules with the styles they adjust. */
+
+.error-page {
+  min-height: 60vh;
+}
+.access-error {
+  max-width: 600px;
+  margin: 70px auto;
+  padding: 25px;
+}

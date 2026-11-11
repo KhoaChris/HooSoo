@@ -1,0 +1,149 @@
+--- a/backend/src/routes/read-context.ts
++++ b/backend/src/routes/read-context.ts
+@@ -127,7 +127,10 @@
+         matchEmployee(e, q) &&
+         (q.mine !== "true" || e.id === a.employeeId),
+     )
+-    .map((e) => e.id);
++    .map((e) => e.id)
++    // Actor-first state insertion order differs across roles. Use the same
++    // employee-ID chunks/cache keys for identical scopes (for example Admin/HR).
++    .sort();
+   const plan: ReadPlan = Object.fromEntries(
+     selected
+       .filter((table) => table !== "employees")
+--- /dev/null
++++ b/backend/tests/leave-cache.integration.test.ts
+@@ -0,0 +1,132 @@
++import { beforeAll, afterAll, it, expect } from "vitest";
++import { querySchema } from "@hoosoo/shared";
++import { db } from "../src/config/firebase-admin";
++import { env, ORG_ID } from "../src/config/env";
++import { organization, mutate } from "../src/database/store";
++import {
++  invalidateReadCache,
++  setReadCacheLive,
++} from "../src/database/read-cache";
++import { requestState } from "../src/routes/read-context";
++import { leaveList } from "../src/modules/leave/leave.queries";
++import { usageSnapshot } from "../src/observability/firestore-usage";
++import { fixture } from "./fixture";
++import { writeFileSync } from "node:fs";
++
++const q = querySchema.parse({ approvals: "true" });
++const historyReads = () => usageSnapshot().bySource.leaveRequests?.reads ?? 0;
++const list = async (id: string) => {
++  const { s, a } = await requestState("test-" + id, ["leaveRequests"], false, {
++    path: "/leave-requests",
++    query: q,
++    params: {},
++  });
++  return leaveList(s, a, { ...q, approvals: undefined });
++};
++const results: Record<string, number> = {};
++beforeAll(async () => {
++  if (
++    env.FIREBASE_MODE !== "emulator" ||
++    env.FIREBASE_PROJECT_ID !== "demo-hoosoo" ||
++    ORG_ID !== "hoosoo-tests"
++  )
++    throw new Error("Isolated emulator test only");
++  await db.recursiveDelete(organization);
++  const state = fixture();
++  // Exercise more than one Firestore `in` chunk, including actor-first ordering.
++  for (let i = 0; i < 35; i++) {
++    const id = "extra-" + String(i).padStart(2, "0");
++    state.employees[id] = {
++      ...state.employees.outsider,
++      id,
++      employeeCode: id,
++      uid: "test-" + id,
++    };
++  }
++  for (let i = 0; i < 60; i++) {
++    const id = "cache-leave-" + i;
++    state.leaveRequests[id] = {
++      id,
++      employeeId: [
++        "employee",
++        "outsider",
++        "admin",
++        "hr",
++        "manager",
++        "extra-34",
++      ][i % 6],
++      leaveTypeId: "annual",
++      typeName: "Annual",
++      deductsBalance: true,
++      days: 1,
++      startDate: "2026-11-13",
++      endDate: "2026-11-13",
++      workDates: ["2026-11-13"],
++      reason: "Isolated read-cache regression",
++      status: "pending",
++      history: [],
++      createdAt: new Date(Date.UTC(2026, 10, 1, 0, 0, i)).toISOString(),
++    };
++  }
++  await mutate((s) => Object.assign(s, state));
++  setReadCacheLive(true);
++}, 30000);
++afterAll(async () => {
++  setReadCacheLive(false);
++  if (env.FIREBASE_MODE === "emulator" && ORG_ID === "hoosoo-tests")
++    await db.recursiveDelete(organization);
++  if (process.env.CACHE_REVIEW_OUTPUT)
++    writeFileSync(
++      process.env.CACHE_REVIEW_OUTPUT,
++      JSON.stringify(results, null, 2) + "\n",
++    );
++  await db.terminate();
++});
++it("shares identical Admin/HR history reads across query chunks without sharing authorization", async () => {
++  const admin = await list("admin");
++  const before = historyReads();
++  const hr = await list("hr");
++  results.hrWarmHistoryReads = historyReads() - before;
++  if (process.env.EXPECT_CANONICAL_REUSE !== "false")
++    expect(results.hrWarmHistoryReads).toBe(0);
++  else expect(results.hrWarmHistoryReads).toBeGreaterThan(0);
++  expect(hr.map((x) => x.id).sort()).toEqual(admin.map((x) => x.id).sort());
++  expect(hr).toHaveLength(60);
++
++  invalidateReadCache();
++  const concurrentStart = historyReads();
++  await Promise.all([list("admin"), list("hr")]);
++  results.concurrentHistoryReads = historyReads() - concurrentStart;
++  if (process.env.EXPECT_CANONICAL_REUSE !== "false")
++    expect(results.concurrentHistoryReads).toBe(60);
++  else expect(results.concurrentHistoryReads).toBeGreaterThan(60);
++
++  const manager = await list("manager");
++  expect(manager).toHaveLength(20);
++  expect(
++    manager.every((r) => ["manager", "employee"].includes(r.employeeId)),
++  ).toBe(true);
++  const employee = await list("employee");
++  expect(employee).toHaveLength(10);
++  expect(employee.every((r) => r.employeeId === "employee")).toBe(true);
++  await organization
++    .collection("memberships")
++    .doc("test-hr")
++    .update({ active: false });
++  await expect(list("hr")).rejects.toMatchObject({ status: 403 });
++  await organization
++    .collection("memberships")
++    .doc("test-hr")
++    .update({ active: true });
++
++  await mutate(
++    (s) => {
++      s.leaveRequests["cache-leave-0"].status = "approved";
++    },
++    (read) => read({ leaveRequests: { ids: ["cache-leave-0"] } }),
++  );
++  const updated = await list("hr");
++  expect(updated.find((r) => r.id === "cache-leave-0")?.status).toBe(
++    "approved",
++  );
++});

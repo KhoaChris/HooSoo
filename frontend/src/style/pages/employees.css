@@ -1,0 +1,23 @@
+/* pages/employees: keep responsive rules with the styles they adjust. */
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  margin: 13px 0 25px;
+}
+.profile-header h2 {
+  font-size: 20px;
+}
+.work-changes {
+  margin-top: 9px;
+}
+.work-changes p {
+  font-size: 11px;
+  margin: 4px 0;
+}
+.work-changes strong {
+  display: inline;
+  font-size: 11px;
+}

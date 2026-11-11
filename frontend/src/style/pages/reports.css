@@ -1,0 +1,27 @@
+/* pages/reports: keep responsive rules with the styles they adjust. */
+
+.report-summary {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 22px;
+}
+.report-summary .metric {
+  min-width: 240px;
+}
+.report-summary > p {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #8a99a3;
+  max-width: 550px;
+}
+@media (max-width: 600px) {
+  .report-summary {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .report-summary .metric {
+    min-width: 0;
+  }
+}

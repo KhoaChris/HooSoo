@@ -1,0 +1,68 @@
+/* components/feedback: keep responsive rules with the styles they adjust. */
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 11px;
+  padding: 48px 25px;
+  color: #93a4af;
+  text-align: center;
+}
+.empty strong {
+  color: #6a7e8d;
+  font-size: 13px;
+}
+.empty p {
+  font-size: 12px;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 160px;
+  color: #6e8c89;
+}
+.error-box {
+  display: flex;
+  gap: 11px;
+  background: #fff1ee;
+  color: #9d4e44;
+  border: 1px solid #f2d9d2;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 12px;
+}
+.error-box strong {
+  font-weight: 500;
+  line-height: 1.7;
+}
+.error-box small {
+  display: block;
+  margin: 7px 0;
+  color: #b57d72;
+}
+.error-box .button {
+  margin-top: 10px;
+}
+.notice {
+  padding: 14px 16px;
+  background: #fff7e7;
+  border: 1px solid #f1e2bf;
+  border-radius: 8px;
+  color: #90703d;
+  font-size: 12px;
+  margin: 15px 0;
+  line-height: 1.7;
+}
+.notice.success {
+  background: #eaf6ee;
+  color: #397b5c;
+  border-color: #d3e8db;
+}
+.notice small {
+  display: block;
+}

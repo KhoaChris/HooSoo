@@ -1,0 +1,38 @@
+.tooltip-anchor {
+  display: block;
+}
+.tooltip {
+  position: fixed;
+  z-index: 80;
+  transform: translateY(-50%);
+  max-width: 260px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 550;
+  line-height: 1.4;
+  box-shadow: 0 4px 14px #172f4224;
+  animation: tooltip-reveal 0.12s ease-out;
+}
+.tooltip::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+@keyframes tooltip-reveal {
+  from {
+    opacity: 0;
+    margin-left: -3px;
+  }
+  to {
+    opacity: 1;
+    margin-left: 0;
+  }
+}

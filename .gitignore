@@ -1,0 +1,16 @@
+node_modules/
+**/dist/
+.env
+.env.local
+.env.*.local
+**/.secrets/
+*service*account*.json
+.emulator-data/
+*-debug.log*
+playwright-report/
+test-results/
+.DS_Store
+
+.playwright-cli/
+
+releases/

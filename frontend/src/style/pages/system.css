@@ -1,0 +1,20 @@
+/* pages/system: keep responsive rules with the styles they adjust. */
+
+.system-result {
+  max-width: 700px;
+  padding: 35px;
+}
+.system-result > h2 {
+  font-size: 23px;
+  margin-top: 15px;
+}
+.system-result > p {
+  color: #8b9ba4;
+  font-size: 12px;
+  margin-top: 7px;
+}
+@media (max-width: 600px) {
+  .system-result {
+    padding: 24px;
+  }
+}

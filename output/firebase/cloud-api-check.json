@@ -1,0 +1,31 @@
+{
+  "projectId": "hoosoo-37881",
+  "checkedAt": "2026-11-10T18:25:05.602Z",
+  "passed": 24,
+  "checks": [
+    "Admin: Firebase sign-in and API membership",
+    "HR: Firebase sign-in and API membership",
+    "Manager: Firebase sign-in and API membership",
+    "Employee: Firebase sign-in and API membership",
+    "Admin GET /dashboard",
+    "Admin GET /employees",
+    "Admin GET /departments",
+    "Admin GET /positions",
+    "Admin GET /organization/tree",
+    "Admin GET /attendance",
+    "Admin GET /leave-types",
+    "Admin GET /leave-requests",
+    "Admin GET /leave-balances",
+    "Admin GET /users",
+    "Admin GET /settings",
+    "Admin GET /audit-logs",
+    "Admin GET /system/status",
+    "Admin GET /reports/employees",
+    "Admin GET /reports/attendance",
+    "Admin GET /reports/leave",
+    "Admin GET /reports/balances",
+    "Role restrictions and Manager field redaction",
+    "Real API write and idempotent replay preserve demo profile values",
+    "CSV export contains synchronized demo employees"
+  ]
+}

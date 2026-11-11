@@ -1,0 +1,42 @@
+{
+  "name": "@hoosoo/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup",
+    "start": "node dist/server.js",
+    "lint": "eslint src tests scripts",
+    "typecheck": "tsc --noEmit",
+    "test": "NODE_ENV=test vitest run tests/domain.test.ts tests/live-updates.test.ts tests/firestore-operation.test.ts tests/store-reads.test.ts tests/live-hub.test.ts tests/query-sync.test.ts tests/read-cache.test.ts",
+    "test:integration": "NODE_ENV=test LOG_LEVEL=silent vitest run tests/integration.test.ts --testTimeout=30000",
+    "test:rules": "NODE_ENV=test vitest run tests/rules.test.ts --testTimeout=30000",
+    "check:env": "tsx scripts/check-env.ts",
+    "check:db": "tsx scripts/check-db.ts",
+    "check:firebase": "tsx scripts/check-firebase.ts",
+    "bootstrap:demo-cloud": "tsx scripts/bootstrap-cloud-demo.ts",
+    "seed": "tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@hoosoo/shared": "*",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "firebase-admin": "^14.5.0",
+    "helmet": "^8.1.0",
+    "pino": "^10.1.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0",
+    "firebase": "^13.2.0",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "vitest": "^4.1.12"
+  }
+}

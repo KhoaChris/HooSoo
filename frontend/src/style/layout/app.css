@@ -1,0 +1,131 @@
+/* Application workspace; sidebar styles live in sidebar.css. */
+.app-shell {
+  --sidebar-width: 238px;
+  display: flex;
+  min-height: 100vh;
+}
+.workspace {
+  margin-left: var(--sidebar-width);
+  transition: margin-left 220ms cubic-bezier(0.2, 0, 0, 1);
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  border-bottom: 1px solid var(--line);
+  background: #ffffffec;
+  gap: 20px;
+}
+.breadcrumb {
+  font-size: 12px;
+  color: #81909b;
+  display: flex;
+  gap: 13px;
+}
+.breadcrumb strong {
+  font-weight: 500;
+  color: #425666;
+}
+.breadcrumb > span {
+  color: #bdc7ce;
+}
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-user strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 650;
+}
+.topbar-user small {
+  font-size: 10px;
+  display: block;
+}
+.main-content {
+  padding: 33px 36px 40px;
+  max-width: 1700px;
+  width: 100%;
+  margin: auto;
+  flex: 1;
+}
+.app-footer {
+  padding: 17px 36px;
+  border-top: 1px solid var(--line);
+  color: #9aa5ad;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+.mobile-menu,
+.sidebar-overlay {
+  display: none;
+}
+@media (min-width: 1600px) {
+  .main-content {
+    padding: 40px 50px;
+  }
+}
+@media (max-width: 1200px) {
+  .app-shell {
+    --sidebar-width: 215px;
+  }
+  .main-content {
+    padding: 25px;
+  }
+  .topbar {
+    padding: 0 25px;
+  }
+}
+@media (max-width: 900px) {
+  .app-shell {
+    --sidebar-width: 0px;
+  }
+  .mobile-menu {
+    display: inline-flex;
+  }
+  .main-content {
+    padding: 22px;
+  }
+  .topbar {
+    height: 68px;
+    padding: 0 22px;
+  }
+  .breadcrumb {
+    font-size: 11px;
+    gap: 9px;
+  }
+  .topbar-user strong {
+    font-size: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .topbar {
+    padding: 0 16px;
+  }
+  .topbar-user > div {
+    display: none;
+  }
+  .breadcrumb {
+    gap: 7px;
+  }
+  .main-content {
+    padding: 23px 16px;
+  }
+  .app-footer {
+    padding: 17px;
+    display: block;
+    text-align: center;
+  }
+  .app-footer span {
+    display: block;
+    line-height: 1.8;
+  }
+}

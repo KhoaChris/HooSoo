@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-11-11T17:17:45.995Z",
+  "project": "hoosoo-37881",
+  "mode": "Read-only production requestState against cloud Firestore; no HTTP server started and no business writes",
+  "roles": [
+    {
+      "role": "Admin",
+      "visibleRecords": 4
+    },
+    {
+      "role": "HR",
+      "visibleRecords": 4
+    },
+    {
+      "role": "Manager",
+      "visibleRecords": 4
+    },
+    {
+      "role": "Employee",
+      "visibleRecords": 4
+    }
+  ],
+  "hrAdditionalHistoryReads": 0,
+  "hrTotalReads": 2,
+  "cache": {
+    "hits": 2,
+    "misses": 16,
+    "joined": 0,
+    "invalidations": 2,
+    "live": true,
+    "entries": 7,
+    "bytes": 22559,
+    "maxBytes": 8388608
+  },
+  "totalSDKReads": 26,
+  "totalSDKWrites": 0,
+  "passed": true
+}

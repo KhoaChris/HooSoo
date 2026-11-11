@@ -1,0 +1,12 @@
+{
+  "projectId": "hoosoo-37881",
+  "mode": "cloud",
+  "route": "GET /api/v1/events",
+  "requestId": "2fcff002-b27c-4703-a6d1-05ed9707e0d9",
+  "observedEvents": 2,
+  "document": "organizations/hoosoo/employees/demo-employee",
+  "address": "Địa chỉ minh họa — đồng bộ trực tiếp ngày 11/11/2026",
+  "committedAt": "2026-11-10T18:38:39.028Z",
+  "eventReceivedAt": "2026-11-10T18:38:39.234Z",
+  "notificationDelayMs": 206
+}

@@ -1,0 +1,4081 @@
+{
+  "startedAt": "2026-11-11T16:52:10.344Z",
+  "network": [
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415931644
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794415931858
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415931896
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415932226
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415932226
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794415932357
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794415932543
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/employees?page=1",
+      "at": 1794415932828
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415947596
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794415947786
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415947830
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415948126
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415948126
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794415948286
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794415948474
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/employees?page=1",
+      "at": 1794415948661
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415963537
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794415963729
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415963772
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415964074
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415964075
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794415964227
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794415964415
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/employees?page=1",
+      "at": 1794415964602
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415979582
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794415979906
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415979943
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794415980248
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794415980248
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794415980404
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794415980630
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416031213
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416031786
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794416031997
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416032205
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416032341
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416032342
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416032497
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416032648
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794416032722
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794416032838
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/employees?page=1",
+      "at": 1794416032906
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416033031
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416033172
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416033172
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416033343
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794416033518
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416033559
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/employees?page=1",
+      "at": 1794416033706
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794416033752
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416033940
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416034085
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416034085
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416034254
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794416034467
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416034613
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/employees?page=1",
+      "at": 1794416034655
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/events",
+      "at": 1794416034807
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416035001
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/me",
+      "at": 1794416035143
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/dashboard?endDate=2026-11-30&startDate=2026-11-01",
+      "at": 1794416035144
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416035146
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416035310
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/positions?pageSize=100",
+      "at": 1794416035555
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416049919
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416050173
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416050370
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416097244
+    },
+    {
+      "role": "Admin",
+      "method": "POST",
+      "path": "/api/v1/departments",
+      "at": 1794416097467
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416098155
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416098165
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416098165
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416098165
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416100010
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416142300
+    },
+    {
+      "role": "HR",
+      "method": "PATCH",
+      "path": "/api/v1/departments/7b2f23ea-a683-4ee8-a89c-4a424fa31ccd",
+      "at": 1794416142504
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416143160
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416143167
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416143167
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416143167
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416145005
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416154006
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416194216
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416226560
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416227202
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416265903
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416286298
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/audit-logs",
+      "at": 1794416286507
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416286538
+    },
+    {
+      "role": "HR",
+      "method": "GET",
+      "path": "/api/v1/departments?pageSize=100",
+      "at": 1794416286538
+    },
+    {
+      "role": "Manager",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416286539
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/organization/tree",
+      "at": 1794416286539
+    },
+    {
+      "role": "Employee",
+      "method": "GET",
+      "path": "/api/v1/employees",
+      "at": 1794416286710
+    },
+    {
+      "role": "Admin",
+      "method": "GET",
+      "path": "/api/v1/system/usage",
+      "at": 1794416321090
+    }
+  ],
+  "stages": [
+    {
+      "name": "before_reload",
+      "at": 1794416031415,
+      "networkIndex": 32,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 221,
+          "writes": 0,
+          "queries": 53,
+          "transactions": 0
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 49,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 64,
+            "writes": 0,
+            "queries": 7,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 9,
+            "writes": 0,
+            "queries": 7,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 22,
+            "writes": 0,
+            "queries": 14,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 11,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 8,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 25,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 5
+          },
+          "GET /positions": {
+            "reads": 11,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 5
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 9,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 5
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 17,
+            "writes": 0,
+            "queries": 8,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 112,
+          "misses": 171,
+          "joined": 56,
+          "invalidations": 8,
+          "live": true,
+          "entries": 27,
+          "bytes": 11154,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "after_reload",
+      "at": 1794416035528,
+      "networkIndex": 63,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 296,
+          "writes": 0,
+          "queries": 67,
+          "transactions": 0
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 76,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 97,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 10,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 27,
+            "writes": 0,
+            "queries": 17,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 14,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 41,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 21
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 14,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /positions": {
+            "reads": 17,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 9,
+            "transactions": 0,
+            "requests": 12
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 189,
+          "misses": 248,
+          "joined": 71,
+          "invalidations": 8,
+          "live": true,
+          "entries": 27,
+          "bytes": 11154,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "before_create",
+      "at": 1794416050563,
+      "networkIndex": 67,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 305,
+          "writes": 0,
+          "queries": 67,
+          "transactions": 0
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 80,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 102,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 10,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 27,
+            "writes": 0,
+            "queries": 17,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 14,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 41,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 21
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 9,
+            "transactions": 0,
+            "requests": 12
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /organization/tree": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 201,
+          "misses": 256,
+          "joined": 71,
+          "invalidations": 8,
+          "live": true,
+          "entries": 27,
+          "bytes": 11154,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "create_start",
+      "at": 1794416097451,
+      "networkIndex": 68,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 307,
+          "writes": 0,
+          "queries": 67,
+          "transactions": 0
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 81,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 103,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 10,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 27,
+            "writes": 0,
+            "queries": 17,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 14,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 41,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 21
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 9,
+            "transactions": 0,
+            "requests": 12
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 3
+          },
+          "GET /organization/tree": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 201,
+          "misses": 258,
+          "joined": 71,
+          "invalidations": 8,
+          "live": true,
+          "entries": 27,
+          "bytes": 11154,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "create_end",
+      "at": 1794416100204,
+      "networkIndex": 74,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 344,
+          "writes": 4,
+          "queries": 76,
+          "transactions": 1
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 88,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 114,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 13,
+            "writes": 1,
+            "queries": 4,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 3,
+            "writes": 1,
+            "queries": 0,
+            "transactions": 1
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 1,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 1,
+            "writes": 1,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 41,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 21
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 28,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 11
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 29,
+            "writes": 0,
+            "queries": 15,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 4
+          },
+          "GET /organization/tree": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 4
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 212,
+          "misses": 281,
+          "joined": 73,
+          "invalidations": 10,
+          "live": true,
+          "entries": 27,
+          "bytes": 11465,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "edit_start",
+      "at": 1794416142491,
+      "networkIndex": 75,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 349,
+          "writes": 4,
+          "queries": 77,
+          "transactions": 1
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 90,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 116,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 13,
+            "writes": 1,
+            "queries": 4,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 3,
+            "writes": 1,
+            "queries": 0,
+            "transactions": 1
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 1,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 1,
+            "writes": 1,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 28,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 11
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 29,
+            "writes": 0,
+            "queries": 15,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 10,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 5
+          },
+          "GET /organization/tree": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 4
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 212,
+          "misses": 286,
+          "joined": 73,
+          "invalidations": 10,
+          "live": true,
+          "entries": 27,
+          "bytes": 11465,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "edit_end",
+      "at": 1794416145203,
+      "networkIndex": 81,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 374,
+          "writes": 8,
+          "queries": 79,
+          "transactions": 2
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 97,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 123,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 21,
+            "writes": 2,
+            "queries": 6,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 4,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 2
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 2,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 2,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 35,
+            "writes": 0,
+            "queries": 16,
+            "transactions": 0,
+            "requests": 14
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 6
+          },
+          "GET /organization/tree": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 6
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          },
+          "PATCH /departments/:id": {
+            "reads": 8,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 231,
+          "misses": 299,
+          "joined": 75,
+          "invalidations": 12,
+          "live": true,
+          "entries": 27,
+          "bytes": 11476,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "idle_start",
+      "at": 1794416154211,
+      "networkIndex": 82,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 376,
+          "writes": 8,
+          "queries": 79,
+          "transactions": 2
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 98,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 124,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 21,
+            "writes": 2,
+            "queries": 6,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 4,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 2
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 2,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 2,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 35,
+            "writes": 0,
+            "queries": 16,
+            "transactions": 0,
+            "requests": 14
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 14,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 7
+          },
+          "GET /organization/tree": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 6
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          },
+          "PATCH /departments/:id": {
+            "reads": 8,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 231,
+          "misses": 301,
+          "joined": 75,
+          "invalidations": 12,
+          "live": true,
+          "entries": 27,
+          "bytes": 11476,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "idle_end",
+      "at": 1794416194422,
+      "networkIndex": 83,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 378,
+          "writes": 8,
+          "queries": 79,
+          "transactions": 2
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 99,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 125,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 21,
+            "writes": 2,
+            "queries": 6,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 4,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 2
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 2,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 2,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 35,
+            "writes": 0,
+            "queries": 16,
+            "transactions": 0,
+            "requests": 14
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /organization/tree": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 6
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          },
+          "PATCH /departments/:id": {
+            "reads": 8,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 231,
+          "misses": 303,
+          "joined": 75,
+          "invalidations": 12,
+          "live": true,
+          "entries": 27,
+          "bytes": 11476,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "navigation_start",
+      "at": 1794416226775,
+      "networkIndex": 84,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 380,
+          "writes": 8,
+          "queries": 79,
+          "transactions": 2
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 100,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 126,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 21,
+            "writes": 2,
+            "queries": 6,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 4,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 2
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 2,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 2,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 35,
+            "writes": 0,
+            "queries": 16,
+            "transactions": 0,
+            "requests": 14
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /organization/tree": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 6
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          },
+          "PATCH /departments/:id": {
+            "reads": 8,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 231,
+          "misses": 305,
+          "joined": 75,
+          "invalidations": 12,
+          "live": true,
+          "entries": 27,
+          "bytes": 11476,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "navigation_end",
+      "at": 1794416227407,
+      "networkIndex": 85,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 382,
+          "writes": 8,
+          "queries": 79,
+          "transactions": 2
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 101,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 127,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 13,
+            "writes": 0,
+            "queries": 11,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 20,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 21,
+            "writes": 2,
+            "queries": 6,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 15,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 4,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 2
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 2,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 2,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 32,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 8
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 24,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /dashboard": {
+            "reads": 35,
+            "writes": 0,
+            "queries": 16,
+            "transactions": 0,
+            "requests": 14
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 20,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 10
+          },
+          "GET /organization/tree": {
+            "reads": 12,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 6
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          },
+          "PATCH /departments/:id": {
+            "reads": 8,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 231,
+          "misses": 307,
+          "joined": 75,
+          "invalidations": 12,
+          "live": true,
+          "entries": 27,
+          "bytes": 11476,
+          "maxBytes": 8388608
+        }
+      }
+    },
+    {
+      "name": "before_signout",
+      "at": 1794416321282,
+      "networkIndex": 94,
+      "usage": {
+        "startedAt": "2026-11-11T16:42:42.849Z",
+        "total": {
+          "reads": 420,
+          "writes": 8,
+          "queries": 88,
+          "transactions": 2
+        },
+        "bySource": {
+          "memberships": {
+            "reads": 110,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "employees": {
+            "reads": 140,
+            "writes": 0,
+            "queries": 13,
+            "transactions": 0
+          },
+          "settings": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0
+          },
+          "live-listener": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "attendanceRecords": {
+            "reads": 14,
+            "writes": 0,
+            "queries": 12,
+            "transactions": 0
+          },
+          "leaveRequests": {
+            "reads": 37,
+            "writes": 0,
+            "queries": 23,
+            "transactions": 0
+          },
+          "departments": {
+            "reads": 24,
+            "writes": 2,
+            "queries": 7,
+            "transactions": 0
+          },
+          "positions": {
+            "reads": 9,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0
+          },
+          "leaveBalances": {
+            "reads": 16,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0
+          },
+          "leaveBalanceTransactions": {
+            "reads": 20,
+            "writes": 0,
+            "queries": 13,
+            "transactions": 0
+          },
+          "leaveTypes": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "organization": {
+            "reads": 4,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 2
+          },
+          "auditLogs:date-format": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "accountJobs": {
+            "reads": 3,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs:count": {
+            "reads": 1,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0
+          },
+          "auditLogs": {
+            "reads": 20,
+            "writes": 2,
+            "queries": 1,
+            "transactions": 0
+          },
+          "leaveRequests:date-format": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 6,
+            "transactions": 0
+          },
+          "receipts": {
+            "reads": 2,
+            "writes": 2,
+            "queries": 0,
+            "transactions": 0
+          }
+        },
+        "byRoute": {
+          "GET /me": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 22
+          },
+          "GET /attendance/today": {
+            "reads": 0,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /attendance": {
+            "reads": 5,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /departments": {
+            "reads": 43,
+            "writes": 0,
+            "queries": 4,
+            "transactions": 0,
+            "requests": 15
+          },
+          "GET /positions": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /leave-requests": {
+            "reads": 8,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /leave-balances": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 5,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /employees": {
+            "reads": 18,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 9
+          },
+          "GET /reports/employees": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /settings": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /leave-types": {
+            "reads": 4,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/status": {
+            "reads": 6,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /users": {
+            "reads": 7,
+            "writes": 0,
+            "queries": 2,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /audit-logs": {
+            "reads": 26,
+            "writes": 0,
+            "queries": 3,
+            "transactions": 0,
+            "requests": 2
+          },
+          "GET /dashboard": {
+            "reads": 44,
+            "writes": 0,
+            "queries": 22,
+            "transactions": 0,
+            "requests": 15
+          },
+          "GET /events": {
+            "reads": 2,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 1
+          },
+          "GET /system/usage": {
+            "reads": 26,
+            "writes": 0,
+            "queries": 0,
+            "transactions": 0,
+            "requests": 13
+          },
+          "GET /organization/tree": {
+            "reads": 19,
+            "writes": 0,
+            "queries": 1,
+            "transactions": 0,
+            "requests": 8
+          },
+          "POST /departments": {
+            "reads": 7,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          },
+          "PATCH /departments/:id": {
+            "reads": 8,
+            "writes": 4,
+            "queries": 1,
+            "transactions": 1,
+            "requests": 1
+          }
+        },
+        "note": "SDK document-operation estimates for this API process, including empty queries and transaction attempts; not Google's billing report.",
+        "cache": {
+          "hits": 240,
+          "misses": 337,
+          "joined": 80,
+          "invalidations": 13,
+          "live": true,
+          "entries": 27,
+          "bytes": 11154,
+          "maxBytes": 8388608
+        }
+      }
+    }
+  ],
+  "roles": [
+    {
+      "role": "Admin",
+      "identity": {
+        "role": "Admin",
+        "uid": "DsTmbgEeiZYulij1wpg7eHhi72L2",
+        "employeeId": "demo-admin"
+      },
+      "url": "http://127.0.0.1:5173/dashboard"
+    },
+    {
+      "role": "HR",
+      "identity": {
+        "role": "HR",
+        "uid": "hs_da9e86db14501884e3bcf06096fc977c",
+        "employeeId": "demo-hr"
+      },
+      "url": "http://127.0.0.1:5173/dashboard"
+    },
+    {
+      "role": "Manager",
+      "identity": {
+        "role": "Manager",
+        "uid": "hs_bce09be39349c5c22c1d7d6b5f390459",
+        "employeeId": "demo-manager"
+      },
+      "url": "http://127.0.0.1:5173/dashboard"
+    },
+    {
+      "role": "Employee",
+      "identity": {
+        "role": "Employee",
+        "uid": "hs_28922df7561c70c1ce13f4940eec5dbf",
+        "employeeId": "demo-employee"
+      },
+      "url": "http://127.0.0.1:5173/dashboard"
+    }
+  ],
+  "reload": {
+    "sameContext": true,
+    "identities": [
+      {
+        "expected": "Admin",
+        "actual": "Admin"
+      },
+      {
+        "expected": "HR",
+        "actual": "HR"
+      },
+      {
+        "expected": "Manager",
+        "actual": "Manager"
+      },
+      {
+        "expected": "Employee",
+        "actual": "Employee"
+      }
+    ]
+  },
+  "createName": "QA đồng bộ 4 vai trò 165410",
+  "created": {
+    "id": "7b2f23ea-a683-4ee8-a89c-4a424fa31ccd",
+    "name": "QA đồng bộ 4 vai trò 165410"
+  },
+  "create": {
+    "status": 200,
+    "requestId": "231aadee-b29b-4a2a-b1c1-86ff3fbab413",
+    "visible": [
+      {
+        "role": "Admin",
+        "visible": true,
+        "msFromSubmit": 1352
+      },
+      {
+        "role": "HR",
+        "visible": true,
+        "msFromSubmit": 1351
+      },
+      {
+        "role": "Manager",
+        "visible": true,
+        "msFromSubmit": 1352
+      },
+      {
+        "role": "Employee",
+        "visible": true,
+        "msFromSubmit": 1352
+      }
+    ]
+  },
+  "editedName": "QA đồng bộ 4 vai trò 165410 đã sửa",
+  "edit": {
+    "status": 200,
+    "requestId": "fa1edbe3-0334-4a4f-9ab2-3c734c2a3956",
+    "visible": [
+      {
+        "role": "Admin",
+        "visible": true,
+        "msFromSubmit": 1309
+      },
+      {
+        "role": "HR",
+        "visible": true,
+        "msFromSubmit": 1310
+      },
+      {
+        "role": "Manager",
+        "visible": true,
+        "msFromSubmit": 1310
+      },
+      {
+        "role": "Employee",
+        "visible": true,
+        "msFromSubmit": 1310
+      }
+    ]
+  },
+  "editMetrics": {
+    "sdkReadsIncludingMeter": 25
+  },
+  "idle": {
+    "durationMs": 40211,
+    "requests": [],
+    "estimatedReadsExcludingMeter": 0,
+    "listenerReads": 0
+  },
+  "navigation": {
+    "clicks": 9,
+    "requests": [],
+    "estimatedReadsExcludingMeter": 0
+  },
+  "authorizations": [
+    {
+      "role": "HR",
+      "path": "/system/usage",
+      "status": 403,
+      "code": "FORBIDDEN"
+    },
+    {
+      "role": "Manager",
+      "path": "/audit-logs",
+      "status": 403,
+      "code": "FORBIDDEN"
+    },
+    {
+      "role": "Employee",
+      "path": "/employees",
+      "status": 403,
+      "code": "FORBIDDEN"
+    }
+  ],
+  "cleanupUI": [
+    {
+      "role": "Admin",
+      "removed": true,
+      "identity": "Admin"
+    },
+    {
+      "role": "HR",
+      "removed": true,
+      "identity": "HR"
+    },
+    {
+      "role": "Manager",
+      "removed": true,
+      "identity": "Manager"
+    },
+    {
+      "role": "Employee",
+      "removed": true,
+      "identity": "Employee"
+    }
+  ],
+  "signoutIsolation": [
+    {
+      "role": "HR",
+      "signedIn": true,
+      "unchanged": true
+    },
+    {
+      "role": "Manager",
+      "signedIn": true,
+      "unchanged": true
+    },
+    {
+      "role": "Employee",
+      "signedIn": true,
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "finishedAt": "2026-11-11T16:58:41.318Z",
+  "measurements": {
+    "create": {
+      "apiRefreshes": [
+        {
+          "role": "Admin",
+          "path": "/api/v1/departments?pageSize=100"
+        },
+        {
+          "role": "HR",
+          "path": "/api/v1/departments?pageSize=100"
+        },
+        {
+          "role": "Employee",
+          "path": "/api/v1/organization/tree"
+        },
+        {
+          "role": "Manager",
+          "path": "/api/v1/organization/tree"
+        }
+      ],
+      "sdkProcessReadDelta": 37,
+      "listenerReads": 1,
+      "routeDelta": {
+        "GET /departments": {
+          "requests": 2,
+          "reads": 12
+        },
+        "GET /dashboard": {
+          "requests": 1,
+          "reads": 11
+        },
+        "GET /system/usage": {
+          "requests": 1,
+          "reads": 2
+        },
+        "GET /organization/tree": {
+          "requests": 2,
+          "reads": 4
+        },
+        "POST /departments": {
+          "requests": 1,
+          "reads": 7
+        }
+      }
+    },
+    "edit": {
+      "apiRefreshes": [
+        {
+          "role": "HR",
+          "path": "/api/v1/departments?pageSize=100"
+        },
+        {
+          "role": "Admin",
+          "path": "/api/v1/departments?pageSize=100"
+        },
+        {
+          "role": "Manager",
+          "path": "/api/v1/organization/tree"
+        },
+        {
+          "role": "Employee",
+          "path": "/api/v1/organization/tree"
+        }
+      ],
+      "sdkProcessReadDelta": 25,
+      "listenerReads": 1,
+      "routeDelta": {
+        "GET /departments": {
+          "requests": 2,
+          "reads": 4
+        },
+        "GET /dashboard": {
+          "requests": 1,
+          "reads": 6
+        },
+        "GET /system/usage": {
+          "requests": 1,
+          "reads": 2
+        },
+        "GET /organization/tree": {
+          "requests": 2,
+          "reads": 4
+        },
+        "PATCH /departments/:id": {
+          "requests": 1,
+          "reads": 8
+        }
+      }
+    }
+  },
+  "cleanup": {
+    "verifiedDirectFirestore": {
+      "project": "hoosoo-37881",
+      "path": "organizations/hoosoo/departments/7b2f23ea-a683-4ee8-a89c-4a424fa31ccd",
+      "name": "QA đồng bộ 4 vai trò 165410 đã sửa",
+      "active": true,
+      "updatedAt": "2026-11-11T16:55:43.051Z"
+    },
+    "deletedOnlyCreatedDepartment": true,
+    "auditHistoryPreserved": true,
+    "checkedAt": "2026-11-11T16:58:06.377Z"
+  },
+  "unitTests": {
+    "passed": 52,
+    "backend": 41,
+    "frontend": 11
+  },
+  "scope": "Four tabs sharing one browser context and one origin, existing backend, cloud Firebase Auth and Firestore hoosoo-37881. No emulator or mocked API.",
+  "measurementNote": "SDK counters estimate backend operations, not Firebase billing. Create/edit deltas include a dashboard GET from another existing user session and 2 reads for the usage meter. Raw route deltas are included. No application or backend source was changed in this verification."
+}

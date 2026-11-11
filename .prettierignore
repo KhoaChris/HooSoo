@@ -1,0 +1,8 @@
+node_modules
+**/dist
+.emulator-data
+playwright-report
+test-results
+output
+package-lock.json
+*-debug.log

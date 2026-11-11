@@ -1,0 +1,38 @@
+/* pages/leave: keep responsive rules with the styles they adjust. */
+
+.policy-note ul {
+  padding-left: 20px;
+  color: #71848e;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.policy-note li {
+  margin: 15px 0;
+}
+.policy-note > p {
+  font-size: 12px;
+}
+.year-filter {
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+.year-filter input {
+  width: 100px;
+}
+.balance-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  gap: 15px;
+  font-size: 12px;
+}
+.balance-entry small {
+  display: block;
+}
+@media (max-width: 600px) {
+  .year-filter input {
+    width: 90px;
+  }
+}

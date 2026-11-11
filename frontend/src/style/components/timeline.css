@@ -1,0 +1,44 @@
+/* components/timeline: keep responsive rules with the styles they adjust. */
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0 7px;
+}
+.timeline li {
+  position: relative;
+  border-left: 1px solid #dce8e5;
+  padding: 0 0 24px 23px;
+}
+.timeline strong,
+.timeline small {
+  display: block;
+}
+.timeline strong {
+  font-size: 12px;
+}
+.timeline p {
+  font-size: 12px;
+  color: #7b8a95;
+  margin-top: 8px;
+}
+.timeline small {
+  font-size: 10px;
+  margin-top: 5px;
+}
+.timeline-dot {
+  position: absolute;
+  top: 3px;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7cb2a3;
+}
+.timeline pre {
+  color: #798c98;
+  background: #f8fafb;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 10px;
+}

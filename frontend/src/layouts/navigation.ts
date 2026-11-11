@@ -1,0 +1,113 @@
+import {
+  LayoutDashboard,
+  Users,
+  Network,
+  Clock,
+  CalendarDays,
+  ClipboardCheck,
+  ChartNoAxesCombined,
+  Settings,
+  ShieldCheck,
+  Activity,
+  ScrollText,
+  BriefcaseBusiness,
+  Building2,
+  UserRound,
+} from "lucide-react";
+import type { Role } from "@hoosoo/shared";
+
+const all: Role[] = ["Admin", "HR", "Manager", "Employee"],
+  hr: Role[] = ["Admin", "HR"],
+  supervisors: Role[] = ["Admin", "HR", "Manager"];
+export const navigation = [
+  {
+    label: "Tổng quan",
+    path: "/dashboard",
+    icon: LayoutDashboard,
+    roles: all,
+    group: "KHÔNG GIAN CHUNG",
+  },
+  { label: "Sơ đồ tổ chức", path: "/organization", icon: Network, roles: all },
+  {
+    label: "Hồ sơ của tôi",
+    path: "/profile",
+    icon: UserRound,
+    roles: all,
+    group: "CÁ NHÂN",
+  },
+  {
+    label: "Chấm công của tôi",
+    path: "/attendance/my",
+    icon: Clock,
+    roles: all,
+  },
+  {
+    label: "Nghỉ phép của tôi",
+    path: "/leave/my",
+    icon: CalendarDays,
+    roles: all,
+  },
+  {
+    label: "Nhân viên",
+    path: "/employees",
+    icon: Users,
+    roles: supervisors,
+    group: "QUẢN LÝ NHÂN SỰ",
+  },
+  { label: "Phòng ban", path: "/departments", icon: Building2, roles: hr },
+  {
+    label: "Chức danh",
+    path: "/positions",
+    icon: BriefcaseBusiness,
+    roles: hr,
+  },
+  {
+    label: "Bảng chấm công",
+    path: "/attendance",
+    icon: Clock,
+    roles: supervisors,
+  },
+  {
+    label: "Duyệt nghỉ phép",
+    path: "/leave/approvals",
+    icon: ClipboardCheck,
+    roles: supervisors,
+  },
+  {
+    label: "Báo cáo",
+    path: "/reports",
+    icon: ChartNoAxesCombined,
+    roles: supervisors,
+  },
+  {
+    label: "Chính sách nhân sự",
+    path: "/settings/hr",
+    icon: Settings,
+    roles: hr,
+  },
+  {
+    label: "Doanh nghiệp",
+    path: "/settings",
+    icon: Building2,
+    roles: ["Admin"] as Role[],
+    group: "QUẢN TRỊ",
+  },
+  {
+    label: "Tài khoản & quyền",
+    path: "/settings/users",
+    icon: ShieldCheck,
+    roles: ["Admin"] as Role[],
+  },
+  {
+    label: "Trạng thái hệ thống",
+    path: "/settings/system",
+    icon: Activity,
+    roles: ["Admin"] as Role[],
+  },
+  {
+    label: "Nhật ký thao tác",
+    path: "/audit-logs",
+    icon: ScrollText,
+    roles: ["Admin"] as Role[],
+  },
+];

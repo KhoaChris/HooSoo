@@ -1,0 +1,17 @@
+/* base/tokens: keep responsive rules with the styles they adjust. */
+
+@theme {
+  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+}
+:root {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: #243747;
+  background: #f7f9fb;
+  font-size: 14px;
+  font-synthesis: none;
+  --navy: #172f42;
+  --teal: #087e78;
+  --muted: #73818e;
+  --line: #e5ebef;
+  --surface: #fff;
+}

@@ -1,0 +1,3088 @@
+{
+  "checkedAt": "2026-11-10T19:09:37.773Z",
+  "projectId": "hoosoo-37881",
+  "source": "Google Cloud Monitoring",
+  "series": [
+    {
+      "metric": {
+        "labels": {
+          "type": "LOOKUP",
+          "module": "__unknown__",
+          "version": "__unknown__"
+        },
+        "type": "firestore.googleapis.com/document/read_count"
+      },
+      "resource": {
+        "type": "firestore_instance",
+        "labels": {
+          "project_id": "hoosoo-37881"
+        }
+      },
+      "metricKind": "DELTA",
+      "valueType": "INT64",
+      "points": [
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:05:37.773Z",
+            "endTime": "2026-11-10T19:06:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:04:37.773Z",
+            "endTime": "2026-11-10T19:05:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:03:37.773Z",
+            "endTime": "2026-11-10T19:04:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:02:37.773Z",
+            "endTime": "2026-11-10T19:03:37.773Z"
+          },
+          "value": {
+            "int64Value": "4"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:01:37.773Z",
+            "endTime": "2026-11-10T19:02:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:00:37.773Z",
+            "endTime": "2026-11-10T19:01:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:59:37.773Z",
+            "endTime": "2026-11-10T19:00:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:58:37.773Z",
+            "endTime": "2026-11-10T18:59:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:57:37.773Z",
+            "endTime": "2026-11-10T18:58:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:56:37.773Z",
+            "endTime": "2026-11-10T18:57:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:55:37.773Z",
+            "endTime": "2026-11-10T18:56:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:54:37.773Z",
+            "endTime": "2026-11-10T18:55:37.773Z"
+          },
+          "value": {
+            "int64Value": "18"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:53:37.773Z",
+            "endTime": "2026-11-10T18:54:37.773Z"
+          },
+          "value": {
+            "int64Value": "7"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:52:37.773Z",
+            "endTime": "2026-11-10T18:53:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:51:37.773Z",
+            "endTime": "2026-11-10T18:52:37.773Z"
+          },
+          "value": {
+            "int64Value": "6"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:50:37.773Z",
+            "endTime": "2026-11-10T18:51:37.773Z"
+          },
+          "value": {
+            "int64Value": "4"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:49:37.773Z",
+            "endTime": "2026-11-10T18:50:37.773Z"
+          },
+          "value": {
+            "int64Value": "18"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:48:37.773Z",
+            "endTime": "2026-11-10T18:49:37.773Z"
+          },
+          "value": {
+            "int64Value": "13"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:47:37.773Z",
+            "endTime": "2026-11-10T18:48:37.773Z"
+          },
+          "value": {
+            "int64Value": "11"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:46:37.773Z",
+            "endTime": "2026-11-10T18:47:37.773Z"
+          },
+          "value": {
+            "int64Value": "38"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:45:37.773Z",
+            "endTime": "2026-11-10T18:46:37.773Z"
+          },
+          "value": {
+            "int64Value": "14"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:44:37.773Z",
+            "endTime": "2026-11-10T18:45:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:43:37.773Z",
+            "endTime": "2026-11-10T18:44:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:42:37.773Z",
+            "endTime": "2026-11-10T18:43:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:41:37.773Z",
+            "endTime": "2026-11-10T18:42:37.773Z"
+          },
+          "value": {
+            "int64Value": "9"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:40:37.773Z",
+            "endTime": "2026-11-10T18:41:37.773Z"
+          },
+          "value": {
+            "int64Value": "6"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:39:37.773Z",
+            "endTime": "2026-11-10T18:40:37.773Z"
+          },
+          "value": {
+            "int64Value": "23"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:38:37.773Z",
+            "endTime": "2026-11-10T18:39:37.773Z"
+          },
+          "value": {
+            "int64Value": "28"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:37:37.773Z",
+            "endTime": "2026-11-10T18:38:37.773Z"
+          },
+          "value": {
+            "int64Value": "30"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:36:37.773Z",
+            "endTime": "2026-11-10T18:37:37.773Z"
+          },
+          "value": {
+            "int64Value": "3"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:35:37.773Z",
+            "endTime": "2026-11-10T18:36:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:34:37.773Z",
+            "endTime": "2026-11-10T18:35:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:33:37.773Z",
+            "endTime": "2026-11-10T18:34:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:32:37.773Z",
+            "endTime": "2026-11-10T18:33:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:31:37.773Z",
+            "endTime": "2026-11-10T18:32:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:30:37.773Z",
+            "endTime": "2026-11-10T18:31:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:29:37.773Z",
+            "endTime": "2026-11-10T18:30:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:28:37.773Z",
+            "endTime": "2026-11-10T18:29:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:27:37.773Z",
+            "endTime": "2026-11-10T18:28:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:26:37.773Z",
+            "endTime": "2026-11-10T18:27:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:25:37.773Z",
+            "endTime": "2026-11-10T18:26:37.773Z"
+          },
+          "value": {
+            "int64Value": "3"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:24:37.773Z",
+            "endTime": "2026-11-10T18:25:37.773Z"
+          },
+          "value": {
+            "int64Value": "3"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:23:37.773Z",
+            "endTime": "2026-11-10T18:24:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:22:37.773Z",
+            "endTime": "2026-11-10T18:23:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:21:37.773Z",
+            "endTime": "2026-11-10T18:22:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:20:37.773Z",
+            "endTime": "2026-11-10T18:21:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:19:37.773Z",
+            "endTime": "2026-11-10T18:20:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:18:37.773Z",
+            "endTime": "2026-11-10T18:19:37.773Z"
+          },
+          "value": {
+            "int64Value": "4"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:17:37.773Z",
+            "endTime": "2026-11-10T18:18:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:16:37.773Z",
+            "endTime": "2026-11-10T18:17:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:15:37.773Z",
+            "endTime": "2026-11-10T18:16:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:14:37.773Z",
+            "endTime": "2026-11-10T18:15:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:13:37.773Z",
+            "endTime": "2026-11-10T18:14:37.773Z"
+          },
+          "value": {
+            "int64Value": "13"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:12:37.773Z",
+            "endTime": "2026-11-10T18:13:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:11:37.773Z",
+            "endTime": "2026-11-10T18:12:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:10:37.773Z",
+            "endTime": "2026-11-10T18:11:37.773Z"
+          },
+          "value": {
+            "int64Value": "6"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:09:37.773Z",
+            "endTime": "2026-11-10T18:10:37.773Z"
+          },
+          "value": {
+            "int64Value": "9"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:08:37.773Z",
+            "endTime": "2026-11-10T18:09:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:07:37.773Z",
+            "endTime": "2026-11-10T18:08:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:06:37.773Z",
+            "endTime": "2026-11-10T18:07:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "type": "NOT_FOUND",
+          "version": "__unknown__",
+          "module": "__unknown__"
+        },
+        "type": "firestore.googleapis.com/document/read_count"
+      },
+      "resource": {
+        "type": "firestore_instance",
+        "labels": {
+          "project_id": "hoosoo-37881"
+        }
+      },
+      "metricKind": "DELTA",
+      "valueType": "INT64",
+      "points": [
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:05:37.773Z",
+            "endTime": "2026-11-10T19:06:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:04:37.773Z",
+            "endTime": "2026-11-10T19:05:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:03:37.773Z",
+            "endTime": "2026-11-10T19:04:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:02:37.773Z",
+            "endTime": "2026-11-10T19:03:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:01:37.773Z",
+            "endTime": "2026-11-10T19:02:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:00:37.773Z",
+            "endTime": "2026-11-10T19:01:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:59:37.773Z",
+            "endTime": "2026-11-10T19:00:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:58:37.773Z",
+            "endTime": "2026-11-10T18:59:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:57:37.773Z",
+            "endTime": "2026-11-10T18:58:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:56:37.773Z",
+            "endTime": "2026-11-10T18:57:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:55:37.773Z",
+            "endTime": "2026-11-10T18:56:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:54:37.773Z",
+            "endTime": "2026-11-10T18:55:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:53:37.773Z",
+            "endTime": "2026-11-10T18:54:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:52:37.773Z",
+            "endTime": "2026-11-10T18:53:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:51:37.773Z",
+            "endTime": "2026-11-10T18:52:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:50:37.773Z",
+            "endTime": "2026-11-10T18:51:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:49:37.773Z",
+            "endTime": "2026-11-10T18:50:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:48:37.773Z",
+            "endTime": "2026-11-10T18:49:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:47:37.773Z",
+            "endTime": "2026-11-10T18:48:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:46:37.773Z",
+            "endTime": "2026-11-10T18:47:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:45:37.773Z",
+            "endTime": "2026-11-10T18:46:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:44:37.773Z",
+            "endTime": "2026-11-10T18:45:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:43:37.773Z",
+            "endTime": "2026-11-10T18:44:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:42:37.773Z",
+            "endTime": "2026-11-10T18:43:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:41:37.773Z",
+            "endTime": "2026-11-10T18:42:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:40:37.773Z",
+            "endTime": "2026-11-10T18:41:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:39:37.773Z",
+            "endTime": "2026-11-10T18:40:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:38:37.773Z",
+            "endTime": "2026-11-10T18:39:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:37:37.773Z",
+            "endTime": "2026-11-10T18:38:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:36:37.773Z",
+            "endTime": "2026-11-10T18:37:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:35:37.773Z",
+            "endTime": "2026-11-10T18:36:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:34:37.773Z",
+            "endTime": "2026-11-10T18:35:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:33:37.773Z",
+            "endTime": "2026-11-10T18:34:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:32:37.773Z",
+            "endTime": "2026-11-10T18:33:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:31:37.773Z",
+            "endTime": "2026-11-10T18:32:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:30:37.773Z",
+            "endTime": "2026-11-10T18:31:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:29:37.773Z",
+            "endTime": "2026-11-10T18:30:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:28:37.773Z",
+            "endTime": "2026-11-10T18:29:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:27:37.773Z",
+            "endTime": "2026-11-10T18:28:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:26:37.773Z",
+            "endTime": "2026-11-10T18:27:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:25:37.773Z",
+            "endTime": "2026-11-10T18:26:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:24:37.773Z",
+            "endTime": "2026-11-10T18:25:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:23:37.773Z",
+            "endTime": "2026-11-10T18:24:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:22:37.773Z",
+            "endTime": "2026-11-10T18:23:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:21:37.773Z",
+            "endTime": "2026-11-10T18:22:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:20:37.773Z",
+            "endTime": "2026-11-10T18:21:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:19:37.773Z",
+            "endTime": "2026-11-10T18:20:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:18:37.773Z",
+            "endTime": "2026-11-10T18:19:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:17:37.773Z",
+            "endTime": "2026-11-10T18:18:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:16:37.773Z",
+            "endTime": "2026-11-10T18:17:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:15:37.773Z",
+            "endTime": "2026-11-10T18:16:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:14:37.773Z",
+            "endTime": "2026-11-10T18:15:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:13:37.773Z",
+            "endTime": "2026-11-10T18:14:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:12:37.773Z",
+            "endTime": "2026-11-10T18:13:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:11:37.773Z",
+            "endTime": "2026-11-10T18:12:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:10:37.773Z",
+            "endTime": "2026-11-10T18:11:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:09:37.773Z",
+            "endTime": "2026-11-10T18:10:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:08:37.773Z",
+            "endTime": "2026-11-10T18:09:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:07:37.773Z",
+            "endTime": "2026-11-10T18:08:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:06:37.773Z",
+            "endTime": "2026-11-10T18:07:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "type": "QUERY",
+          "module": "__unknown__",
+          "version": "__unknown__"
+        },
+        "type": "firestore.googleapis.com/document/read_count"
+      },
+      "resource": {
+        "type": "firestore_instance",
+        "labels": {
+          "project_id": "hoosoo-37881"
+        }
+      },
+      "metricKind": "DELTA",
+      "valueType": "INT64",
+      "points": [
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:05:37.773Z",
+            "endTime": "2026-11-10T19:06:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:04:37.773Z",
+            "endTime": "2026-11-10T19:05:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:03:37.773Z",
+            "endTime": "2026-11-10T19:04:37.773Z"
+          },
+          "value": {
+            "int64Value": "7"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:02:37.773Z",
+            "endTime": "2026-11-10T19:03:37.773Z"
+          },
+          "value": {
+            "int64Value": "47"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:01:37.773Z",
+            "endTime": "2026-11-10T19:02:37.773Z"
+          },
+          "value": {
+            "int64Value": "14"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:00:37.773Z",
+            "endTime": "2026-11-10T19:01:37.773Z"
+          },
+          "value": {
+            "int64Value": "44"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:59:37.773Z",
+            "endTime": "2026-11-10T19:00:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:58:37.773Z",
+            "endTime": "2026-11-10T18:59:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:57:37.773Z",
+            "endTime": "2026-11-10T18:58:37.773Z"
+          },
+          "value": {
+            "int64Value": "28"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:56:37.773Z",
+            "endTime": "2026-11-10T18:57:37.773Z"
+          },
+          "value": {
+            "int64Value": "45"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:55:37.773Z",
+            "endTime": "2026-11-10T18:56:37.773Z"
+          },
+          "value": {
+            "int64Value": "13"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:54:37.773Z",
+            "endTime": "2026-11-10T18:55:37.773Z"
+          },
+          "value": {
+            "int64Value": "1581"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:53:37.773Z",
+            "endTime": "2026-11-10T18:54:37.773Z"
+          },
+          "value": {
+            "int64Value": "3264"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:52:37.773Z",
+            "endTime": "2026-11-10T18:53:37.773Z"
+          },
+          "value": {
+            "int64Value": "1500"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:51:37.773Z",
+            "endTime": "2026-11-10T18:52:37.773Z"
+          },
+          "value": {
+            "int64Value": "905"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:50:37.773Z",
+            "endTime": "2026-11-10T18:51:37.773Z"
+          },
+          "value": {
+            "int64Value": "581"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:49:37.773Z",
+            "endTime": "2026-11-10T18:50:37.773Z"
+          },
+          "value": {
+            "int64Value": "1239"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:48:37.773Z",
+            "endTime": "2026-11-10T18:49:37.773Z"
+          },
+          "value": {
+            "int64Value": "1197"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:47:37.773Z",
+            "endTime": "2026-11-10T18:48:37.773Z"
+          },
+          "value": {
+            "int64Value": "678"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:46:37.773Z",
+            "endTime": "2026-11-10T18:47:37.773Z"
+          },
+          "value": {
+            "int64Value": "2611"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:45:37.773Z",
+            "endTime": "2026-11-10T18:46:37.773Z"
+          },
+          "value": {
+            "int64Value": "1190"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:44:37.773Z",
+            "endTime": "2026-11-10T18:45:37.773Z"
+          },
+          "value": {
+            "int64Value": "90"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:43:37.773Z",
+            "endTime": "2026-11-10T18:44:37.773Z"
+          },
+          "value": {
+            "int64Value": "434"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:42:37.773Z",
+            "endTime": "2026-11-10T18:43:37.773Z"
+          },
+          "value": {
+            "int64Value": "433"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:41:37.773Z",
+            "endTime": "2026-11-10T18:42:37.773Z"
+          },
+          "value": {
+            "int64Value": "2454"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:40:37.773Z",
+            "endTime": "2026-11-10T18:41:37.773Z"
+          },
+          "value": {
+            "int64Value": "1149"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:39:37.773Z",
+            "endTime": "2026-11-10T18:40:37.773Z"
+          },
+          "value": {
+            "int64Value": "3186"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:38:37.773Z",
+            "endTime": "2026-11-10T18:39:37.773Z"
+          },
+          "value": {
+            "int64Value": "3084"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:37:37.773Z",
+            "endTime": "2026-11-10T18:38:37.773Z"
+          },
+          "value": {
+            "int64Value": "3248"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:36:37.773Z",
+            "endTime": "2026-11-10T18:37:37.773Z"
+          },
+          "value": {
+            "int64Value": "684"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:35:37.773Z",
+            "endTime": "2026-11-10T18:36:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:34:37.773Z",
+            "endTime": "2026-11-10T18:35:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:33:37.773Z",
+            "endTime": "2026-11-10T18:34:37.773Z"
+          },
+          "value": {
+            "int64Value": "585"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:32:37.773Z",
+            "endTime": "2026-11-10T18:33:37.773Z"
+          },
+          "value": {
+            "int64Value": "462"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:31:37.773Z",
+            "endTime": "2026-11-10T18:32:37.773Z"
+          },
+          "value": {
+            "int64Value": "53"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:30:37.773Z",
+            "endTime": "2026-11-10T18:31:37.773Z"
+          },
+          "value": {
+            "int64Value": "115"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:29:37.773Z",
+            "endTime": "2026-11-10T18:30:37.773Z"
+          },
+          "value": {
+            "int64Value": "230"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:28:37.773Z",
+            "endTime": "2026-11-10T18:29:37.773Z"
+          },
+          "value": {
+            "int64Value": "34"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:27:37.773Z",
+            "endTime": "2026-11-10T18:28:37.773Z"
+          },
+          "value": {
+            "int64Value": "285"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:26:37.773Z",
+            "endTime": "2026-11-10T18:27:37.773Z"
+          },
+          "value": {
+            "int64Value": "1422"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:25:37.773Z",
+            "endTime": "2026-11-10T18:26:37.773Z"
+          },
+          "value": {
+            "int64Value": "1749"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:24:37.773Z",
+            "endTime": "2026-11-10T18:25:37.773Z"
+          },
+          "value": {
+            "int64Value": "1426"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:23:37.773Z",
+            "endTime": "2026-11-10T18:24:37.773Z"
+          },
+          "value": {
+            "int64Value": "1046"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:22:37.773Z",
+            "endTime": "2026-11-10T18:23:37.773Z"
+          },
+          "value": {
+            "int64Value": "2062"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:21:37.773Z",
+            "endTime": "2026-11-10T18:22:37.773Z"
+          },
+          "value": {
+            "int64Value": "1682"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:20:37.773Z",
+            "endTime": "2026-11-10T18:21:37.773Z"
+          },
+          "value": {
+            "int64Value": "456"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:19:37.773Z",
+            "endTime": "2026-11-10T18:20:37.773Z"
+          },
+          "value": {
+            "int64Value": "477"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:18:37.773Z",
+            "endTime": "2026-11-10T18:19:37.773Z"
+          },
+          "value": {
+            "int64Value": "2038"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:17:37.773Z",
+            "endTime": "2026-11-10T18:18:37.773Z"
+          },
+          "value": {
+            "int64Value": "168"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:16:37.773Z",
+            "endTime": "2026-11-10T18:17:37.773Z"
+          },
+          "value": {
+            "int64Value": "37"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:15:37.773Z",
+            "endTime": "2026-11-10T18:16:37.773Z"
+          },
+          "value": {
+            "int64Value": "335"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:14:37.773Z",
+            "endTime": "2026-11-10T18:15:37.773Z"
+          },
+          "value": {
+            "int64Value": "1850"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:13:37.773Z",
+            "endTime": "2026-11-10T18:14:37.773Z"
+          },
+          "value": {
+            "int64Value": "1066"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:12:37.773Z",
+            "endTime": "2026-11-10T18:13:37.773Z"
+          },
+          "value": {
+            "int64Value": "51"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:11:37.773Z",
+            "endTime": "2026-11-10T18:12:37.773Z"
+          },
+          "value": {
+            "int64Value": "974"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:10:37.773Z",
+            "endTime": "2026-11-10T18:11:37.773Z"
+          },
+          "value": {
+            "int64Value": "514"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:09:37.773Z",
+            "endTime": "2026-11-10T18:10:37.773Z"
+          },
+          "value": {
+            "int64Value": "341"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "version": "__unknown__",
+          "op": "CREATE",
+          "module": "__unknown__"
+        },
+        "type": "firestore.googleapis.com/document/write_count"
+      },
+      "resource": {
+        "type": "firestore_instance",
+        "labels": {
+          "project_id": "hoosoo-37881"
+        }
+      },
+      "metricKind": "DELTA",
+      "valueType": "INT64",
+      "points": [
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:06:37.773Z",
+            "endTime": "2026-11-10T19:07:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:05:37.773Z",
+            "endTime": "2026-11-10T19:06:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:04:37.773Z",
+            "endTime": "2026-11-10T19:05:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:03:37.773Z",
+            "endTime": "2026-11-10T19:04:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:02:37.773Z",
+            "endTime": "2026-11-10T19:03:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:01:37.773Z",
+            "endTime": "2026-11-10T19:02:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:00:37.773Z",
+            "endTime": "2026-11-10T19:01:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:59:37.773Z",
+            "endTime": "2026-11-10T19:00:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:58:37.773Z",
+            "endTime": "2026-11-10T18:59:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:57:37.773Z",
+            "endTime": "2026-11-10T18:58:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:56:37.773Z",
+            "endTime": "2026-11-10T18:57:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:55:37.773Z",
+            "endTime": "2026-11-10T18:56:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:54:37.773Z",
+            "endTime": "2026-11-10T18:55:37.773Z"
+          },
+          "value": {
+            "int64Value": "3"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:53:37.773Z",
+            "endTime": "2026-11-10T18:54:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:52:37.773Z",
+            "endTime": "2026-11-10T18:53:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:51:37.773Z",
+            "endTime": "2026-11-10T18:52:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:50:37.773Z",
+            "endTime": "2026-11-10T18:51:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:49:37.773Z",
+            "endTime": "2026-11-10T18:50:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:48:37.773Z",
+            "endTime": "2026-11-10T18:49:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:47:37.773Z",
+            "endTime": "2026-11-10T18:48:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:46:37.773Z",
+            "endTime": "2026-11-10T18:47:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:45:37.773Z",
+            "endTime": "2026-11-10T18:46:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:44:37.773Z",
+            "endTime": "2026-11-10T18:45:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:43:37.773Z",
+            "endTime": "2026-11-10T18:44:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:42:37.773Z",
+            "endTime": "2026-11-10T18:43:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:41:37.773Z",
+            "endTime": "2026-11-10T18:42:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:40:37.773Z",
+            "endTime": "2026-11-10T18:41:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:39:37.773Z",
+            "endTime": "2026-11-10T18:40:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:38:37.773Z",
+            "endTime": "2026-11-10T18:39:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:37:37.773Z",
+            "endTime": "2026-11-10T18:38:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:36:37.773Z",
+            "endTime": "2026-11-10T18:37:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:35:37.773Z",
+            "endTime": "2026-11-10T18:36:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:34:37.773Z",
+            "endTime": "2026-11-10T18:35:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:33:37.773Z",
+            "endTime": "2026-11-10T18:34:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:32:37.773Z",
+            "endTime": "2026-11-10T18:33:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:31:37.773Z",
+            "endTime": "2026-11-10T18:32:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:30:37.773Z",
+            "endTime": "2026-11-10T18:31:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:29:37.773Z",
+            "endTime": "2026-11-10T18:30:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:28:37.773Z",
+            "endTime": "2026-11-10T18:29:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:27:37.773Z",
+            "endTime": "2026-11-10T18:28:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:26:37.773Z",
+            "endTime": "2026-11-10T18:27:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:25:37.773Z",
+            "endTime": "2026-11-10T18:26:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:24:37.773Z",
+            "endTime": "2026-11-10T18:25:37.773Z"
+          },
+          "value": {
+            "int64Value": "3"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:23:37.773Z",
+            "endTime": "2026-11-10T18:24:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:22:37.773Z",
+            "endTime": "2026-11-10T18:23:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:21:37.773Z",
+            "endTime": "2026-11-10T18:22:37.773Z"
+          },
+          "value": {
+            "int64Value": "4"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:20:37.773Z",
+            "endTime": "2026-11-10T18:21:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:19:37.773Z",
+            "endTime": "2026-11-10T18:20:37.773Z"
+          },
+          "value": {
+            "int64Value": "3"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:18:37.773Z",
+            "endTime": "2026-11-10T18:19:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:17:37.773Z",
+            "endTime": "2026-11-10T18:18:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:16:37.773Z",
+            "endTime": "2026-11-10T18:17:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:15:37.773Z",
+            "endTime": "2026-11-10T18:16:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:14:37.773Z",
+            "endTime": "2026-11-10T18:15:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:13:37.773Z",
+            "endTime": "2026-11-10T18:14:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:12:37.773Z",
+            "endTime": "2026-11-10T18:13:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:11:37.773Z",
+            "endTime": "2026-11-10T18:12:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:10:37.773Z",
+            "endTime": "2026-11-10T18:11:37.773Z"
+          },
+          "value": {
+            "int64Value": "16"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:09:37.773Z",
+            "endTime": "2026-11-10T18:10:37.773Z"
+          },
+          "value": {
+            "int64Value": "31"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "op": "UPDATE",
+          "version": "__unknown__",
+          "module": "__unknown__"
+        },
+        "type": "firestore.googleapis.com/document/write_count"
+      },
+      "resource": {
+        "type": "firestore_instance",
+        "labels": {
+          "project_id": "hoosoo-37881"
+        }
+      },
+      "metricKind": "DELTA",
+      "valueType": "INT64",
+      "points": [
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:06:37.773Z",
+            "endTime": "2026-11-10T19:07:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:05:37.773Z",
+            "endTime": "2026-11-10T19:06:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:04:37.773Z",
+            "endTime": "2026-11-10T19:05:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:03:37.773Z",
+            "endTime": "2026-11-10T19:04:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:02:37.773Z",
+            "endTime": "2026-11-10T19:03:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:01:37.773Z",
+            "endTime": "2026-11-10T19:02:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:00:37.773Z",
+            "endTime": "2026-11-10T19:01:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:59:37.773Z",
+            "endTime": "2026-11-10T19:00:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:58:37.773Z",
+            "endTime": "2026-11-10T18:59:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:57:37.773Z",
+            "endTime": "2026-11-10T18:58:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:56:37.773Z",
+            "endTime": "2026-11-10T18:57:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:55:37.773Z",
+            "endTime": "2026-11-10T18:56:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:54:37.773Z",
+            "endTime": "2026-11-10T18:55:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:53:37.773Z",
+            "endTime": "2026-11-10T18:54:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:52:37.773Z",
+            "endTime": "2026-11-10T18:53:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:51:37.773Z",
+            "endTime": "2026-11-10T18:52:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:50:37.773Z",
+            "endTime": "2026-11-10T18:51:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:49:37.773Z",
+            "endTime": "2026-11-10T18:50:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:48:37.773Z",
+            "endTime": "2026-11-10T18:49:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:47:37.773Z",
+            "endTime": "2026-11-10T18:48:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:46:37.773Z",
+            "endTime": "2026-11-10T18:47:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:45:37.773Z",
+            "endTime": "2026-11-10T18:46:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:44:37.773Z",
+            "endTime": "2026-11-10T18:45:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:43:37.773Z",
+            "endTime": "2026-11-10T18:44:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:42:37.773Z",
+            "endTime": "2026-11-10T18:43:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:41:37.773Z",
+            "endTime": "2026-11-10T18:42:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:40:37.773Z",
+            "endTime": "2026-11-10T18:41:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:39:37.773Z",
+            "endTime": "2026-11-10T18:40:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:38:37.773Z",
+            "endTime": "2026-11-10T18:39:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:37:37.773Z",
+            "endTime": "2026-11-10T18:38:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:36:37.773Z",
+            "endTime": "2026-11-10T18:37:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:35:37.773Z",
+            "endTime": "2026-11-10T18:36:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:34:37.773Z",
+            "endTime": "2026-11-10T18:35:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:33:37.773Z",
+            "endTime": "2026-11-10T18:34:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:32:37.773Z",
+            "endTime": "2026-11-10T18:33:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:31:37.773Z",
+            "endTime": "2026-11-10T18:32:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:30:37.773Z",
+            "endTime": "2026-11-10T18:31:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:29:37.773Z",
+            "endTime": "2026-11-10T18:30:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:28:37.773Z",
+            "endTime": "2026-11-10T18:29:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:27:37.773Z",
+            "endTime": "2026-11-10T18:28:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:26:37.773Z",
+            "endTime": "2026-11-10T18:27:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:25:37.773Z",
+            "endTime": "2026-11-10T18:26:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:24:37.773Z",
+            "endTime": "2026-11-10T18:25:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:23:37.773Z",
+            "endTime": "2026-11-10T18:24:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:22:37.773Z",
+            "endTime": "2026-11-10T18:23:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:21:37.773Z",
+            "endTime": "2026-11-10T18:22:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:20:37.773Z",
+            "endTime": "2026-11-10T18:21:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:19:37.773Z",
+            "endTime": "2026-11-10T18:20:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:18:37.773Z",
+            "endTime": "2026-11-10T18:19:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:17:37.773Z",
+            "endTime": "2026-11-10T18:18:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:16:37.773Z",
+            "endTime": "2026-11-10T18:17:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:15:37.773Z",
+            "endTime": "2026-11-10T18:16:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:14:37.773Z",
+            "endTime": "2026-11-10T18:15:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:13:37.773Z",
+            "endTime": "2026-11-10T18:14:37.773Z"
+          },
+          "value": {
+            "int64Value": "9"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:12:37.773Z",
+            "endTime": "2026-11-10T18:13:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:11:37.773Z",
+            "endTime": "2026-11-10T18:12:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:10:37.773Z",
+            "endTime": "2026-11-10T18:11:37.773Z"
+          },
+          "value": {
+            "int64Value": "2"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:09:37.773Z",
+            "endTime": "2026-11-10T18:10:37.773Z"
+          },
+          "value": {
+            "int64Value": "20"
+          }
+        }
+      ]
+    },
+    {
+      "metric": {
+        "labels": {
+          "op": "UPDATE_NOOP",
+          "version": "__unknown__",
+          "module": "__unknown__"
+        },
+        "type": "firestore.googleapis.com/document/write_count"
+      },
+      "resource": {
+        "type": "firestore_instance",
+        "labels": {
+          "project_id": "hoosoo-37881"
+        }
+      },
+      "metricKind": "DELTA",
+      "valueType": "INT64",
+      "points": [
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:06:37.773Z",
+            "endTime": "2026-11-10T19:07:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:05:37.773Z",
+            "endTime": "2026-11-10T19:06:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:04:37.773Z",
+            "endTime": "2026-11-10T19:05:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:03:37.773Z",
+            "endTime": "2026-11-10T19:04:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:02:37.773Z",
+            "endTime": "2026-11-10T19:03:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:01:37.773Z",
+            "endTime": "2026-11-10T19:02:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T19:00:37.773Z",
+            "endTime": "2026-11-10T19:01:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:59:37.773Z",
+            "endTime": "2026-11-10T19:00:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:58:37.773Z",
+            "endTime": "2026-11-10T18:59:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:57:37.773Z",
+            "endTime": "2026-11-10T18:58:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:56:37.773Z",
+            "endTime": "2026-11-10T18:57:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:55:37.773Z",
+            "endTime": "2026-11-10T18:56:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:54:37.773Z",
+            "endTime": "2026-11-10T18:55:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:53:37.773Z",
+            "endTime": "2026-11-10T18:54:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:52:37.773Z",
+            "endTime": "2026-11-10T18:53:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:51:37.773Z",
+            "endTime": "2026-11-10T18:52:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:50:37.773Z",
+            "endTime": "2026-11-10T18:51:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:49:37.773Z",
+            "endTime": "2026-11-10T18:50:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:48:37.773Z",
+            "endTime": "2026-11-10T18:49:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:47:37.773Z",
+            "endTime": "2026-11-10T18:48:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:46:37.773Z",
+            "endTime": "2026-11-10T18:47:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:45:37.773Z",
+            "endTime": "2026-11-10T18:46:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:44:37.773Z",
+            "endTime": "2026-11-10T18:45:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:43:37.773Z",
+            "endTime": "2026-11-10T18:44:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:42:37.773Z",
+            "endTime": "2026-11-10T18:43:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:41:37.773Z",
+            "endTime": "2026-11-10T18:42:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:40:37.773Z",
+            "endTime": "2026-11-10T18:41:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:39:37.773Z",
+            "endTime": "2026-11-10T18:40:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:38:37.773Z",
+            "endTime": "2026-11-10T18:39:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:37:37.773Z",
+            "endTime": "2026-11-10T18:38:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:36:37.773Z",
+            "endTime": "2026-11-10T18:37:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:35:37.773Z",
+            "endTime": "2026-11-10T18:36:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:34:37.773Z",
+            "endTime": "2026-11-10T18:35:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:33:37.773Z",
+            "endTime": "2026-11-10T18:34:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:32:37.773Z",
+            "endTime": "2026-11-10T18:33:37.773Z"
+          },
+          "value": {
+            "int64Value": "0"
+          }
+        },
+        {
+          "interval": {
+            "startTime": "2026-11-10T18:31:37.773Z",
+            "endTime": "2026-11-10T18:32:37.773Z"
+          },
+          "value": {
+            "int64Value": "1"
+          }
+        }
+      ]
+    }
+  ]
+}

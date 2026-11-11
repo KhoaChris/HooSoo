@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-11-10T19:04:34.509Z",
+  "projectId": "hoosoo-37881",
+  "mode": "cloud",
+  "billingPlanObserved": "Spark",
+  "upstream": {
+    "code": 8,
+    "details": "RESOURCE_EXHAUSTED: Quota exceeded"
+  },
+  "department": {
+    "id": "41e9fccb-bc46-4e83-8417-9ec3e986db6e",
+    "name": "Chăm sóc khách hàng",
+    "path": "organizations/hoosoo/departments/41e9fccb-bc46-4e83-8417-9ec3e986db6e",
+    "active": true,
+    "createdAtConsole": "2026-11-11 01:54:12 UTC+7",
+    "organizationRevision": 32,
+    "verification": "User screenshot and live Firebase Console, not a successful post-repair Admin SDK read"
+  },
+  "postRepairApi": {
+    "method": "GET",
+    "path": "/api/v1/organization/tree",
+    "status": 503,
+    "code": "FIRESTORE_QUOTA_EXCEEDED",
+    "requestId": "46f3e9fb-ed28-445f-86bd-3683061c840a"
+  },
+  "checks": {
+    "unit": 33,
+    "integration": 18,
+    "integrationEnvironment": "isolated demo-hoosoo emulators; stopped after tests",
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed"
+  },
+  "cloudRecoveryVerified": false,
+  "billingChanged": false,
+  "localDataFallbackAdded": false
+}

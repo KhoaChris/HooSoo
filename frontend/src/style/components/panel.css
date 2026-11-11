@@ -1,0 +1,67 @@
+/* components/panel: keep responsive rules with the styles they adjust. */
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 23px;
+  margin-bottom: 23px;
+}
+.detail-grid .panel {
+  margin-bottom: 0;
+}
+.panel-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 17px;
+  margin-top: 27px;
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 600;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 23px;
+  margin-bottom: 23px;
+}
+.details {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.75fr) 1fr;
+  gap: 0;
+  margin: 20px 0 27px;
+  font-size: 12px;
+}
+.details dt,
+.details dd {
+  padding: 13px 0;
+  border-bottom: 1px solid #edf1f3;
+  line-height: 1.8;
+}
+.details dt {
+  color: #8896a0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.details dd {
+  color: #425a6a;
+  word-break: break-word;
+  margin: 0;
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .panel {
+    padding: 19px;
+  }
+  .details {
+    grid-template-columns: 110px 1fr;
+    font-size: 11px;
+  }
+}

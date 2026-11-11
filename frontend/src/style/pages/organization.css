@@ -1,0 +1,130 @@
+/* pages/organization: keep responsive rules with the styles they adjust. */
+
+.organization {
+  padding: 10px 0;
+}
+.org-root {
+  margin: auto;
+  background: var(--navy);
+  border-radius: 10px;
+  max-width: 380px;
+  text-align: center;
+  padding: 22px 25px;
+  color: white;
+}
+.org-root svg {
+  margin: 0 auto 12px;
+  color: #8fc5b6;
+}
+.org-root h2 {
+  color: white;
+}
+.org-root p {
+  font-size: 11px;
+  color: #a5bac6;
+  margin-top: 7px;
+}
+.org-connector {
+  height: 40px;
+  border-left: 2px solid #d9e4e4;
+  width: 0;
+  margin: auto;
+}
+.org-departments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.org-department {
+  background: white;
+  border: 1px solid #dde7e9;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.org-department header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #f3f8f6;
+  padding: 18px;
+  border-bottom: 1px solid #e3ece8;
+}
+.org-department h3 {
+  font-size: 13px;
+}
+.org-department header small {
+  font-size: 10px;
+}
+.department-icon {
+  color: #4b9484;
+}
+.org-department ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+.org-department li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 9px;
+  margin: 3px 0;
+}
+.org-department li > svg {
+  color: #9cacb7;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.org-department li strong,
+.org-department li span,
+.org-department li small {
+  display: block;
+}
+.org-department li strong {
+  font-size: 11px;
+}
+.org-department li span {
+  font-size: 10px;
+  color: #7d919e;
+  margin-top: 4px;
+}
+.org-department li small {
+  font-size: 9px;
+  color: #a0adb5;
+  margin-top: 2px;
+}
+.org-department li.self {
+  background: #eaf6ef;
+  border-radius: 5px;
+  border: 1px solid #cde6db;
+}
+.org-department li .self-tag {
+  display: inline-flex;
+  background: #087e78;
+  color: white;
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 7px;
+}
+@media (min-width: 1600px) {
+  .org-departments {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1200px) {
+  .org-departments {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .org-departments {
+    grid-template-columns: 1fr;
+  }
+  .org-root h2 {
+    font-size: 17px;
+  }
+}
+.org-department li small {
+  color: #70828c;
+}

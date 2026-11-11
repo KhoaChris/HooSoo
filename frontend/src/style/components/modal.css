@@ -1,0 +1,40 @@
+/* components/modal: keep responsive rules with the styles they adjust. */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-height: 88vh;
+  width: min(530px, calc(100vw - 32px));
+  border: 1px solid #dce5e8;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 20px 80px #18364625;
+  overflow: auto;
+  color: #344b5b;
+  background: #fff;
+}
+.modal::backdrop {
+  background: #142b3b66;
+  backdrop-filter: blur(2px);
+}
+.modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  gap: 12px;
+}
+.modal > p {
+  font-size: 13px;
+  color: #728591;
+  margin-bottom: 20px;
+}
+.modal .form {
+  margin-top: 18px;
+}
+@media (max-width: 600px) {
+  .modal {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,77 @@
+/* components/metric: keep responsive rules with the styles they adjust. */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+  margin-bottom: 25px;
+}
+.metrics.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.metric {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 21px 21px 18px;
+  min-width: 0;
+}
+.metric > span {
+  display: block;
+  color: #6c7d89;
+  font-size: 11px;
+  font-weight: 500;
+}
+.metric > strong {
+  display: block;
+  font-size: 32px;
+  letter-spacing: -1px;
+  font-weight: 650;
+  color: var(--navy);
+  margin: 11px 0 9px;
+  line-height: 1.2;
+}
+.metric > small {
+  font-size: 10px;
+}
+.metric.accent {
+  background: #ecf5f2;
+  border-color: #d6eae2;
+}
+.metric.accent strong {
+  color: #147d6b;
+}
+@media (max-width: 1200px) {
+  .metrics {
+    gap: 10px;
+  }
+  .metric {
+    padding: 18px 15px;
+  }
+}
+@media (max-width: 900px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .metrics {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .metric {
+    padding: 17px 12px;
+  }
+  .metric > strong {
+    font-size: 27px;
+  }
+  .metric > small {
+    font-size: 9px;
+  }
+  .metric > span {
+    font-size: 10px;
+  }
+  .metrics.two .metric > strong {
+    font-size: 19px;
+  }
+}

@@ -1,0 +1,67 @@
+/* components/form: keep responsive rules with the styles they adjust. */
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 17px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.field > label {
+  font-size: 12px;
+  font-weight: 550;
+  color: #526574;
+}
+.field input,
+.field .select-trigger,
+.field textarea {
+  width: 100%;
+  font-size: 13px;
+}
+.field small {
+  font-size: 11px;
+}
+.field .field-error {
+  color: #b8584d;
+}
+.checkbox-field {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.checkbox-field input {
+  width: 18px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  margin-top: 6px;
+}
+.editor-panel {
+  max-width: 900px;
+}
+.editor-panel .form {
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+}
+.editor-panel .form-actions,
+.editor-panel .error-box {
+  grid-column: 1/-1;
+}
+@media (max-width: 600px) {
+  .editor-panel .form {
+    grid-template-columns: 1fr;
+  }
+  .editor-panel .form-actions {
+    grid-column: auto;
+  }
+}
+.field small {
+  color: #647784;
+}

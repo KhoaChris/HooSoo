@@ -1,0 +1,35 @@
+/* Shared HooSoo mark, including the sign-in screen. */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--navy);
+  font-size: 27px;
+  font-weight: 750;
+  letter-spacing: -1.2px;
+  padding: 0 13px;
+}
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background: var(--teal);
+  color: white;
+  border-radius: 11px;
+  font-size: 26px;
+  font-weight: 650;
+  letter-spacing: -2px;
+  padding-right: 3px;
+}
+.brand-dot {
+  height: 5px;
+  width: 5px;
+  background: #60b6a9;
+  border-radius: 50%;
+  margin-left: -6px;
+  align-self: flex-end;
+  margin-bottom: 7px;
+}

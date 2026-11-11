@@ -1,0 +1,74 @@
+/* components/button: keep responsive rules with the styles they adjust. */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 7px;
+  min-height: 39px;
+  padding: 9px 15px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.button.primary {
+  background: var(--teal);
+  color: white;
+  border-color: var(--teal);
+}
+.button.primary:hover {
+  background: #066c67;
+}
+.button.secondary {
+  background: white;
+  border-color: #dce4e9;
+  color: #344957;
+}
+.button.secondary:hover {
+  background: #f3f7f8;
+}
+.button.ghost {
+  padding: 5px 7px;
+  min-height: 31px;
+  background: transparent;
+  color: var(--teal);
+}
+.button.ghost:hover {
+  background: #edf6f4;
+}
+.button.danger {
+  background: #fff2ef;
+  color: #ad453a;
+  border-color: #f3d7d3;
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  color: #6c7c88;
+}
+.icon-button:hover {
+  background: #edf3f5;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 600;
+}
+.row-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}

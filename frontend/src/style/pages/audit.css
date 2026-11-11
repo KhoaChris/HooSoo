@@ -1,0 +1,8 @@
+/* pages/audit: keep responsive rules with the styles they adjust. */
+
+.audit-json {
+  background: #f5f8fa;
+  padding: 18px;
+  border-radius: 6px;
+  font-size: 11px;
+}

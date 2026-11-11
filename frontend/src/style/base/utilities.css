@@ -1,0 +1,31 @@
+/* base/utilities: keep responsive rules with the styles they adjust. */
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 12px;
+}
+.muted,
+.muted-note {
+  color: var(--muted);
+}
+.muted-note {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 14px 0;
+}
+.teal {
+  color: var(--teal);
+}
+.warning-text {
+  display: block;
+  color: #9c5f10;
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

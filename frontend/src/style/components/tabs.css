@@ -1,0 +1,39 @@
+/* components/tabs: keep responsive rules with the styles they adjust. */
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #dfe8ed;
+  margin-bottom: 24px;
+  gap: 24px;
+  overflow-x: auto;
+}
+.tabs button {
+  border: 0;
+  background: transparent;
+  position: relative;
+  padding: 13px 2px 15px;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #8897a2;
+}
+.tabs button.selected {
+  color: var(--teal);
+  font-weight: 600;
+}
+.tabs button.selected:after {
+  content: "";
+  height: 2px;
+  background: var(--teal);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+@media (max-width: 600px) {
+  .tabs {
+    gap: 20px;
+  }
+  .tabs button {
+    font-size: 12px;
+  }
+}

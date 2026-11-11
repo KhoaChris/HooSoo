@@ -1,0 +1,88 @@
+/* pages/attendance: keep responsive rules with the styles they adjust. */
+
+.history-entry {
+  background: #f7fafa;
+  padding: 14px;
+  border-radius: 7px;
+  margin: 12px 0;
+  font-size: 12px;
+}
+.history-entry p {
+  margin-top: 8px;
+}
+.checkin-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  background: white;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.checkin-title {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.clock-icon {
+  width: 53px;
+  height: 53px;
+  display: grid;
+  place-items: center;
+  background: #e9f5ef;
+  color: #398e75;
+  border-radius: 50%;
+}
+.checkin-title p {
+  font-size: 11px;
+  color: #8a99a3;
+  margin-top: 4px;
+}
+.checkin-times {
+  display: flex;
+  gap: 33px;
+}
+.checkin-times span {
+  display: block;
+  font-size: 10px;
+  color: #8a99a3;
+}
+.checkin-times strong {
+  font-size: 24px;
+  display: block;
+  font-weight: 600;
+  color: #385766;
+  margin-top: 6px;
+}
+@media (max-width: 600px) {
+  .checkin-panel {
+    padding: 18px;
+    gap: 20px;
+  }
+  .checkin-title {
+    gap: 10px;
+  }
+  .checkin-title h2 {
+    font-size: 15px;
+  }
+  .checkin-title p {
+    font-size: 10px;
+  }
+  .clock-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .checkin-times {
+    justify-content: space-around;
+    width: 100%;
+  }
+  .checkin-panel > .row-actions {
+    width: 100%;
+  }
+  .checkin-panel > .row-actions .button {
+    flex: 1;
+  }
+}
