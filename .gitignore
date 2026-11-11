@@ -1,16 +1,55 @@
+# Dependencies, builds and local caches
 node_modules/
-**/dist/
+dist/
+build/
+.cache/
+.vite/
+*.tsbuildinfo
+
+# Environment files, including all examples/templates (at any depth)
+# Keep src/config/env.ts and check-env.ts: they are application source.
 .env
-.env.local
-.env.*.local
-**/.secrets/
+.env.*
+*.env
+*.env.*
+.envrc
+.envrc.*
+.direnv/
+
+# Local Firebase credentials and emulator state
+.secrets/
 *service*account*.json
+*service*Account*.json
+*-firebase-adminsdk-*.json
+application_default_credentials.json
+.firebase/
 .emulator-data/
-*-debug.log*
-playwright-report/
+.emulator-data-*/
+
+# Playwright configuration, tests, browser state and reports
+playwright.config.*
+playwright*/
+.playwright*/
+/e2e/
 test-results/
+blob-report/
+coverage/
+.nyc_output/
+
+# Generated logs and rotated/compressed logs; keep application logging code
+logs/
+log/
+*.log
+*.log.*
+*-debug.log*
+*.pid
+*.pid.lock
+
+# Local documentation, QA evidence, patch archives and release artifacts
+/docs/
+/output/
+/releases/
+
+# OS files
 .DS_Store
-
-.playwright-cli/
-
-releases/
+Thumbs.db
