@@ -1,3 +1,4 @@
+import { PersonCell } from "../../components/ui/person-cell";
 import { useState } from "react";
 import { Clock, LogIn, LogOut, Pencil, History } from "lucide-react";
 import { z } from "zod";
@@ -12,7 +13,6 @@ import {
   Select,
   Button,
   Metric,
-  Loading,
   ErrorBox,
   DataTable,
   Badge,
@@ -134,129 +134,170 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
           </p>
         </>
       )}
-      <div className="filters">
-        <DateFilters
-          start={filters.startDate}
-          end={filters.endDate}
-          onChange={(startDate, endDate) =>
-            setFilters({ ...filters, startDate, endDate, page: 1 })
-          }
-        />
-        {!personal && (
-          <>
+      <DataTable
+        title={personal ? "Lịch sử chấm công" : "Dữ liệu chấm công"}
+        icon={<Clock size={18} />}
+        loading={q.isPending}
+        error={q.error}
+        onRetry={() => void q.refetch()}
+        toolbar={
+          <div className="filters">
+            <DateFilters
+              start={filters.startDate}
+              end={filters.endDate}
+              onChange={(startDate, endDate) =>
+                setFilters({ ...filters, startDate, endDate, page: 1 })
+              }
+            />
+            {!personal && (
+              <>
+                <Select
+                  aria-label="Lọc phòng ban"
+                  value={filters.departmentId}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, departmentId: value, page: 1 })
+                  }
+                  options={[
+                    { value: "", label: "Tất cả phòng ban" },
+                    ...(departments.data?.items.map((item) => ({
+                      value: item.id,
+                      label: item.name,
+                    })) ?? []),
+                  ]}
+                />
+                <Select
+                  aria-label="Lọc nhân viên"
+                  value={filters.employeeId}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, employeeId: value, page: 1 })
+                  }
+                  options={[
+                    { value: "", label: "Tất cả nhân viên" },
+                    ...(staff.data?.items.map((item) => ({
+                      value: item.id,
+                      label: item.name,
+                    })) ?? []),
+                  ]}
+                />
+              </>
+            )}
             <Select
-              aria-label="Lọc phòng ban"
-              value={filters.departmentId}
+              aria-label="Lọc trạng thái chấm công"
+              value={filters.status}
               onValueChange={(value) =>
-                setFilters({ ...filters, departmentId: value, page: 1 })
+                setFilters({ ...filters, status: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả phòng ban" },
-                ...(departments.data?.items.map((item) => ({
-                  value: item.id,
-                  label: item.name,
-                })) ?? []),
+                { value: "", label: "Tất cả trạng thái" },
+                { value: "on_time", label: "Đúng giờ" },
+                { value: "late", label: "Đi muộn" },
+                { value: "missing_checkout", label: "Thiếu giờ ra" },
+                { value: "working", label: "Đang làm việc" },
               ]}
             />
-            <Select
-              aria-label="Lọc nhân viên"
-              value={filters.employeeId}
-              onValueChange={(value) =>
-                setFilters({ ...filters, employeeId: value, page: 1 })
-              }
-              options={[
-                { value: "", label: "Tất cả nhân viên" },
-                ...(staff.data?.items.map((item) => ({
-                  value: item.id,
-                  label: item.name,
-                })) ?? []),
-              ]}
-            />
-          </>
-        )}
-        <Select
-          aria-label="Lọc trạng thái chấm công"
-          value={filters.status}
-          onValueChange={(value) =>
-            setFilters({ ...filters, status: value, page: 1 })
-          }
-          options={[
-            { value: "", label: "Tất cả trạng thái" },
-            { value: "on_time", label: "Đúng giờ" },
-            { value: "late", label: "Đi muộn" },
-            { value: "missing_checkout", label: "Thiếu giờ ra" },
-            { value: "working", label: "Đang làm việc" },
-          ]}
-        />
-      </div>
-      <ErrorBox error={q.error} />
-      {q.isPending ? (
-        <Loading />
-      ) : (
-        <DataTable
-          data={q.data}
-          filtered
-          onPage={(page) => setFilters({ ...filters, page })}
-          columns={[
-            ...(!personal
-              ? [
-                  {
-                    label: "Nhân viên",
-                    render: (r: AttendanceView) => (
-                      <strong>{r.employeeName}</strong>
-                    ),
-                  },
-                ]
-              : []),
-            { label: "Ngày làm việc", render: (r) => dateText(r.date) },
-            {
-              label: "Giờ vào / ra",
-              render: (r) => (
-                <>
-                  {timeText(r.checkIn)} <span className="muted">→</span>{" "}
-                  {timeText(r.checkOut)}
-                </>
-              ),
-            },
-            { label: "Hiện diện", render: (r) => minutes(r.presenceMinutes) },
-            { label: "Tính công", render: (r) => minutes(r.paidMinutes) },
-            {
-              label: "Trạng thái",
-              render: (r) => (
-                <>
-                  <Badge value={r.status} />
-                  {r.late && r.status !== "late" && <Badge value="late" />}
-                  {r.leaveConflict && (
-                    <small className="warning-text">
-                      Trùng ngày nghỉ đã duyệt
-                    </small>
-                  )}
-                </>
-              ),
-            },
-            {
-              label: "Thao tác",
-              render: (r) => (
-                <div className="row-actions">
-                  {canEdit && (
-                    <Button variant="ghost" onClick={() => setEdit(r)}>
-                      <Pencil size={15} />
-                      Điều chỉnh
-                    </Button>
-                  )}
-                  <Button variant="ghost" onClick={() => setHistory(r)}>
-                    <History size={15} />
-                    Lịch sử
+            {(filters.departmentId ||
+              filters.employeeId ||
+              filters.status ||
+              filters.startDate !== today().slice(0, 8) + "01" ||
+              filters.endDate !== today()) && (
+              <Button
+                variant="ghost"
+                className="filter-reset"
+                onClick={() =>
+                  setFilters({
+                    page: 1,
+                    startDate: today().slice(0, 8) + "01",
+                    endDate: today(),
+                    departmentId: "",
+                    employeeId: "",
+                    status: "",
+                  })
+                }
+              >
+                Đặt lại
+              </Button>
+            )}
+          </div>
+        }
+        data={q.data}
+        filtered
+        onPage={(page) => setFilters({ ...filters, page })}
+        columns={[
+          ...(!personal
+            ? [
+                {
+                  label: "Nhân viên",
+                  render: (r: AttendanceView) => (
+                    <PersonCell name={r.employeeName} detail={r.employeeCode} />
+                  ),
+                },
+              ]
+            : []),
+          { label: "Ngày làm việc", render: (r) => dateText(r.date) },
+          {
+            label: "Giờ vào / ra",
+            render: (r) => (
+              <div className="attendance-time-cell">
+                <span>
+                  <small>Vào</small>
+                  <strong>{timeText(r.checkIn)}</strong>
+                </span>
+                <span>
+                  <small>Ra</small>
+                  <strong>{timeText(r.checkOut)}</strong>
+                </span>
+              </div>
+            ),
+          },
+          { label: "Hiện diện", render: (r) => minutes(r.presenceMinutes) },
+          {
+            label: "Tính công",
+            className: "cell-number",
+            render: (r) => (
+              <span className="cell-duration">{minutes(r.paidMinutes)}</span>
+            ),
+          },
+          {
+            label: "Trạng thái",
+            render: (r) => (
+              <>
+                <Badge value={r.status} />
+                {r.late && r.status !== "late" && <Badge value="late" />}
+                {r.leaveConflict && (
+                  <small className="warning-text">
+                    Trùng ngày nghỉ đã duyệt
+                  </small>
+                )}
+              </>
+            ),
+          },
+          {
+            label: "Thao tác",
+            className: "cell-actions",
+            render: (r) => (
+              <div className="row-actions">
+                {canEdit && (
+                  <Button variant="ghost" onClick={() => setEdit(r)}>
+                    <Pencil size={15} />
+                    Điều chỉnh
                   </Button>
-                </div>
-              ),
-            },
-          ]}
-        />
-      )}{" "}
+                )}
+                <Button variant="ghost" onClick={() => setHistory(r)}>
+                  <History size={15} />
+                  Lịch sử
+                </Button>
+              </div>
+            ),
+          },
+        ]}
+      />{" "}
       {edit && (
         <Modal
-          title={"Điều chỉnh chấm công · " + edit.employeeName}
+          title="Điều chỉnh chấm công"
+          description={
+            edit.employeeName + " · " + dateText(edit.date) + " · Giờ Việt Nam"
+          }
+          icon={<Clock size={21} />}
           onClose={() => setEdit(null)}
         >
           <p>Ngày {dateText(edit.date)}. Giờ nhập theo múi giờ Việt Nam.</p>
@@ -304,6 +345,8 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
       {history && (
         <Modal
           title="Lịch sử điều chỉnh chấm công"
+          description={history.employeeName + " · " + dateText(history.date)}
+          icon={<History size={21} />}
           onClose={() => setHistory(null)}
         >
           {history.adjustments.length ? (

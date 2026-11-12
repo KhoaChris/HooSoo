@@ -1,6 +1,13 @@
 import { Input } from "../../components/ui";
 import { useState } from "react";
-import { Download } from "lucide-react";
+import {
+  Download,
+  UsersRound,
+  Clock,
+  CalendarDays,
+  Wallet,
+  Info,
+} from "lucide-react";
 import type { Page, EmployeeView } from "@hoosoo/shared";
 import { labels } from "@hoosoo/shared";
 import { useApi } from "../../hooks/data";
@@ -11,8 +18,7 @@ import {
   Heading,
   Select,
   Button,
-  Metric,
-  Loading,
+  Badge,
   ErrorBox,
   DataTable,
   DateFilters,
@@ -108,9 +114,25 @@ export function ReportsPage() {
     if (["date", "startDate", "endDate"].includes(key))
       return dateText(String(value));
     if (["checkIn", "checkOut"].includes(key)) return timeText(String(value));
-    if (key === "status") return labels[String(value)] || String(value);
+    if (key === "status") return <Badge value={String(value)} />;
+    if (key === "employeeCode")
+      return <span className="cell-code">{String(value)}</span>;
+    if (key === "name" || key === "employeeName")
+      return <strong>{String(value)}</strong>;
     return String(value);
   }
+  const reportTitles: Record<string, string> = {
+    employees: "Danh sách nhân sự",
+    attendance: "Tổng hợp chấm công",
+    leave: "Tổng hợp nghỉ phép",
+    balances: "Số dư phép năm",
+  };
+  const reportIcons = {
+    employees: <UsersRound size={16} />,
+    attendance: <Clock size={16} />,
+    leave: <CalendarDays size={16} />,
+    balances: <Wallet size={16} />,
+  };
   const statuses: Record<string, string[]> = {
     employees: ["active", "probation", "terminated"],
     attendance: ["on_time", "late", "missing_checkout", "working"],
@@ -133,124 +155,178 @@ export function ReportsPage() {
           </Button>
         }
       />
-      <div className="tabs" role="tablist" aria-label="Loại báo cáo">
-        {[
-          ["employees", "Nhân viên"],
-          ["attendance", "Chấm công"],
-          ["leave", "Nghỉ phép"],
-          ["balances", "Số dư phép"],
-        ].map(([value, label]) => (
-          <button
-            role="tab"
-            aria-selected={kind === value}
-            className={kind === value ? "selected" : ""}
-            key={value}
-            onClick={() => {
-              setKind(value);
-              setFilters({ ...filters, page: 1, status: "" });
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      <div className="filters">
-        {["attendance", "leave"].includes(kind) && (
-          <DateFilters
-            start={filters.startDate}
-            end={filters.endDate}
-            onChange={(startDate, endDate) =>
-              setFilters({ ...filters, startDate, endDate, page: 1 })
-            }
-          />
-        )}{" "}
-        {kind === "balances" && (
-          <label className="filter-label">
-            Năm
-            <Input
-              type="number"
-              value={filters.year}
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  year: Number(e.target.value),
-                  page: 1,
-                })
-              }
-            />
-          </label>
-        )}
-        <Select
-          aria-label="Phòng ban"
-          value={filters.departmentId}
-          onValueChange={(value) =>
-            setFilters({ ...filters, departmentId: value, page: 1 })
-          }
-          options={[
-            { value: "", label: "Tất cả phòng ban" },
-            ...(departments.data?.items.map((item) => ({
-              value: item.id,
-              label: item.name,
-            })) ?? []),
-          ]}
-        />
-        <Select
-          aria-label="Nhân viên"
-          value={filters.employeeId}
-          onValueChange={(value) =>
-            setFilters({ ...filters, employeeId: value, page: 1 })
-          }
-          options={[
-            { value: "", label: "Tất cả nhân viên" },
-            ...(staff.data?.items.map((item) => ({
-              value: item.id,
-              label: item.name,
-            })) ?? []),
-          ]}
-        />
-        {statuses[kind].length > 0 && (
-          <Select
-            aria-label="Trạng thái"
-            value={filters.status}
-            onValueChange={(value) =>
-              setFilters({ ...filters, status: value, page: 1 })
-            }
-            options={[
-              { value: "", label: "Tất cả trạng thái" },
-              ...statuses[kind].map((status) => ({
-                value: status,
-                label: labels[status],
-              })),
-            ]}
-          />
-        )}
-      </div>
-      <ErrorBox error={q.error || error} />
-      <div className="report-summary">
-        <Metric
-          label="Kết quả sau bộ lọc"
-          value={q.data?.summary.total ?? "—"}
-          note="Dữ liệu thuộc phạm vi của tài khoản"
-        />
-        <p>
-          CSV xuất <strong>toàn bộ kết quả đã lọc</strong>, tối đa 5.000 dòng.
-          Dữ liệu chấm công là bản tổng hợp, không phải bảng lương được xác
-          nhận.
-        </p>
-      </div>
-      {q.isPending ? (
-        <Loading />
-      ) : (
-        <DataTable
-          data={q.data}
-          filtered
-          onPage={(page) => setFilters({ ...filters, page })}
-          columns={keys[kind].map(([key, label]) => ({
-            label,
-            render: (r: Row) => display(key, r[key]),
-          }))}
-        />
-      )}
+      <ErrorBox error={error} />
+      <DataTable
+        title={reportTitles[kind]}
+        icon={reportIcons[kind as keyof typeof reportIcons]}
+        loading={q.isPending}
+        error={q.error}
+        onRetry={() => void q.refetch()}
+        toolbar={
+          <>
+            <div
+              className="report-tabs"
+              role="tablist"
+              aria-label="Loại báo cáo"
+            >
+              {[
+                ["employees", "Nhân viên"],
+                ["attendance", "Chấm công"],
+                ["leave", "Nghỉ phép"],
+                ["balances", "Số dư phép"],
+              ].map(([value, label]) => (
+                <button
+                  role="tab"
+                  aria-selected={kind === value}
+                  className={kind === value ? "selected" : ""}
+                  key={value}
+                  onClick={() => {
+                    setKind(value);
+                    setFilters({ ...filters, page: 1, status: "" });
+                  }}
+                >
+                  {reportIcons[value as keyof typeof reportIcons]}
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="filters">
+              {["attendance", "leave"].includes(kind) && (
+                <DateFilters
+                  start={filters.startDate}
+                  end={filters.endDate}
+                  onChange={(startDate, endDate) =>
+                    setFilters({ ...filters, startDate, endDate, page: 1 })
+                  }
+                />
+              )}{" "}
+              {kind === "balances" && (
+                <label className="filter-label">
+                  Năm
+                  <Input
+                    type="number"
+                    value={filters.year}
+                    onChange={(e) =>
+                      setFilters({
+                        ...filters,
+                        year: Number(e.target.value),
+                        page: 1,
+                      })
+                    }
+                  />
+                </label>
+              )}
+              <Select
+                aria-label="Phòng ban"
+                value={filters.departmentId}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, departmentId: value, page: 1 })
+                }
+                options={[
+                  { value: "", label: "Tất cả phòng ban" },
+                  ...(departments.data?.items.map((item) => ({
+                    value: item.id,
+                    label: item.name,
+                  })) ?? []),
+                ]}
+              />
+              <Select
+                aria-label="Nhân viên"
+                value={filters.employeeId}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, employeeId: value, page: 1 })
+                }
+                options={[
+                  { value: "", label: "Tất cả nhân viên" },
+                  ...(staff.data?.items.map((item) => ({
+                    value: item.id,
+                    label: item.name,
+                  })) ?? []),
+                ]}
+              />
+              {statuses[kind].length > 0 && (
+                <Select
+                  aria-label="Trạng thái"
+                  value={filters.status}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, status: value, page: 1 })
+                  }
+                  options={[
+                    { value: "", label: "Tất cả trạng thái" },
+                    ...statuses[kind].map((status) => ({
+                      value: status,
+                      label: labels[status],
+                    })),
+                  ]}
+                />
+              )}
+              {(filters.departmentId ||
+                filters.employeeId ||
+                filters.status ||
+                filters.startDate !== today().slice(0, 8) + "01" ||
+                filters.endDate !== today() ||
+                filters.year !== Number(today().slice(0, 4))) && (
+                <Button
+                  variant="ghost"
+                  className="filter-reset"
+                  onClick={() =>
+                    setFilters({
+                      page: 1,
+                      startDate: today().slice(0, 8) + "01",
+                      endDate: today(),
+                      departmentId: "",
+                      employeeId: "",
+                      status: "",
+                      year: Number(today().slice(0, 4)),
+                    })
+                  }
+                >
+                  Đặt lại
+                </Button>
+              )}
+            </div>
+          </>
+        }
+        footerNote={
+          <>
+            <Info size={14} />
+            <span>
+              CSV gồm toàn bộ kết quả đã lọc, tối đa 5.000 dòng.
+              {kind === "attendance" &&
+                " Dữ liệu chấm công là bản tổng hợp, không thay thế bảng lương được xác nhận."}
+            </span>
+          </>
+        }
+        data={q.data}
+        filtered
+        onPage={(page) => setFilters({ ...filters, page })}
+        columns={keys[kind].map(([key, label]) => ({
+          label,
+          align: [
+            "presenceMinutes",
+            "paidMinutes",
+            "days",
+            "allowance",
+            "used",
+            "pending",
+            "available",
+          ].includes(key)
+            ? ("right" as const)
+            : undefined,
+          className: [
+            "presenceMinutes",
+            "paidMinutes",
+            "days",
+            "allowance",
+            "used",
+            "pending",
+            "available",
+          ].includes(key)
+            ? "cell-number"
+            : undefined,
+          render: (r: Row) => display(key, r[key]),
+        }))}
+      />
     </>
   );
 }

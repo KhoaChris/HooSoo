@@ -1,3 +1,4 @@
+import { DialogLink } from "../../components/navigation/dialog-link";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Clock } from "lucide-react";
 import type { AttendanceView, BalanceView } from "@hoosoo/shared";
@@ -118,12 +119,12 @@ export function DashboardPersonal({
         <Link className="dashboard-text-link" to="/leave/my">
           Xem nghỉ phép của tôi <ArrowRight size={15} aria-hidden="true" />
         </Link>
-        <Link
+        <DialogLink
           className="button secondary dashboard-attendance-link"
           to="/leave/new"
         >
           Tạo đơn nghỉ phép <ArrowRight size={16} aria-hidden="true" />
-        </Link>
+        </DialogLink>
       </section>
     </aside>
   );

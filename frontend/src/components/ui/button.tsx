@@ -5,7 +5,7 @@ export function Button({
   variant = "primary",
   busy = false,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+}: React.ComponentPropsWithRef<"button"> & {
   variant?: "primary" | "secondary" | "danger" | "ghost";
   busy?: boolean;
 }) {

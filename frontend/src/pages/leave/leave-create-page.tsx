@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Info, ChevronDown } from "lucide-react";
 import {
   leaveSchema,
   type Page,
@@ -9,95 +9,58 @@ import {
 } from "@hoosoo/shared";
 import { useApi, useAction } from "../../hooks/data";
 import { today } from "../../utils/date-time";
-import { Heading, Loading, ErrorBox, Form } from "../../components/ui";
+import { Loading, ErrorBox, Form } from "../../components/ui";
+
+const formSchema = leaveSchema
+  .refine((value) => value.endDate >= value.startDate, {
+    path: ["endDate"],
+    message: "Ngày kết thúc phải từ ngày bắt đầu trở đi.",
+  })
+  .refine(
+    (value) => value.startDate.slice(0, 4) === value.endDate.slice(0, 4),
+    {
+      path: ["endDate"],
+      message: "Vui lòng tách thành hai đơn nếu nghỉ qua năm mới.",
+    },
+  );
 
 export function LeaveCreate() {
   const navigate = useNavigate();
-  const types = useApi<Page<LeaveType>>("/leave-types?pageSize=100"),
-    settings = useApi<Settings>("/settings");
+  const types = useApi<Page<LeaveType>>("/leave-types?pageSize=100");
+  const settings = useApi<Settings>("/settings");
   const action = useAction();
+  if (types.isPending) return <Loading />;
+  if (types.error)
+    return <ErrorBox error={types.error} retry={() => void types.refetch()} />;
+  const available = types.data!.items.filter((type) => type.active);
+  if (!available.length)
+    return (
+      <div className="creation-empty">
+        <Info size={24} />
+        <h3>Chưa có loại nghỉ phép</h3>
+        <p>Liên hệ nhân sự để thiết lập loại nghỉ phép trước khi tạo đơn.</p>
+      </div>
+    );
   return (
-    <>
-      <Heading
-        title="Tạo đơn nghỉ phép"
-        description="Nghỉ theo ngày nguyên. Số ngày được tính theo lịch làm việc đã cấu hình."
-        action={
-          <Link className="button secondary" to="/leave/my">
-            <ArrowLeft size={16} />
-            Đơn của tôi
-          </Link>
-        }
-      />
-      <div className="detail-grid">
-        <section className="panel">
-          {types.isPending ? (
-            <Loading />
-          ) : types.error ? (
-            <ErrorBox error={types.error} />
-          ) : (
-            <Form
-              schema={leaveSchema}
-              fields={[
-                {
-                  name: "leaveTypeId",
-                  label: "Loại nghỉ phép",
-                  type: "select",
-                  options: [
-                    { value: "", label: "Chọn loại phép" },
-                    ...types
-                      .data!.items.filter((t) => t.active)
-                      .map((t) => ({
-                        value: t.id,
-                        label:
-                          t.name +
-                          (t.deductsBalance
-                            ? " · Trừ phép"
-                            : " · Không trừ phép"),
-                      })),
-                  ],
-                },
-                { name: "startDate", label: "Từ ngày", type: "date" },
-                { name: "endDate", label: "Đến ngày", type: "date" },
-                { name: "reason", label: "Lý do nghỉ", type: "textarea" },
-              ]}
-              defaults={{
-                leaveTypeId: "",
-                startDate: today(),
-                endDate: today(),
-                reason: "",
-              }}
-              onSubmit={async (body) => {
-                const result = (await action.mutateAsync({
-                  path: "/leave-requests",
-                  body,
-                })) as LeaveView;
-                navigate("/leave/" + result.id);
-              }}
-              submitLabel="Gửi yêu cầu"
-            />
-          )}
-        </section>
-        <aside className="panel policy-note">
-          <h2>Trước khi gửi yêu cầu</h2>
-          <ul>
-            <li>Đơn nghỉ không được vượt qua hai năm. Hãy tách đơn nếu cần.</li>
-            <li>
-              Ngày không làm việc và ngày nghỉ cấu hình không bị trừ phép.
-            </li>
-            <li>
-              Đơn đang chờ duyệt chưa trừ số dư. Người duyệt sẽ kiểm tra số dư
-              còn lại khi xử lý.
-            </li>
-            <li>
-              Không thể tạo đơn chồng lấn với đơn đang chờ hoặc đã được duyệt.
-            </li>
-          </ul>
+    <div className="creation-form">
+      <details className="creation-guidance">
+        <summary>
+          <Info size={17} aria-hidden="true" />
+          <span>Cách tính ngày nghỉ và quỹ phép</span>
+          <ChevronDown size={16} aria-hidden="true" />
+        </summary>
+        <div>
+          <p>
+            Chỉ tính các ngày làm việc theo lịch của doanh nghiệp. Đơn chờ duyệt
+            chưa trừ quỹ phép; đơn mới không được trùng với đơn đang chờ hoặc đã
+            được duyệt.
+          </p>
           {settings.data && (
             <p>
               Lịch làm việc:{" "}
               {settings.data.schedule.workDays
                 .map(
-                  (d) =>
+                  (day) =>
                     [
                       "Chủ nhật",
                       "Thứ hai",
@@ -106,15 +69,63 @@ export function LeaveCreate() {
                       "Thứ năm",
                       "Thứ sáu",
                       "Thứ bảy",
-                    ][d],
+                    ][day],
                 )
                 .join(", ")}
               .
             </p>
           )}
-          <small>Áp dụng theo chính sách nghỉ phép của doanh nghiệp.</small>
-        </aside>
-      </div>
-    </>
+        </div>
+      </details>
+      <Form
+        schema={formSchema}
+        columns={2}
+        fields={[
+          {
+            name: "leaveTypeId",
+            label: "Loại nghỉ phép",
+            type: "select",
+            required: true,
+            span: "full",
+            options: [
+              { value: "", label: "Chọn loại nghỉ phép" },
+              ...available.map((type) => ({
+                value: type.id,
+                label:
+                  type.name +
+                  (type.deductsBalance
+                    ? " · Trừ phép năm"
+                    : " · Không trừ phép"),
+              })),
+            ],
+          },
+          { name: "startDate", label: "Từ ngày", type: "date", required: true },
+          { name: "endDate", label: "Đến ngày", type: "date", required: true },
+          {
+            name: "reason",
+            label: "Lý do nghỉ",
+            type: "textarea",
+            required: true,
+            span: "full",
+            placeholder: "Chia sẻ lý do nghỉ để người phụ trách xem xét",
+            hint: "Từ 5 đến 1.000 ký tự. Ngày nghỉ được tính theo ngày nguyên.",
+          },
+        ]}
+        defaults={{
+          leaveTypeId: "",
+          startDate: today(),
+          endDate: today(),
+          reason: "",
+        }}
+        onSubmit={async (body) => {
+          const result = (await action.mutateAsync({
+            path: "/leave-requests",
+            body,
+          })) as LeaveView;
+          navigate("/leave/" + result.id, { replace: true });
+        }}
+        submitLabel="Gửi yêu cầu nghỉ phép"
+      />
+    </div>
   );
 }

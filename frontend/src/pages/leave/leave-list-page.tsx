@@ -1,7 +1,9 @@
-import { Input } from "../../components/ui";
+import { DialogLink } from "../../components/navigation/dialog-link";
+import { PersonCell } from "../../components/ui/person-cell";
+import { Input, Button } from "../../components/ui";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, CalendarDays, ArrowUpRight } from "lucide-react";
 import {
   type Page,
   type LeaveView,
@@ -16,7 +18,6 @@ import {
   Heading,
   Select,
   Metric,
-  Loading,
   ErrorBox,
   DataTable,
   Badge,
@@ -61,10 +62,10 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
             : "Chỉ hiển thị các yêu cầu thuộc quyền xử lý của bạn."
         }
         action={
-          <Link className="button primary" to="/leave/new">
+          <DialogLink className="button primary" to="/leave/new">
             <Plus size={17} />
             Tạo đơn nghỉ phép
-          </Link>
+          </DialogLink>
         }
       />
       {personal && (
@@ -106,101 +107,136 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
           </div>
         </>
       )}
-      <div className="filters">
-        <DateFilters
-          start={filters.startDate}
-          end={filters.endDate}
-          onChange={(startDate, endDate) =>
-            setFilters({ ...filters, startDate, endDate, page: 1 })
-          }
-        />
-        <Select
-          aria-label="Trạng thái nghỉ phép"
-          value={filters.status}
-          onValueChange={(value) =>
-            setFilters({ ...filters, status: value, page: 1 })
-          }
-          options={[
-            { value: "", label: "Tất cả trạng thái" },
-            { value: "pending", label: "Chờ duyệt" },
-            { value: "approved", label: "Đã duyệt" },
-            { value: "rejected", label: "Từ chối" },
-            { value: "cancelled", label: "Đã hủy" },
-          ]}
-        />
-        {!personal && (
-          <>
-            <Select
-              aria-label="Phòng ban"
-              value={filters.departmentId}
-              onValueChange={(value) =>
-                setFilters({ ...filters, departmentId: value, page: 1 })
+      <DataTable
+        title={personal ? "Đơn nghỉ phép của tôi" : "Danh sách yêu cầu"}
+        icon={<CalendarDays size={18} />}
+        loading={q.isPending}
+        error={q.error}
+        onRetry={() => void q.refetch()}
+        toolbar={
+          <div className="filters">
+            <DateFilters
+              start={filters.startDate}
+              end={filters.endDate}
+              onChange={(startDate, endDate) =>
+                setFilters({ ...filters, startDate, endDate, page: 1 })
               }
-              options={[
-                { value: "", label: "Tất cả phòng ban" },
-                ...(departments.data?.items.map((item) => ({
-                  value: item.id,
-                  label: item.name,
-                })) ?? []),
-              ]}
             />
             <Select
-              aria-label="Nhân viên"
-              value={filters.employeeId}
+              aria-label="Trạng thái nghỉ phép"
+              value={filters.status}
               onValueChange={(value) =>
-                setFilters({ ...filters, employeeId: value, page: 1 })
+                setFilters({ ...filters, status: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả nhân viên" },
-                ...(staff.data?.items.map((item) => ({
-                  value: item.id,
-                  label: item.name,
-                })) ?? []),
+                { value: "", label: "Tất cả trạng thái" },
+                { value: "pending", label: "Chờ duyệt" },
+                { value: "approved", label: "Đã duyệt" },
+                { value: "rejected", label: "Từ chối" },
+                { value: "cancelled", label: "Đã hủy" },
               ]}
             />
-          </>
-        )}
-      </div>
-      <ErrorBox error={q.error} />
-      {q.isPending ? (
-        <Loading />
-      ) : (
-        <DataTable
-          data={q.data}
-          filtered
-          onPage={(page) => setFilters({ ...filters, page })}
-          columns={[
-            {
-              label: "Nhân viên",
-              render: (r) => (
-                <Link to={"/leave/" + r.id}>
-                  <strong>{r.employeeName}</strong>
-                  <small className="block muted">{r.employeeCode}</small>
-                </Link>
-              ),
-            },
-            { label: "Loại phép", render: (r) => r.typeName },
-            {
-              label: "Thời gian",
-              render: (r) => (
-                <>
-                  {dateText(r.startDate)} – {dateText(r.endDate)}
-                </>
-              ),
-            },
-            { label: "Số ngày", render: (r) => r.days },
-            { label: "Trạng thái", render: (r) => <Badge value={r.status} /> },
-            {
-              label: "Chi tiết",
-              render: (r) => (
-                <Link className="text-link" to={"/leave/" + r.id}>
-                  Xem đơn →
-                </Link>
-              ),
-            },
-          ]}
-        />
-      )}{" "}
+            {!personal && (
+              <>
+                <Select
+                  aria-label="Phòng ban"
+                  value={filters.departmentId}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, departmentId: value, page: 1 })
+                  }
+                  options={[
+                    { value: "", label: "Tất cả phòng ban" },
+                    ...(departments.data?.items.map((item) => ({
+                      value: item.id,
+                      label: item.name,
+                    })) ?? []),
+                  ]}
+                />
+                <Select
+                  aria-label="Nhân viên"
+                  value={filters.employeeId}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, employeeId: value, page: 1 })
+                  }
+                  options={[
+                    { value: "", label: "Tất cả nhân viên" },
+                    ...(staff.data?.items.map((item) => ({
+                      value: item.id,
+                      label: item.name,
+                    })) ?? []),
+                  ]}
+                />
+              </>
+            )}
+            {(filters.status ||
+              filters.startDate ||
+              filters.endDate ||
+              filters.departmentId ||
+              filters.employeeId) && (
+              <Button
+                variant="ghost"
+                className="filter-reset"
+                onClick={() =>
+                  setFilters({
+                    page: 1,
+                    status: "",
+                    startDate: "",
+                    endDate: "",
+                    departmentId: "",
+                    employeeId: "",
+                  })
+                }
+              >
+                Đặt lại
+              </Button>
+            )}
+          </div>
+        }
+        data={q.data}
+        filtered
+        onPage={(page) => setFilters({ ...filters, page })}
+        columns={[
+          {
+            label: "Nhân viên",
+            render: (r) => (
+              <PersonCell
+                name={r.employeeName}
+                detail={r.employeeCode}
+                to={"/leave/" + r.id}
+              />
+            ),
+          },
+          { label: "Loại phép", render: (r) => r.typeName },
+          {
+            label: "Thời gian",
+            render: (r) => (
+              <>
+                {dateText(r.startDate)} – {dateText(r.endDate)}
+              </>
+            ),
+          },
+          {
+            label: "Số ngày",
+            className: "cell-number",
+            align: "center",
+            render: (r) => (
+              <span className="cell-duration">
+                {r.days} <small>ngày</small>
+              </span>
+            ),
+          },
+          { label: "Trạng thái", render: (r) => <Badge value={r.status} /> },
+          {
+            label: "Chi tiết",
+            className: "cell-actions",
+            render: (r) => (
+              <Link className="table-row-link" to={"/leave/" + r.id}>
+                Xem đơn <ArrowUpRight size={14} />
+              </Link>
+            ),
+          },
+        ]}
+      />{" "}
       {personal && b && (
         <section className="panel">
           <h2>Biến động số dư phép</h2>

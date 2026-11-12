@@ -39,3 +39,51 @@
   background: #f0f2f4;
   color: #83919b;
 }
+
+/* Consistent status markers in operational lists. */
+.table-panel .badge {
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.7;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font-weight: 500;
+}
+.table-panel .badge::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.table-panel .badge.active,
+.table-panel .badge.approved,
+.table-panel .badge.enabled,
+.table-panel .badge.on_time {
+  background: #eff7f1;
+  color: #438066;
+  border-color: #dcece1;
+}
+.table-panel .badge.pending,
+.table-panel .badge.probation,
+.table-panel .badge.late,
+.table-panel .badge.missing_checkout {
+  background: #fff8ea;
+  color: #a48038;
+  border-color: #f2e6c9;
+}
+.table-panel .badge.rejected,
+.table-panel .badge.terminated {
+  background: #fdf2ef;
+  color: #ae6a58;
+  border-color: #f1dfd9;
+}
+.table-panel .badge.cancelled,
+.table-panel .badge.disabled {
+  background: #f5f7f8;
+  color: #87939b;
+  border-color: #e7edef;
+}

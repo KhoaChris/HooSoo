@@ -7,6 +7,8 @@ import { Loading, ErrorBox, Button } from "../components/ui";
 import { ErrorPage } from "../pages/errors/error-page";
 import { Login } from "../pages/auth/login-page";
 import { ApiError } from "../services/api-client";
+import { RecordDialog } from "./record-dialog";
+import { recordDialogBackground } from "./record-dialog-routes";
 const Dashboard = lazy(() =>
   import("../pages/dashboard/dashboard-page").then((m) => ({
     default: m.DashboardPage,
@@ -111,56 +113,84 @@ function Guard({ roles }: { roles?: Role[] }) {
   return <Outlet />;
 }
 export function AppRoutes() {
+  const location = useLocation();
+  const background = recordDialogBackground(location);
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<Login forgot />} />
-        <Route element={<Guard />}>
-          <Route element={<AppLayout />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="profile" element={<EmployeeDetail personal />} />
-            <Route path="organization" element={<Organization />} />
-            <Route path="attendance/my" element={<Attendance personal />} />
-            <Route path="leave/my" element={<LeaveList personal />} />
-            <Route path="leave/new" element={<LeaveCreate />} />
-            <Route path="leave/:requestId" element={<LeaveDetail />} />
-            <Route element={<Guard roles={["Admin", "HR", "Manager"]} />}>
-              <Route path="employees" element={<EmployeeList />} />
-              <Route
-                path="employees/:employeeId"
-                element={<EmployeeDetail />}
-              />
-              <Route path="attendance" element={<Attendance />} />
-              <Route path="leave/approvals" element={<LeaveList />} />
-              <Route path="reports" element={<Reports />} />
+    <>
+      <Suspense fallback={<Loading />}>
+        <Routes location={background ?? location}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<Login forgot />} />
+          <Route element={<Guard />}>
+            <Route element={<AppLayout />}>
+              <Route index element={<Navigate to="/dashboard" replace />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="profile" element={<EmployeeDetail personal />} />
+              <Route path="organization" element={<Organization />} />
+              <Route path="attendance/my" element={<Attendance personal />} />
+              <Route path="leave/my" element={<LeaveList personal />} />
+              <Route path="leave/new" element={<LeaveCreate />} />
+              <Route path="leave/:requestId" element={<LeaveDetail />} />
+              <Route element={<Guard roles={["Admin", "HR", "Manager"]} />}>
+                <Route path="employees" element={<EmployeeList />} />
+                <Route
+                  path="employees/:employeeId"
+                  element={<EmployeeDetail />}
+                />
+                <Route path="attendance" element={<Attendance />} />
+                <Route path="leave/approvals" element={<LeaveList />} />
+                <Route path="reports" element={<Reports />} />
+              </Route>
+              <Route element={<Guard roles={["Admin", "HR"]} />}>
+                <Route path="employees/new" element={<EmployeeEditor />} />
+                <Route
+                  path="employees/:employeeId/edit"
+                  element={<EmployeeEditor />}
+                />
+                <Route
+                  path="departments"
+                  element={<Catalog kind="departments" />}
+                />
+                <Route
+                  path="positions"
+                  element={<Catalog kind="positions" />}
+                />
+                <Route path="settings/hr" element={<Settings hr />} />
+              </Route>
+              <Route element={<Guard roles={["Admin"]} />}>
+                <Route path="settings" element={<Settings />} />
+                <Route path="settings/users" element={<Users />} />
+                <Route path="settings/system" element={<System />} />
+                <Route path="audit-logs" element={<Audit />} />
+              </Route>
+              <Route path="403" element={<ErrorPage forbidden />} />
+              <Route path="404" element={<ErrorPage />} />
+              <Route path="*" element={<ErrorPage />} />
             </Route>
-            <Route element={<Guard roles={["Admin", "HR"]} />}>
-              <Route path="employees/new" element={<EmployeeEditor />} />
-              <Route
-                path="employees/:employeeId/edit"
-                element={<EmployeeEditor />}
-              />
-              <Route
-                path="departments"
-                element={<Catalog kind="departments" />}
-              />
-              <Route path="positions" element={<Catalog kind="positions" />} />
-              <Route path="settings/hr" element={<Settings hr />} />
-            </Route>
-            <Route element={<Guard roles={["Admin"]} />}>
-              <Route path="settings" element={<Settings />} />
-              <Route path="settings/users" element={<Users />} />
-              <Route path="settings/system" element={<System />} />
-              <Route path="audit-logs" element={<Audit />} />
-            </Route>
-            <Route path="403" element={<ErrorPage forbidden />} />
-            <Route path="404" element={<ErrorPage />} />
-            <Route path="*" element={<ErrorPage />} />
           </Route>
-        </Route>
-      </Routes>
-    </Suspense>
+        </Routes>
+      </Suspense>
+      {background && (
+        <Routes>
+          <Route element={<Guard />}>
+            <Route element={<RecordDialog />}>
+              <Route path="/leave/new" element={<LeaveCreate />} />
+            </Route>
+          </Route>
+          <Route element={<Guard roles={["Admin", "HR"]} />}>
+            <Route element={<RecordDialog />}>
+              <Route
+                path="/employees/new"
+                element={<EmployeeEditor dialog />}
+              />
+              <Route
+                path="/employees/:employeeId/edit"
+                element={<EmployeeEditor dialog />}
+              />
+            </Route>
+          </Route>
+        </Routes>
+      )}
+    </>
   );
 }

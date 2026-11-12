@@ -86,3 +86,23 @@
     flex: 1;
   }
 }
+
+.attendance-time-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.attendance-time-cell > span {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.attendance-time-cell small {
+  color: #8b999f;
+  min-width: 20px;
+  font-size: 10px;
+}
+.attendance-time-cell strong {
+  font-weight: 500;
+}

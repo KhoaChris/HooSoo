@@ -15,6 +15,7 @@ type SelectProps = Pick<
   | "aria-labelledby"
   | "aria-describedby"
   | "aria-invalid"
+  | "aria-required"
   | "onBlur"
   | "className"
 > & {

@@ -1,0 +1,407 @@
+/* HR policies: clear context beside a sectioned editor. */
+.policy-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+  margin-bottom: 30px;
+}
+.policy-overview {
+  padding: 10px 0;
+}
+.policy-overview-label {
+  font-size: 9px;
+  font-weight: 650;
+  color: #82978f;
+  letter-spacing: 1.4px;
+}
+.policy-overview h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  color: #345449;
+  margin-top: 20px;
+}
+.policy-overview h2 svg {
+  color: #6c9887;
+}
+.policy-current-hours {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #2b594a;
+  margin-top: 16px;
+  letter-spacing: -0.6px;
+  font-variant-numeric: tabular-nums;
+}
+.policy-current-hours > span {
+  font-size: 18px;
+  font-weight: 400;
+  color: #96aaa0;
+}
+.policy-current-days {
+  font-size: 11px;
+  line-height: 1.9;
+  margin: 10px 0 24px;
+  color: #7c8f89;
+}
+.policy-overview dl {
+  margin: 0;
+  padding: 15px 0;
+  border-top: 1px solid #e0e9e4;
+  border-bottom: 1px solid #e0e9e4;
+}
+.policy-overview dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 11px;
+}
+.policy-overview dt {
+  color: #7b8f88;
+}
+.policy-overview dd {
+  margin: 0;
+  color: #49695b;
+  font-weight: 550;
+}
+.policy-overview-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 11px;
+  color: #83938c;
+  line-height: 1.9;
+  margin-top: 24px;
+}
+.policy-overview-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #7e9e8c;
+}
+.policy-editor {
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.policy-editor-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 24px 28px;
+  border-bottom: 1px solid #e8eeea;
+}
+.policy-editor-heading > span {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #eef6f0;
+  color: #568771;
+}
+.policy-editor-heading h2 {
+  font-size: 16px;
+}
+.policy-editor-heading p {
+  font-size: 11px;
+  color: #82938a;
+  margin-top: 5px;
+}
+.policy-editor .form {
+  padding: 24px 28px 0;
+  column-gap: 22px;
+  row-gap: 20px;
+}
+.policy-editor .form-section {
+  font-size: 12px;
+  color: #3a6854;
+  padding-top: 24px;
+  margin-top: 5px;
+  border-color: #e8efea;
+}
+.policy-editor .form-section:first-of-type {
+  border: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+.policy-editor .form-required-note {
+  display: none;
+}
+.policy-editor .field > label {
+  font-size: 12px;
+  color: #5c7067;
+}
+.policy-editor .field small {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #87968f;
+}
+.policy-editor .field .field-error {
+  color: #b35b4c;
+}
+.policy-editor .field input {
+  min-height: 43px;
+  font-variant-numeric: tabular-nums;
+}
+.policy-editor .form-actions {
+  padding: 20px 0 0;
+  margin-top: 4px;
+}
+.policy-editor-note {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 12px 28px 22px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #8b9991;
+}
+.policy-editor-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.policy-review {
+  margin: 20px 0;
+  padding: 0;
+}
+.policy-review > div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9efeb;
+  font-size: 12px;
+}
+.policy-review dt {
+  color: #7f9289;
+}
+.policy-review dd {
+  margin: 0;
+  color: #3f6251;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1100px) {
+  .policy-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .policy-overview {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .policy-editor-heading {
+    padding: 20px 18px;
+  }
+  .policy-editor-heading h2 {
+    font-size: 14px;
+  }
+  .policy-editor .form {
+    padding: 20px 18px 0;
+  }
+  .policy-editor-note {
+    padding: 12px 18px 20px;
+    justify-content: flex-start;
+  }
+  .policy-review > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
+
+/* Company identity and related administration. */
+.company-workspace {
+  border: 1px solid #e1e8e6;
+  border-radius: 14px;
+  background: white;
+  overflow: hidden;
+}
+.company-identity {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 32px;
+  border-bottom: 1px solid #e6ede9;
+  background: #fcfdfc;
+}
+.company-monogram {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  background: #e7f1ed;
+  color: #2e6b55;
+  font-size: 29px;
+  font-weight: 650;
+  border: 1px solid #d9e9df;
+}
+.company-kicker {
+  color: #7e9388;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 1.2px;
+}
+.company-identity > div {
+  min-width: 0;
+  flex: 1;
+}
+.company-identity h2 {
+  font-size: 23px;
+  margin: 4px 0;
+  letter-spacing: -0.6px;
+  overflow-wrap: anywhere;
+}
+.company-identity p {
+  color: #81928a;
+  font-size: 12px;
+}
+.company-content {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 50px;
+  padding: 32px;
+}
+.company-content h3 {
+  font-size: 14px;
+  margin-bottom: 9px;
+}
+.company-content p {
+  color: #7a8e85;
+  font-size: 12px;
+  line-height: 1.85;
+  max-width: 260px;
+}
+.company-content dl {
+  margin: 0;
+}
+.company-content dl > div {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid #edf1ef;
+  font-size: 13px;
+}
+.company-content dl > div:first-child {
+  padding-top: 0;
+}
+.company-content dl > div:last-child {
+  padding-bottom: 0;
+  border: 0;
+}
+.company-content dt {
+  color: #7b8c85;
+  font-size: 12px;
+}
+.company-content dd {
+  margin: 0;
+  color: #3a574a;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+.company-content dd span {
+  margin-left: 8px;
+  font-size: 11px;
+  color: #81938a;
+  font-weight: 400;
+}
+.admin-shortcuts {
+  margin-top: 36px;
+}
+.admin-shortcuts h2 {
+  font-size: 13px;
+  color: #637d6e;
+  margin-bottom: 14px;
+}
+.admin-shortcuts > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #e0e8e2;
+}
+.admin-shortcuts a {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 22px 20px 22px 0;
+  transition: color 150ms;
+}
+.admin-shortcuts a > svg {
+  color: #7f9f8b;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.admin-shortcuts a > svg:last-child {
+  margin-left: auto;
+}
+.admin-shortcuts a > span {
+  min-width: 0;
+}
+.admin-shortcuts strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 550;
+}
+.admin-shortcuts small {
+  display: block;
+  font-size: 11px;
+  color: #87958d;
+  line-height: 1.8;
+  margin-top: 5px;
+}
+.admin-shortcuts a:hover {
+  color: var(--teal);
+}
+@media (max-width: 1000px) {
+  .company-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .company-content p {
+    max-width: none;
+  }
+  .admin-shortcuts > div {
+    grid-template-columns: 1fr;
+  }
+  .admin-shortcuts a {
+    border-bottom: 1px solid #e0e8e2;
+    padding-right: 0;
+  }
+}
+@media (max-width: 600px) {
+  .company-identity {
+    padding: 22px;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .company-monogram {
+    width: 52px;
+    height: 52px;
+    font-size: 24px;
+    border-radius: 12px;
+  }
+  .company-identity h2 {
+    font-size: 20px;
+  }
+  .company-identity .button {
+    width: 100%;
+    margin-top: 5px;
+  }
+  .company-content {
+    padding: 22px;
+  }
+  .company-content dl > div {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+}

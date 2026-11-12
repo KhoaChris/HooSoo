@@ -1,3 +1,5 @@
+import { Wallet } from "lucide-react";
+import { PersonCell } from "../../../components/ui/person-cell";
 import { Input } from "../../../components/ui";
 import { useState } from "react";
 import {
@@ -7,13 +9,7 @@ import {
 } from "@hoosoo/shared";
 import { useApi, useAction } from "../../../hooks/data";
 import { today, dateText } from "../../../utils/date-time";
-import {
-  Button,
-  Form,
-  Modal,
-  ErrorBox,
-  DataTable,
-} from "../../../components/ui";
+import { Button, Form, Modal, DataTable } from "../../../components/ui";
 import { queryString } from "../../../services/api-client";
 
 export function BalanceAdmin() {
@@ -25,32 +21,36 @@ export function BalanceAdmin() {
     ),
     action = useAction();
   return (
-    <section className="panel">
-      <div className="section-heading">
-        <div>
-          <h2>Quỹ phép nhân viên</h2>
-          <p>Điều chỉnh hạn mức theo năm có lưu lý do và lịch sử.</p>
-        </div>
-        <label className="filter-label">
-          Năm
-          <Input
-            type="number"
-            min="2020"
-            max="2100"
-            value={year}
-            onChange={(e) => {
-              setYear(Number(e.target.value));
-              setPage(1);
-            }}
-          />
-        </label>
-      </div>
-      <ErrorBox error={q.error} />
+    <>
       <DataTable
+        title="Quỹ phép nhân viên"
+        description="Điều chỉnh hạn mức theo năm có lưu lý do và lịch sử."
+        icon={<Wallet size={18} />}
+        loading={q.isPending}
+        error={q.error}
+        onRetry={() => void q.refetch()}
+        actions={
+          <label className="filter-label">
+            Năm
+            <Input
+              type="number"
+              min="2020"
+              max="2100"
+              value={year}
+              onChange={(e) => {
+                setYear(Number(e.target.value));
+                setPage(1);
+              }}
+            />
+          </label>
+        }
         data={q.data}
         onPage={setPage}
         columns={[
-          { label: "Nhân viên", render: (b) => b.employeeName },
+          {
+            label: "Nhân viên",
+            render: (b) => <PersonCell name={b.employeeName} />,
+          },
           { label: "Hạn mức", render: (b) => b.allowance },
           { label: "Đã duyệt", render: (b) => b.used },
           { label: "Chờ duyệt", render: (b) => b.pending },
@@ -60,10 +60,13 @@ export function BalanceAdmin() {
           },
           {
             label: "Thao tác",
+            className: "cell-actions",
             render: (b) => (
-              <Button variant="ghost" onClick={() => setEdit(b)}>
-                Điều chỉnh
-              </Button>
+              <div className="row-actions">
+                <Button variant="ghost" onClick={() => setEdit(b)}>
+                  Điều chỉnh
+                </Button>
+              </div>
             ),
           },
         ]}
@@ -108,6 +111,6 @@ export function BalanceAdmin() {
           ))}
         </Modal>
       )}
-    </section>
+    </>
   );
 }

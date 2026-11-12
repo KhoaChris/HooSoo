@@ -5,6 +5,46 @@
   grid-template-columns: 1fr;
   gap: 17px;
 }
+.form-columns-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.form .field-full,
+.form .error-box,
+.form .form-actions,
+.form-section,
+.form-validation,
+.form-required-note {
+  grid-column: 1/-1;
+}
+.form-required-note {
+  font-size: 11px;
+  color: #637784;
+}
+.form-required-note > span,
+.field-required {
+  color: #ad5144;
+}
+.form-section {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--navy);
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.form-section:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+.form-validation {
+  font-size: 12px;
+  color: #a44335;
+  background: #fff4ef;
+  border-radius: 7px;
+  padding: 10px 12px;
+}
+.field {
+  min-width: 0;
+}
 .field {
   display: flex;
   flex-direction: column;
@@ -55,6 +95,9 @@
   grid-column: 1/-1;
 }
 @media (max-width: 600px) {
+  .form-columns-2 {
+    grid-template-columns: 1fr;
+  }
   .editor-panel .form {
     grid-template-columns: 1fr;
   }

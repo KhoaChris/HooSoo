@@ -11,7 +11,7 @@ import {
   type FormField,
 } from "../../components/ui";
 import { useCatalogs } from "../../hooks/catalogs";
-export function EmployeeEditor() {
+export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
   const { employeeId } = useParams();
   const navigate = useNavigate();
   const q = useApi<EmployeeView>("/employees/" + employeeId, !!employeeId),
@@ -21,24 +21,58 @@ export function EmployeeEditor() {
   if (
     (employeeId && q.isPending) ||
     departments.isPending ||
-    positions.isPending
+    positions.isPending ||
+    all.isPending
   )
     return <Loading />;
-  if (q.error || departments.error || positions.error)
-    return <ErrorBox error={q.error || departments.error || positions.error} />;
+  if (q.error || departments.error || positions.error || all.error)
+    return (
+      <ErrorBox
+        error={q.error || departments.error || positions.error || all.error}
+        retry={() => {
+          void departments.refetch();
+          void positions.refetch();
+          void all.refetch();
+          if (employeeId) void q.refetch();
+        }}
+      />
+    );
   const fields: FormField[] = [
-    { name: "employeeCode", label: "Mã nhân viên" },
-    { name: "name", label: "Họ và tên" },
+    {
+      name: "employeeCode",
+      label: "Mã nhân viên",
+      required: true,
+      placeholder: "VD: HS-005",
+      section: "Thông tin cá nhân",
+    },
+    {
+      name: "name",
+      label: "Họ và tên",
+      required: true,
+      placeholder: "Nhập họ và tên đầy đủ",
+    },
     {
       name: "email",
       label: "Email công việc",
       type: "email",
-      hint: "Email đã liên kết tài khoản không thể đổi tại đây.",
+      required: true,
+      placeholder: "ten@congty.vn",
+      hint: employeeId
+        ? "Email đã liên kết tài khoản không thể đổi tại đây."
+        : "Dùng để liên kết tài khoản khi cấp quyền truy cập.",
     },
-    { name: "phone", label: "Số điện thoại" },
-    { name: "address", label: "Địa chỉ liên hệ", type: "textarea" },
+    { name: "phone", label: "Số điện thoại", placeholder: "Không bắt buộc" },
+    {
+      name: "address",
+      label: "Địa chỉ liên hệ",
+      type: "textarea",
+      span: "full",
+      placeholder: "Số nhà, đường, phường / xã, tỉnh / thành phố",
+    },
     {
       name: "departmentId",
+      section: "Thông tin công việc",
+      required: true,
       label: "Phòng ban",
       type: "select",
       options: [
@@ -50,6 +84,7 @@ export function EmployeeEditor() {
     },
     {
       name: "positionId",
+      required: true,
       label: "Chức danh",
       type: "select",
       options: [
@@ -61,6 +96,7 @@ export function EmployeeEditor() {
     },
     {
       name: "managerId",
+      span: "full",
       label: "Người quản lý trực tiếp",
       type: "select",
       options: [
@@ -70,7 +106,7 @@ export function EmployeeEditor() {
           .map((e) => ({ value: e.id, label: e.name })) || []),
       ],
     },
-    { name: "hireDate", label: "Ngày vào làm", type: "date" },
+    { name: "hireDate", label: "Ngày vào làm", type: "date", required: true },
     {
       name: "status",
       label: "Trạng thái làm việc",
@@ -91,18 +127,32 @@ export function EmployeeEditor() {
   );
   return (
     <>
-      <Heading
-        title={employeeId ? "Chỉnh sửa hồ sơ" : "Thêm nhân viên"}
-        description="Thông tin công việc được lưu cùng lịch sử thay đổi."
-        action={
-          <Link className="button secondary" to="/employees">
-            <ArrowLeft size={16} />
-            Danh sách
-          </Link>
-        }
-      />
-      <div className="panel editor-panel">
+      {!dialog && (
+        <Heading
+          title={employeeId ? "Chỉnh sửa hồ sơ" : "Thêm nhân viên"}
+          description="Thông tin công việc được lưu cùng lịch sử thay đổi."
+          action={
+            <Link className="button secondary" to="/employees">
+              <ArrowLeft size={16} />
+              Danh sách
+            </Link>
+          }
+        />
+      )}
+      <div className={dialog ? "creation-form" : "panel editor-panel"}>
+        {dialog && (
+          <p className="form-intro">
+            {employeeId ? (
+              <>
+                <strong>{q.data?.name}</strong> · {q.data?.employeeCode}
+              </>
+            ) : (
+              "Bạn có thể cấp tài khoản đăng nhập sau khi tạo hồ sơ."
+            )}
+          </p>
+        )}
         <Form
+          columns={2}
           schema={employeeSchema}
           fields={fields}
           defaults={defaults}
@@ -112,9 +162,12 @@ export function EmployeeEditor() {
               method: employeeId ? "PATCH" : "POST",
               body,
             })) as EmployeeView;
-            navigate("/employees/" + result.id);
+            navigate("/employees/" + result.id, { replace: dialog });
           }}
           submitLabel={employeeId ? "Lưu hồ sơ" : "Tạo hồ sơ"}
+          onCancel={
+            dialog ? undefined : () => navigate("/employees/" + employeeId)
+          }
         />
       </div>
     </>

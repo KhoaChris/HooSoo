@@ -16,6 +16,7 @@
 @import "./style/components/badge.css";
 @import "./style/components/feedback.css";
 @import "./style/components/form.css";
+@import "./style/components/choice-group.css";
 @import "./style/components/filters.css";
 @import "./style/components/modal.css";
 @import "./style/components/timeline.css";
@@ -30,6 +31,8 @@
 @import "./style/pages/attendance.css";
 @import "./style/pages/organization.css";
 @import "./style/pages/reports.css";
+@import "./style/pages/settings.css";
+@import "./style/pages/users.css";
 @import "./style/pages/system.css";
 @import "./style/pages/audit.css";
 @import "./style/pages/login.css";

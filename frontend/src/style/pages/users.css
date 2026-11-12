@@ -1,0 +1,155 @@
+/* Account management and permission explanations. */
+.account-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.account-self {
+  background: #f1f5f7;
+  color: #6e8390;
+  border: 1px solid #e5ebef;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.account-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b6b65;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.account-role svg {
+  color: #6d9383;
+}
+.role-guide {
+  margin: 8px 0 24px;
+  color: #4c6a60;
+}
+.role-guide > summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 550;
+  padding: 13px 0;
+  cursor: pointer;
+  list-style: none;
+}
+.role-guide > summary::-webkit-details-marker {
+  display: none;
+}
+.role-guide > summary:after {
+  content: "+";
+  margin-left: auto;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 0 5px;
+}
+.role-guide[open] > summary:after {
+  content: "−";
+}
+.role-guide dl {
+  margin: 0;
+  border-top: 1px solid #e1e9e4;
+}
+.role-guide dl > div {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid #e1e9e4;
+}
+.role-guide dt {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 550;
+  color: #375c50;
+}
+.role-guide dd {
+  margin: 0;
+  font-size: 12px;
+  color: #71867b;
+  line-height: 1.75;
+}
+.account-dialog-person {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 19px;
+  border-bottom: 1px solid #e5ece8;
+}
+.account-dialog-person .person-cell {
+  min-width: 0;
+}
+.account-dialog-person .person-cell small {
+  overflow-wrap: anywhere;
+}
+.account-role-context {
+  font-size: 12px;
+  color: #6c8077;
+  line-height: 1.8;
+  margin-top: 15px;
+}
+.modal .role-guide {
+  margin-bottom: 20px;
+}
+.modal .role-guide dl > div {
+  grid-template-columns: 130px 1fr;
+  gap: 12px;
+}
+.account-status-message {
+  font-size: 13px;
+  color: #61756e;
+  line-height: 1.85;
+  margin: 22px 0;
+}
+.account-job {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 22px;
+  border: 1px solid #eedfbd;
+  background: #fffaf0;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #9a782e;
+}
+.account-job > svg {
+  flex-shrink: 0;
+}
+.account-job > div {
+  flex: 1;
+  min-width: 0;
+}
+.account-job strong {
+  font-size: 13px;
+  color: #836528;
+}
+.account-job p {
+  font-size: 12px;
+  color: #8e815d;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .account-dialog-person {
+    flex-wrap: wrap;
+  }
+  .role-guide dl > div,
+  .modal .role-guide dl > div {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+  .account-job {
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+  .account-job .button {
+    width: 100%;
+  }
+}

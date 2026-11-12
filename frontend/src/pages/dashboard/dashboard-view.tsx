@@ -1,3 +1,4 @@
+import { DialogLink } from "../../components/navigation/dialog-link";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -124,7 +125,7 @@ export function DashboardView({
             <Clock size={17} aria-hidden="true" />
             Chấm công
           </Link>
-          <Link
+          <DialogLink
             className="button primary"
             to={personal ? "/leave/new" : leavePath}
           >
@@ -134,7 +135,7 @@ export function DashboardView({
               <ClipboardCheck size={17} aria-hidden="true" />
             )}
             {personal ? "Tạo đơn nghỉ phép" : "Duyệt nghỉ phép"}
-          </Link>
+          </DialogLink>
         </div>
       </header>
       <DashboardRangeFilter range={range} onChange={onRangeChange} />
@@ -245,10 +246,10 @@ export function DashboardView({
                 <h3>Chưa có yêu cầu trong khoảng này</h3>
                 <p>Chọn kỳ thống kê khác để xem các yêu cầu trước đó.</p>
                 {personal && (
-                  <Link className="dashboard-text-link" to="/leave/new">
+                  <DialogLink className="dashboard-text-link" to="/leave/new">
                     Tạo đơn nghỉ phép{" "}
                     <ArrowRight size={15} aria-hidden="true" />
-                  </Link>
+                  </DialogLink>
                 )}
               </div>
             )}

@@ -1,20 +1,213 @@
-/* pages/system: keep responsive rules with the styles they adjust. */
-
-.system-result {
-  max-width: 700px;
-  padding: 35px;
+/* Operational status in language useful to an administrator. */
+.system-overview {
+  border: 1px solid #e1e8e5;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  max-width: 1000px;
 }
-.system-result > h2 {
-  font-size: 23px;
-  margin-top: 15px;
+.system-status-heading {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 34px;
+  border-bottom: 1px solid #e6ede8;
+  background: #f7fbf8;
 }
-.system-result > p {
-  color: #8b9ba4;
+.system-status-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #e4f2e9;
+  color: #468366;
+}
+.system-eyebrow {
+  color: #789181;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 1.3px;
+}
+.system-status-heading h2 {
+  font-size: 22px;
+  margin-top: 6px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: #294d3c;
+}
+.system-status-heading p {
   font-size: 12px;
-  margin-top: 7px;
+  color: #778e80;
+  line-height: 1.8;
+  margin-top: 8px;
+}
+.system-overview.attention .system-status-heading {
+  background: #fffaf2;
+}
+.system-overview.attention .system-status-icon {
+  background: #f7ebd8;
+  color: #a78546;
+}
+.system-overview.attention .system-status-heading h2 {
+  color: #7d6235;
+}
+.system-overview.checking .system-status-icon {
+  background: #edf3f5;
+  color: #758d99;
+}
+.system-services {
+  padding: 6px 34px;
+}
+.system-services > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 25px 0;
+  border-bottom: 1px solid #ecf0ed;
+}
+.system-services > div:last-child {
+  border-bottom: 0;
+}
+.system-service-icon {
+  color: #799789;
+  flex-shrink: 0;
+}
+.system-service-name {
+  flex: 1;
+}
+.system-service-name strong {
+  display: block;
+  font-size: 14px;
+  color: #39574b;
+  font-weight: 550;
+}
+.system-service-name small {
+  display: block;
+  color: #82948a;
+  font-size: 12px;
+  margin-top: 6px;
+  line-height: 1.8;
+}
+.system-service-state {
+  font-size: 12px;
+  color: #83948b;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  white-space: nowrap;
+}
+.system-service-state:before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.system-service-state.ok {
+  color: #3c8969;
+}
+.system-service-state.unknown {
+  color: #aa8642;
+}
+.system-check-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: #fafcfb;
+  border-top: 1px solid #e7ede9;
+  padding: 18px 34px;
+  color: #7d9085;
+  font-size: 11px;
+}
+.system-check-meta > div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.system-context {
+  display: flex;
+  gap: 10px;
+  margin: 22px 0;
+  max-width: 850px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: #7b8e83;
+}
+.system-context svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: #8ca596;
+}
+.system-connection-details {
+  max-width: 1000px;
+  padding-top: 18px;
+  border-top: 1px solid #e1e9e4;
+  font-size: 12px;
+  color: #71887b;
+}
+.system-connection-details summary {
+  cursor: pointer;
+  font-weight: 550;
+}
+.system-connection-details dl {
+  margin: 18px 0;
+}
+.system-connection-details dl > div {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 20px;
+  margin: 12px 0;
+  line-height: 1.8;
+}
+.system-connection-details dd {
+  margin: 0;
+  color: #4a6756;
+}
+.system-error {
+  padding: 24px 34px 0;
 }
 @media (max-width: 600px) {
-  .system-result {
-    padding: 24px;
+  .system-status-heading {
+    padding: 24px 20px;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .system-status-icon {
+    width: 42px;
+    height: 42px;
+  }
+  .system-status-icon svg {
+    width: 24px;
+  }
+  .system-status-heading h2 {
+    font-size: 18px;
+  }
+  .system-services {
+    padding: 0 20px;
+  }
+  .system-services > div {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .system-service-name {
+    min-width: 160px;
+  }
+  .system-service-state {
+    width: 100%;
+    margin-left: 32px;
+  }
+  .system-check-meta {
+    padding: 18px 20px;
+  }
+  .system-connection-details dl > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .system-error {
+    padding: 20px 20px 0;
   }
 }
