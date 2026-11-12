@@ -1,3 +1,9 @@
+import {
+  roles,
+  outranks,
+  isSupervisorRole,
+  isDepartmentRole,
+} from "@hoosoo/shared";
 import type {
   State,
   Actor,
@@ -11,7 +17,7 @@ import { ORG_ID } from "../config/env";
 export function actorFor(state: State, uid: string): Actor {
   const m = state.memberships[uid];
   assert(
-    m?.active && m.orgId === ORG_ID,
+    m?.active && m.orgId === ORG_ID && roles.includes(m.role),
     403,
     "ACCESS_DISABLED",
     "Tài khoản chưa được cấp quyền hoặc đã bị vô hiệu hóa.",
@@ -40,8 +46,8 @@ export function inScope(s: State, a: Actor, e: Employee) {
   return (
     isHR(a) ||
     e.id === a.employeeId ||
-    (a.role === "Manager" &&
-      e.managerId === a.employeeId &&
+    (isSupervisorRole(a.role) &&
+      (isDepartmentRole(a.role) || e.managerId === a.employeeId) &&
       e.departmentId === s.employees[a.employeeId]?.departmentId)
   );
 }
@@ -50,18 +56,60 @@ export function scopedEmployee(s: State, a: Actor, id: string) {
   if (!e || !inScope(s, a, e)) notFound();
   return e;
 }
-export function employeeView(e: Employee, a: Actor): EmployeeView {
+export function employeeView(e: Employee, a: Actor, s?: State): EmployeeView {
   const { phone, address, uid, ...work } = e;
-  return isHR(a) || a.employeeId === e.id
-    ? { ...work, phone, address, ...(a.role === "Admin" ? { uid } : {}) }
-    : work;
+  const canEdit = !!s && isHR(a) && canManageEmployee(s, a, e.id);
+  const contact =
+    a.employeeId === e.id || (isHR(a) && (a.role === "Admin" || canEdit));
+  return {
+    ...work,
+    ...(contact ? { phone, address } : {}),
+    ...(a.role === "Admin" ? { uid } : {}),
+    ...(s ? { accessRole: employeeRole(s, e.id), canEdit } : {}),
+  };
 }
 export function canApprove(s: State, a: Actor, employeeId: string) {
   return (
     a.employeeId !== employeeId &&
+    canManageEmployee(s, a, employeeId) &&
     (isHR(a) ||
-      (a.role === "Manager" &&
+      (isSupervisorRole(a.role) &&
         !!s.employees[employeeId] &&
         inScope(s, a, s.employees[employeeId])))
+  );
+}
+
+// A linked account's authority is read from memberships, never a job-title string.
+// Missing linked membership fails closed instead of treating an Admin as Employee.
+export function employeeRole(s: State, employeeId: string): Role | null {
+  const e = s.employees[employeeId];
+  if (!e) return null;
+  const linked = e.uid
+    ? s.memberships[e.uid]
+    : Object.values(s.memberships).find((m) => m.employeeId === employeeId);
+  return linked
+    ? roles.includes(linked.role)
+      ? linked.role
+      : null
+    : e.uid
+      ? null
+      : "Employee";
+}
+export function canManageEmployee(s: State, a: Actor, employeeId: string) {
+  const role = employeeRole(s, employeeId);
+  return (
+    !!s.employees[employeeId] &&
+    (a.role === "Admin" ||
+      (role !== null &&
+        outranks(a.role, role) &&
+        inScope(s, a, s.employees[employeeId])))
+  );
+}
+export function assertManageEmployee(s: State, a: Actor, employeeId: string) {
+  assert(
+    canManageEmployee(s, a, employeeId),
+    403,
+    "HIERARCHY_FORBIDDEN",
+    "Bạn không được thay đổi hoặc xử lý hồ sơ cấp ngang hàng, cấp trên hay ngoài phạm vi phụ trách. Liên hệ quản trị viên.",
   );
 }

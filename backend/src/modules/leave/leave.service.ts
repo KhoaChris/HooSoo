@@ -1,3 +1,4 @@
+import { assertManageEmployee } from "../../common/authorization";
 import { randomUUID } from "node:crypto";
 import type { State, Actor, LeaveRequest, leaveSchema } from "@hoosoo/shared";
 import type { z } from "zod";
@@ -122,6 +123,8 @@ export function transitionLeave(
   const r = s.leaveRequests[id];
   if (!r) notFound();
   scopedEmployee(s, a, r.employeeId);
+  if (r.employeeId !== a.employeeId || r.status === "approved")
+    assertManageEmployee(s, a, r.employeeId);
   if (action === "approve" || action === "reject") {
     assert(
       a.employeeId !== r.employeeId,

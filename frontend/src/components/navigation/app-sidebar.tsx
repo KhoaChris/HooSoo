@@ -164,7 +164,9 @@ export function AppSidebar({
               )}
               <Tooltip content={n.label} disabled={!compact}>
                 <NavLink
-                  end={["/attendance", "/settings"].includes(n.path)}
+                  end={["/attendance", "/settings", "/work-schedule"].includes(
+                    n.path,
+                  )}
                   to={n.path}
                   onClick={closeMobile}
                   aria-label={n.label}

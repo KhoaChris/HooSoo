@@ -1,3 +1,4 @@
+import { roleDefinitions, scopeLabels } from "@hoosoo/shared";
 import type { State, Actor, Query } from "@hoosoo/shared";
 import { matchesDates } from "../../common/query";
 import { businessDate } from "../../utils/time";
@@ -16,12 +17,7 @@ export function dashboard(s: State, a: Actor, q: Query) {
   });
   const leaves = leaveList(s, a, q);
   return {
-    scope:
-      a.role === "Employee"
-        ? "Cá nhân"
-        : a.role === "Manager"
-          ? "Nhóm phụ trách"
-          : "Toàn doanh nghiệp",
+    scope: scopeLabels[roleDefinitions[a.role].scope],
     asOf: new Date().toISOString(),
     startDate: q.startDate || null,
     endDate: q.endDate || null,

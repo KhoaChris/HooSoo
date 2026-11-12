@@ -4,7 +4,19 @@ export function queryCollections(path: string): Table[] | null {
   const route = path.split("?")[0];
   const authorization: Table[] = ["memberships", "employees"];
   let data: Table[];
-  if (route === "/me" || route === "/settings") data = ["settings"];
+  if (route.startsWith("/professional")) data = ["workItems", "departments"];
+  else if (route.startsWith("/work-registrations"))
+    data = ["workRegistrations", "settings"];
+  else if (route.startsWith("/internal-requests"))
+    data = ["internalRequests", "attendanceRecords"];
+  else if (
+    route.startsWith("/recruitment/jobs") &&
+    route.endsWith("/candidates")
+  )
+    data = ["candidates", "recruitmentJobs"];
+  else if (route.startsWith("/recruitment/"))
+    data = ["recruitmentJobs", "departments"];
+  else if (route === "/me" || route === "/settings") data = ["settings"];
   else if (route === "/organization/tree")
     data = ["settings", "departments", "positions"];
   else if (route === "/departments") data = ["departments"];
@@ -41,8 +53,18 @@ export function queryCollections(path: string): Table[] | null {
 }
 
 export function mutationCollections(path: string): Table[] | null {
+  if (path.startsWith("/recruitment/candidates"))
+    return ["candidates", "auditLogs"];
+  if (path.startsWith("/recruitment/jobs"))
+    return ["recruitmentJobs", "auditLogs"];
+  if (path.startsWith("/internal-requests") && !path.endsWith("/approve"))
+    return ["internalRequests", "auditLogs"];
   const route = path.split("/").filter(Boolean)[0];
   const map: Record<string, Table[]> = {
+    professional: ["workItems"],
+    "work-registrations": ["workRegistrations"],
+    "internal-requests": ["internalRequests", "attendanceRecords"],
+    recruitment: ["recruitmentJobs", "candidates"],
     me: ["employees"],
     employees: ["employees", "memberships"],
     departments: ["departments"],

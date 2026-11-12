@@ -1,3 +1,4 @@
+import { useAuth } from "../../app/auth";
 import { useEffect, useState } from "react";
 import {
   Plus,
@@ -24,10 +25,12 @@ import {
 } from "../../components/ui";
 
 export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
+  const { me } = useAuth();
+  const [templates, setTemplates] = useState(false);
   const [page, setPage] = useState(1),
     [edit, setEdit] = useState<Catalog | "new" | null>(null),
     [confirm, setConfirm] = useState<Catalog | null>(null);
-  const q = useApi<Page<Catalog & { employeeCount: number }>>(
+  const q = useApi<Page<Catalog & { employeeCount: number; canEdit: boolean }>>(
       catalogPath(kind),
     ),
     action = useAction();
@@ -62,10 +65,17 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
         title={label}
         description="Sắp xếp đội ngũ theo cơ cấu doanh nghiệp."
         action={
-          <Button onClick={() => setEdit("new")}>
-            <Plus size={17} />
-            Thêm {label.toLowerCase()}
-          </Button>
+          <div className="row-actions">
+            {kind === "positions" && me?.actor.role === "Admin" && (
+              <Button variant="secondary" onClick={() => setTemplates(true)}>
+                Thêm bộ chức danh CNTT
+              </Button>
+            )}
+            <Button onClick={() => setEdit("new")}>
+              <Plus size={17} />
+              Thêm {label.toLowerCase()}
+            </Button>
+          </div>
         }
       />
       <DataTable
@@ -167,12 +177,22 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
             className: "cell-actions",
             render: (c) => (
               <div className="row-actions">
-                <Button variant="ghost" onClick={() => setEdit(c)}>
+                <Button
+                  variant="ghost"
+                  disabled={!c.canEdit}
+                  title={
+                    !c.canEdit
+                      ? "Danh mục đang gắn với hồ sơ được bảo vệ theo phân cấp"
+                      : undefined
+                  }
+                  onClick={() => setEdit(c)}
+                >
                   <Pencil size={16} />
                   Chỉnh sửa
                 </Button>
                 <Button
                   className="status-action"
+                  disabled={!c.canEdit}
                   variant="ghost"
                   onClick={() => setConfirm(c)}
                 >
@@ -240,6 +260,31 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
             submitLabel={
               edit === "new" ? "Thêm " + label.toLowerCase() : "Lưu thay đổi"
             }
+          />
+        </Modal>
+      )}
+      {templates && (
+        <Modal
+          title="Bổ sung chức danh ngành CNTT"
+          onClose={() => setTemplates(false)}
+        >
+          <p>
+            Thêm các chức danh quản lý, phát triển, QA/QC, BA, UI/UX, DevOps, dữ
+            liệu và an toàn thông tin còn thiếu. Chức danh đã có được giữ
+            nguyên. Quyền truy cập cần được Admin cấp riêng.
+          </p>
+          <Form
+            schema={z.object({})}
+            fields={[]}
+            onSubmit={async () => {
+              await action.mutateAsync({
+                path: "/positions/templates",
+                body: {},
+              });
+              setTemplates(false);
+            }}
+            onCancel={() => setTemplates(false)}
+            submitLabel="Bổ sung chức danh"
           />
         </Modal>
       )}

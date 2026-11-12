@@ -1,3 +1,4 @@
+import { canManageEmployee } from "../../common/authorization";
 import type { State, Actor, Query, LeaveView } from "@hoosoo/shared";
 import { inScope, canApprove, isHR } from "../../common/authorization";
 import { matchEmployee } from "../../common/query";
@@ -25,8 +26,11 @@ export function leaveList(s: State, a: Actor, q: Query): LeaveView[] {
       canApprove: r.status === "pending" && canApprove(s, a, r.employeeId),
       canCancel:
         (r.status === "pending" &&
-          (r.employeeId === a.employeeId || isHR(a))) ||
-        (r.status === "approved" && isHR(a)),
+          (r.employeeId === a.employeeId ||
+            (isHR(a) && canManageEmployee(s, a, r.employeeId)))) ||
+        (r.status === "approved" &&
+          isHR(a) &&
+          canManageEmployee(s, a, r.employeeId)),
     }))
     .sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
 }

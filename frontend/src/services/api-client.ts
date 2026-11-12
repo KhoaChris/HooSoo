@@ -18,6 +18,8 @@ export async function api<T>(
     key?: string;
     signal?: AbortSignal;
     download?: boolean;
+    file?: File;
+    version?: number;
   } = {},
 ): Promise<T> {
   const controller = new AbortController();
@@ -32,13 +34,21 @@ export async function api<T>(
       method: options.method || "GET",
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.file
+          ? {
+              "Content-Type": "application/pdf",
+              "X-File-Name": encodeURIComponent(options.file.name),
+              "X-Record-Version": String(options.version),
+            }
+          : {}),
         ...(options.body !== undefined
           ? { "Content-Type": "application/json" }
           : {}),
         ...(options.key ? { "Idempotency-Key": options.key } : {}),
       },
       body:
-        options.body !== undefined ? JSON.stringify(options.body) : undefined,
+        options.file ??
+        (options.body !== undefined ? JSON.stringify(options.body) : undefined),
       signal: controller.signal,
     });
     if (!response.ok) {

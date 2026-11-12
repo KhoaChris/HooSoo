@@ -9,7 +9,7 @@
     "start": "node dist/server.js",
     "lint": "eslint src tests scripts",
     "typecheck": "tsc --noEmit",
-    "test": "NODE_ENV=test vitest run tests/domain.test.ts tests/live-updates.test.ts tests/firestore-operation.test.ts tests/store-reads.test.ts tests/live-hub.test.ts tests/query-sync.test.ts tests/read-cache.test.ts",
+    "test": "NODE_ENV=test vitest run tests/domain.test.ts tests/live-updates.test.ts tests/firestore-operation.test.ts tests/store-reads.test.ts tests/live-hub.test.ts tests/query-sync.test.ts tests/read-cache.test.ts tests/hr-expansion.test.ts tests/hr-api.test.ts",
     "test:integration": "NODE_ENV=test LOG_LEVEL=silent vitest run tests/integration.test.ts --testTimeout=30000",
     "test:rules": "NODE_ENV=test vitest run tests/rules.test.ts --testTimeout=30000",
     "check:env": "tsx scripts/check-env.ts",

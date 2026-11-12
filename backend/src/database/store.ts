@@ -28,6 +28,12 @@ export type ReadSelection =
 export type ReadPlan = Partial<Record<Table, ReadSelection>>;
 export type StateReader = (plan: ReadPlan) => Promise<State>;
 export const capacities: Record<Table, number> = {
+  workItems: 3000,
+  workRegistrations: 5000,
+  internalRequests: 3000,
+  recruitmentJobs: 100,
+  candidates: 2000,
+  candidateFiles: 16000,
   employees: 100,
   departments: 25,
   positions: 50,

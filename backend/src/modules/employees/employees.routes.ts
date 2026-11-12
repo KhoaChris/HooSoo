@@ -1,3 +1,4 @@
+import { supervisorRoles } from "@hoosoo/shared";
 import { Router } from "express";
 import { handlers, param } from "../../routes/helpers";
 import { z } from "zod";
@@ -16,11 +17,11 @@ const api = employeesRoutes;
 const { get, write } = handlers(api);
 
 get("/employees", [], (s, a, q) => {
-  requireRole(a, ["Admin", "HR", "Manager"]);
+  requireRole(a, supervisorRoles);
   return paginate(employeeList(s, a, q), q);
 });
 get("/employees/:employeeId", [], (s, a, _q, req) =>
-  employeeView(scopedEmployee(s, a, param(req, "employeeId")), a),
+  employeeView(scopedEmployee(s, a, param(req, "employeeId")), a, s),
 );
 get("/employees/:employeeId/history", ["auditLogs"], (s, a, q, req) => {
   const e = scopedEmployee(s, a, param(req, "employeeId"));
@@ -32,10 +33,10 @@ get("/employees/:employeeId/history", ["auditLogs"], (s, a, q, req) => {
   );
 });
 write("post", "/employees", employeeSchema, (s, a, input) =>
-  employeeView(saveEmployee(s, a, input), a),
+  employeeView(saveEmployee(s, a, input), a, s),
 );
 write("patch", "/employees/:employeeId", employeeSchema, (s, a, input, req) =>
-  employeeView(saveEmployee(s, a, input, param(req, "employeeId")), a),
+  employeeView(saveEmployee(s, a, input, param(req, "employeeId")), a, s),
 );
 write(
   "patch",
@@ -51,6 +52,10 @@ write(
       createdBy: _cb,
       ...fields
     } = e;
-    return employeeView(saveEmployee(s, a, { ...fields, ...input }, e.id), a);
+    return employeeView(
+      saveEmployee(s, a, { ...fields, ...input }, e.id),
+      a,
+      s,
+    );
   },
 );

@@ -15,14 +15,14 @@ const api = accountsRoutes;
 const { get, write } = handlers(api);
 get("/me", ["settings"], (s, a) => ({
   actor: a,
-  employee: employeeView(s.employees[a.employeeId], a),
+  employee: employeeView(s.employees[a.employeeId], a, s),
   companyName: settings(s).companyName,
 }));
 write("patch", "/me/profile", profileSchema, (s, a, input) => {
   const e = s.employees[a.employeeId];
   Object.assign(e, input);
   audit(s, a, "profile.updated", e.id, { fields: Object.keys(input) });
-  return employeeView(e, a);
+  return employeeView(e, a, s);
 });
 get("/users", ["memberships", "accountJobs"], (s, a) => {
   requireRole(a, ["Admin"]);

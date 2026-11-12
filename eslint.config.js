@@ -5,6 +5,8 @@ export default tseslint.config(
   {
     ignores: [
       "**/dist/**",
+      "output/**",
+      "**/.playwright-cli/**",
       "**/node_modules/**",
       "**/.emulator-data/**",
       "playwright-report/**",

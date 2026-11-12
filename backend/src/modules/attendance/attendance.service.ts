@@ -1,3 +1,4 @@
+import { assertManageEmployee } from "../../common/authorization";
 import type {
   State,
   Actor,
@@ -52,6 +53,7 @@ export function adjustAttendance(
   requireRole(a, ["Admin", "HR"]);
   const r = s.attendanceRecords[id];
   if (!r) notFound();
+  assertManageEmployee(s, a, r.employeeId);
   assert(
     businessDate(new Date(input.checkIn)) === r.date &&
       (!input.checkOut || businessDate(new Date(input.checkOut)) === r.date),

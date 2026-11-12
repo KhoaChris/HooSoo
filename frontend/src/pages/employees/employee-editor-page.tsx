@@ -1,6 +1,13 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { employeeSchema, type EmployeeView, type Page } from "@hoosoo/shared";
+import {
+  employeeSchema,
+  isSupervisorRole,
+  outranks,
+  labels,
+  type EmployeeView,
+  type Page,
+} from "@hoosoo/shared";
 import { useApi, useAction } from "../../hooks/data";
 import { today } from "../../utils/date-time";
 import {
@@ -36,6 +43,13 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
           if (employeeId) void q.refetch();
         }}
       />
+    );
+  if (employeeId && q.data?.canEdit !== true)
+    return (
+      <div className="notice">
+        Hồ sơ này thuộc cấp ngang hàng hoặc cấp cao hơn. Chỉ người có quyền phù
+        hợp mới được chỉnh sửa.
+      </div>
     );
   const fields: FormField[] = [
     {
@@ -102,8 +116,18 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
       options: [
         { value: "", label: "Không có" },
         ...(all.data?.items
-          .filter((e) => e.id !== employeeId && e.status !== "terminated")
-          .map((e) => ({ value: e.id, label: e.name })) || []),
+          .filter(
+            (e) =>
+              e.id !== employeeId &&
+              e.status !== "terminated" &&
+              e.accessRole &&
+              isSupervisorRole(e.accessRole) &&
+              outranks(e.accessRole, q.data?.accessRole ?? "Employee"),
+          )
+          .map((e) => ({
+            value: e.id,
+            label: e.name + " · " + labels[e.accessRole!],
+          })) || []),
       ],
     },
     { name: "hireDate", label: "Ngày vào làm", type: "date", required: true },

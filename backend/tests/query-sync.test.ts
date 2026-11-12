@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { QueryClient, QueryObserver } from "@tanstack/react-query";
-import { queryAffected } from "@hoosoo/shared";
+import { queryAffected, mutationCollections } from "@hoosoo/shared";
 import {
   refreshQueries,
   cancelRefresh,
@@ -8,6 +8,40 @@ import {
 
 afterEach(() => vi.useRealTimers());
 describe("Targeted client synchronization", () => {
+  it("refreshes new workflow scopes without reloading unrelated directories or CV bytes", () => {
+    for (const path of [
+      "/work-registrations?mine=true",
+      "/work-registrations?approvals=true",
+    ])
+      expect(queryAffected(path, ["workRegistrations"])).toBe(true);
+    expect(
+      queryAffected("/internal-requests?approvals=true", ["internalRequests"]),
+    ).toBe(true);
+    expect(
+      queryAffected(
+        "/attendance?mine=true",
+        mutationCollections("/internal-requests/123/approve"),
+      ),
+    ).toBe(true);
+    expect(
+      queryAffected(
+        "/attendance?mine=true",
+        mutationCollections("/internal-requests"),
+      ),
+    ).toBe(false);
+    expect(
+      queryAffected("/recruitment/jobs/job/candidates", ["candidates"]),
+    ).toBe(true);
+    expect(
+      queryAffected(
+        "/recruitment/jobs",
+        mutationCollections("/recruitment/candidates/123/move"),
+      ),
+    ).toBe(false);
+    expect(
+      queryAffected("/employees?page=1", ["internalRequests", "candidates"]),
+    ).toBe(false);
+  });
   it("refreshes affected screens and preserves authorization invalidation", () => {
     expect(queryAffected("/me", ["departments", "auditLogs"])).toBe(false);
     expect(queryAffected("/organization/tree", ["departments"])).toBe(true);

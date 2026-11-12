@@ -1,3 +1,4 @@
+import { isHR, canManageEmployee } from "../../common/authorization";
 import type { State, Actor, Query, BalanceView } from "@hoosoo/shared";
 import { inScope } from "../../common/authorization";
 import { matchEmployee } from "../../common/query";
@@ -17,6 +18,7 @@ export function balanceList(s: State, a: Actor, q: Query): BalanceView[] {
       const b = balance(s, e.id, year);
       return {
         ...b,
+        canAdjust: isHR(a) && canManageEmployee(s, a, e.id),
         employeeName: e.name,
         pending: Object.values(s.leaveRequests)
           .filter(

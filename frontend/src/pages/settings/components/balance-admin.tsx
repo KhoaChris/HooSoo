@@ -63,7 +63,14 @@ export function BalanceAdmin() {
             className: "cell-actions",
             render: (b) => (
               <div className="row-actions">
-                <Button variant="ghost" onClick={() => setEdit(b)}>
+                <Button
+                  variant="ghost"
+                  disabled={!b.canAdjust}
+                  title={
+                    !b.canAdjust ? "Chỉ cấp cao hơn được điều chỉnh" : undefined
+                  }
+                  onClick={() => setEdit(b)}
+                >
                   Điều chỉnh
                 </Button>
               </div>

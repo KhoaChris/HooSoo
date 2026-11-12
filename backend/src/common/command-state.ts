@@ -1,3 +1,7 @@
+import { professionalCommand } from "../modules/professional/professional.reads";
+import { loadEmployeeAccess } from "./access-state";
+import { supervisorRoles } from "@hoosoo/shared";
+import { featureCommandState } from "../modules/workflows/workflows.reads";
 import { type StateReader, type ReadPlan, mergeState } from "../database/store";
 import { actorFor, requireRole } from "./authorization";
 import { businessDate } from "../utils/time";
@@ -21,6 +25,19 @@ export async function commandState(
     await read({ employees: { ids: employeeId ? [employeeId] : [] } }),
   );
   const actor = actorFor(s, uid);
+  if (await professionalCommand(read, s, actor, route, body)) {
+    const replay = s.receipts[receiptId]?.result as { id?: string } | undefined;
+    if (replay?.id && !s.workItems[replay.id])
+      await professionalCommand(
+        read,
+        s,
+        actor,
+        "/professional/work-items/" + replay.id,
+        body,
+      );
+    return s;
+  }
+  if (await featureCommandState(read, s, actor, route, body)) return s;
   const input = body as {
     leaveTypeId?: string;
     startDate?: string;
@@ -36,7 +53,10 @@ export async function commandState(
     case "positions":
       requireRole(actor, ["Admin", "HR"]);
       plan[parts[0]] = true;
-      if (parts[2] === "status") plan.employees = true;
+      if (parts[1] && parts[1] !== "templates") {
+        plan.employees = true;
+        plan.memberships = true;
+      }
       break;
     case "employees":
       requireRole(actor, ["Admin", "HR"]);
@@ -82,7 +102,7 @@ export async function commandState(
       break;
     case "leave-requests": {
       if (parts[2] === "approve" || parts[2] === "reject")
-        requireRole(actor, ["Admin", "HR", "Manager"]);
+        requireRole(actor, supervisorRoles);
       plan.employees = true;
       plan.settings = { ids: ["main"] };
       if (!parts[1]) {
@@ -107,5 +127,14 @@ export async function commandState(
       throw new Error("Missing command read plan: " + parts[0]);
   }
   mergeState(s, await read(plan));
+  const targetId =
+    parts[0] === "attendance"
+      ? s.attendanceRecords[parts[1]]?.employeeId
+      : parts[0] === "leave-requests"
+        ? s.leaveRequests[parts[1]]?.employeeId
+        : ["employees", "leave-balances"].includes(parts[0])
+          ? parts[1]
+          : undefined;
+  if (targetId) await loadEmployeeAccess(read, s, [targetId]);
   return s;
 }

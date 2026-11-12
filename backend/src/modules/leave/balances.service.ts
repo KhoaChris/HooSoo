@@ -1,3 +1,4 @@
+import { assertManageEmployee } from "../../common/authorization";
 import { randomUUID } from "node:crypto";
 import type { State, Actor, balanceAdjustmentSchema } from "@hoosoo/shared";
 import type { z } from "zod";
@@ -48,6 +49,7 @@ export function adjustBalance(
 ) {
   requireRole(a, ["Admin", "HR"]);
   scopedEmployee(s, a, employeeId);
+  assertManageEmployee(s, a, employeeId);
   const b = persistBalance(s, employeeId, input.year, a.uid);
   assert(
     b.allowance + input.amount >= b.used,

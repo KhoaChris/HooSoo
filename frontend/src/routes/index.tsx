@@ -1,3 +1,5 @@
+import { professionalRoles } from "@hoosoo/shared";
+import { supervisorRoles } from "@hoosoo/shared";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import type { Role } from "@hoosoo/shared";
@@ -84,6 +86,31 @@ const Reports = lazy(() =>
     default: m.ReportsPage,
   })),
 );
+const WorkSchedule = lazy(() =>
+  import("../pages/workflows/work-schedule-page").then((m) => ({
+    default: m.WorkSchedulePage,
+  })),
+);
+const InternalRequests = lazy(() =>
+  import("../pages/workflows/internal-requests-page").then((m) => ({
+    default: m.InternalRequestsPage,
+  })),
+);
+const Recruitment = lazy(() =>
+  import("../pages/recruitment/recruitment-page").then((m) => ({
+    default: m.RecruitmentPage,
+  })),
+);
+const Professional = lazy(() =>
+  import("../pages/professional/professional-page").then((m) => ({
+    default: m.ProfessionalPage,
+  })),
+);
+const Access = lazy(() =>
+  import("../pages/professional/access-page").then((m) => ({
+    default: m.AccessPage,
+  })),
+);
 function Guard({ roles }: { roles?: Role[] }) {
   const { loading, user, me, error, logout, retry } = useAuth();
   const location = useLocation();
@@ -125,13 +152,28 @@ export function AppRoutes() {
             <Route element={<AppLayout />}>
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
+              <Route path="access" element={<Access />} />
+              <Route element={<Guard roles={professionalRoles} />}>
+                <Route path="professional" element={<Professional />} />
+              </Route>
               <Route path="profile" element={<EmployeeDetail personal />} />
               <Route path="organization" element={<Organization />} />
               <Route path="attendance/my" element={<Attendance personal />} />
+              <Route path="work-schedule" element={<WorkSchedule />} />
+              <Route path="requests/my" element={<InternalRequests />} />
               <Route path="leave/my" element={<LeaveList personal />} />
               <Route path="leave/new" element={<LeaveCreate />} />
               <Route path="leave/:requestId" element={<LeaveDetail />} />
-              <Route element={<Guard roles={["Admin", "HR", "Manager"]} />}>
+              <Route element={<Guard roles={supervisorRoles} />}>
+                <Route
+                  path="work-schedule/approvals"
+                  element={<WorkSchedule approvals />}
+                />
+                <Route
+                  path="requests/approvals"
+                  element={<InternalRequests approvals />}
+                />
+                <Route path="recruitment" element={<Recruitment />} />
                 <Route path="employees" element={<EmployeeList />} />
                 <Route
                   path="employees/:employeeId"

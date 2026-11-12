@@ -1,3 +1,6 @@
+import { employeeRole } from "../../common/authorization";
+import { isSupervisorRole, outranks } from "@hoosoo/shared";
+import { assertManageEmployee } from "../../common/authorization";
 import { randomUUID } from "node:crypto";
 import type {
   State,
@@ -21,6 +24,7 @@ export function saveEmployee(
   requireRole(a, hr);
   const old = id ? s.employees[id] : undefined;
   if (id && !old) notFound();
+  if (id) assertManageEmployee(s, a, id);
   assert(
     !Object.values(s.employees).some(
       (e) =>
@@ -56,6 +60,17 @@ export function saveEmployee(
       400,
       "INVALID_MANAGER",
       "Người quản lý phải đang làm việc trong cùng phòng ban.",
+    );
+    const managerRole = employeeRole(s, m.id),
+      targetRole = old ? employeeRole(s, old.id) : "Employee";
+    assert(
+      managerRole &&
+        targetRole &&
+        isSupervisorRole(managerRole) &&
+        outranks(managerRole, targetRole),
+      400,
+      "MANAGER_HIERARCHY",
+      "Quản lý trực tiếp phải có vai trò quản lý và cấp cao hơn nhân viên.",
     );
     let cursor: string | undefined = m.id;
     const visited = new Set<string>();

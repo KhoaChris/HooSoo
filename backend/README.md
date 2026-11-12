@@ -23,6 +23,8 @@ backend/
       organization/              # Departments, positions and organization tree
       attendance/                # Check-in/out, adjustments and attendance queries
       leave/                     # Leave requests, types, balances and ledger rules
+      workflows/                 # Work registrations, internal requests, approval routing
+      recruitment/               # Jobs, candidates, interview stages and original CV files
       dashboard/                 # Role-scoped dashboard route and aggregation
       reports/                   # Report routes and CSV export
       settings/                  # Company policies, audit logs and system endpoints
@@ -96,3 +98,13 @@ npx firebase emulators:exec --only auth,firestore --project demo-hoosoo --config
 ```
 
 The last command starts isolated test services, runs API/Auth/Firestore checks, then stops them. It does not change the application's cloud configuration. Test success establishes local behavior; live cloud availability is a separate check. See [verification guide](../docs/testing/README.md) and [structure review](../docs/backend-structure-review.md).
+
+## Workflow and recruitment routes
+
+`modules/workflows/workflows.routes.ts` owns `/work-registrations` and `/internal-requests`. `approval.ts` implements manager then HR/Admin approval; `workflows.reads.ts` prepares scoped reads and transactional command state. `modules/recruitment/recruitment.routes.ts` owns `/recruitment/*`; its service validates job stages, candidate progression, interviews and CV access.
+
+See [workflow contracts](../docs/hr-workflows.md) for permissions, storage and limits. Existing API paths and Firebase configuration remain unchanged. The five new collections use the existing transaction, cache and event infrastructure.
+
+## Hierarchy and professional work
+
+`shared/src/access/` defines 14 access roles independently of job titles. `common/authorization.ts` enforces scope and strict target hierarchy on personnel changes and approvals. `modules/professional/` owns `/professional/workspace` and versioned `/professional/work-items` operations stored in Firestore `workItems`. Admin can add missing IT job titles through `/positions/templates`. See [access and specialty contracts](../docs/access-and-specialties.md) for the role matrix, safeguards, routes and verification scope.

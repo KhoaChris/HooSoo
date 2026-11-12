@@ -1,3 +1,4 @@
+import { isPersonalRole } from "@hoosoo/shared";
 import { DialogLink } from "../../components/navigation/dialog-link";
 import { Link } from "react-router-dom";
 import {
@@ -29,7 +30,7 @@ export function DashboardView({
   onRangeChange: (range: DashboardRange) => void;
   refreshing?: boolean;
 }) {
-  const personal = me.actor.role === "Employee";
+  const personal = isPersonalRole(me.actor.role);
   const leavePath = personal ? "/leave/my" : "/leave/approvals";
   const balance = d.balances.find(
     (item) => item.employeeId === me.actor.employeeId,

@@ -75,7 +75,7 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
       <EmployeeProfileView
         employee={e}
         personal={personal}
-        canEdit={["Admin", "HR"].includes(me!.actor.role)}
+        canEdit={e.canEdit === true}
         work={work}
         onEditContact={() => setEdit(true)}
         history={

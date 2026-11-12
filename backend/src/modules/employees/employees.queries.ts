@@ -16,5 +16,5 @@ export function employeeList(s: State, a: Actor, q: Query) {
           )),
     )
     .sort((a, b) => a.employeeCode.localeCompare(b.employeeCode))
-    .map((e) => employeeView(e, a));
+    .map((e) => employeeView(e, a, s));
 }

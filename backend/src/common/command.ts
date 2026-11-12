@@ -1,3 +1,11 @@
+import { workFor } from "../modules/professional/professional.service";
+import { professionalRoles } from "@hoosoo/shared";
+import { assertManageEmployee } from "./authorization";
+import { supervisorRoles } from "@hoosoo/shared";
+import {
+  candidateFor,
+  jobFor,
+} from "../modules/recruitment/recruitment.service";
 import { createHash } from "node:crypto";
 import type { Actor, State } from "@hoosoo/shared";
 import { mutate } from "../database/store";
@@ -54,6 +62,32 @@ function authorizeReplay(
   result: unknown,
 ) {
   const route = path.split(" ")[1];
+  if (route.startsWith("/professional/")) {
+    requireRole(a, professionalRoles);
+    const id = route.split("/")[3] ?? (result as { id: string }).id;
+    if (s.workItems[id]) workFor(s, a, id);
+    else
+      assert(
+        false,
+        403,
+        "REPLAY_FORBIDDEN",
+        "Không còn quyền xem công việc này.",
+      );
+    return;
+  }
+  if (route.startsWith("/recruitment/")) {
+    const parts = route.split("/").filter(Boolean);
+    if (parts[1] === "jobs") {
+      requireRole(a, ["Admin", "HR"]);
+      if (parts[2]) jobFor(s, a, parts[2]);
+    } else {
+      if (parts[2]) candidateFor(s, a, parts[2]);
+      else jobFor(s, a, (body as { jobId: string }).jobId);
+      if (!["evaluate", "move", "interview"].includes(parts[3]))
+        requireRole(a, ["Admin", "HR"]);
+    }
+    return;
+  }
   if (route.startsWith("/users/")) requireRole(a, ["Admin"]);
   else if (
     [
@@ -88,8 +122,18 @@ function authorizeReplay(
   if (value?.employeeId) scopedEmployee(s, a, value.employeeId);
   if (route.startsWith("/employees") && value?.id)
     scopedEmployee(s, a, value.id);
+  const protectedTarget = route.startsWith("/employees/")
+    ? value?.id
+    : route.endsWith("/adjustment") ||
+        route.endsWith("/adjustments") ||
+        route.endsWith("/approve") ||
+        route.endsWith("/reject") ||
+        (route.endsWith("/cancel") && value?.employeeId !== a.employeeId)
+      ? value?.employeeId
+      : undefined;
+  if (protectedTarget) assertManageEmployee(s, a, protectedTarget);
   if (route.endsWith("/approve") || route.endsWith("/reject")) {
-    requireRole(a, ["Admin", "HR", "Manager"]);
+    requireRole(a, supervisorRoles);
     assert(
       value?.employeeId !== a.employeeId,
       403,

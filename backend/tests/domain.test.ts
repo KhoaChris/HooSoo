@@ -192,6 +192,7 @@ describe("Leave state machine and balance", () => {
   it("forbids self approval even for Admin", () => {
     const s = fixture(),
       a = actor("Admin");
+    s.memberships["test-hr"].role = "Admin";
     const r = createLeave(s, a, input);
     expect(() => transitionLeave(s, a, r.id, "approve")).toThrow("tự duyệt");
   });

@@ -16,6 +16,8 @@ src/
     organization/         Organization chart and department/position catalog
     attendance/           Personal/team attendance
     leave/                List, create and request detail
+    workflows/            Personal work calendar, internal requests and approvals
+    recruitment/          Hiring board, stages, candidate profile and CV dialogs
     reports/              Reports and CSV export
     settings/             Company/HR policy, users, system and audit
       components/         HR-only leave-type and balance sections
@@ -72,3 +74,7 @@ npm run typecheck
 npm test
 npm run build
 ```
+
+Work calendar and request styles are in `style/pages/workflows.css`; recruitment styles are in `style/pages/recruitment.css`. New forms reuse the shared dialogs and pending-change guards. The calendar observes company hours and holidays; server validation remains authoritative. Recruitment provides pointer dragging and a next-stage button for keyboard/touch. All pages reuse the existing per-session query cache and scoped event invalidation. See [workflow contracts](../docs/hr-workflows.md).
+
+Role access reference and professional work screens live in `pages/professional/`, with page styles in `style/pages/access.css`. They reuse existing dialogs, forms, custom selects, tables, per-account caching and collection event invalidation. Shared role definitions drive navigation, route guards and role descriptions; server-provided capabilities control protected employee, catalog and balance actions. See [access and specialty contracts](../docs/access-and-specialties.md).

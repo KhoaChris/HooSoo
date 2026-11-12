@@ -1,19 +1,36 @@
+import { isHR, canManageEmployee } from "../../common/authorization";
 import { Router } from "express";
 import { handlers, param } from "../../routes/helpers";
 import { z } from "zod";
 import { catalogSchema } from "@hoosoo/shared";
 import { paginate } from "../../common/query";
 import { settings } from "../../common/settings";
-import { saveCatalog, catalogStatus } from "./organization.service";
+import {
+  saveCatalog,
+  catalogStatus,
+  addITPositions,
+} from "./organization.service";
 
 export const organizationRoutes = Router();
 const api = organizationRoutes;
 const { get, write } = handlers(api);
+write("post", "/positions/templates", z.object({}).strict(), (s, a) =>
+  addITPositions(s, a),
+);
 for (const table of ["departments", "positions"] as const) {
-  get("/" + table, [table], (s, _a, q) =>
+  get("/" + table, [table], (s, a, q) =>
     paginate(
       Object.values(s[table]).map((c) => ({
         ...c,
+        canEdit:
+          isHR(a) &&
+          Object.values(s.employees)
+            .filter(
+              (e) =>
+                e[table === "departments" ? "departmentId" : "positionId"] ===
+                c.id,
+            )
+            .every((e) => canManageEmployee(s, a, e.id)),
         employeeCount: Object.values(s.employees).filter(
           (e) =>
             e[table === "departments" ? "departmentId" : "positionId"] ===

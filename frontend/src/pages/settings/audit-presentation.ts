@@ -1,9 +1,44 @@
-import { labels, type Audit } from "@hoosoo/shared";
+import {
+  workKindLabels,
+  workStatusLabels,
+  labels,
+  workflowLabels,
+  requestLabels,
+  type Audit,
+} from "@hoosoo/shared";
 import { dateText, timeText } from "../../utils/date-time";
 
 export const auditActions: Record<string, string> = {
+  "work.submitted": "Gửi lịch làm việc",
+  "work.approve": "Duyệt lịch làm việc",
+  "work.reject": "Từ chối lịch làm việc",
+  "work.cancel": "Rút lịch làm việc",
+  "request.submitted": "Gửi phiếu đề nghị",
+  "request.approve": "Duyệt phiếu đề nghị",
+  "request.reject": "Từ chối phiếu đề nghị",
+  "request.cancel": "Rút phiếu đề nghị",
+  "recruitment.updated": "Cập nhật hồ sơ ứng viên",
+  "recruitment.job_saved": "Cập nhật đợt tuyển dụng",
+  "recruitment.created": "Tiếp nhận ứng viên",
+  "recruitment.passed": "Đánh giá đạt vòng tuyển dụng",
+  "recruitment.failed": "Đánh giá chưa đạt vòng tuyển dụng",
+  "recruitment.moved": "Chuyển vòng tuyển dụng",
+  "recruitment.interview_scheduled": "Đề xuất lịch phỏng vấn",
+  "recruitment.interview_confirmed": "Duyệt lịch phỏng vấn",
+  "recruitment.hired": "Xác nhận trúng tuyển",
+  "recruitment.direct_hired": "Tuyển thẳng ứng viên",
+  "recruitment.rejected": "Dừng tuyển dụng ứng viên",
+  "recruitment.cv_uploaded": "Cập nhật CV ứng viên",
   "account.created": "Cấp tài khoản",
   "account.role": "Đổi vai trò",
+  "positions.templates": "Bổ sung chức danh CNTT",
+  "professional.created": "Tạo công việc chuyên môn",
+  "professional.updated": "Cập nhật công việc chuyên môn",
+  "professional.start": "Bắt đầu công việc",
+  "professional.submit": "Gửi công việc rà soát",
+  "professional.approve": "Nghiệm thu công việc",
+  "professional.return": "Yêu cầu bổ sung công việc",
+  "professional.cancel": "Hủy công việc",
   "account.status": "Thay đổi quyền truy cập",
   "employee.created": "Tạo hồ sơ nhân viên",
   "employee.updated": "Cập nhật hồ sơ nhân viên",
@@ -37,6 +72,16 @@ export type AuditChange = {
   after: string;
 };
 const fieldLabels: Record<string, string> = {
+  title: "Tiêu đề",
+  kind: "Loại công việc / đề nghị",
+  assignee: "Người phụ trách",
+  added: "Chức danh được bổ sung",
+  date: "Ngày làm việc",
+  start: "Giờ bắt đầu",
+  end: "Giờ kết thúc",
+  stage: "Vòng tuyển dụng",
+  job: "Vị trí tuyển dụng",
+  rounds: "Các vòng tuyển dụng",
   name: "Tên",
   employeeCode: "Mã nhân viên",
   employeeId: "Nhân viên",
@@ -85,6 +130,10 @@ export function auditCategory(action: string) {
   return (
     (
       {
+        professional: "Công việc chuyên môn",
+        work: "Lịch làm việc",
+        request: "Phiếu đề nghị",
+        recruitment: "Tuyển dụng",
         account: "Tài khoản",
         employee: "Hồ sơ nhân viên",
         profile: "Thông tin cá nhân",
@@ -143,7 +192,24 @@ function formatValue(
         ? "Không trừ phép năm"
         : "Chưa xác định";
   if (key === "status" || key === "role")
-    return labels[text] || "Chưa xác định";
+    return (
+      (workStatusLabels as Record<string, string>)[text] ||
+      workflowLabels[text] ||
+      labels[text] ||
+      "Chưa xác định"
+    );
+  if (key === "kind" && text in workKindLabels)
+    return workKindLabels[text as keyof typeof workKindLabels];
+  if (key === "kind")
+    return (
+      requestLabels[text as keyof typeof requestLabels] || "Đề nghị nội bộ"
+    );
+  if (key === "added" && Array.isArray(value))
+    return value.length
+      ? value.filter((v) => typeof v === "string").join(", ")
+      : "Không có chức danh mới";
+  if (key === "rounds" && Array.isArray(value))
+    return value.filter((v) => typeof v === "string").join(" → ");
   if (["days", "allowance", "annualAllowance", "amount"].includes(key))
     return typeof value === "number"
       ? `${key === "amount" && value > 0 ? "+" : ""}${value.toLocaleString("vi-VN")} ngày`
@@ -163,7 +229,7 @@ function formatValue(
           .map((v) => dateText(v))
           .join(", ") || "Không có"
       : "Không có";
-  if (["startDate", "endDate", "hireDate"].includes(key))
+  if (["date", "startDate", "endDate", "hireDate"].includes(key))
     return Number.isNaN(Date.parse(text)) ? "Chưa xác định" : dateText(text);
   if (["checkIn", "checkOut"].includes(key))
     return Number.isNaN(Date.parse(text))

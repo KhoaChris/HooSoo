@@ -1,13 +1,21 @@
+import type {
+  WorkRegistration,
+  InternalRequest,
+  RecruitmentJob,
+  Candidate,
+  CandidateFile,
+} from "./hr";
 import { z } from "zod";
 export {
   queryCollections,
   mutationCollections,
   queryAffected,
 } from "./data-dependencies";
-export const roles = ["Admin", "HR", "Manager", "Employee"] as const;
-export type Role = (typeof roles)[number];
-export const businessRoles: Role[] = ["Admin", "HR"];
-export const supervisorRoles: Role[] = ["Admin", "HR", "Manager"];
+import { roles, roleDefinitions } from "./access";
+import type { Role } from "./access";
+import type { WorkItem } from "./access/work";
+export * from "./access";
+export * from "./access/work";
 export const dateSchema = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Ngày phải có dạng YYYY-MM-DD")
@@ -236,6 +244,12 @@ export interface Receipt extends Meta {
   actorId: string;
 }
 export interface Tables {
+  workItems: WorkItem;
+  workRegistrations: WorkRegistration;
+  internalRequests: InternalRequest;
+  recruitmentJobs: RecruitmentJob;
+  candidates: Candidate;
+  candidateFiles: CandidateFile;
   employees: Employee;
   departments: Catalog;
   positions: Catalog;
@@ -265,8 +279,12 @@ export interface Page<T> {
   pageSize: number;
 }
 export type EmployeeView = Omit<Employee, "phone" | "address" | "uid"> &
-  Partial<Pick<Employee, "phone" | "address" | "uid">>;
+  Partial<Pick<Employee, "phone" | "address" | "uid">> & {
+    accessRole?: Role | null;
+    canEdit?: boolean;
+  };
 export interface AttendanceView extends Attendance {
+  canAdjust?: boolean;
   employeeName: string;
   employeeCode: string;
   departmentId: string;
@@ -284,6 +302,7 @@ export interface LeaveView extends LeaveRequest {
   canCancel: boolean;
 }
 export interface BalanceView extends Balance {
+  canAdjust?: boolean;
   employeeName: string;
   pending: number;
   available: number;
@@ -295,9 +314,10 @@ export interface Me {
   companyName: string;
 }
 export const labels: Record<string, string> = {
+  ...Object.fromEntries(roles.map((r) => [r, roleDefinitions[r].label])),
   Admin: "Quản trị viên",
   HR: "Nhân sự",
-  Manager: "Quản lý",
+  Manager: "Trưởng phòng",
   Employee: "Nhân viên",
   active: "Đang làm việc",
   probation: "Thử việc",
@@ -313,3 +333,5 @@ export const labels: Record<string, string> = {
   enabled: "Đang hoạt động",
   disabled: "Ngừng sử dụng",
 };
+
+export * from "./hr";

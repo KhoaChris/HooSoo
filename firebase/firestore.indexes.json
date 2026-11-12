@@ -1,4 +1,10 @@
 {
   "indexes": [],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "candidateFiles",
+      "fieldPath": "data",
+      "indexes": []
+    }
+  ]
 }

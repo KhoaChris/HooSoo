@@ -1,5 +1,10 @@
+import { professionalRoles } from "@hoosoo/shared";
+import { supervisorRoles } from "@hoosoo/shared";
 import {
   LayoutDashboard,
+  CalendarRange,
+  FileText,
+  UserRoundSearch,
   Users,
   Network,
   Clock,
@@ -14,11 +19,11 @@ import {
   Building2,
   UserRound,
 } from "lucide-react";
-import type { Role } from "@hoosoo/shared";
+import { roles, type Role } from "@hoosoo/shared";
 
-const all: Role[] = ["Admin", "HR", "Manager", "Employee"],
+const all: Role[] = [...roles],
   hr: Role[] = ["Admin", "HR"],
-  supervisors: Role[] = ["Admin", "HR", "Manager"];
+  supervisors: Role[] = supervisorRoles;
 export const navigation = [
   {
     label: "Tổng quan",
@@ -48,6 +53,31 @@ export const navigation = [
     roles: all,
   },
   {
+    label: "Lịch làm việc của tôi",
+    path: "/work-schedule",
+    icon: CalendarRange,
+    roles: all,
+  },
+  {
+    label: "Phiếu đề nghị của tôi",
+    path: "/requests/my",
+    icon: FileText,
+    roles: all,
+  },
+  {
+    label: "Vai trò & quyền truy cập",
+    path: "/access",
+    icon: ShieldCheck,
+    roles: all,
+  },
+  {
+    label: "Công việc chuyên môn",
+    path: "/professional",
+    icon: BriefcaseBusiness,
+    roles: professionalRoles,
+    group: "CHUYÊN MÔN",
+  },
+  {
     label: "Nhân viên",
     path: "/employees",
     icon: Users,
@@ -71,6 +101,24 @@ export const navigation = [
     label: "Duyệt nghỉ phép",
     path: "/leave/approvals",
     icon: ClipboardCheck,
+    roles: supervisors,
+  },
+  {
+    label: "Duyệt lịch làm việc",
+    path: "/work-schedule/approvals",
+    icon: CalendarRange,
+    roles: supervisors,
+  },
+  {
+    label: "Duyệt phiếu đề nghị",
+    path: "/requests/approvals",
+    icon: FileText,
+    roles: supervisors,
+  },
+  {
+    label: "Theo dõi tuyển dụng",
+    path: "/recruitment",
+    icon: UserRoundSearch,
     roles: supervisors,
   },
   {

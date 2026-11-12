@@ -1,3 +1,5 @@
+import { assertManageEmployee } from "../../common/authorization";
+import { itPositionTemplates } from "@hoosoo/shared";
 import { randomUUID } from "node:crypto";
 import type { State, Actor, Role } from "@hoosoo/shared";
 import { assert, notFound } from "../../utils/errors";
@@ -15,6 +17,7 @@ export function saveCatalog(
   requireRole(a, hr);
   const old = id ? s[table][id] : undefined;
   if (id && !old) notFound();
+  if (id) protectCatalog(s, a, table, id);
   assert(
     !Object.values(s[table]).some(
       (x) =>
@@ -45,6 +48,7 @@ export function catalogStatus(
   requireRole(a, hr);
   const c = s[table][id];
   if (!c) notFound();
+  protectCatalog(s, a, table, id);
   if (!active)
     assert(
       !Object.values(s.employees).some(
@@ -59,4 +63,38 @@ export function catalogStatus(
   c.active = active;
   audit(s, a, table + ".status", id, { active });
   return c;
+}
+
+function protectCatalog(
+  s: State,
+  a: Actor,
+  table: "departments" | "positions",
+  id: string,
+) {
+  for (const e of Object.values(s.employees))
+    if (e[table === "departments" ? "departmentId" : "positionId"] === id)
+      assertManageEmployee(s, a, e.id);
+}
+export function addITPositions(s: State, a: Actor) {
+  requireRole(a, ["Admin"]);
+  const added: string[] = [];
+  for (const [id, name] of itPositionTemplates) {
+    if (
+      s.positions[id] ||
+      Object.values(s.positions).some(
+        (p) => p.name.toLocaleLowerCase("vi") === name.toLocaleLowerCase("vi"),
+      )
+    )
+      continue;
+    s.positions[id] = {
+      id,
+      name,
+      description:
+        "Chức danh chuyên môn CNTT. Quyền hệ thống được Admin cấp riêng trong Tài khoản & quyền.",
+      active: true,
+    };
+    added.push(name);
+  }
+  audit(s, a, "positions.templates", "it-positions", { added });
+  return { added };
 }

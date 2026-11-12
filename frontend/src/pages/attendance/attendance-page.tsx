@@ -276,7 +276,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
             className: "cell-actions",
             render: (r) => (
               <div className="row-actions">
-                {canEdit && (
+                {canEdit && r.canAdjust && (
                   <Button variant="ghost" onClick={() => setEdit(r)}>
                     <Pencil size={15} />
                     Điều chỉnh

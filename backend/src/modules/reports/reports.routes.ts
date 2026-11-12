@@ -1,3 +1,4 @@
+import { supervisorRoles } from "@hoosoo/shared";
 import { Router } from "express";
 import { handlers, query, context } from "../../routes/helpers";
 import type { State, Actor, Query, Table } from "@hoosoo/shared";
@@ -33,7 +34,7 @@ function reportTables(kind: string): Table[] {
   }
 }
 function report(s: State, a: Actor, q: Query, kind: string) {
-  requireRole(a, ["Admin", "HR", "Manager"]);
+  requireRole(a, supervisorRoles);
   switch (kind) {
     case "employees":
       return employeeList(s, a, q);

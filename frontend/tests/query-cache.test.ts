@@ -282,3 +282,23 @@ describe("Cache synchronization", () => {
     expect(read).toHaveBeenCalledTimes(4);
   });
 });
+
+it("never warms a restricted personnel endpoint for specialist roles", () => {
+  for (const role of [
+    "Developer",
+    "QA",
+    "QC",
+    "BA",
+    "Designer",
+    "DevOps",
+    "Employee",
+  ] as const)
+    expect(navigationWarmupPaths(role)).not.toContain("/employees?page=1");
+  for (const role of [
+    "Director",
+    "DeputyManager",
+    "ProjectManager",
+    "TeamLead",
+  ] as const)
+    expect(navigationWarmupPaths(role)).toContain("/employees?page=1");
+});

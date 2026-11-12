@@ -1,3 +1,6 @@
+import { isSupervisorRole, isDepartmentRole } from "@hoosoo/shared";
+import { loadEmployeeAccess } from "../common/access-state";
+import { supervisorRoles } from "@hoosoo/shared";
 import {
   querySchema,
   type Query,
@@ -67,7 +70,7 @@ export async function requestState(
   const path = scope?.path ?? "";
   if (path === "/users" || path === "/audit-logs") requireRole(a, ["Admin"]);
   if (path === "/employees" || path.startsWith("/reports/"))
-    requireRole(a, ["Admin", "HR", "Manager"]);
+    requireRole(a, supervisorRoles);
   if (selfOnly) {
     await load(s, Object.fromEntries(selected.map((table) => [table, true])));
     return { s, a };
@@ -104,14 +107,25 @@ export async function requestState(
     ].includes(path);
     if (
       publicDirectory ||
-      (a.role !== "Employee" && (q.mine !== "true" || directoryMetrics))
+      (isSupervisorRole(a.role) && (q.mine !== "true" || directoryMetrics))
     ) {
       if (!publicDirectory && q.employeeId)
         await load(s, { employees: { ids: [q.employeeId] } }, true);
-      else if (!publicDirectory && a.role === "Manager")
+      else if (
+        !publicDirectory &&
+        isSupervisorRole(a.role) &&
+        !["Admin", "HR"].includes(a.role)
+      )
         await load(
           s,
-          { employees: { field: "managerId", value: a.employeeId } },
+          {
+            employees: isDepartmentRole(a.role)
+              ? {
+                  field: "departmentId",
+                  value: s.employees[a.employeeId].departmentId,
+                }
+              : { field: "managerId", value: a.employeeId },
+          },
           true,
         );
       else await load(s, { employees: true });
@@ -188,6 +202,11 @@ export async function requestState(
       },
     });
   }
+  await loadEmployeeAccess(
+    (plan) => readState([], plan),
+    s,
+    Object.keys(s.employees),
+  );
   if (path === "/dashboard") {
     const recent = await readRecentLeaves(
       (row) =>

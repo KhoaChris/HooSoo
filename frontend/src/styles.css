@@ -37,3 +37,7 @@
 @import "./style/pages/audit.css";
 @import "./style/pages/login.css";
 @import "./style/pages/errors.css";
+@import "./style/pages/workflows.css";
+@import "./style/pages/recruitment.css";
+
+@import "./style/pages/access.css";

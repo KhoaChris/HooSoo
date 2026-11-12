@@ -1,3 +1,6 @@
+import { professionalRoutes } from "../modules/professional/professional.routes";
+import { workflowsRoutes } from "../modules/workflows/workflows.routes";
+import { recruitmentRoutes } from "../modules/recruitment/recruitment.routes";
 import { Router } from "express";
 import { accountsRoutes } from "../modules/accounts/accounts.routes";
 import { dashboardRoutes } from "../modules/dashboard/dashboard.routes";
@@ -19,3 +22,8 @@ api.use(attendanceRoutes);
 api.use(leaveRoutes);
 api.use(settingsRoutes);
 api.use(reportsRoutes);
+
+api.use(workflowsRoutes);
+api.use(recruitmentRoutes);
+
+api.use(professionalRoutes);

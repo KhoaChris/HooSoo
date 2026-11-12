@@ -1,3 +1,4 @@
+import { isHR, canManageEmployee } from "../../common/authorization";
 import type { State, Actor, Query, AttendanceView } from "@hoosoo/shared";
 import { inScope } from "../../common/authorization";
 import { matchesDates, matchEmployee } from "../../common/query";
@@ -18,6 +19,7 @@ export function attendanceList(s: State, a: Actor, q: Query): AttendanceView[] {
     .map((r) => ({
       ...r,
       ...attendanceMetrics(r),
+      canAdjust: isHR(a) && canManageEmployee(s, a, r.employeeId),
       employeeName: s.employees[r.employeeId].name,
       employeeCode: s.employees[r.employeeId].employeeCode,
       departmentId: s.employees[r.employeeId].departmentId,

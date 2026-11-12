@@ -1,5 +1,5 @@
 import { type QueryClient, queryOptions } from "@tanstack/react-query";
-import type { Page, Role } from "@hoosoo/shared";
+import { isSupervisorRole, type Page, type Role } from "@hoosoo/shared";
 
 export const API_FRESH_MS = 5 * 60_000;
 export const API_RETAIN_MS = 30 * 60_000;
@@ -63,7 +63,7 @@ export function navigationWarmupPaths(role: Role) {
   return [
     catalogPath("departments"),
     catalogPath("positions"),
-    ...(role === "Employee" ? [] : ["/employees?page=1"]),
+    ...(isSupervisorRole(role) ? ["/employees?page=1"] : []),
   ];
 }
 

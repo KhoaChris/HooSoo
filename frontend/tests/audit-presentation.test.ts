@@ -43,7 +43,7 @@ describe("Business-readable audit history", () => {
     expect(result.comparison).toBe(true);
     expect(result.rows[0]).toMatchObject({
       before: "Nhân viên",
-      after: "Quản lý",
+      after: "Trưởng phòng",
     });
   });
   it("shows only changed work fields and resolves references without raw identifiers", () => {
