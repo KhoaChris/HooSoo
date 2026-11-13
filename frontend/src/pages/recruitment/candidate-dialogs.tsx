@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { FileText, CalendarDays, ArrowRight, CheckCircle2 } from "lucide-react";
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
+import { catalogPath } from "../../services/query-cache";
+import { FileText } from "lucide-react";
 import {
   candidateSchema,
+  candidateHireSchema,
   candidateEditSchema,
-  evaluationSchema,
   interviewSchema,
   candidateTransitionSchema,
   reviewSchema,
@@ -11,20 +13,28 @@ import {
   type Candidate,
   type RecruitmentJob,
   type CandidateInput,
+  type Catalog,
+  type Page,
 } from "@hoosoo/shared";
-import { useAction } from "../../hooks/data";
-import { Form, Modal, Button, type FormField } from "../../components/ui";
-import { WorkflowHistory, today, dayLabel } from "../workflows/workflow-ui";
-import { CandidateCV } from "./candidate-cv";
+import { useAction, useApi } from "../../hooks/data";
+import {
+  Form,
+  Modal,
+  Loading,
+  ErrorBox,
+  type FormField,
+} from "../../components/ui";
+import { today } from "../workflows/workflow-ui";
 import type { RecruitmentDirectory } from "./job-editor";
-export type CandidateAction =
-  | "evaluate"
-  | "move"
-  | "interview"
-  | "confirm-interview"
-  | "hire"
-  | "reject"
-  | "direct-hire";
+import { candidateMovement } from "./candidate-movement";
+import { CandidateEvaluationDialog } from "./candidate-evaluation";
+import {
+  InterviewLocation,
+  interviewLocationDefaults,
+  interviewLocationSchema,
+} from "./interview-location";
+export { CandidateDetail, type CandidateAction } from "./candidate-detail";
+import type { CandidateAction } from "./candidate-detail";
 export function CandidateCreate({
   job,
   sample,
@@ -36,22 +46,27 @@ export function CandidateCreate({
   candidate?: Candidate;
   onClose: () => void;
 }) {
+  useLocale();
   const save = useAction();
   const defaults: CandidateInput = {
     jobId: job.id,
-    name: sample ? "Nguyễn Minh Anh (mẫu)" : "",
+    name: sample ? t("Nguyễn Minh Anh (mẫu)") : "",
     email: sample ? `candidate-${Date.now()}@example.test` : "",
     phone: sample ? "0900000000" : "",
-    address: sample ? "Hồ Chí Minh" : "",
+    address: sample ? t("Hồ Chí Minh") : "",
     education: sample
-      ? "Cử nhân Quản trị kinh doanh\nĐại học mẫu · 2020–2024"
+      ? t("Cử nhân Quản trị kinh doanh\nĐại học mẫu · 2020–2024")
       : "",
     experience: sample
-      ? "Chuyên viên vận hành · Công ty mẫu\nHỗ trợ quy trình và báo cáo nội bộ (2024–2026)."
+      ? t(
+          "Chuyên viên vận hành · Công ty mẫu\nHỗ trợ quy trình và báo cáo nội bộ (2024–2026).",
+        )
       : "",
-    skills: sample ? "Giao tiếp, phân tích dữ liệu, quản lý thời gian" : "",
+    skills: sample ? t("Giao tiếp, phân tích dữ liệu, quản lý thời gian") : "",
     source: sample ? "sample" : "application",
-    note: sample ? "Dữ liệu giả lập để trải nghiệm quy trình tuyển dụng." : "",
+    note: sample
+      ? t("Dữ liệu giả lập để trải nghiệm quy trình tuyển dụng.")
+      : "",
   };
   const editableDefaults = candidate
     ? Object.fromEntries(
@@ -65,12 +80,12 @@ export function CandidateCreate({
     <Modal
       title={
         candidate
-          ? "Chỉnh sửa hồ sơ ứng viên"
+          ? t("Chỉnh sửa hồ sơ ứng viên")
           : sample
-            ? "Tạo hồ sơ ứng viên mẫu"
-            : "Tiếp nhận ứng viên"
+            ? t("Tạo hồ sơ ứng viên mẫu")
+            : t("Tiếp nhận ứng viên")
       }
-      description={`${job.title} · CV gốc có thể đính kèm sau khi lưu hồ sơ.`}
+      description={job.title}
       size="wide"
       icon={<FileText size={22} />}
       onClose={onClose}
@@ -83,52 +98,53 @@ export function CandidateCreate({
         }}
         columns={2}
         fields={[
-          { name: "name", label: "Họ và tên", required: true },
+          { name: "name", label: t("Họ và tên"), required: true },
           {
             name: "email",
-            label: "Email liên hệ",
+            label: t("Email liên hệ"),
             type: "email",
             required: true,
           },
-          { name: "phone", label: "Số điện thoại", required: true },
+          { name: "phone", label: t("Số điện thoại"), required: true },
           {
             name: "source",
-            label: "Nguồn ứng viên",
+            label: t("Nguồn ứng viên"),
             type: "select",
             options: ["application", "referral", "sourced", "sample"].map(
-              (value) => ({ value, label: workflowLabels[value] }),
+              (value) => ({ value, label: t(workflowLabels[value]) }),
             ),
           },
-          { name: "address", label: "Địa chỉ / nơi cư trú", span: "full" },
+          { name: "address", label: t("Địa chỉ / nơi cư trú"), span: "full" },
           {
             name: "education",
-            label: "Học vấn & bằng cấp",
+            label: t("Học vấn & bằng cấp"),
             type: "textarea",
             required: true,
             span: "full",
-            section: "Nội dung hồ sơ",
+            section: t("Nội dung hồ sơ"),
           },
           {
             name: "experience",
-            label: "Kinh nghiệm làm việc",
+            label: t("Kinh nghiệm làm việc"),
             type: "textarea",
             required: true,
             span: "full",
           },
           {
             name: "skills",
-            label: "Kỹ năng & chứng chỉ",
+            label: t("Kỹ năng & chứng chỉ"),
+            placeholder: t("React, TypeScript; Tiếng Anh: IELTS 6.5"),
             type: "textarea",
             span: "full",
           },
           {
             name: "note",
-            label: "Ghi chú tiếp nhận",
+            label: t("Ghi chú tiếp nhận"),
             type: "textarea",
             span: "full",
           },
         ]}
-        submitLabel="Lưu hồ sơ ứng viên"
+        submitLabel={t("Lưu hồ sơ ứng viên")}
         onSubmit={async (body) => {
           await save.mutateAsync({
             path: candidate
@@ -143,347 +159,234 @@ export function CandidateCreate({
     </Modal>
   );
 }
-export function CandidateDetail({
-  candidate: c,
-  job,
-  hr,
-  onClose,
-  onEdit,
-  onAction,
-}: {
-  candidate: Candidate;
-  job: RecruitmentJob;
-  hr: boolean;
-  onClose: () => void;
-  onEdit: () => void;
-  onAction: (a: CandidateAction) => void;
-}) {
-  const [tab, setTab] = useState("profile"),
-    [cvPending, setCvPending] = useState(false),
-    round = c.rounds.find((r) => r.stageId === c.stageId)!,
-    stage = job.stages.find((s) => s.id === c.stageId)!,
-    next = job.stages[job.stages.findIndex((s) => s.id === c.stageId) + 1];
-  return (
-    <Modal
-      title={c.name}
-      description={`${job.title} · ${c.status === "active" ? stage.name : c.status === "hired" ? "Trúng tuyển" : "Không tiếp tục"}`}
-      size="wide"
-      onClose={onClose}
-    >
-      <div className="candidate-contact">
-        <span>{c.email}</span>
-        <span>{c.phone}</span>
-        <span>{workflowLabels[c.source]}</span>
-      </div>
-      <div
-        className="tabs candidate-tabs"
-        role="tablist"
-        aria-label="Thông tin ứng viên"
-      >
-        {[
-          ["profile", "Hồ sơ"],
-          ["cv", "CV gốc"],
-          ["rounds", "Phỏng vấn & đánh giá"],
-          ["history", "Lịch sử"],
-        ].map(([value, label]) => (
-          <button
-            key={value}
-            role="tab"
-            disabled={cvPending && tab !== value}
-            aria-selected={tab === value}
-            className={tab === value ? "selected" : ""}
-            onClick={() => setTab(value)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      <div className="candidate-tab-panel" role="tabpanel">
-        {tab === "profile" && (
-          <>
-            {hr && (
-              <div className="workflow-actions">
-                <Button variant="secondary" onClick={onEdit}>
-                  Chỉnh sửa hồ sơ
-                </Button>
-              </div>
-            )}
-            <dl className="workflow-facts">
-              <div>
-                <dt>Nơi cư trú</dt>
-                <dd>{c.address || "Chưa cung cấp"}</dd>
-              </div>
-              <div>
-                <dt>Ngày tiếp nhận</dt>
-                <dd>
-                  {c.createdAt
-                    ? new Date(c.createdAt).toLocaleDateString("vi-VN")
-                    : "—"}
-                </dd>
-              </div>
-            </dl>
-            {[
-              ["Học vấn & bằng cấp", c.education],
-              ["Kinh nghiệm làm việc", c.experience],
-              ["Kỹ năng & chứng chỉ", c.skills],
-              ["Ghi chú tiếp nhận", c.note],
-            ].map(([label, value]) => (
-              <section className="candidate-section" key={label}>
-                <h3>{label}</h3>
-                <p className="workflow-prose">{value || "Chưa cung cấp"}</p>
-              </section>
-            ))}
-          </>
-        )}
-        {tab === "cv" && (
-          <CandidateCV
-            candidate={c}
-            editable={hr}
-            onPendingChange={setCvPending}
-          />
-        )}
-        {tab === "history" && <WorkflowHistory history={c.history} />}
-        {tab === "rounds" && (
-          <div className="candidate-rounds">
-            {c.rounds.map((r, i) => (
-              <section key={r.stageId}>
-                <span className="round-number">{i + 1}</span>
-                <div>
-                  <h3>{r.stageName}</h3>
-                  {r.interview ? (
-                    <>
-                      <p>
-                        <CalendarDays size={15} />
-                        {dayLabel(r.interview.date)} · {r.interview.start} –{" "}
-                        {r.interview.end}
-                      </p>
-                      <p>
-                        {r.interview.location} · {r.interview.interviewerName}
-                      </p>
-                      <small>
-                        {r.interview.status === "confirmed"
-                          ? "Lịch đã được nhân sự duyệt"
-                          : "Lịch đang chờ nhân sự duyệt"}
-                      </small>
-                    </>
-                  ) : (
-                    <p>
-                      {job.stages.find((s) => s.id === r.stageId)?.kind ===
-                      "interview"
-                        ? "Chưa đặt lịch phỏng vấn"
-                        : "Đánh giá hồ sơ và mức độ phù hợp"}
-                    </p>
-                  )}
-                  {r.result && (
-                    <div className={`round-result result-${r.result}`}>
-                      <strong>
-                        {workflowLabels[r.result]} · {r.score}/5
-                      </strong>
-                      <p>{r.feedback}</p>
-                    </div>
-                  )}
-                </div>
-              </section>
-            ))}
-          </div>
-        )}
-      </div>
-      {c.status === "active" && job.active && tab !== "cv" && (
-        <div className="candidate-actions">
-          <div className="row-actions">
-            {hr && (
-              <Button variant="ghost" onClick={() => onAction("reject")}>
-                Không tiếp tục
-              </Button>
-            )}
-            {hr && stage.kind !== "decision" && (
-              <Button variant="ghost" onClick={() => onAction("direct-hire")}>
-                Tuyển thẳng
-              </Button>
-            )}
-          </div>
-          <div className="row-actions">
-            {stage.kind === "interview" && !round.result && (
-              <Button variant="secondary" onClick={() => onAction("interview")}>
-                <CalendarDays size={15} />
-                {round.interview ? "Đổi lịch" : "Đặt lịch"}
-              </Button>
-            )}
-            {hr && round.interview?.status === "proposed" && (
-              <Button onClick={() => onAction("confirm-interview")}>
-                Duyệt lịch phỏng vấn
-              </Button>
-            )}
-            {(stage.kind !== "interview" ||
-              round.interview?.status === "confirmed") && (
-              <Button variant="secondary" onClick={() => onAction("evaluate")}>
-                Đánh giá vòng
-              </Button>
-            )}
-            {next && round.result === "passed" && (
-              <Button onClick={() => onAction("move")}>
-                Chuyển vòng
-                <ArrowRight size={15} />
-              </Button>
-            )}
-            {hr && stage.kind === "decision" && round.result === "passed" && (
-              <Button onClick={() => onAction("hire")}>
-                <CheckCircle2 size={15} />
-                Xác nhận trúng tuyển
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
-    </Modal>
-  );
-}
 export function CandidateActionDialog({
   candidate: c,
   job,
   directory,
   action,
+  moveTargetId,
+  currentCandidate,
+  canMove = false,
+  interviewLocations = [],
   onClose,
 }: {
   candidate: Candidate;
   job: RecruitmentJob;
   directory: RecruitmentDirectory;
   action: CandidateAction;
+  moveTargetId?: string;
+  currentCandidate?: Candidate;
+  canMove?: boolean;
+  interviewLocations?: string[];
   onClose: () => void;
 }) {
+  useLocale();
+  const hiring = ["hire", "direct-hire", "employee"].includes(action);
+  const positions = useApi<Page<Catalog>>(catalogPath("positions"), hiring);
   const save = useAction(),
     next = job.stages[job.stages.findIndex((s) => s.id === c.stageId) + 1],
     interview = c.rounds.find((r) => r.stageId === c.stageId)?.interview;
   const title = {
-    evaluate: "Đánh giá vòng tuyển dụng",
-    move: "Chuyển sang vòng kế tiếp",
-    interview: "Đề xuất lịch phỏng vấn",
-    "confirm-interview": "Duyệt lịch phỏng vấn",
-    hire: "Xác nhận trúng tuyển",
-    reject: "Dừng tuyển dụng ứng viên",
-    "direct-hire": "Xác nhận tuyển thẳng",
+    evaluate: t("Đánh giá vòng tuyển dụng"),
+    move: t("Chuyển sang vòng kế tiếp"),
+    interview: t("Đề xuất lịch phỏng vấn"),
+    "confirm-interview": t("Duyệt lịch phỏng vấn"),
+    hire: t("Xác nhận trúng tuyển"),
+    employee: t("Tạo hồ sơ nhân viên"),
+    reject: t("Dừng tuyển dụng ứng viên"),
+    "direct-hire": t("Xác nhận tuyển thẳng"),
   }[action];
-  const schema =
-    action === "evaluate"
-      ? evaluationSchema
-      : action === "interview"
-        ? interviewSchema
-        : action === "move"
-          ? candidateTransitionSchema
-          : reviewSchema;
+  if (action === "evaluate")
+    return (
+      <CandidateEvaluationDialog candidate={c} job={job} onClose={onClose} />
+    );
+  const schema = hiring
+    ? candidateHireSchema
+    : action === "interview"
+      ? interviewSchema.extend({ location: interviewLocationSchema })
+      : action === "move"
+        ? candidateTransitionSchema
+        : reviewSchema;
   const fields: FormField[] =
     action === "interview"
       ? [
           {
             name: "date",
-            label: "Ngày phỏng vấn",
+            label: t("Ngày phỏng vấn"),
             type: "date",
             required: true,
           },
           {
             name: "interviewerId",
-            label: "Người phỏng vấn",
+            label: t("Người phỏng vấn"),
             type: "select",
             required: true,
             options: directory.reviewers
               .filter((r) => r.hr || r.id === job.hiringManagerId)
               .map((r) => ({ value: r.id, label: r.name })),
           },
-          { name: "start", label: "Bắt đầu", type: "time", required: true },
-          { name: "end", label: "Kết thúc", type: "time", required: true },
+          { name: "start", label: t("Bắt đầu"), type: "time", required: true },
+          { name: "end", label: t("Kết thúc"), type: "time", required: true },
           {
             name: "location",
-            label: "Địa điểm / liên kết họp",
+            label: t("Địa điểm phỏng vấn"),
             required: true,
             span: "full",
+            render: (props) => (
+              <InterviewLocation {...props} locations={interviewLocations} />
+            ),
           },
         ]
       : [
-          ...(action === "evaluate"
+          ...(hiring
             ? [
                 {
-                  name: "result",
-                  label: "Kết quả",
+                  name: "positionId",
+                  label: t("Chức danh nhận việc"),
                   type: "select" as const,
+                  required: true,
                   options: [
-                    { value: "passed", label: "Đạt yêu cầu" },
-                    { value: "failed", label: "Chưa đạt" },
+                    { value: "", label: t("Chọn chức danh") },
+                    ...(positions.data?.items
+                      .filter((p) => p.active)
+                      .map((p) => ({ value: p.id, label: p.name })) ?? []),
                   ],
                 },
                 {
-                  name: "score",
-                  label: "Mức độ phù hợp (1–5)",
-                  type: "number" as const,
+                  name: "hireDate",
+                  label: t("Ngày vào làm"),
+                  type: "date" as const,
                   required: true,
+                },
+                {
+                  name: "workEmail",
+                  label: t("Email công việc"),
+                  type: "email" as const,
+                  required: true,
+                },
+                {
+                  name: "employmentStatus",
+                  label: t("Trạng thái nhận việc"),
+                  type: "select" as const,
+                  options: [
+                    { value: "probation", label: t("Thử việc") },
+                    { value: "active", label: t("Đang làm việc") },
+                  ],
                 },
               ]
             : []),
           {
             name: "reason",
-            label:
-              action === "evaluate"
-                ? "Nhận xét & căn cứ đánh giá"
-                : "Lý do / nội dung xác nhận",
+            label: t("Lý do / nội dung xác nhận"),
             type: "textarea",
             required: true,
             span: "full",
             hint:
               action === "direct-hire"
-                ? "Tuyển thẳng bỏ qua các vòng còn lại. Cần ghi rõ căn cứ quyết định; hệ thống lưu lịch sử riêng."
+                ? t("Tuyển thẳng sẽ bỏ qua các vòng còn lại.")
                 : action === "hire"
-                  ? "Xác nhận kết quả tuyển dụng. Tài khoản và hồ sơ nhân viên được cấp riêng sau khi hoàn tất thủ tục."
+                  ? t("Tạo hồ sơ nhân viên khi xác nhận tuyển dụng.")
                   : undefined,
           },
         ];
-  const keys =
-    action === "interview"
+  const keys = hiring
+    ? [
+        "version",
+        "reason",
+        "positionId",
+        "hireDate",
+        "workEmail",
+        "employmentStatus",
+      ]
+    : action === "interview"
       ? ["version", "date", "start", "end", "interviewerId", "location"]
-      : action === "evaluate"
-        ? ["version", "result", "score", "reason"]
-        : action === "move"
-          ? ["version", "stageId", "reason"]
-          : ["version", "reason"];
+      : action === "move"
+        ? ["version", "stageId", "reason"]
+        : ["version", "reason"];
   const defaults: Record<string, unknown> = {
     version: c.version,
-    stageId: next?.id ?? "",
+    positionId:
+      positions.data?.items.find(
+        (p) =>
+          p.active &&
+          p.name.toLocaleLowerCase("vi") === job.title.toLocaleLowerCase("vi"),
+      )?.id ?? "",
+    hireDate: today(),
+    workEmail: c.email,
+    employmentStatus: "probation",
+    stageId: moveTargetId ?? next?.id ?? "",
     reason: "",
-    result: "passed",
-    score: 3,
     date: interview?.date ?? today(),
     start: interview?.start ?? "09:00",
     end: interview?.end ?? "10:00",
     interviewerId: interview?.interviewerId ?? job.hiringManagerId,
-    location: interview?.location ?? "",
+    location: interviewLocationDefaults(interview?.location),
   };
   return (
     <Modal
       title={title}
       description={`${c.name}${action === "move" ? ` → ${next?.name}` : ""}`}
       onClose={onClose}
-      size={action === "interview" ? "wide" : "medium"}
+      size={action === "interview" || hiring ? "wide" : "medium"}
     >
-      <Form
-        schema={schema}
-        columns={action === "interview" ? 2 : 1}
-        defaults={Object.fromEntries(keys.map((k) => [k, defaults[k]]))}
-        fields={fields}
-        submitLabel={title}
-        onSubmit={async (values) => {
-          const keys =
-            action === "interview"
-              ? ["version", "date", "start", "end", "interviewerId", "location"]
-              : action === "evaluate"
-                ? ["version", "result", "score", "reason"]
-                : action === "move"
-                  ? ["version", "stageId", "reason"]
-                  : ["version", "reason"];
-          await save.mutateAsync({
-            path: `/recruitment/candidates/${c.id}/${action}`,
-            body: Object.fromEntries(keys.map((k) => [k, values[k]])),
-          });
-          onClose();
-        }}
-      />
+      {hiring && (
+        <p className="workflow-notice">
+          <StableText>{t("Phòng ban:")}</StableText>{" "}
+          {directory.departments.find((d) => d.id === job.departmentId)?.name ??
+            t("Phòng ban tuyển dụng")}{" "}
+          <StableText>{t("· Quản lý trực tiếp:")}</StableText>{" "}
+          {directory.reviewers.find((r) => r.id === job.hiringManagerId)
+            ?.name ?? t("Người phụ trách tuyển dụng")}
+        </p>
+      )}
+      {hiring && positions.isPending ? (
+        <Loading />
+      ) : hiring && positions.error ? (
+        <ErrorBox
+          error={positions.error}
+          retry={() => void positions.refetch()}
+        />
+      ) : (
+        <Form
+          schema={schema}
+          columns={action === "interview" || hiring ? 2 : 1}
+          defaults={Object.fromEntries(keys.map((k) => [k, defaults[k]]))}
+          fields={fields}
+          submitLabel={title}
+          submitTone={
+            action === "reject"
+              ? "danger"
+              : action === "interview"
+                ? undefined
+                : "success"
+          }
+          onSubmit={async (values) => {
+            if (action === "move") {
+              const movement =
+                currentCandidate &&
+                candidateMovement(currentCandidate, job, canMove);
+              if (
+                !currentCandidate ||
+                currentCandidate.version !== c.version ||
+                currentCandidate.stageId !== c.stageId ||
+                !movement?.allowed ||
+                movement.next?.id !== values.stageId ||
+                values.stageId !== moveTargetId
+              )
+                throw new Error(
+                  t(
+                    "Hồ sơ hoặc quy trình vừa thay đổi. Đóng hộp thoại và kiểm tra lại.",
+                  ),
+                );
+            }
+            await save.mutateAsync({
+              path: `/recruitment/candidates/${c.id}/${action}`,
+              body: Object.fromEntries(keys.map((k) => [k, values[k]])),
+            });
+            onClose();
+          }}
+        />
+      )}
     </Modal>
   );
 }

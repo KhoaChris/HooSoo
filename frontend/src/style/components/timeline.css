@@ -7,7 +7,7 @@
 }
 .timeline li {
   position: relative;
-  border-left: 1px solid #dce8e5;
+  border-left: 1px solid light-dark(#dce8e5, var(--line));
   padding: 0 0 24px 23px;
 }
 .timeline strong,
@@ -19,7 +19,7 @@
 }
 .timeline p {
   font-size: 12px;
-  color: #7b8a95;
+  color: light-dark(#7b8a95, var(--text-secondary));
   margin-top: 8px;
 }
 .timeline small {
@@ -33,11 +33,11 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #7cb2a3;
+  background: light-dark(#7cb2a3, #7cb2a3);
 }
 .timeline pre {
-  color: #798c98;
-  background: #f8fafb;
+  color: light-dark(#798c98, var(--text-secondary));
+  background: light-dark(#f8fafb, var(--surface));
   margin-top: 10px;
   padding: 10px;
   font-size: 10px;

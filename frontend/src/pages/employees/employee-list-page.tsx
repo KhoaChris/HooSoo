@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { DialogLink } from "../../components/navigation/dialog-link";
 import { PersonCell } from "../../components/ui/person-cell";
 import { Input, Button } from "../../components/ui";
@@ -13,6 +14,7 @@ import { Heading, Select, DataTable, Badge } from "../../components/ui";
 import { useCatalogs } from "../../hooks/catalogs";
 import { useDebouncedValue } from "../../hooks/debounced-value";
 export function EmployeeList() {
+  useLocale();
   const { me } = useAuth();
   const [filters, setFilters] = useState({
     page: 1,
@@ -29,19 +31,18 @@ export function EmployeeList() {
   return (
     <>
       <Heading
-        title="Nhân viên"
-        description="Hồ sơ, công việc và hành trình của từng thành viên."
+        title={t("Nhân viên")}
         action={
           ["Admin", "HR"].includes(me!.actor.role) && (
             <DialogLink to="/employees/new" className="button primary">
               <Plus size={17} />
-              Thêm nhân viên
+              {t("Thêm nhân viên")}
             </DialogLink>
           )
         }
       />
       <DataTable
-        title="Danh sách nhân viên"
+        title={t("Danh sách nhân viên")}
         icon={<UsersRound size={18} />}
         loading={q.isPending}
         error={q.error}
@@ -51,8 +52,8 @@ export function EmployeeList() {
             <label className="search-input">
               <Search size={17} />
               <Input
-                aria-label="Tìm nhân viên"
-                placeholder="Tên, mã nhân viên, email…"
+                aria-label={t("Tìm nhân viên")}
+                placeholder={t("Tên, mã nhân viên, email…")}
                 value={filters.search}
                 onChange={(e) =>
                   setFilters({ ...filters, search: e.target.value, page: 1 })
@@ -60,13 +61,13 @@ export function EmployeeList() {
               />
             </label>
             <Select
-              aria-label="Phòng ban"
+              aria-label={t("Phòng ban")}
               value={filters.departmentId}
               onValueChange={(value) =>
                 setFilters({ ...filters, departmentId: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả phòng ban" },
+                { value: "", label: t("Tất cả phòng ban") },
                 ...(departments.data?.items.map((item) => ({
                   value: item.id,
                   label: item.name,
@@ -74,13 +75,13 @@ export function EmployeeList() {
               ]}
             />
             <Select
-              aria-label="Chức danh"
+              aria-label={t("Chức danh")}
               value={filters.positionId}
               onValueChange={(value) =>
                 setFilters({ ...filters, positionId: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả chức danh" },
+                { value: "", label: t("Tất cả chức danh") },
                 ...(positions.data?.items.map((item) => ({
                   value: item.id,
                   label: item.name,
@@ -88,16 +89,16 @@ export function EmployeeList() {
               ]}
             />
             <Select
-              aria-label="Trạng thái"
+              aria-label={t("Trạng thái")}
               value={filters.status}
               onValueChange={(value) =>
                 setFilters({ ...filters, status: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả trạng thái" },
-                { value: "active", label: "Đang làm việc" },
-                { value: "probation", label: "Thử việc" },
-                { value: "terminated", label: "Đã nghỉ việc" },
+                { value: "", label: t("Tất cả trạng thái") },
+                { value: "active", label: t("Đang làm việc") },
+                { value: "probation", label: t("Thử việc") },
+                { value: "terminated", label: t("Đã nghỉ việc") },
               ]}
             />
             {(filters.search ||
@@ -117,7 +118,7 @@ export function EmployeeList() {
                   })
                 }
               >
-                Xóa bộ lọc
+                {t("Xóa bộ lọc")}
               </Button>
             )}
           </div>
@@ -132,21 +133,25 @@ export function EmployeeList() {
         onPage={(page) => setFilters({ ...filters, page })}
         columns={[
           {
-            label: "Nhân viên",
+            minWidth: 290,
+            label: t("Nhân viên"),
             render: (e) => (
               <PersonCell
                 name={e.name}
+                avatarUrl={e.avatarUrl}
                 detail={e.email}
                 to={"/employees/" + e.id}
               />
             ),
           },
           {
-            label: "Mã nhân viên",
+            minWidth: 145,
+            label: t("Mã nhân viên"),
             render: (e) => <span className="cell-code">{e.employeeCode}</span>,
           },
           {
-            label: "Phòng ban / Chức danh",
+            minWidth: 235,
+            label: t("Phòng ban / Chức danh"),
             render: (e) => (
               <div className="cell-stack">
                 <strong>
@@ -160,16 +165,25 @@ export function EmployeeList() {
               </div>
             ),
           },
-          { label: "Ngày vào làm", render: (e) => dateText(e.hireDate) },
-          { label: "Trạng thái", render: (e) => <Badge value={e.status} /> },
           {
-            label: "Hồ sơ",
+            minWidth: 145,
+            label: t("Ngày vào làm"),
+            render: (e) => dateText(e.hireDate),
+          },
+          {
+            minWidth: 185,
+            label: t("Trạng thái"),
+            render: (e) => <Badge value={e.status} />,
+          },
+          {
+            minWidth: 85,
+            label: t("Hồ sơ"),
             className: "cell-actions",
             render: (e) => (
               <Link
                 className="table-row-link"
                 to={"/employees/" + e.id}
-                aria-label={"Xem hồ sơ " + e.name}
+                aria-label={t("Xem hồ sơ ") + e.name}
               >
                 <ArrowUpRight size={16} />
               </Link>

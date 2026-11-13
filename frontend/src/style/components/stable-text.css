@@ -1,0 +1,32 @@
+/* Shared footprint for VI/EN UI copy; never used inside editable values. */
+.stable-text {
+  display: inline-grid;
+  grid-template-areas: "label";
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: top;
+}
+.stable-text > span {
+  grid-area: label;
+  min-width: 0;
+}
+.stable-text-reserve {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+/* Compact labels follow the current language; content keeps its shared footprint. */
+:is(
+  .badge,
+  .workflow-status,
+  .button,
+  .text-link,
+  .employee-avatar-edit,
+  .dtp-text-button,
+  .dtp-apply
+) .stable-text-reserve {
+  display: none;
+}
+.button > svg {
+  flex-shrink: 0;
+}

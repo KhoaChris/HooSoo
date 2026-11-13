@@ -1,3 +1,6 @@
+import { StableText } from "../../i18n/stable-text";
+import { t as translate, useLocale } from "../../i18n";
+import { useAuth } from "../../app/auth";
 import { DialogLink } from "../../components/navigation/dialog-link";
 import { PersonCell } from "../../components/ui/person-cell";
 import { Input, Button } from "../../components/ui";
@@ -25,6 +28,8 @@ import {
 } from "../../components/ui";
 
 export function LeaveListPage({ personal = false }: { personal?: boolean }) {
+  useLocale();
+  const { me } = useAuth();
   const [filters, setFilters] = useState({
     page: 1,
     status: "",
@@ -55,25 +60,26 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
   return (
     <>
       <Heading
-        title={personal ? "Nghỉ phép của tôi" : "Duyệt nghỉ phép"}
-        description={
+        title={
           personal
-            ? "Theo dõi quỹ phép, yêu cầu và lịch sử xử lý."
-            : "Chỉ hiển thị các yêu cầu thuộc quyền xử lý của bạn."
+            ? translate("Nghỉ phép của tôi")
+            : translate("Duyệt nghỉ phép")
         }
         action={
-          <DialogLink className="button primary" to="/leave/new">
-            <Plus size={17} />
-            Tạo đơn nghỉ phép
-          </DialogLink>
+          personal ? (
+            <DialogLink className="button primary" to="/leave/new">
+              <Plus size={17} />
+              {translate("Tạo đơn nghỉ phép")}
+            </DialogLink>
+          ) : undefined
         }
       />
       {personal && (
         <>
           <label className="filter-label year-filter">
-            Năm phép
+            {translate("Năm phép")}
             <Input
-              aria-label="Năm phép"
+              aria-label={translate("Năm phép")}
               type="number"
               min="2020"
               max="2100"
@@ -83,32 +89,29 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
           </label>
           <ErrorBox error={balances.error} />
           <div className="metrics">
+            <Metric label={translate("Hạn mức")} value={b?.allowance ?? "—"} />
             <Metric
-              label="Hạn mức"
-              value={b?.allowance ?? "—"}
-              note="Số ngày theo chính sách hiện hành"
-            />
-            <Metric
-              label="Đã sử dụng / cam kết"
+              label={translate("Đã sử dụng / cam kết")}
               value={b?.used ?? "—"}
-              note="Gồm tất cả đơn được duyệt trong năm"
             />
             <Metric
-              label="Đang chờ duyệt"
+              label={translate("Đang chờ duyệt")}
               value={b?.pending ?? "—"}
-              note="Chưa trừ khỏi số khả dụng"
             />
             <Metric
-              label="Còn khả dụng"
+              label={translate("Còn khả dụng")}
               value={b?.available ?? "—"}
-              note="Hạn mức trừ số đã duyệt"
               accent
             />
           </div>
         </>
       )}
       <DataTable
-        title={personal ? "Đơn nghỉ phép của tôi" : "Danh sách yêu cầu"}
+        title={
+          personal
+            ? translate("Đơn nghỉ phép của tôi")
+            : translate("Danh sách yêu cầu")
+        }
         icon={<CalendarDays size={18} />}
         loading={q.isPending}
         error={q.error}
@@ -123,29 +126,29 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
               }
             />
             <Select
-              aria-label="Trạng thái nghỉ phép"
+              aria-label={translate("Trạng thái nghỉ phép")}
               value={filters.status}
               onValueChange={(value) =>
                 setFilters({ ...filters, status: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả trạng thái" },
-                { value: "pending", label: "Chờ duyệt" },
-                { value: "approved", label: "Đã duyệt" },
-                { value: "rejected", label: "Từ chối" },
-                { value: "cancelled", label: "Đã hủy" },
+                { value: "", label: translate("Tất cả trạng thái") },
+                { value: "pending", label: translate("Chờ duyệt") },
+                { value: "approved", label: translate("Đã duyệt") },
+                { value: "rejected", label: translate("Từ chối") },
+                { value: "cancelled", label: translate("Đã hủy") },
               ]}
             />
             {!personal && (
               <>
                 <Select
-                  aria-label="Phòng ban"
+                  aria-label={translate("Phòng ban")}
                   value={filters.departmentId}
                   onValueChange={(value) =>
                     setFilters({ ...filters, departmentId: value, page: 1 })
                   }
                   options={[
-                    { value: "", label: "Tất cả phòng ban" },
+                    { value: "", label: translate("Tất cả phòng ban") },
                     ...(departments.data?.items.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -153,13 +156,13 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
                   ]}
                 />
                 <Select
-                  aria-label="Nhân viên"
+                  aria-label={translate("Nhân viên")}
                   value={filters.employeeId}
                   onValueChange={(value) =>
                     setFilters({ ...filters, employeeId: value, page: 1 })
                   }
                   options={[
-                    { value: "", label: "Tất cả nhân viên" },
+                    { value: "", label: translate("Tất cả nhân viên") },
                     ...(staff.data?.items.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -187,7 +190,7 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
                   })
                 }
               >
-                Đặt lại
+                {translate("Đặt lại")}
               </Button>
             )}
           </div>
@@ -197,18 +200,30 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
         onPage={(page) => setFilters({ ...filters, page })}
         columns={[
           {
-            label: "Nhân viên",
+            minWidth: 250,
+            label: translate("Nhân viên"),
             render: (r) => (
               <PersonCell
                 name={r.employeeName}
+                avatarUrl={
+                  personal
+                    ? me?.employee.avatarUrl
+                    : staff.data?.items.find((e) => e.id === r.employeeId)
+                        ?.avatarUrl
+                }
                 detail={r.employeeCode}
                 to={"/leave/" + r.id}
               />
             ),
           },
-          { label: "Loại phép", render: (r) => r.typeName },
           {
-            label: "Thời gian",
+            minWidth: 205,
+            label: translate("Loại phép"),
+            render: (r) => r.typeName,
+          },
+          {
+            minWidth: 215,
+            label: translate("Thời gian"),
             render: (r) => (
               <>
                 {dateText(r.startDate)} – {dateText(r.endDate)}
@@ -216,22 +231,29 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
             ),
           },
           {
-            label: "Số ngày",
+            minWidth: 110,
+            label: translate("Số ngày"),
             className: "cell-number",
             align: "center",
             render: (r) => (
               <span className="cell-duration">
-                {r.days} <small>ngày</small>
+                {r.days} <small> {translate("ngày")}</small>
               </span>
             ),
           },
-          { label: "Trạng thái", render: (r) => <Badge value={r.status} /> },
           {
-            label: "Chi tiết",
+            minWidth: 180,
+            label: translate("Trạng thái"),
+            render: (r) => <Badge value={r.status} />,
+          },
+          {
+            minWidth: 180,
+            label: translate("Chi tiết"),
             className: "cell-actions",
             render: (r) => (
               <Link className="table-row-link" to={"/leave/" + r.id}>
-                Xem đơn <ArrowUpRight size={14} />
+                <StableText>{translate("Xem đơn")}</StableText>{" "}
+                <ArrowUpRight size={14} />
               </Link>
             ),
           },
@@ -239,11 +261,7 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
       />{" "}
       {personal && b && (
         <section className="panel">
-          <h2>Biến động số dư phép</h2>
-          <p className="muted-note">
-            Đơn đang chờ duyệt chỉ được theo dõi, không giữ chỗ số dư. Số dư
-            được kiểm tra lại khi duyệt.
-          </p>
+          <h2>{translate("Biến động số dư phép")}</h2>
           {b.transactions.length ? (
             b.transactions.map((t) => (
               <div className="balance-entry" key={t.id}>
@@ -253,12 +271,12 @@ export function LeaveListPage({ personal = false }: { personal?: boolean }) {
                 </div>
                 <strong className={t.amount > 0 ? "teal" : "muted"}>
                   {t.amount > 0 ? "+" : ""}
-                  {t.amount} ngày
+                  {t.amount} {translate("ngày")}
                 </strong>
               </div>
             ))
           ) : (
-            <p>Chưa có biến động được ghi nhận.</p>
+            <p>{translate("Chưa có biến động được ghi nhận.")}</p>
           )}
         </section>
       )}

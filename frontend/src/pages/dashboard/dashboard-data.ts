@@ -10,6 +10,7 @@ export interface DashboardData {
   newHires: number;
   departments: { id: string; name: string; count: number }[];
   recentLeaves: LeaveView[];
+  avatars?: Record<string, string | null>;
   today: AttendanceView[];
   balances: BalanceView[];
 }
@@ -24,4 +25,24 @@ export function monthRange(date: string, offset = 0): DashboardRange {
       .slice(0, 10),
     end: new Date(Date.UTC(year, month + offset, 0)).toISOString().slice(0, 10),
   };
+}
+
+export interface DashboardResource<T> {
+  data?: T;
+  isPending: boolean;
+  error: Error | null;
+  refetch: () => unknown;
+}
+export interface DashboardResources {
+  schedules: DashboardResource<{
+    items: import("@hoosoo/shared").WorkRegistrationView[];
+  }>;
+  requests: DashboardResource<{
+    items: import("@hoosoo/shared").InternalRequestView[];
+  }>;
+  leaves: DashboardResource<import("@hoosoo/shared").Page<LeaveView>>;
+  work: DashboardResource<import("@hoosoo/shared").ProfessionalWorkspace>;
+  recruitment: DashboardResource<
+    import("../recruitment/job-editor").RecruitmentDirectory
+  >;
 }

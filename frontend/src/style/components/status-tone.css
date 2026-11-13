@@ -1,0 +1,31 @@
+/* Shared colors for status badges and notifications; shape stays component-specific. */
+.status-tone[data-tone="success"] {
+  --status-bg: var(--success-bg);
+  --status-text: var(--success-text);
+  --status-line: var(--success-line);
+}
+.status-tone[data-tone="danger"] {
+  --status-bg: var(--danger-bg);
+  --status-text: var(--danger-text);
+  --status-line: var(--danger-line);
+}
+.status-tone[data-tone="warning"] {
+  --status-bg: var(--warning-bg);
+  --status-text: var(--warning-text);
+  --status-line: var(--warning-line);
+}
+.status-tone[data-tone="info"] {
+  --status-bg: var(--info-bg);
+  --status-text: var(--info-text);
+  --status-line: var(--info-line);
+}
+.status-tone[data-tone="neutral"] {
+  --status-bg: var(--surface-subtle);
+  --status-text: var(--text-secondary);
+  --status-line: var(--line);
+}
+.status-tone[data-tone] {
+  color: var(--status-text);
+  background: var(--status-bg);
+  border-color: var(--status-line);
+}

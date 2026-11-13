@@ -1,3 +1,4 @@
+export type { NotificationItem, NotificationFeed } from "./notifications";
 import type {
   WorkRegistration,
   InternalRequest,
@@ -14,6 +15,7 @@ export {
 import { roles, roleDefinitions } from "./access";
 import type { Role } from "./access";
 import type { WorkItem } from "./access/work";
+export * from "./avatar";
 export * from "./access";
 export * from "./access/work";
 export const dateSchema = z
@@ -28,9 +30,11 @@ const text = z.string().trim().min(1, "Thông tin bắt buộc").max(150);
 export const idSchema = z.string().regex(/^[a-zA-Z0-9_-]{1,100}$/);
 export const employeeSchema = z
   .object({
+    // Accepted for older clients; new records receive a server-issued code.
     employeeCode: text
       .regex(/^[A-Za-z0-9-]+$/)
-      .transform((v) => v.toUpperCase()),
+      .transform((v) => v.toUpperCase())
+      .optional(),
     name: text,
     email: z.email(),
     phone: z.string().max(30).default(""),
@@ -155,6 +159,10 @@ export interface Meta {
   createdBy?: string;
 }
 export interface Employee extends Meta, EmployeeInput {
+  employeeCode: string;
+  avatarUrl?: string | null;
+  avatarVersion?: number;
+  recruitmentCandidateId?: string;
   uid?: string;
 }
 export interface Catalog extends Meta {
@@ -244,6 +252,9 @@ export interface Receipt extends Meta {
   actorId: string;
 }
 export interface Tables {
+  employeeSequences: Meta & { lastNumber: number };
+  chatRooms: import("./chat").ChatRoom;
+  chatMessages: import("./chat").ChatMessage;
   workItems: WorkItem;
   workRegistrations: WorkRegistration;
   internalRequests: InternalRequest;
@@ -335,3 +346,5 @@ export const labels: Record<string, string> = {
 };
 
 export * from "./hr";
+
+export * from "./chat";

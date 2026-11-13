@@ -1,3 +1,4 @@
+import { useLocale } from "../i18n";
 import {
   createContext,
   useContext,
@@ -23,6 +24,7 @@ const Context = createContext<{
   retry: () => void;
 }>(null!);
 export function AuthProvider({ children }: { children: ReactNode }) {
+  useLocale();
   const [user, setUser] = useState<User | null>(null),
     [loading, setLoading] = useState(true);
   const client = useQueryClient();

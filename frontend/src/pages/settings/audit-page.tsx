@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -41,6 +42,7 @@ import {
 
 const emptyFilters = { search: "", startDate: "", endDate: "" };
 export function AuditPage() {
+  useLocale();
   const [page, setPage] = useState(1),
     [draft, setDraft] = useState(emptyFilters),
     [filters, setFilters] = useState(emptyFilters),
@@ -77,14 +79,9 @@ export function AuditPage() {
   );
   return (
     <>
-      <Heading
-        eyebrow="QUẢN TRỊ"
-        title="Nhật ký thao tác"
-        description="Theo dõi người thực hiện, nội dung thay đổi và thời điểm ghi nhận."
-      />
+      <Heading eyebrow={t("QUẢN TRỊ")} title={t("Nhật ký thao tác")} />
       <DataTable
-        title="Lịch sử hoạt động"
-        description="Các hoạt động mới nhất được hiển thị trước."
+        title={t("Lịch sử hoạt động")}
         icon={<History size={18} />}
         data={q.data}
         loading={q.isPending}
@@ -105,14 +102,14 @@ export function AuditPage() {
           >
             <div className="filters">
               <Select
-                aria-label="Loại thao tác"
+                aria-label={t("Loại thao tác")}
                 value={draft.search}
                 onValueChange={(search) => setDraft({ ...draft, search })}
                 options={[
-                  { value: "", label: "Tất cả thao tác" },
+                  { value: "", label: t("Tất cả thao tác") },
                   ...Object.entries(auditActions).map(([value, label]) => ({
                     value,
-                    label,
+                    label: t(label),
                   })),
                 ]}
               />
@@ -125,7 +122,7 @@ export function AuditPage() {
               />
               <Button variant="secondary" type="submit" disabled={invalidDates}>
                 <SlidersHorizontal size={14} />
-                Áp dụng
+                {t("Áp dụng")}
               </Button>
               {[...Object.values(draft), ...Object.values(filters)].some(
                 Boolean,
@@ -139,20 +136,21 @@ export function AuditPage() {
                     setPage(1);
                   }}
                 >
-                  Đặt lại
+                  {t("Đặt lại")}
                 </Button>
               )}
             </div>
             {invalidDates && (
               <p className="field-error" role="alert">
-                Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.
+                {t("Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.")}
               </p>
             )}
           </form>
         }
         columns={[
           {
-            label: "Hoạt động",
+            minWidth: 230,
+            label: t("Hoạt động"),
             className: "audit-activity-column",
             render: (r) => (
               <div className="audit-activity">
@@ -167,11 +165,20 @@ export function AuditPage() {
             ),
           },
           {
-            label: "Người thực hiện",
-            render: (r) => <PersonCell name={auditActor(r.actorId, lookups)} />,
+            minWidth: 220,
+            label: t("Người thực hiện"),
+            render: (r) => (
+              <PersonCell
+                name={auditActor(r.actorId, lookups)}
+                avatarUrl={
+                  staff.data?.items.find((e) => e.uid === r.actorId)?.avatarUrl
+                }
+              />
+            ),
           },
           {
-            label: "Nội dung ghi nhận",
+            minWidth: 340,
+            label: t("Nội dung ghi nhận"),
             className: "cell-wrap",
             render: (r) => (
               <div className="audit-summary">
@@ -181,7 +188,8 @@ export function AuditPage() {
             ),
           },
           {
-            label: "Thời gian",
+            minWidth: 170,
+            label: t("Thời gian"),
             render: (r) => (
               <div className="cell-stack">
                 <strong>{timeText(r.createdAt)}</strong>
@@ -190,22 +198,22 @@ export function AuditPage() {
             ),
           },
           {
-            label: "Chi tiết",
+            minWidth: 150,
+            label: t("Chi tiết"),
             className: "cell-actions",
             render: (r) => (
               <Button
                 variant="ghost"
                 className="audit-open"
-                aria-label={`Xem chi tiết ${auditTitle(r)}`}
+                aria-label={t("Xem chi tiết {0}", [auditTitle(r)])}
                 onClick={() => setDetail(r)}
               >
-                Xem chi tiết
+                {t("Xem chi tiết")}
                 <ArrowUpRight size={14} />
               </Button>
             ),
           },
         ]}
-        footerNote="Nhật ký được lưu tự động khi thao tác hoàn tất và chỉ có thể xem."
       />
       {detail && changes && (
         <Modal
@@ -219,14 +227,14 @@ export function AuditPage() {
             <div>
               <UserRound size={16} />
               <span>
-                Người thực hiện
+                {t("Người thực hiện")}
                 <strong>{auditActor(detail.actorId, lookups)}</strong>
               </span>
             </div>
             <div>
               <Clock3 size={16} />
               <span>
-                Thời điểm
+                {t("Thời điểm")}
                 <strong>
                   {dateText(detail.createdAt)} · {timeText(detail.createdAt)}
                 </strong>
@@ -235,7 +243,7 @@ export function AuditPage() {
             <div>
               <FileText size={16} />
               <span>
-                Nội dung liên quan
+                {t("Nội dung liên quan")}
                 <strong>{auditSubject(detail, lookups)}</strong>
               </span>
               {detail.action.startsWith("leave.") && (
@@ -243,7 +251,7 @@ export function AuditPage() {
                   className="audit-source-link"
                   to={"/leave/" + encodeURIComponent(detail.targetId)}
                 >
-                  Mở đơn nghỉ phép <ArrowUpRight size={14} />
+                  {t("Mở đơn nghỉ phép")} <ArrowUpRight size={14} />
                 </Link>
               )}
               {(detail.action.startsWith("employee.") ||
@@ -253,7 +261,7 @@ export function AuditPage() {
                     className="audit-source-link"
                     to={"/employees/" + encodeURIComponent(detail.targetId)}
                   >
-                    Mở hồ sơ <ArrowUpRight size={14} />
+                    {t("Mở hồ sơ")} <ArrowUpRight size={14} />
                   </Link>
                 )}
             </div>
@@ -261,25 +269,27 @@ export function AuditPage() {
           <section className="audit-change-section">
             <h3>
               {changes.comparison
-                ? "Nội dung đã thay đổi"
-                : "Thông tin được ghi nhận"}
+                ? t("Nội dung đã thay đổi")
+                : t("Thông tin được ghi nhận")}
             </h3>
             {changes.rows.length ? (
               <div
                 className="audit-change-table"
                 role="table"
-                aria-label="Nội dung nhật ký"
+                aria-label={t("Nội dung nhật ký")}
               >
                 <div
                   className={`audit-change-head ${changes.comparison ? "comparison" : ""}`}
                   role="row"
                 >
-                  <span role="columnheader">Thông tin</span>
+                  <span role="columnheader">{t("Thông tin")}</span>
                   {changes.comparison && (
-                    <span role="columnheader">Trước thay đổi</span>
+                    <span role="columnheader">{t("Trước thay đổi")}</span>
                   )}
                   <span role="columnheader">
-                    {changes.comparison ? "Sau thay đổi" : "Giá trị ghi nhận"}
+                    {changes.comparison
+                      ? t("Sau thay đổi")
+                      : t("Giá trị ghi nhận")}
                   </span>
                 </div>
                 {changes.rows.map((row) => (
@@ -288,15 +298,17 @@ export function AuditPage() {
                     role="row"
                     key={row.key}
                   >
-                    <strong role="rowheader">{row.label}</strong>
+                    <strong role="rowheader">{t(row.label)}</strong>
                     {changes.comparison && (
                       <span role="cell" className="audit-before">
-                        <small>Trước</small>
+                        <small>{t("Trước")}</small>
                         {row.before}
                       </span>
                     )}
                     <span role="cell" className="audit-after">
-                      <small>{changes.comparison ? "Sau" : "Ghi nhận"}</small>
+                      <small>
+                        {changes.comparison ? "Sau" : t("Ghi nhận")}
+                      </small>
                       {row.after}
                     </span>
                   </div>
@@ -304,8 +316,7 @@ export function AuditPage() {
               </div>
             ) : (
               <p className="audit-no-changes">
-                Hoạt động đã được ghi nhận. Không có thông tin thay đổi chi tiết
-                trong nhật ký này.
+                {t("Không có chi tiết thay đổi.")}
               </p>
             )}
             {changes.note && (
@@ -316,15 +327,14 @@ export function AuditPage() {
             <section className="audit-reason">
               <h3>
                 <MessageSquareText size={16} />
-                Lý do / ghi chú
+                {t("Lý do / ghi chú")}
               </h3>
               <p>{detail.reason}</p>
             </section>
           )}
           <footer className="audit-detail-footer">
-            <p>Tên người và đơn vị được đối chiếu với danh sách hiện tại.</p>
             <Button variant="secondary" onClick={() => setDetail(null)}>
-              Đóng chi tiết
+              {t("Đóng chi tiết")}
             </Button>
           </footer>
         </Modal>

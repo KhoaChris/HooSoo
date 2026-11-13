@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import { LocateFixed, Network, Search, X } from "lucide-react";
 import { useAuth } from "../../app/auth";
@@ -14,6 +15,7 @@ import { OrganizationChart } from "./organization-chart";
 import { filterDepartments, type Organization } from "./organization-model";
 
 export function OrganizationPage() {
+  useLocale();
   const q = useApi<Organization>("/organization/tree");
   const { me } = useAuth();
   const [search, setSearch] = useState("");
@@ -34,8 +36,7 @@ export function OrganizationPage() {
   return (
     <div className="organization-page">
       <Heading
-        title="Sơ đồ tổ chức"
-        description="Phòng ban, thành viên và các kết nối trong doanh nghiệp."
+        title={t("Sơ đồ tổ chức")}
         action={
           selfDepartment && (
             <Button
@@ -51,7 +52,7 @@ export function OrganizationPage() {
               }}
             >
               <LocateFixed size={16} aria-hidden="true" />
-              Vị trí của tôi
+              {t("Vị trí của tôi")}
             </Button>
           )
         }
@@ -62,14 +63,14 @@ export function OrganizationPage() {
       ) : q.data && !q.error ? (
         <section
           className="organization-workspace"
-          aria-label="Cơ cấu doanh nghiệp"
+          aria-label={t("Cơ cấu doanh nghiệp")}
         >
           <div className="organization-toolbar">
             <div className="organization-search">
               <Search size={17} aria-hidden="true" />
               <Input
-                aria-label="Tìm trong sơ đồ tổ chức"
-                placeholder="Tìm tên, chức danh, mã nhân viên…"
+                aria-label={t("Tìm trong sơ đồ tổ chức")}
+                placeholder={t("Tìm tên, chức danh, mã nhân viên…")}
                 value={search}
                 onChange={(event) => {
                   setSearch(event.target.value);
@@ -79,7 +80,7 @@ export function OrganizationPage() {
               {search && (
                 <button
                   className="icon-button"
-                  aria-label="Xóa tìm kiếm"
+                  aria-label={t("Xóa tìm kiếm")}
                   onClick={() => setSearch("")}
                 >
                   <X size={15} />
@@ -88,22 +89,22 @@ export function OrganizationPage() {
             </div>
             <div className="organization-filter">
               <Select
-                aria-label="Lọc theo phòng ban"
+                aria-label={t("Lọc theo phòng ban")}
                 value={departmentId}
                 onValueChange={(value) => {
                   setDepartmentId(value);
                   setCollapsed(new Set());
                 }}
                 options={[
-                  { value: "", label: "Tất cả phòng ban" },
+                  { value: "", label: t("Tất cả phòng ban") },
                   ...departments.map((d) => ({ value: d.id, label: d.name })),
                 ]}
               />
             </div>
             <span className="organization-total">
-              <strong>{departments.length}</strong> phòng ban
+              <strong>{departments.length}</strong> {t("phòng ban")}
               <span aria-hidden="true">·</span>
-              <strong>{members.length}</strong> thành viên
+              <strong>{members.length}</strong> {t("thành viên")}
             </span>
           </div>
           {visible.length ? (
@@ -123,17 +124,17 @@ export function OrganizationPage() {
               <Network size={34} strokeWidth={1.5} aria-hidden="true" />
               <h2>
                 {filtered
-                  ? "Không tìm thấy kết quả"
-                  : "Sơ đồ đang chờ phòng ban đầu tiên"}
+                  ? t("Không tìm thấy kết quả")
+                  : t("Sơ đồ đang chờ phòng ban đầu tiên")}
               </h2>
               <p>
                 {filtered
-                  ? "Thử tìm theo tên khác hoặc chọn lại phòng ban."
-                  : "Các phòng ban và thành viên sẽ xuất hiện khi được thêm vào doanh nghiệp."}
+                  ? t("Thử tìm theo tên khác hoặc chọn lại phòng ban.")
+                  : t("Chưa có dữ liệu tổ chức.")}
               </p>
               {filtered && (
                 <Button variant="secondary" onClick={clearFilters}>
-                  Xóa bộ lọc
+                  {t("Xóa bộ lọc")}
                 </Button>
               )}
             </div>
@@ -141,12 +142,15 @@ export function OrganizationPage() {
           <footer className="organization-caption">
             <p>
               <span className="organization-legend-line" aria-hidden="true" />
-              Công ty → Phòng ban → Thành viên
+              {t("Công ty → Phòng ban → Thành viên")}
             </p>
             <span role="status">
               {filtered
-                ? `${visible.length} phòng ban · ${visible.reduce((total, d) => total + d.employees.length, 0)} thành viên phù hợp`
-                : "Chỉ hiển thị phòng ban và nhân viên đang hoạt động"}
+                ? t("{0} phòng ban · {1} thành viên phù hợp", [
+                    visible.length,
+                    visible.reduce((total, d) => total + d.employees.length, 0),
+                  ])
+                : t("Chỉ hiển thị phòng ban và nhân viên đang hoạt động")}
             </span>
           </footer>
         </section>

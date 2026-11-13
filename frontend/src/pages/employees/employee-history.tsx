@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import { ChevronDown, History } from "lucide-react";
 import { labels, type Audit, type Page } from "@hoosoo/shared";
@@ -31,14 +33,14 @@ function changesFor(item: Audit, lookups: EmployeeLookups) {
   const before = (item.changes.before || {}) as Record<string, string>;
   const after = (item.changes.after || {}) as Record<string, string>;
   const display = (key: string, value: string) => {
-    if (!value) return "Chưa có";
+    if (!value) return t("Chưa có");
     if (key === "departmentId")
-      return lookups.departments[value] || "Phòng ban trước đây";
+      return lookups.departments[value] || t("Phòng ban trước đây");
     if (key === "positionId")
-      return lookups.positions[value] || "Chức danh trước đây";
+      return lookups.positions[value] || t("Chức danh trước đây");
     if (key === "managerId")
-      return lookups.managers[value] || "Quản lý trước đây";
-    if (key === "status") return labels[value] || value;
+      return lookups.managers[value] || t("Quản lý trước đây");
+    if (key === "status") return t(labels[value]) || value;
     return key === "hireDate" ? dateText(value) : value;
   };
   // Only work fields belong in this timeline; never render raw audit payloads.
@@ -46,7 +48,7 @@ function changesFor(item: Audit, lookups: EmployeeLookups) {
     .filter((key) => before[key] !== after[key] && after[key] !== undefined)
     .map((key) => ({
       key,
-      label: fieldLabels[key],
+      label: t(fieldLabels[key]),
       before: before[key] ? display(key, before[key]) : null,
       after: display(key, after[key]),
     }));
@@ -65,8 +67,10 @@ export function EmployeeHistory({
   retry: () => void;
   lookups: EmployeeLookups;
 }) {
+  useLocale();
   const [limit, setLimit] = useState(3);
   const items = data?.items ?? [];
+  const nextCount = Math.min(5, items.length - limit);
   return (
     <section
       className="employee-history"
@@ -74,8 +78,9 @@ export function EmployeeHistory({
     >
       <header className="employee-section-heading">
         <div>
-          <h2 id="employee-history-title">Lịch sử hồ sơ</h2>
-          <p>Thay đổi thông tin công việc</p>
+          <h2 id="employee-history-title">
+            <StableText>{t("Lịch sử hồ sơ")}</StableText>
+          </h2>
         </div>
         <History size={18} aria-hidden="true" />
       </header>
@@ -91,27 +96,41 @@ export function EmployeeHistory({
                 <li key={item.id}>
                   <span className="employee-history-dot" aria-hidden="true" />
                   <h3>
-                    {item.action === "employee.created"
-                      ? "Khởi tạo hồ sơ"
-                      : "Cập nhật hồ sơ"}
+                    <StableText>
+                      {item.action === "employee.avatar_updated"
+                        ? t("Đổi ảnh đại diện")
+                        : item.action === "employee.avatar_removed"
+                          ? t("Gỡ ảnh đại diện")
+                          : item.action === "employee.created"
+                            ? t("Khởi tạo hồ sơ")
+                            : t("Cập nhật hồ sơ")}
+                    </StableText>
                   </h3>
                   <time dateTime={item.createdAt}>
                     {item.createdAt
                       ? `${dateText(item.createdAt)} · ${timeText(item.createdAt)}`
-                      : "Chưa có thời gian ghi nhận"}
+                      : t("Chưa có thời gian ghi nhận")}
                   </time>
                   {changes.length ? (
                     <details className="employee-history-change">
                       <summary>
-                        {item.action === "employee.created"
-                          ? "Thông tin ban đầu"
-                          : `${changes.length} thông tin thay đổi`}
+                        <StableText>
+                          {item.action === "employee.avatar_updated"
+                            ? t("Đổi ảnh đại diện")
+                            : item.action === "employee.avatar_removed"
+                              ? t("Gỡ ảnh đại diện")
+                              : item.action === "employee.created"
+                                ? t("Thông tin ban đầu")
+                                : t("{0} thông tin thay đổi", [changes.length])}
+                        </StableText>
                         <ChevronDown size={14} aria-hidden="true" />
                       </summary>
                       <dl>
                         {changes.map((change) => (
                           <div key={change.key}>
-                            <dt>{change.label}</dt>
+                            <dt>
+                              <StableText>{t(change.label)}</StableText>
+                            </dt>
                             <dd>
                               {change.before && (
                                 <span className="employee-history-before">
@@ -125,29 +144,31 @@ export function EmployeeHistory({
                         ))}
                       </dl>
                     </details>
-                  ) : (
-                    <p className="employee-history-note">
-                      Thông tin hồ sơ đã được lưu.
-                    </p>
-                  )}
+                  ) : null}
                 </li>
               );
             })}
           </ol>
           {items.length > limit && (
             <Button
+              type="button"
               variant="secondary"
               className="employee-history-more"
               onClick={() => setLimit(limit + 5)}
             >
-              Xem thêm {Math.min(5, items.length - limit)} thay đổi
+              <span>
+                {nextCount === 1
+                  ? t("Xem thêm 1 thay đổi")
+                  : t("Xem thêm {0} thay đổi", [nextCount])}
+              </span>
               <ChevronDown size={15} aria-hidden="true" />
             </Button>
           )}
           {data && data.total > items.length && (
             <p className="employee-history-note">
-              Đang hiển thị {items.length} sự kiện gần nhất trong {data.total}{" "}
-              sự kiện.
+              <StableText>{t("Đang hiển thị")}</StableText> {items.length}{" "}
+              <StableText>{t("sự kiện gần nhất trong")}</StableText>{" "}
+              {data.total} <StableText>{t("sự kiện.")}</StableText>
             </p>
           )}
         </>
@@ -155,8 +176,9 @@ export function EmployeeHistory({
         !error && (
           <div className="employee-history-empty">
             <History size={24} aria-hidden="true" />
-            <h3>Chưa có lịch sử thay đổi</h3>
-            <p>Các lần cập nhật thông tin công việc sẽ xuất hiện tại đây.</p>
+            <h3>
+              <StableText>{t("Chưa có lịch sử thay đổi")}</StableText>
+            </h3>
           </div>
         )
       )}

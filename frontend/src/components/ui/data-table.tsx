@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale, intlLocale } from "../../i18n";
 import { type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Rows3 } from "lucide-react";
 import { type Page } from "@hoosoo/shared";
@@ -9,6 +11,8 @@ export type TableColumn<T> = {
   render: (row: T) => ReactNode;
   align?: "left" | "center" | "right";
   className?: string;
+  /** Reading width on narrow screens; all columns expand proportionally. */
+  minWidth?: number;
 };
 export function DataTable<T extends { id: string }>({
   data,
@@ -39,6 +43,7 @@ export function DataTable<T extends { id: string }>({
   onRetry?: () => void;
   footerNote?: ReactNode;
 }) {
+  useLocale();
   const current = data?.page || 1,
     total = data?.total || 0,
     size = data?.pageSize || 20,
@@ -54,8 +59,15 @@ export function DataTable<T extends { id: string }>({
   ).sort((a, b) => a - b);
   const start = data?.items.length ? (current - 1) * size + 1 : 0,
     end = data?.items.length ? start + data.items.length - 1 : 0;
+  const minTableWidth = columns.reduce(
+    (sum, column) => sum + (column.minWidth ?? 180),
+    0,
+  );
   return (
-    <section className="table-panel" aria-label={title || "Danh sách dữ liệu"}>
+    <section
+      className="table-panel"
+      aria-label={title || t("Danh sách dữ liệu")}
+    >
       {title && (
         <header className="data-table-heading">
           <div className="data-table-title">
@@ -64,14 +76,20 @@ export function DataTable<T extends { id: string }>({
             </span>
             <div>
               <div className="data-table-title-line">
-                <h2>{title}</h2>
+                <h2>
+                  <StableText>{title}</StableText>
+                </h2>
                 {!loading && !error && data && (
                   <span className="data-table-count">
-                    {total.toLocaleString("vi-VN")}
+                    {total.toLocaleString(intlLocale())}
                   </span>
                 )}
               </div>
-              {description && <p>{description}</p>}
+              {description && (
+                <p>
+                  <StableText>{description}</StableText>
+                </p>
+              )}
             </div>
           </div>
           {actions && <div className="data-table-actions">{actions}</div>}
@@ -87,23 +105,33 @@ export function DataTable<T extends { id: string }>({
           <div
             className="table-scroll"
             tabIndex={0}
-            aria-label="Nội dung bảng, có thể cuộn ngang"
+            aria-label={t("Nội dung bảng, có thể cuộn ngang")}
             aria-busy={loading}
           >
-            <table>
+            <table style={{ minWidth: minTableWidth }}>
               <caption className="sr-only">
-                {title || "Danh sách dữ liệu"}
+                {title || t("Danh sách dữ liệu")}
               </caption>
+              <colgroup>
+                {columns.map((c, index) => (
+                  <col
+                    key={index}
+                    style={{
+                      width: `${((c.minWidth ?? 180) / minTableWidth) * 100}%`,
+                    }}
+                  />
+                ))}
+              </colgroup>
               <thead>
                 <tr>
-                  {columns.map((c) => (
+                  {columns.map((c, index) => (
                     <th
-                      key={c.label}
+                      key={index}
                       scope="col"
                       className={c.className}
                       style={{ textAlign: c.align }}
                     >
-                      {c.label}
+                      <StableText>{t(c.label)}</StableText>
                     </th>
                   ))}
                 </tr>
@@ -117,7 +145,7 @@ export function DataTable<T extends { id: string }>({
                         className="table-skeleton-row"
                       >
                         {columns.map((c, j) => (
-                          <td key={c.label}>
+                          <td key={j}>
                             <span
                               className={
                                 "table-skeleton" + (j === 0 ? " wide" : "")
@@ -129,9 +157,9 @@ export function DataTable<T extends { id: string }>({
                     ))
                   : data?.items.map((row) => (
                       <tr key={row.id}>
-                        {columns.map((c) => (
+                        {columns.map((c, index) => (
                           <td
-                            key={c.label}
+                            key={index}
                             className={c.className}
                             style={{ textAlign: c.align }}
                           >
@@ -149,33 +177,34 @@ export function DataTable<T extends { id: string }>({
       <footer className="table-footer">
         <span role="status">
           {loading ? (
-            "Đang tải danh sách…"
+            t("Đang tải danh sách…")
           ) : error ? (
-            "Chưa thể tải dữ liệu"
+            t("Chưa thể tải dữ liệu")
           ) : (
             <>
-              Hiển thị{" "}
+              {t("Hiển thị")}{" "}
               <strong>
                 {start}–{end}
               </strong>{" "}
-              trong <strong>{total.toLocaleString("vi-VN")}</strong> kết quả
+              {t("trong")} <strong>{total.toLocaleString(intlLocale())}</strong>{" "}
+              {t("kết quả")}
             </>
           )}
         </span>
         {onPage && (
           <nav
             className="table-pagination"
-            aria-label={`Phân trang ${title || "danh sách"}`}
+            aria-label={t("Phân trang {0}", [title || "danh sách"])}
           >
             <button
               type="button"
               className="table-page-arrow"
-              aria-label="Trang trước"
+              aria-label={t("Trang trước")}
               disabled={loading || !!error || !data || current <= 1}
               onClick={() => onPage(current - 1)}
             >
               <ChevronLeft size={16} />
-              <span>Trước</span>
+              <span>{t("Trước")}</span>
             </button>
             {pageNumbers.map((page, i) => (
               <span className="table-page-slot" key={page}>
@@ -187,7 +216,7 @@ export function DataTable<T extends { id: string }>({
                 <button
                   type="button"
                   className="table-page-number"
-                  aria-label={`Trang ${page}`}
+                  aria-label={t("Trang {0}", [page])}
                   aria-current={current === page ? "page" : undefined}
                   disabled={loading || !!error || current === page}
                   onClick={() => onPage(page)}
@@ -199,11 +228,11 @@ export function DataTable<T extends { id: string }>({
             <button
               type="button"
               className="table-page-arrow"
-              aria-label="Trang tiếp theo"
+              aria-label={t("Trang tiếp theo")}
               disabled={loading || !!error || !data || current >= pages}
               onClick={() => onPage(current + 1)}
             >
-              <span>Sau</span>
+              <span>{t("Sau")}</span>
               <ChevronRight size={16} />
             </button>
           </nav>

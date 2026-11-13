@@ -18,11 +18,11 @@
 }
 .form-required-note {
   font-size: 11px;
-  color: #637784;
+  color: light-dark(#637784, var(--text-secondary));
 }
 .form-required-note > span,
 .field-required {
-  color: #ad5144;
+  color: light-dark(#ad5144, hsl(7 44% 75%));
 }
 .form-section {
   font-size: 13px;
@@ -37,8 +37,8 @@
 }
 .form-validation {
   font-size: 12px;
-  color: #a44335;
-  background: #fff4ef;
+  color: light-dark(#a44335, var(--danger-text));
+  background: light-dark(#fff4ef, var(--danger-bg));
   border-radius: 7px;
   padding: 10px 12px;
 }
@@ -53,7 +53,7 @@
 .field > label {
   font-size: 12px;
   font-weight: 550;
-  color: #526574;
+  color: light-dark(#526574, var(--text-secondary));
 }
 .field input,
 .field .select-trigger,
@@ -65,7 +65,7 @@
   font-size: 11px;
 }
 .field .field-error {
-  color: #b8584d;
+  color: light-dark(#b8584d, var(--danger-text));
 }
 .checkbox-field {
   flex-direction: row;
@@ -106,5 +106,5 @@
   }
 }
 .field small {
-  color: #647784;
+  color: light-dark(#647784, var(--text-secondary));
 }

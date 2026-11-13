@@ -1,18 +1,17 @@
+import { t, useLocale } from "../../../i18n";
 import { Wallet } from "lucide-react";
 import { PersonCell } from "../../../components/ui/person-cell";
 import { Input } from "../../../components/ui";
 import { useState } from "react";
-import {
-  balanceAdjustmentSchema,
-  type Page,
-  type BalanceView,
-} from "@hoosoo/shared";
+import { type Page, type BalanceView } from "@hoosoo/shared";
 import { useApi, useAction } from "../../../hooks/data";
-import { today, dateText } from "../../../utils/date-time";
-import { Button, Form, Modal, DataTable } from "../../../components/ui";
+import { today } from "../../../utils/date-time";
+import { Button, DataTable } from "../../../components/ui";
+import { BalanceAdjustmentDialog } from "./balance-adjustment-dialog";
 import { queryString } from "../../../services/api-client";
 
 export function BalanceAdmin() {
+  useLocale();
   const [year, setYear] = useState(Number(today().slice(0, 4))),
     [page, setPage] = useState(1),
     [edit, setEdit] = useState<BalanceView | null>(null);
@@ -23,15 +22,14 @@ export function BalanceAdmin() {
   return (
     <>
       <DataTable
-        title="Quỹ phép nhân viên"
-        description="Điều chỉnh hạn mức theo năm có lưu lý do và lịch sử."
+        title={t("Quỹ phép nhân viên")}
         icon={<Wallet size={18} />}
         loading={q.isPending}
         error={q.error}
         onRetry={() => void q.refetch()}
         actions={
           <label className="filter-label">
-            Năm
+            {t("Năm")}
             <Input
               type="number"
               min="2020"
@@ -48,18 +46,33 @@ export function BalanceAdmin() {
         onPage={setPage}
         columns={[
           {
-            label: "Nhân viên",
+            minWidth: 270,
+            label: t("Nhân viên"),
             render: (b) => <PersonCell name={b.employeeName} />,
           },
-          { label: "Hạn mức", render: (b) => b.allowance },
-          { label: "Đã duyệt", render: (b) => b.used },
-          { label: "Chờ duyệt", render: (b) => b.pending },
           {
-            label: "Khả dụng",
+            minWidth: 130,
+            label: t("Hạn mức"),
+            render: (b) => b.allowance,
+          },
+          {
+            minWidth: 130,
+            label: t("Đã duyệt"),
+            render: (b) => b.used,
+          },
+          {
+            minWidth: 130,
+            label: t("Chờ duyệt"),
+            render: (b) => b.pending,
+          },
+          {
+            minWidth: 130,
+            label: t("Khả dụng"),
             render: (b) => <strong className="teal">{b.available}</strong>,
           },
           {
-            label: "Thao tác",
+            minWidth: 160,
+            label: t("Thao tác"),
             className: "cell-actions",
             render: (b) => (
               <div className="row-actions">
@@ -67,11 +80,13 @@ export function BalanceAdmin() {
                   variant="ghost"
                   disabled={!b.canAdjust}
                   title={
-                    !b.canAdjust ? "Chỉ cấp cao hơn được điều chỉnh" : undefined
+                    !b.canAdjust
+                      ? t("Chỉ cấp cao hơn được điều chỉnh")
+                      : undefined
                   }
                   onClick={() => setEdit(b)}
                 >
-                  Điều chỉnh
+                  {t("Điều chỉnh")}
                 </Button>
               </div>
             ),
@@ -79,44 +94,22 @@ export function BalanceAdmin() {
         ]}
       />
       {edit && (
-        <Modal
-          title={"Điều chỉnh quỹ phép · " + edit.employeeName}
+        <BalanceAdjustmentDialog
+          key={`${edit.employeeId}:${edit.year}`}
+          balance={
+            q.data?.items.find(
+              (b) => b.employeeId === edit.employeeId && b.year === edit.year,
+            ) ?? edit
+          }
           onClose={() => setEdit(null)}
-        >
-          <p>
-            Hạn mức hiện tại: {edit.allowance}. Đã sử dụng/cam kết: {edit.used}{" "}
-            ngày.
-          </p>
-          <Form
-            schema={balanceAdjustmentSchema}
-            defaults={{ year, amount: 1, reason: "" }}
-            fields={[
-              { name: "year", label: "Năm", type: "number" },
-              {
-                name: "amount",
-                label: "Số ngày tăng / giảm",
-                type: "number",
-                hint: "Nhập số âm để giảm hạn mức.",
-              },
-              { name: "reason", label: "Lý do điều chỉnh", type: "textarea" },
-            ]}
-            onSubmit={async (body) => {
-              await action.mutateAsync({
-                path: "/leave-balances/" + edit.employeeId + "/adjustments",
-                body,
-              });
-              setEdit(null);
-            }}
-            onCancel={() => setEdit(null)}
-          />
-          <h3>Lịch sử số dư</h3>
-          {edit.transactions.map((t) => (
-            <p key={t.id}>
-              {t.amount > 0 ? "+" : ""}
-              {t.amount} · {t.reason} · {dateText(t.createdAt)}
-            </p>
-          ))}
-        </Modal>
+          onSubmit={async (body) => {
+            await action.mutateAsync({
+              path: "/leave-balances/" + edit.employeeId + "/adjustments",
+              body,
+            });
+            setEdit(null);
+          }}
+        />
       )}
     </>
   );

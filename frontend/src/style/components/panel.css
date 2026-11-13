@@ -1,7 +1,7 @@
 /* components/panel: keep responsive rules with the styles they adjust. */
 
 .panel {
-  background: #fff;
+  background: light-dark(#fff, var(--surface));
   border: 1px solid var(--line);
   border-radius: 9px;
   padding: 23px;
@@ -37,17 +37,17 @@
 .details dt,
 .details dd {
   padding: 13px 0;
-  border-bottom: 1px solid #edf1f3;
+  border-bottom: 1px solid light-dark(#edf1f3, var(--line));
   line-height: 1.8;
 }
 .details dt {
-  color: #8896a0;
+  color: light-dark(#8896a0, var(--muted));
   display: flex;
   gap: 8px;
   align-items: center;
 }
 .details dd {
-  color: #425a6a;
+  color: light-dark(#425a6a, hsl(204 23% 75%));
   word-break: break-word;
   margin: 0;
   font-weight: 500;

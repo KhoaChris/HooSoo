@@ -5,6 +5,8 @@ import { mutationCollections } from "@hoosoo/shared";
 import { refreshQueries } from "../services/query-sync";
 import { apiQueryOptions } from "../services/query-cache";
 import { auth } from "../config/firebase";
+import { actionToast } from "../components/ui/action-toast";
+import { showToast } from "../components/ui/toast-events";
 export function useApi<T>(path: string, enabled = true) {
   const uid = auth.currentUser?.uid ?? null;
   return useQuery({
@@ -34,7 +36,9 @@ export function useAction() {
     },
     onSuccess: async (_data, variables) => {
       await refreshQueries(client, mutationCollections(variables.path));
-      window.dispatchEvent(new Event("hoosoo:saved"));
+      const toast = actionToast(variables);
+      showToast(toast.message, toast.tone);
     },
+    onError: (error) => showToast(error.message, "error"),
   });
 }

@@ -12,28 +12,30 @@
   font-size: 12px;
 }
 .filters .select-trigger {
-  min-width: 140px;
-  max-width: 220px;
+  width: 188px;
+  min-width: 188px;
+  max-width: 188px;
+  flex: 0 0 188px;
   padding: 8px 11px;
-  background: #fff;
-  border-color: #dfe7e5;
+  background: light-dark(#fff, var(--surface));
+  border-color: light-dark(#dfe7e5, var(--control-border));
 }
 .search-input {
   display: flex;
   align-items: center;
   gap: 7px;
-  flex: 1 1 240px;
+  flex: 0 1 360px;
   min-width: 200px;
   max-width: 360px;
   padding-left: 12px;
-  background: #fafcfb;
-  border: 1px solid #dde6e2;
+  background: light-dark(#fafcfb, var(--surface));
+  border: 1px solid light-dark(#dde6e2, var(--control-border));
   border-radius: 7px;
-  color: #8a9b98;
+  color: light-dark(#8a9b98, var(--muted));
 }
 .search-input:focus-within {
-  border-color: #86b4a4;
-  box-shadow: 0 0 0 3px #edf5f0;
+  border-color: light-dark(#86b4a4, var(--control-border-hover));
+  box-shadow: 0 0 0 3px light-dark(#edf5f0, #00000066);
 }
 .search-input > svg {
   flex-shrink: 0;
@@ -58,13 +60,13 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #76898e;
+  color: light-dark(#76898e, var(--text-secondary));
 }
 .filter-label input {
   min-height: 38px;
   font-size: 12px;
   padding: 7px 9px;
-  border-color: #dfe7e5;
+  border-color: light-dark(#dfe7e5, var(--control-border));
 }
 .filter-label .input-control[type="number"] {
   min-width: 65px;
@@ -75,7 +77,8 @@
     gap: 9px;
   }
   .filters .select-trigger {
-    flex: 1 1 120px;
+    flex: 1 1 160px;
+    width: 100%;
     min-width: 0;
     max-width: none;
   }
@@ -102,5 +105,39 @@
   }
   .table-toolbar .filter-reset {
     margin-left: 0;
+  }
+}
+
+/* Labels and date inputs occupy the same tracks in both languages. */
+.date-filter-label {
+  flex: 0 0 216px;
+  width: 216px;
+  display: grid;
+  grid-template-columns: 54px 154px;
+  gap: 8px;
+}
+.date-filter-label > span {
+  white-space: nowrap;
+}
+.date-filter-label input {
+  width: 154px;
+  min-width: 0;
+}
+.filter-reset {
+  min-width: 108px;
+}
+@media (max-width: 600px) {
+  .date-filter-label {
+    flex: 1 1 130px;
+    width: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+  .date-filter-label > span {
+    line-height: 16px;
+  }
+  .date-filter-label input {
+    width: 100%;
+    max-width: none;
   }
 }

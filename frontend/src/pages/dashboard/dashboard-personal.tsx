@@ -1,8 +1,9 @@
+import { t, useLocale } from "../../i18n";
 import { DialogLink } from "../../components/navigation/dialog-link";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Clock } from "lucide-react";
+import { ArrowRight, Clock, Plus } from "lucide-react";
 import type { AttendanceView, BalanceView } from "@hoosoo/shared";
-import { dateText, timeText, today } from "../../utils/date-time";
+import { timeText, today } from "../../utils/date-time";
 
 export function DashboardPersonal({
   attendance,
@@ -11,50 +12,35 @@ export function DashboardPersonal({
   attendance?: AttendanceView;
   balance?: BalanceView;
 }) {
+  useLocale();
   const completed = !!attendance?.checkOut;
   return (
     <aside
       className="dashboard-personal"
-      aria-label="Thông tin cá nhân hôm nay"
+      aria-label={t("Thông tin cá nhân hôm nay")}
     >
-      <section className="dashboard-day" aria-labelledby="dashboard-day-title">
+      <section className="dashboard-day">
         <div className="dashboard-section-heading">
-          <h2 id="dashboard-day-title">Hôm nay của bạn</h2>
-          <Clock size={17} aria-hidden="true" />
+          <h2>{t("Hôm nay của bạn")}</h2>
+          <Clock size={18} aria-hidden="true" />
         </div>
-        <p className="dashboard-caption">{dateText(today())}</p>
-        <div
-          className={
-            "dashboard-day-status" + (attendance ? " is-recorded" : "")
-          }
-        >
-          <span aria-hidden="true">
-            {completed ? <Check size={17} /> : <Clock size={17} />}
-          </span>
-          <div>
-            <strong>
-              {completed
-                ? "Đã hoàn tất chấm công"
-                : attendance
-                  ? "Đã ghi nhận giờ vào"
-                  : "Chưa có giờ vào"}
-            </strong>
-            <p>
-              {completed
-                ? "Giờ vào và giờ ra đã được ghi nhận."
-                : attendance
-                  ? "Nhớ chấm công khi kết thúc làm việc."
-                  : "Mở chấm công để bắt đầu ngày làm việc."}
-            </p>
-          </div>
-        </div>
+        <p className="dashboard-day-status">
+          <i data-recorded={!!attendance} aria-hidden="true" />
+          {t(
+            completed
+              ? "Đã hoàn tất chấm công"
+              : attendance
+                ? "Đang trong ca"
+                : "Chưa có giờ vào",
+          )}
+        </p>
         <dl className="dashboard-time-pair">
           <div>
-            <dt>Giờ vào</dt>
+            <dt>{t("Giờ vào")}</dt>
             <dd>{timeText(attendance?.checkIn)}</dd>
           </div>
           <div>
-            <dt>Giờ ra</dt>
+            <dt>{t("Giờ ra")}</dt>
             <dd>{timeText(attendance?.checkOut)}</dd>
           </div>
         </dl>
@@ -62,36 +48,34 @@ export function DashboardPersonal({
           className="button secondary dashboard-attendance-link"
           to="/attendance/my"
         >
-          {completed
-            ? "Xem chấm công"
-            : attendance
-              ? "Chấm công ra"
-              : "Chấm công vào"}
+          {t(
+            completed
+              ? "Xem chấm công"
+              : attendance
+                ? "Chấm công ra"
+                : "Chấm công vào",
+          )}
           <ArrowRight size={16} aria-hidden="true" />
         </Link>
       </section>
-      <section
-        className="dashboard-balance"
-        aria-labelledby="dashboard-balance-title"
-      >
+      <section className="dashboard-balance">
         <div className="dashboard-section-heading">
-          <h2 id="dashboard-balance-title">Quỹ phép của bạn</h2>
+          <h2>{t("Quỹ phép của bạn")}</h2>
           <span>{balance?.year ?? today().slice(0, 4)}</span>
         </div>
         {balance ? (
           <>
             <p className="dashboard-balance-value">
               <strong>{balance.available}</strong>
-              <span>ngày còn lại</span>
+              <span>{t("ngày còn lại")}</span>
             </p>
             <div
-              className="dashboard-balance-track"
+              className="dashboard-meter"
               role="meter"
-              aria-label="Phép đã sử dụng"
+              aria-label={t("Phép đã sử dụng")}
               aria-valuemin={0}
               aria-valuemax={Math.max(balance.allowance, balance.used, 1)}
               aria-valuenow={Math.max(0, balance.used)}
-              aria-valuetext={`${balance.used} ngày đã dùng trên ${balance.allowance} ngày được cấp`}
             >
               <span
                 style={{
@@ -99,31 +83,25 @@ export function DashboardPersonal({
                 }}
               />
             </div>
-            <div className="dashboard-balance-details">
-              <span>
-                Đã dùng <strong>{balance.used} ngày</strong>
-              </span>
-              <span>
-                Được cấp <strong>{balance.allowance} ngày</strong>
-              </span>
-            </div>
-            <p className="dashboard-caption">
-              Đơn chờ duyệt chưa trừ vào phép còn lại.
-            </p>
+            <dl className="dashboard-balance-details">
+              <div>
+                <dt>{t("Đã dùng")}</dt>
+                <dd>{balance.used}</dd>
+              </div>
+              <div>
+                <dt>{t("Được cấp")}</dt>
+                <dd>{balance.allowance}</dd>
+              </div>
+            </dl>
           </>
         ) : (
-          <p className="dashboard-caption dashboard-balance-missing">
-            Chưa có thông tin quỹ phép.
+          <p className="dashboard-caption">
+            {t("Chưa có thông tin quỹ phép.")}
           </p>
         )}
-        <Link className="dashboard-text-link" to="/leave/my">
-          Xem nghỉ phép của tôi <ArrowRight size={15} aria-hidden="true" />
-        </Link>
-        <DialogLink
-          className="button secondary dashboard-attendance-link"
-          to="/leave/new"
-        >
-          Tạo đơn nghỉ phép <ArrowRight size={16} aria-hidden="true" />
+        <DialogLink className="dashboard-text-link" to="/leave/new">
+          <Plus size={16} aria-hidden="true" />
+          {t("Tạo đơn nghỉ phép")}
         </DialogLink>
       </section>
     </aside>

@@ -13,6 +13,7 @@ import { assert, notFound } from "../../utils/errors";
 import { audit } from "../../common/audit";
 import { requireRole } from "../../common/authorization";
 import { protectAdmin } from "../accounts/accounts.policy";
+import { nextEmployeeCode } from "./employee-code";
 
 const hr: Role[] = ["Admin", "HR"];
 export function saveEmployee(
@@ -25,16 +26,13 @@ export function saveEmployee(
   const old = id ? s.employees[id] : undefined;
   if (id && !old) notFound();
   if (id) assertManageEmployee(s, a, id);
-  assert(
-    !Object.values(s.employees).some(
-      (e) =>
-        e.id !== id &&
-        e.employeeCode.toLowerCase() === input.employeeCode.toLowerCase(),
-    ),
-    409,
-    "EMPLOYEE_CODE_EXISTS",
-    "Mã nhân viên đã tồn tại.",
-  );
+  if (old && input.employeeCode !== undefined)
+    assert(
+      old.employeeCode.toUpperCase() === input.employeeCode.toUpperCase(),
+      400,
+      "EMPLOYEE_CODE_IMMUTABLE",
+      "Mã nhân viên được cấp tự động và không thể thay đổi.",
+    );
   for (const [table, key] of [
     ["departments", "departmentId"],
     ["positions", "positionId"],
@@ -104,6 +102,7 @@ export function saveEmployee(
   const result: Employee = {
     ...old,
     ...input,
+    employeeCode: old?.employeeCode ?? nextEmployeeCode(s),
     id: employeeId,
     createdAt: old?.createdAt || new Date().toISOString(),
     createdBy: old?.createdBy || a.uid,

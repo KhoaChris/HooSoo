@@ -1,7 +1,9 @@
+import { t, useLocale } from "../../i18n";
 import { type ReactNode } from "react";
+import { StableText } from "../../i18n/stable-text";
 
 export function Heading({
-  eyebrow = "KHÔNG GIAN LÀM VIỆC",
+  eyebrow = t("KHÔNG GIAN LÀM VIỆC"),
   title,
   description,
   action,
@@ -11,12 +13,21 @@ export function Heading({
   description?: string;
   action?: ReactNode;
 }) {
+  useLocale();
   return (
-    <header className="page-heading">
+    <header className={`page-heading${description ? "" : " is-compact"}`}>
       <div>
-        <span className="eyebrow">{eyebrow}</span>
-        <h1>{title}</h1>
-        {description && <p>{description}</p>}
+        <span className="eyebrow">
+          <StableText>{eyebrow}</StableText>
+        </span>
+        <h1>
+          <StableText>{title}</StableText>
+        </h1>
+        {description && (
+          <p>
+            <StableText>{description}</StableText>
+          </p>
+        )}
       </div>
       {action}
     </header>

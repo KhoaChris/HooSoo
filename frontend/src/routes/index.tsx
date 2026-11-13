@@ -1,3 +1,4 @@
+import { t, useLocale } from "../i18n";
 import { professionalRoles } from "@hoosoo/shared";
 import { supervisorRoles } from "@hoosoo/shared";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
@@ -11,6 +12,9 @@ import { Login } from "../pages/auth/login-page";
 import { ApiError } from "../services/api-client";
 import { RecordDialog } from "./record-dialog";
 import { recordDialogBackground } from "./record-dialog-routes";
+const Chat = lazy(() =>
+  import("../pages/chat/chat-page").then((m) => ({ default: m.ChatPage })),
+);
 const Dashboard = lazy(() =>
   import("../pages/dashboard/dashboard-page").then((m) => ({
     default: m.DashboardPage,
@@ -112,6 +116,7 @@ const Access = lazy(() =>
   })),
 );
 function Guard({ roles }: { roles?: Role[] }) {
+  useLocale();
   const { loading, user, me, error, logout, retry } = useAuth();
   const location = useLocation();
   if (loading) return <Loading />;
@@ -130,7 +135,7 @@ function Guard({ roles }: { roles?: Role[] }) {
       <main className="access-error">
         <ErrorBox error={error} retry={retry} />
         <Button variant="secondary" onClick={() => void logout()}>
-          Đăng xuất
+          {t("Đăng xuất")}
         </Button>
       </main>
     );
@@ -140,6 +145,7 @@ function Guard({ roles }: { roles?: Role[] }) {
   return <Outlet />;
 }
 export function AppRoutes() {
+  useLocale();
   const location = useLocation();
   const background = recordDialogBackground(location);
   return (
@@ -151,6 +157,7 @@ export function AppRoutes() {
           <Route element={<Guard />}>
             <Route element={<AppLayout />}>
               <Route index element={<Navigate to="/dashboard" replace />} />
+              <Route path="chat" element={<Chat />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="access" element={<Access />} />
               <Route element={<Guard roles={professionalRoles} />}>

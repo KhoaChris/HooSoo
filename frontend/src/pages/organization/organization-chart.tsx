@@ -1,3 +1,5 @@
+import { t, useLocale } from "../../i18n";
+import { Avatar } from "../../components/ui/avatar";
 import {
   useLayoutEffect,
   useRef,
@@ -30,24 +32,22 @@ function MemberNode({
   member: OrganizationMember;
   canViewProfile: boolean;
 }) {
+  useLocale();
   const contents = (
     <>
       <div className="org-member-main">
-        <span className="org-member-avatar" aria-hidden="true">
-          {member.name
-            .trim()
-            .split(/\s+/)
-            .slice(-2)
-            .map((word) => word[0])
-            .join("")}
-        </span>
+        <Avatar
+          name={member.name}
+          src={member.avatarUrl}
+          className="org-member-avatar"
+        />
         <div className="org-member-identity">
           <div className="org-member-name">
             <strong>{member.name}</strong>
-            {member.self && <span className="org-self-label">Bạn</span>}
+            {member.self && <span className="org-self-label">{t("Bạn")}</span>}
           </div>
           <span className="org-member-position">
-            {member.positionName || "Chưa có chức danh"}
+            {member.positionName || t("Chưa có chức danh")}
           </span>
         </div>
       </div>
@@ -56,10 +56,11 @@ function MemberNode({
         <span>
           {member.managerName ? (
             <>
-              Quản lý: <strong>{member.managerName}</strong>
+              {t("Quản lý:")}{" "}
+              <strong>{member.managerName}</strong>
             </>
           ) : (
-            "Chưa phân công quản lý"
+            t("Chưa phân công quản lý")
           )}
         </span>
       </div>
@@ -72,7 +73,10 @@ function MemberNode({
       className={className}
       data-self={member.self || undefined}
       to={member.self ? "/profile" : `/employees/${member.id}`}
-      aria-label={`Xem hồ sơ ${member.name}${member.self ? " (bạn)" : ""}`}
+      aria-label={t("Xem hồ sơ {0}{1}", [
+        member.name,
+        member.self ? " (bạn)" : "",
+      ])}
     >
       {contents}
     </Link>
@@ -97,6 +101,7 @@ export function OrganizationChart({
   viewKey: string;
   canViewProfiles: boolean;
 }) {
+  useLocale();
   const viewport = useRef<HTMLDivElement>(null),
     chart = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0, viewportWidth: 0 });
@@ -210,7 +215,7 @@ export function OrganizationChart({
       <div className="organization-viewbar">
         <span className="organization-pan-hint" id="org-pan-hint">
           <Hand size={15} aria-hidden="true" />
-          Kéo nền hoặc cuộn để di chuyển
+          {t("Kéo nền hoặc cuộn để di chuyển")}
         </span>
         <div className="organization-view-actions">
           <button
@@ -231,16 +236,16 @@ export function OrganizationChart({
             ) : (
               <ChevronsDownUp size={16} aria-hidden="true" />
             )}
-            {allCollapsed ? "Mở tất cả" : "Thu gọn"}
+            {allCollapsed ? t("Mở tất cả") : t("Thu gọn")}
           </button>
           <div
             className="organization-zoom"
             role="group"
-            aria-label="Tỷ lệ sơ đồ"
+            aria-label={t("Tỷ lệ sơ đồ")}
           >
             <button
               className="icon-button"
-              aria-label="Thu nhỏ sơ đồ"
+              aria-label={t("Thu nhỏ sơ đồ")}
               disabled={zoom <= 60}
               onClick={() => changeZoom(zoom - 10)}
             >
@@ -248,14 +253,14 @@ export function OrganizationChart({
             </button>
             <button
               className="org-zoom-value"
-              aria-label={`Tỷ lệ ${zoom}%, đặt lại 100%`}
+              aria-label={t("Tỷ lệ {0}%, đặt lại 100%", [zoom])}
               onClick={() => changeZoom(100)}
             >
               {zoom}%
             </button>
             <button
               className="icon-button"
-              aria-label="Phóng to sơ đồ"
+              aria-label={t("Phóng to sơ đồ")}
               disabled={zoom >= 140}
               onClick={() => changeZoom(zoom + 10)}
             >
@@ -264,8 +269,8 @@ export function OrganizationChart({
           </div>
           <button
             className="icon-button"
-            aria-label="Căn giữa sơ đồ"
-            title="Căn giữa sơ đồ"
+            aria-label={t("Căn giữa sơ đồ")}
+            title={t("Căn giữa sơ đồ")}
             onClick={center}
           >
             <Focus size={17} />
@@ -276,7 +281,7 @@ export function OrganizationChart({
         ref={viewport}
         className={"organization-canvas" + (dragging ? " is-dragging" : "")}
         role="region"
-        aria-label="Sơ đồ công ty, phòng ban và thành viên"
+        aria-label={t("Sơ đồ công ty, phòng ban và thành viên")}
         aria-describedby="org-pan-hint"
         tabIndex={0}
         onPointerDown={(event) => {
@@ -322,15 +327,17 @@ export function OrganizationChart({
                 <Building2 size={24} strokeWidth={1.6} aria-hidden="true" />
               </span>
               <div>
-                <span className="org-company-eyebrow">Cơ cấu tổ chức</span>
+                <span className="org-company-eyebrow">
+                  {t("Cơ cấu tổ chức")}
+                </span>
                 <h2>{companyName}</h2>
                 <p>
-                  {departments.length} phòng ban{" "}
-                  <span aria-hidden="true">·</span> {count} thành viên
+                  {departments.length} {" "}{t("phòng ban")}{" "}
+                  <span aria-hidden="true">·</span> {count} {" "}{t("thành viên")}
                 </p>
               </div>
             </div>
-            <ul className="org-branches" aria-label="Các phòng ban">
+            <ul className="org-branches" aria-label={t("Các phòng ban")}>
               {departments.map((department) => {
                 const closed = collapsed.has(department.id);
                 return (
@@ -358,8 +365,13 @@ export function OrganizationChart({
                             <small>
                               {department.employees.length ===
                               department.totalEmployees
-                                ? `${department.totalEmployees} thành viên`
-                                : `${department.employees.length} / ${department.totalEmployees} thành viên`}
+                                ? t("{0} thành viên", [
+                                    department.totalEmployees,
+                                  ])
+                                : t("{0} / {1} thành viên", [
+                                    department.employees.length,
+                                    department.totalEmployees,
+                                  ])}
                             </small>
                           </span>
                           <ChevronDown
@@ -373,7 +385,7 @@ export function OrganizationChart({
                         {department.employees.length ? (
                           <ul
                             className="org-members"
-                            aria-label={`Thành viên ${department.name}`}
+                            aria-label={t("Thành viên {0}", [department.name])}
                           >
                             {department.employees.map((member) => (
                               <li key={member.id}>
@@ -386,7 +398,7 @@ export function OrganizationChart({
                           </ul>
                         ) : (
                           <p className="org-department-empty">
-                            Chưa có thành viên
+                            {t("Chưa có thành viên")}
                           </p>
                         )}
                       </div>

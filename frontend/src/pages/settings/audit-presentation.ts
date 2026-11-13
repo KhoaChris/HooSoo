@@ -1,3 +1,5 @@
+import { weekdayLabel } from "../../i18n/preferences";
+import { t } from "../../i18n";
 import {
   workKindLabels,
   workStatusLabels,
@@ -17,6 +19,7 @@ export const auditActions: Record<string, string> = {
   "request.approve": "Duyệt phiếu đề nghị",
   "request.reject": "Từ chối phiếu đề nghị",
   "request.cancel": "Rút phiếu đề nghị",
+  "recruitment.employee_created": "Tạo hồ sơ nhân viên từ tuyển dụng",
   "recruitment.updated": "Cập nhật hồ sơ ứng viên",
   "recruitment.job_saved": "Cập nhật đợt tuyển dụng",
   "recruitment.created": "Tiếp nhận ứng viên",
@@ -40,6 +43,8 @@ export const auditActions: Record<string, string> = {
   "professional.return": "Yêu cầu bổ sung công việc",
   "professional.cancel": "Hủy công việc",
   "account.status": "Thay đổi quyền truy cập",
+  "employee.avatar_updated": "Đổi ảnh đại diện",
+  "employee.avatar_removed": "Gỡ ảnh đại diện",
   "employee.created": "Tạo hồ sơ nhân viên",
   "employee.updated": "Cập nhật hồ sơ nhân viên",
   "attendance.adjusted": "Điều chỉnh chấm công",
@@ -122,31 +127,31 @@ const at = (v: unknown, path: string): unknown =>
   path.split(".").reduce<unknown>((value, key) => record(value)[key], v);
 
 export function auditActor(uid: string, lookups: AuditLookups) {
-  if (uid === "seed" || uid === "system") return "Hệ thống";
-  return lookups.accounts[uid] || "Tài khoản chưa xác định";
+  if (uid === "seed" || uid === "system") return t("Hệ thống");
+  return lookups.accounts[uid] || t("Tài khoản chưa xác định");
 }
 export function auditCategory(action: string) {
   const prefix = action.split(".")[0];
   return (
     (
       {
-        professional: "Công việc chuyên môn",
-        work: "Lịch làm việc",
-        request: "Phiếu đề nghị",
-        recruitment: "Tuyển dụng",
-        account: "Tài khoản",
-        employee: "Hồ sơ nhân viên",
-        profile: "Thông tin cá nhân",
-        attendance: "Chấm công",
-        leave: "Nghỉ phép",
-        balance: "Quỹ phép",
-        settings: "Doanh nghiệp & chính sách",
-        departments: "Phòng ban",
-        positions: "Chức danh",
-        leave_type: "Loại nghỉ phép",
-        seed: "Hệ thống",
+        professional: t("Công việc chuyên môn"),
+        work: t("Lịch làm việc"),
+        request: t("Phiếu đề nghị"),
+        recruitment: t("Tuyển dụng"),
+        account: t("Tài khoản"),
+        employee: t("Hồ sơ nhân viên"),
+        profile: t("Thông tin cá nhân"),
+        attendance: t("Chấm công"),
+        leave: t("Nghỉ phép"),
+        balance: t("Quỹ phép"),
+        settings: t("Doanh nghiệp & chính sách"),
+        departments: t("Phòng ban"),
+        positions: t("Chức danh"),
+        leave_type: t("Loại nghỉ phép"),
+        seed: t("Hệ thống"),
       } as Record<string, string>
-    )[prefix] || "Hoạt động khác"
+    )[prefix] || t("Hoạt động khác")
   );
 }
 export function auditTitle(audit: Audit) {
@@ -158,86 +163,94 @@ export function auditTitle(audit: Audit) {
       JSON.stringify(at(c.before, "schedule")) !==
         JSON.stringify(at(c.after, "schedule")) ||
       at(c.before, "annualAllowance") !== at(c.after, "annualAllowance");
-    if (companyChanged && !policyChanged) return "Đổi tên doanh nghiệp";
-    if (!companyChanged && policyChanged) return "Cập nhật chính sách nhân sự";
+    if (companyChanged && !policyChanged) return t("Đổi tên doanh nghiệp");
+    if (!companyChanged && policyChanged)
+      return t("Cập nhật chính sách nhân sự");
   }
-  return auditActions[audit.action] || "Ghi nhận hoạt động";
+  return t(auditActions[audit.action]) || t("Ghi nhận hoạt động");
 }
 function formatValue(
   key: string,
   value: unknown,
   lookups: AuditLookups,
 ): string {
-  if (value === null || value === undefined || value === "") return "Chưa có";
+  if (value === null || value === undefined || value === "")
+    return t("Chưa có");
   const text = String(value);
   if (key === "employeeId" || key === "managerId")
     return (
       lookups.employees[text] ||
-      (key === "managerId" ? "Người quản lý trước đây" : "Nhân viên trước đây")
+      (key === "managerId"
+        ? t("Người quản lý trước đây")
+        : t("Nhân viên trước đây"))
     );
   if (key === "departmentId")
-    return lookups.departments[text] || "Phòng ban trước đây";
+    return lookups.departments[text] || t("Phòng ban trước đây");
   if (key === "positionId")
-    return lookups.positions[text] || "Chức danh trước đây";
+    return lookups.positions[text] || t("Chức danh trước đây");
   if (key === "active")
     return value === true
-      ? "Được phép sử dụng"
+      ? t("Được phép sử dụng")
       : value === false
-        ? "Đã ngừng sử dụng"
-        : "Chưa xác định";
+        ? t("Đã ngừng sử dụng")
+        : t("Chưa xác định");
   if (key === "deductsBalance")
     return value === true
-      ? "Trừ vào phép năm"
+      ? t("Trừ vào phép năm")
       : value === false
-        ? "Không trừ phép năm"
-        : "Chưa xác định";
+        ? t("Không trừ phép năm")
+        : t("Chưa xác định");
   if (key === "status" || key === "role")
     return (
       (workStatusLabels as Record<string, string>)[text] ||
-      workflowLabels[text] ||
-      labels[text] ||
-      "Chưa xác định"
+      t(workflowLabels[text]) ||
+      t(labels[text]) ||
+      t("Chưa xác định")
     );
   if (key === "kind" && text in workKindLabels)
-    return workKindLabels[text as keyof typeof workKindLabels];
+    return t(workKindLabels[text as keyof typeof workKindLabels]);
   if (key === "kind")
     return (
-      requestLabels[text as keyof typeof requestLabels] || "Đề nghị nội bộ"
+      t(requestLabels[text as keyof typeof requestLabels]) ||
+      t("Đề nghị nội bộ")
     );
   if (key === "added" && Array.isArray(value))
     return value.length
       ? value.filter((v) => typeof v === "string").join(", ")
-      : "Không có chức danh mới";
+      : t("Không có chức danh mới");
   if (key === "rounds" && Array.isArray(value))
     return value.filter((v) => typeof v === "string").join(" → ");
   if (["days", "allowance", "annualAllowance", "amount"].includes(key))
     return typeof value === "number"
-      ? `${key === "amount" && value > 0 ? "+" : ""}${value.toLocaleString("vi-VN")} ngày`
-      : "Chưa xác định";
-  if (key === "schedule.lateGraceMinutes") return `${text} phút`;
+      ? t("{0}{1} ngày", [
+          key === "amount" && value > 0 ? "+" : "",
+          value.toLocaleString("vi-VN"),
+        ])
+      : t("Chưa xác định");
+  if (key === "schedule.lateGraceMinutes") return t("{0} phút", [text]);
   if (key === "schedule.workDays")
     return Array.isArray(value)
       ? [1, 2, 3, 4, 5, 6, 0]
           .filter((day) => value.includes(day))
-          .map((day) => (day === 0 ? "Chủ nhật" : `Thứ ${day + 1}`))
-          .join(", ") || "Chưa thiết lập"
-      : "Chưa thiết lập";
+          .map((day) => weekdayLabel(day))
+          .join(", ") || t("Chưa thiết lập")
+      : t("Chưa thiết lập");
   if (key === "schedule.holidays")
     return Array.isArray(value)
       ? value
           .filter((v) => typeof v === "string")
           .map((v) => dateText(v))
-          .join(", ") || "Không có"
-      : "Không có";
+          .join(", ") || t("Không có")
+      : t("Không có");
   if (["date", "startDate", "endDate", "hireDate"].includes(key))
-    return Number.isNaN(Date.parse(text)) ? "Chưa xác định" : dateText(text);
+    return Number.isNaN(Date.parse(text)) ? t("Chưa xác định") : dateText(text);
   if (["checkIn", "checkOut"].includes(key))
     return Number.isNaN(Date.parse(text))
-      ? "Chưa xác định"
+      ? t("Chưa xác định")
       : `${timeText(text)} · ${dateText(text)}`;
   return typeof value === "string" || typeof value === "number"
     ? text
-    : "Đã ghi nhận";
+    : t("Đã ghi nhận");
 }
 
 // Only known business fields are presented. Unknown/internal payloads never become UI copy.
@@ -256,7 +269,7 @@ export function auditChanges(
           : [
               {
                 key: "role",
-                label: "Vai trò",
+                label: t("Vai trò"),
                 ...(changes.before !== undefined
                   ? { before: formatValue("role", changes.before, lookups) }
                   : {}),
@@ -275,9 +288,9 @@ export function auditChanges(
       rows: fields.map((key) => ({
         key,
         label: contactLabels[key],
-        after: "Đã cập nhật",
+        after: t("Đã cập nhật"),
       })),
-      note: "Nhật ký chỉ ghi nhận thông tin nào được cập nhật, không lưu giá trị liên hệ trước và sau.",
+      note: t("Không lưu giá trị liên hệ trước và sau."),
     };
   }
   const hasSnapshots = Object.hasOwn(changes, "after");
@@ -298,7 +311,7 @@ export function auditChanges(
         key,
         label:
           key === "name" && audit.action.startsWith("employee.")
-            ? "Họ tên"
+            ? t("Họ tên")
             : label,
         ...(comparison ? { before: formatValue(key, prev, lookups) } : {}),
         after: formatValue(key, next, lookups),
@@ -309,9 +322,7 @@ export function auditChanges(
     rows,
     comparison,
     note:
-      !hasSnapshots && rows.length
-        ? "Nội dung được ghi nhận tại thời điểm thực hiện; nhật ký này không lưu giá trị trước thay đổi."
-        : "",
+      !hasSnapshots && rows.length ? t("Không có dữ liệu trước thay đổi.") : "",
   };
 }
 export function auditSubject(audit: Audit, lookups: AuditLookups) {
@@ -322,27 +333,27 @@ export function auditSubject(audit: Audit, lookups: AuditLookups) {
     return (
       lookups.accounts[audit.targetId] ||
       lookups.employees[String(c.employeeId)] ||
-      "Tài khoản nhân viên"
+      t("Tài khoản nhân viên")
     );
   if (
     audit.action.startsWith("employee.") ||
     audit.action === "profile.updated"
   )
-    return lookups.employees[audit.targetId] || "Hồ sơ nhân viên";
+    return lookups.employees[audit.targetId] || t("Hồ sơ nhân viên");
   if (audit.action.startsWith("departments."))
-    return lookups.departments[audit.targetId] || "Phòng ban";
+    return lookups.departments[audit.targetId] || t("Phòng ban");
   if (audit.action.startsWith("positions."))
-    return lookups.positions[audit.targetId] || "Chức danh";
-  if (audit.action.startsWith("leave.")) return "Đơn nghỉ phép";
+    return lookups.positions[audit.targetId] || t("Chức danh");
+  if (audit.action.startsWith("leave.")) return t("Đơn nghỉ phép");
   return auditCategory(audit.action);
 }
 export function auditSummary(audit: Audit, lookups: AuditLookups) {
   const { rows, comparison } = auditChanges(audit, lookups);
-  if (comparison) return `${rows.length} thông tin thay đổi`;
+  if (comparison) return t("{0} thông tin thay đổi", [rows.length]);
   return (
     rows
       .slice(0, 2)
       .map((row) => `${row.label}: ${row.after}`)
-      .join(" · ") || "Hoạt động đã được ghi nhận"
+      .join(" · ") || t("Hoạt động đã được ghi nhận")
   );
 }

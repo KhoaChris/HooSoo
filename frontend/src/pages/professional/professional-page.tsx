@@ -1,4 +1,7 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { BriefcaseBusiness, Plus, Search, ArrowUpRight } from "lucide-react";
 import {
   workItemSchema,
@@ -15,6 +18,7 @@ import {
 } from "@hoosoo/shared";
 import { useAuth } from "../../app/auth";
 import { useApi, useAction } from "../../hooks/data";
+import { statusTone } from "../../components/ui/status-tone";
 import {
   Heading,
   DataTable,
@@ -27,6 +31,8 @@ import {
 } from "../../components/ui";
 import { WorkflowHistory, dayLabel, today } from "../workflows/workflow-ui";
 export function ProfessionalPage() {
+  useLocale();
+  const [searchParams] = useSearchParams();
   const { me } = useAuth(),
     q = useApi<ProfessionalWorkspace>("/professional/workspace"),
     save = useAction();
@@ -34,7 +40,7 @@ export function ProfessionalPage() {
     [status, setStatus] = useState(""),
     [page, setPage] = useState(1),
     [editor, setEditor] = useState<WorkItemView | "new" | null>(null),
-    [detailId, setDetailId] = useState<string | null>(null),
+    [detailId, setDetailId] = useState<string | null>(() => searchParams.get("item")),
     [decision, setDecision] = useState<{
       item: WorkItemView;
       action: WorkAction;
@@ -57,27 +63,27 @@ export function ProfessionalPage() {
         )
       : person;
   const fields: FormField[] = [
-    { name: "title", label: "Tên công việc", span: "full", required: true },
+    { name: "title", label: t("Tên công việc"), span: "full", required: true },
     {
       name: "kind",
-      label: "Loại công việc",
+      label: t("Loại công việc"),
       type: "select",
       options: (data?.kinds ?? []).map((k) => ({
         value: k,
-        label: workKindLabels[k],
+        label: t(workKindLabels[k]),
       })),
     },
-    { name: "project", label: "Dự án / sản phẩm", required: true },
+    { name: "project", label: t("Dự án / sản phẩm"), required: true },
     {
       name: "departmentId",
-      label: "Phòng ban",
+      label: t("Phòng ban"),
       type: "select",
       options:
         data?.departments.map((d) => ({ value: d.id, label: d.name })) ?? [],
     },
     {
       name: "assigneeId",
-      label: "Người phụ trách",
+      label: t("Người phụ trách"),
       type: "select",
       options: (data?.people ?? [])
         .filter(
@@ -85,39 +91,48 @@ export function ProfessionalPage() {
             (data?.canAssign && outranks(me!.actor.role, p.role)) ||
             p.id === me!.actor.employeeId,
         )
-        .map((p) => ({ value: p.id, label: `${p.name} · ${labels[p.role]}` })),
-      hint: "Vai trò của người phụ trách phải phù hợp với loại công việc.",
+        .map((p) => ({
+          value: p.id,
+          label: `${p.name} · ${t(labels[p.role])}`,
+        })),
     },
     {
       name: "reviewerId",
-      label: "Người rà soát / nghiệm thu",
+      label: t("Người rà soát / nghiệm thu"),
       type: "select",
       options: (data?.people ?? [])
         .filter((p) => isSupervisorRole(p.role))
-        .map((p) => ({ value: p.id, label: `${p.name} · ${labels[p.role]}` })),
-      hint: "Cấp quản lý phụ trách, cao hơn và khác người thực hiện.",
+        .map((p) => ({
+          value: p.id,
+          label: `${p.name} · ${t(labels[p.role])}`,
+        })),
     },
-    { name: "dueDate", label: "Hạn hoàn thành", type: "date", required: true },
+    {
+      name: "dueDate",
+      label: t("Hạn hoàn thành"),
+      type: "date",
+      required: true,
+    },
     {
       name: "priority",
-      label: "Mức ưu tiên",
+      label: t("Mức ưu tiên"),
       type: "select",
       options: [
-        { value: "low", label: "Thấp" },
-        { value: "normal", label: "Bình thường" },
+        { value: "low", label: t("Thấp") },
+        { value: "normal", label: t("Bình thường") },
         { value: "high", label: "Cao" },
       ],
     },
     {
       name: "description",
-      label: "Nội dung / yêu cầu",
+      label: t("Nội dung / yêu cầu"),
       type: "textarea",
       span: "full",
       required: true,
     },
     {
       name: "criteria",
-      label: "Tiêu chí hoàn thành",
+      label: t("Tiêu chí hoàn thành"),
       type: "textarea",
       span: "full",
       required: true,
@@ -126,24 +141,25 @@ export function ProfessionalPage() {
   return (
     <>
       <Heading
-        title="Công việc chuyên môn"
-        description="Điều phối công việc, theo dõi bàn giao và nghiệm thu trong phạm vi phụ trách."
+        title={t("Công việc chuyên môn")}
         action={
           data && (
             <Button onClick={() => setEditor("new")}>
               <Plus size={17} />
-              Tạo công việc
+              {t("Tạo công việc")}
             </Button>
           )
         }
       />
       <div className="professional-context">
         <BriefcaseBusiness size={18} />
-        <strong>{labels[me!.actor.role]}</strong>
-        <span>{data?.kinds.map((k) => workKindLabels[k]).join(" · ")}</span>
+        <strong>
+          <StableText>{t(labels[me!.actor.role])}</StableText>
+        </strong>
+        <span>{data?.kinds.map((k) => t(workKindLabels[k])).join(" · ")}</span>
       </div>
       <DataTable
-        title="Công việc trong phạm vi của bạn"
+        title={t("Công việc trong phạm vi của bạn")}
         icon={<BriefcaseBusiness size={18} />}
         data={
           data
@@ -164,8 +180,8 @@ export function ProfessionalPage() {
             <label className="search-input">
               <Search size={17} />
               <Input
-                aria-label="Tìm công việc"
-                placeholder="Tên công việc, dự án, người phụ trách…"
+                aria-label={t("Tìm công việc")}
+                placeholder={t("Tên công việc, dự án, người phụ trách…")}
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -174,17 +190,17 @@ export function ProfessionalPage() {
               />
             </label>
             <Select
-              aria-label="Trạng thái công việc"
+              aria-label={t("Trạng thái công việc")}
               value={status}
               onValueChange={(v) => {
                 setStatus(v);
                 setPage(1);
               }}
               options={[
-                { value: "", label: "Tất cả trạng thái" },
+                { value: "", label: t("Tất cả trạng thái") },
                 ...Object.entries(workStatusLabels).map(([value, label]) => ({
                   value,
-                  label,
+                  label: t(label),
                 })),
               ]}
             />
@@ -192,29 +208,33 @@ export function ProfessionalPage() {
         }
         columns={[
           {
-            label: "Công việc",
+            minWidth: 310,
+            label: t("Công việc"),
             render: (w) => (
               <div>
                 <strong>{w.title}</strong>
                 <small className="workflow-cell-subtext">
-                  {w.project} · {workKindLabels[w.kind]}
+                  {w.project} ·{" "}
+                  <StableText>{t(workKindLabels[w.kind])}</StableText>
                 </small>
               </div>
             ),
           },
           {
-            label: "Phụ trách",
+            minWidth: 230,
+            label: t("Phụ trách"),
             render: (w) => (
               <div>
                 {w.assigneeName}
                 <small className="workflow-cell-subtext">
-                  Rà soát: {w.reviewerName}
+                  <StableText>{t("Rà soát:")}</StableText> {w.reviewerName}
                 </small>
               </div>
             ),
           },
           {
-            label: "Hạn hoàn thành",
+            minWidth: 155,
+            label: t("Hạn hoàn thành"),
             render: (w) => (
               <span
                 className={
@@ -229,18 +249,23 @@ export function ProfessionalPage() {
             ),
           },
           {
-            label: "Trạng thái",
+            minWidth: 200,
+            label: t("Trạng thái"),
             render: (w) => (
-              <span className={"professional-status state-" + w.status}>
-                {workStatusLabels[w.status]}
+              <span
+                className={"professional-status status-tone state-" + w.status}
+                data-tone={statusTone(w.status)}
+              >
+                {t(workStatusLabels[w.status])}
               </span>
             ),
           },
           {
+            minWidth: 140,
             label: "",
             render: (w) => (
               <Button variant="ghost" onClick={() => setDetailId(w.id)}>
-                Xem công việc
+                {t("Xem công việc")}
                 <ArrowUpRight size={15} />
               </Button>
             ),
@@ -250,8 +275,7 @@ export function ProfessionalPage() {
       {editor && data && (
         <Modal
           size="wide"
-          title={old ? "Chỉnh sửa công việc" : "Tạo công việc chuyên môn"}
-          description="Ghi rõ yêu cầu, người thực hiện và tiêu chí trước khi bắt đầu."
+          title={old ? t("Chỉnh sửa công việc") : t("Tạo công việc chuyên môn")}
           onClose={() => setEditor(null)}
         >
           <Form
@@ -283,7 +307,7 @@ export function ProfessionalPage() {
                     version: 0,
                   }
             }
-            submitLabel="Lưu công việc"
+            submitLabel={t("Lưu công việc")}
             onSubmit={async (body) => {
               await save.mutateAsync({
                 path: "/professional/work-items" + (old ? "/" + old.id : ""),
@@ -299,32 +323,49 @@ export function ProfessionalPage() {
         <Modal
           size="wide"
           title={detail.title}
-          description={`${detail.project} · ${workKindLabels[detail.kind]}`}
+          description={`${detail.project} · ${t(workKindLabels[detail.kind])}`}
           onClose={() => setDetailId(null)}
         >
           <div className="professional-detail-status">
-            <span className={"professional-status state-" + detail.status}>
-              {workStatusLabels[detail.status]}
+            <span
+              className={
+                "professional-status status-tone state-" + detail.status
+              }
+              data-tone={statusTone(detail.status)}
+            >
+              {t(workStatusLabels[detail.status])}
             </span>
-            <span>Hạn: {dayLabel(detail.dueDate)}</span>
+            <span>
+              {t("Hạn:")} {dayLabel(detail.dueDate)}
+            </span>
           </div>
           <dl className="workflow-facts">
             <div>
-              <dt>Người phụ trách</dt>
+              <dt>
+                <StableText>{t("Người phụ trách")}</StableText>
+              </dt>
               <dd>{detail.assigneeName}</dd>
             </div>
             <div>
-              <dt>Người nghiệm thu</dt>
+              <dt>
+                <StableText>{t("Người nghiệm thu")}</StableText>
+              </dt>
               <dd>{detail.reviewerName}</dd>
             </div>
           </dl>
-          <h3>Yêu cầu công việc</h3>
+          <h3>
+            <StableText>{t("Yêu cầu công việc")}</StableText>
+          </h3>
           <p className="workflow-prose">{detail.description}</p>
-          <h3>Tiêu chí hoàn thành</h3>
+          <h3>
+            <StableText>{t("Tiêu chí hoàn thành")}</StableText>
+          </h3>
           <p className="workflow-prose">{detail.criteria}</p>
           {detail.outcome && (
             <div className="workflow-resolution">
-              <strong>Kết quả bàn giao</strong>
+              <strong>
+                <StableText>{t("Kết quả bàn giao")}</StableText>
+              </strong>
               <p>{detail.outcome}</p>
               {detail.evidenceUrl && (
                 <a
@@ -333,7 +374,7 @@ export function ProfessionalPage() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Mở tài liệu / bằng chứng
+                  {t("Mở tài liệu / bằng chứng")}
                   <ArrowUpRight size={15} />
                 </a>
               )}
@@ -349,7 +390,7 @@ export function ProfessionalPage() {
                   setDetailId(null);
                 }}
               >
-                Chỉnh sửa
+                {t("Chỉnh sửa")}
               </Button>
             )}
             {detail.actions.map((a) => (
@@ -363,7 +404,7 @@ export function ProfessionalPage() {
                   setDetailId(null);
                 }}
               >
-                {workActionLabels[a]}
+                {t(workActionLabels[a])}
               </Button>
             ))}
           </div>
@@ -371,7 +412,7 @@ export function ProfessionalPage() {
       )}
       {decision && (
         <Modal
-          title={workActionLabels[decision.action]}
+          title={t(workActionLabels[decision.action])}
           description={decision.item.title}
           onClose={() => setDecision(null)}
         >
@@ -387,8 +428,8 @@ export function ProfessionalPage() {
                 name: "note",
                 label:
                   decision.action === "submit"
-                    ? "Kết quả và nội dung bàn giao"
-                    : "Nội dung xác nhận / phản hồi",
+                    ? t("Kết quả và nội dung bàn giao")
+                    : t("Nội dung xác nhận / phản hồi"),
                 type: "textarea",
                 required: true,
               },
@@ -396,8 +437,8 @@ export function ProfessionalPage() {
                 ? [
                     {
                       name: "evidenceUrl",
-                      label: "Liên kết tài liệu / bằng chứng",
-                      hint: "Liên kết http/https. Tài liệu sẽ được người rà soát sử dụng để nghiệm thu.",
+                      label: t("Liên kết tài liệu / bằng chứng"),
+                      hint: t("Liên kết HTTP hoặc HTTPS."),
                     },
                   ]
                 : []),

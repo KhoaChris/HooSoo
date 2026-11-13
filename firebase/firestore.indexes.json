@@ -5,6 +5,11 @@
       "collectionGroup": "candidateFiles",
       "fieldPath": "data",
       "indexes": []
+    },
+    {
+      "collectionGroup": "employees",
+      "fieldPath": "avatarUrl",
+      "indexes": []
     }
   ]
 }

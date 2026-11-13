@@ -3,7 +3,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const mock = vi.hoisted(() => ({ subscribe: vi.fn(), stop: vi.fn() }));
 vi.mock("../src/database/store", () => ({
   organization: { onSnapshot: mock.subscribe },
-  tables: ["employees", "memberships", "departments", "auditLogs"],
+  tables: [
+    "employees",
+    "memberships",
+    "departments",
+    "auditLogs",
+    "chatRooms",
+    "chatMessages",
+  ],
 }));
 beforeEach(() => {
   vi.resetModules();
@@ -70,4 +77,40 @@ describe("Shared Firestore listener", () => {
     stop.at(-1)!();
     expect(mock.stop).toHaveBeenCalledOnce();
   });
+});
+
+it("keeps coalesced chat audiences while suppressing unrelated chat refreshes", async () => {
+  const { subscribeChanges, visibleCollections } =
+    await import("../src/database/live-hub");
+  const change = vi.fn(),
+    stop = subscribeChanges({ change, error: vi.fn() });
+  const emit = mock.subscribe.mock.calls[0][0];
+  emit({
+    get: (key: string) =>
+      key === "collectionVersions"
+        ? { chatRooms: 1, employees: 1 }
+        : { a: 1, b: 1 },
+    updateTime: { seconds: 1, nanoseconds: 1 },
+  });
+  emit({
+    get: (key: string) =>
+      key === "collectionVersions"
+        ? { chatRooms: 3, employees: 1 }
+        : { a: 2, b: 2, c: 1 },
+    updateTime: { seconds: 1, nanoseconds: 2 },
+  });
+  const event = change.mock.calls[1][0];
+  expect(event.chatMemberIds).toEqual(["a", "b", "c"]);
+  expect(visibleCollections(event, "a")).toEqual(["chatRooms"]);
+  expect(visibleCollections(event, "admin-outsider")).toEqual([]);
+  expect(
+    visibleCollections(
+      { ...event, collections: ["chatRooms", "employees"] },
+      "admin-outsider",
+    ),
+  ).toEqual(["employees"]);
+  expect(
+    visibleCollections({ ...event, collections: null }, "admin-outsider"),
+  ).toBeNull();
+  stop();
 });

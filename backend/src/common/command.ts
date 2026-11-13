@@ -131,7 +131,11 @@ function authorizeReplay(
         (route.endsWith("/cancel") && value?.employeeId !== a.employeeId)
       ? value?.employeeId
       : undefined;
-  if (protectedTarget) assertManageEmployee(s, a, protectedTarget);
+  if (
+    protectedTarget &&
+    !(route.endsWith("/avatar") && protectedTarget === a.employeeId)
+  )
+    assertManageEmployee(s, a, protectedTarget);
   if (route.endsWith("/approve") || route.endsWith("/reject")) {
     requireRole(a, supervisorRoles);
     assert(

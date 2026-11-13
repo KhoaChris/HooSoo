@@ -2,7 +2,11 @@ import { Router } from "express";
 import { ensureFirebaseCredentials } from "../../config/firebase-admin";
 import { env } from "../../config/env";
 import { readState, mergeState, timeout } from "../../database/store";
-import { subscribeChanges, assertLiveAvailable } from "../../database/live-hub";
+import {
+  subscribeChanges,
+  assertLiveAvailable,
+  visibleCollections,
+} from "../../database/live-hub";
 import { actorFor } from "../../common/authorization";
 import { AppError } from "../../utils/errors";
 import {
@@ -33,13 +37,13 @@ async function checkAccess(uid: string) {
         { fresh: true },
       ),
     );
-  actorFor(s, uid);
+  return actorFor(s, uid);
 }
 
 eventsRoutes.get("/events", async (_req, res) => {
   assertLiveAvailable();
   const uid = res.locals.uid as string;
-  await firestoreOperation(() =>
+  let actor = await firestoreOperation(() =>
     timeout(
       ensureFirebaseCredentials().then(() => checkAccess(uid)),
       env.DB_TIMEOUT_MS * 3,
@@ -88,11 +92,13 @@ eventsRoutes.get("/events", async (_req, res) => {
                 (k) => k === "memberships" || k === "employees",
               ))
           )
-            await firestoreOperation(() =>
+            actor = await firestoreOperation(() =>
               timeout(checkAccess(uid), env.DB_TIMEOUT_MS),
             );
           // Only an opaque version is sent. Actual records use role-scoped GETs.
-          send("changed", change);
+          const collections = visibleCollections(change, actor.employeeId);
+          if (collections?.length === 0) return;
+          send("changed", { version: change.version, collections });
           sent = true;
         } catch (error) {
           if (error instanceof AppError && error.status === 403)

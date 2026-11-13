@@ -35,6 +35,12 @@ export function dashboard(s: State, a: Actor, q: Query) {
       ).length,
     })),
     recentLeaves: leaves.slice(0, 5),
+    avatars: Object.fromEntries(
+      [...new Set(leaves.slice(0, 5).map((r) => r.employeeId))].map((id) => [
+        id,
+        s.employees[id]?.avatarUrl ?? null,
+      ]),
+    ),
     today: attend,
     balances: balanceList(s, a, { ...q, mine: "true" }),
   };

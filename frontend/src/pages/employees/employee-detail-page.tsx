@@ -1,3 +1,5 @@
+import { t, useLocale } from "../../i18n";
+import { AvatarDialog } from "./avatar-dialog";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContactRound } from "lucide-react";
@@ -15,6 +17,7 @@ import { EmployeeProfileView } from "./employee-profile-view";
 import { EmployeeHistory, needsManagerNames } from "./employee-history";
 
 export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
+  useLocale();
   const { employeeId } = useParams();
   const { me } = useAuth();
   const id = personal ? me!.actor.employeeId : employeeId;
@@ -31,6 +34,7 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
     !!q.data?.managerId || needsManagerNames(history.data?.items),
   );
   const [edit, setEdit] = useState(false);
+  const [avatar, setAvatar] = useState(false);
   const action = useAction();
   if (q.isPending) return <Loading />;
   if (q.error)
@@ -53,14 +57,14 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
   const work = {
     department:
       lookups.departments[e.departmentId] ||
-      (departments.isPending ? "Đang tải…" : "Chưa có thông tin"),
+      (departments.isPending ? t("Đang tải…") : t("Chưa có thông tin")),
     position:
       lookups.positions[e.positionId] ||
-      (positions.isPending ? "Đang tải…" : "Chưa có thông tin"),
+      (positions.isPending ? t("Đang tải…") : t("Chưa có thông tin")),
     manager: e.managerId
       ? lookups.managers[e.managerId] ||
-        (org.isPending ? "Đang tải…" : "Chưa có thông tin")
-      : "Chưa phân công",
+        (org.isPending ? t("Đang tải…") : t("Chưa có thông tin"))
+      : t("Chưa phân công"),
   };
   return (
     <>
@@ -78,6 +82,7 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
         canEdit={e.canEdit === true}
         work={work}
         onEditContact={() => setEdit(true)}
+        onEditAvatar={() => setAvatar(true)}
         history={
           <EmployeeHistory
             key={id}
@@ -89,10 +94,16 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
           />
         }
       />
+      {avatar && (
+        <AvatarDialog
+          employee={e}
+          personal={personal}
+          onClose={() => setAvatar(false)}
+        />
+      )}
       {edit && (
         <Modal
-          title="Cập nhật thông tin liên hệ"
-          description="Giúp đồng nghiệp và nhân sự liên hệ với bạn khi cần."
+          title={t("Cập nhật thông tin liên hệ")}
           icon={<ContactRound size={21} />}
           onClose={() => setEdit(false)}
         >
@@ -101,14 +112,14 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
             fields={[
               {
                 name: "phone",
-                label: "Số điện thoại",
-                placeholder: "Nhập số điện thoại liên hệ",
+                label: t("Số điện thoại"),
+                placeholder: t("Nhập số điện thoại liên hệ"),
               },
               {
                 name: "address",
-                label: "Địa chỉ liên hệ",
+                label: t("Địa chỉ liên hệ"),
                 type: "textarea",
-                placeholder: "Số nhà, đường, phường / xã, tỉnh / thành phố",
+                placeholder: t("Số nhà, đường, phường / xã, tỉnh / thành phố"),
               },
             ]}
             defaults={{ phone: e.phone || "", address: e.address || "" }}
@@ -121,7 +132,7 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
               setEdit(false);
             }}
             onCancel={() => setEdit(false)}
-            submitLabel="Lưu thông tin liên hệ"
+            submitLabel={t("Lưu thông tin liên hệ")}
           />
         </Modal>
       )}

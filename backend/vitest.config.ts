@@ -1,8 +1,10 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 // Tests must remain local even when the developer's .env targets Firebase Cloud.
 export default defineConfig({
   test: {
+    // Isolated review workspaces and generated artifacts are not test sources.
+    exclude: [...configDefaults.exclude, "**/output/**"],
     env: {
       NODE_ENV: "test",
       CORS_ORIGINS: "http://localhost:5173,http://127.0.0.1:5173",

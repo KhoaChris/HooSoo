@@ -90,3 +90,20 @@ describe("Invalidated backend read cache", () => {
     );
   });
 });
+
+it("retains a bounded employee directory containing compressed avatars", async () => {
+  const cache = await import("../src/database/read-cache");
+  cache.setReadCacheLive(true);
+  const directory = vi.fn(async () =>
+    Array.from({ length: 100 }, (_, id) => ({
+      id,
+      avatarUrl: "a".repeat(22000),
+    })),
+  );
+  await cache.cachedRead("employees", "avatar-directory", directory);
+  await cache.cachedRead("employees", "avatar-directory", directory);
+  expect(directory).toHaveBeenCalledOnce();
+  expect(cache.readCacheSnapshot().bytes).toBeLessThanOrEqual(
+    cache.readCacheSnapshot().maxBytes,
+  );
+});

@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import {
   CalendarDays,
@@ -19,7 +21,6 @@ import {
   Form,
   ErrorBox,
   Loading,
-  DataTable,
 } from "../../components/ui";
 import {
   ApprovalSteps,
@@ -29,6 +30,7 @@ import {
   today,
   dayLabel,
 } from "./workflow-ui";
+import { WorkScheduleApprovals } from "./work-schedule-approvals";
 const days = [
   "Thứ hai",
   "Thứ ba",
@@ -43,6 +45,7 @@ export function WorkSchedulePage({
 }: {
   approvals?: boolean;
 }) {
+  useLocale();
   const [month, setMonth] = useState(today().slice(0, 7)),
     [selected, setSelected] = useState<string | null>(null),
     [detailRecord, setDetail] = useState<WorkRegistrationView | null>(null),
@@ -93,177 +96,153 @@ export function WorkSchedulePage({
   return (
     <>
       <Heading
-        title={approvals ? "Duyệt lịch làm việc" : "Lịch làm việc của tôi"}
-        description={
-          approvals
-            ? "Kiểm tra lịch đăng ký và xử lý các đề nghị thuộc cấp duyệt của bạn."
-            : "Chọn ngày trên lịch để đăng ký. Lịch có hiệu lực sau khi hoàn tất phê duyệt."
+        title={
+          approvals ? t("Duyệt lịch làm việc") : t("Lịch làm việc của tôi")
         }
         action={
-          <span className="workflow-header-note">
-            <Clock3 size={16} />
-            {schedule
-              ? `${schedule.start} – ${schedule.end}`
-              : "Giờ làm việc chính quy"}
-          </span>
+          !approvals && (
+            <span className="workflow-header-note">
+              <Clock3 size={16} />
+              {schedule
+                ? `${schedule.start} – ${schedule.end}`
+                : t("Giờ làm việc chính quy")}
+            </span>
+          )
         }
       />
-      <section className="work-calendar">
-        <div className="calendar-toolbar">
-          <div>
-            <span className="section-eyebrow">KẾ HOẠCH LÀM VIỆC</span>
-            <h2>
-              Tháng {Number(month.slice(5))}, {month.slice(0, 4)}
-            </h2>
-          </div>
-          <div className="row-actions">
-            <Button
-              variant="secondary"
-              aria-label="Tháng trước"
-              onClick={() => shift(-1)}
-            >
-              <ChevronLeft size={17} />
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setMonth(today().slice(0, 7))}
-            >
-              Hôm nay
-            </Button>
-            <Button
-              variant="secondary"
-              aria-label="Tháng sau"
-              onClick={() => shift(1)}
-            >
-              <ChevronRight size={17} />
-            </Button>
-          </div>
-        </div>
-        <ErrorBox error={q.error} retry={() => void q.refetch()} />
-        {q.isPending ? (
-          <Loading />
-        ) : approvals ? (
-          <DataTable
-            title="Lịch đăng ký trong tháng"
-            data={{
-              items: rows.slice((page - 1) * 15, page * 15),
-              page,
-              pageSize: 15,
-              total: rows.length,
-            }}
-            onPage={setPage}
-            columns={[
-              {
-                label: "Nhân viên",
-                render: (r) => (
-                  <div>
-                    <strong>{r.employeeName}</strong>
-                    <small className="workflow-cell-subtext">
-                      {r.employeeCode}
-                    </small>
-                  </div>
-                ),
-              },
-              {
-                label: "Lịch làm việc",
-                render: (r) => (
-                  <div>
-                    {dayLabel(r.date)}
-                    <small className="workflow-cell-subtext">
-                      {r.start} – {r.end}
-                    </small>
-                  </div>
-                ),
-              },
-              {
-                label: "Trạng thái",
-                render: (r) => <WorkflowBadge status={r.status} />,
-              },
-              {
-                label: "Thao tác",
-                render: (r) => (
-                  <Button variant="ghost" onClick={() => setDetail(r)}>
-                    {r.canReview ? "Xem & phê duyệt" : "Xem chi tiết"}
-                  </Button>
-                ),
-              },
-            ]}
-          />
-        ) : (
-          <div className="calendar-scroll">
-            <div
-              className="calendar-grid"
-              role="group"
-              aria-label="Lịch đăng ký làm việc"
-            >
-              {days.map((d) => (
-                <div className="calendar-weekday" key={d}>
-                  {d}
-                </div>
-              ))}
-              {Array.from({ length: offset }, (_, i) => (
-                <div key={`blank-${i}`} className="calendar-blank" />
-              ))}
-              {Array.from({ length: last }, (_, i) => {
-                const date = `${month}-${String(i + 1).padStart(2, "0")}`,
-                  r = byDate.get(date),
-                  canRegister = isWork(date) && date >= today();
-                return (
-                  <button
-                    key={date}
-                    className={`calendar-day ${date === today() ? "is-today" : ""} ${!isWork(date) ? "is-off" : ""}`}
-                    disabled={!r && !canRegister}
-                    aria-label={`${dayLabel(date)}${r ? `, ${r.start} đến ${r.end}, xem lịch` : canRegister ? ", đăng ký làm việc" : ", ngày nghỉ"}`}
-                    onClick={() => (r ? setDetail(r) : setSelected(date))}
-                  >
-                    <span className="calendar-date">
-                      {i + 1}
-                      {date === today() && <small>Hôm nay</small>}
-                    </span>
-                    {r ? (
-                      <span className={`calendar-event status-${r.status}`}>
-                        <strong>
-                          {r.start} – {r.end}
-                        </strong>
-                        <WorkflowBadge status={r.status} />
-                      </span>
-                    ) : canRegister ? (
-                      <span className="calendar-add">
-                        <Plus size={14} />
-                        Đăng ký
-                      </span>
-                    ) : (
-                      <span className="calendar-off">
-                        {!isWork(date) ? "Ngày nghỉ" : ""}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+      {approvals ? (
+        <WorkScheduleApprovals
+          month={month}
+          rows={rows}
+          loading={q.isPending}
+          error={q.error}
+          onRetry={() => void q.refetch()}
+          onMonth={shift}
+          onToday={() => {
+            setMonth(today().slice(0, 7));
+            setPage(1);
+          }}
+          page={page}
+          onPage={setPage}
+          onOpen={setDetail}
+        />
+      ) : (
+        <section className="work-calendar">
+          <div className="calendar-toolbar">
+            <div>
+              <span className="section-eyebrow">
+                <StableText>{t("KẾ HOẠCH LÀM VIỆC")}</StableText>
+              </span>
+              <h2>
+                <StableText>{t("Tháng")}</StableText> {Number(month.slice(5))},{" "}
+                {month.slice(0, 4)}
+              </h2>
+            </div>
+            <div className="row-actions">
+              <Button
+                variant="secondary"
+                aria-label={t("Tháng trước")}
+                onClick={() => shift(-1)}
+              >
+                <ChevronLeft size={17} />
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setMonth(today().slice(0, 7))}
+              >
+                {t("Hôm nay")}
+              </Button>
+              <Button
+                variant="secondary"
+                aria-label={t("Tháng sau")}
+                onClick={() => shift(1)}
+              >
+                <ChevronRight size={17} />
+              </Button>
             </div>
           </div>
-        )}
-        <footer className="calendar-footer">
-          <span>
-            <CalendarDays size={16} />
-            {rows.length} lịch đăng ký ·{" "}
-            {rows.filter((r) => r.status === "approved").length} đã duyệt
-          </span>
-          <span>
-            Nghỉ giữa ca: {schedule?.breakStart ?? "—"} –{" "}
-            {schedule?.breakEnd ?? "—"}
-          </span>
-        </footer>
-      </section>
-      {!approvals && (
-        <p className="workflow-help">
-          Giờ đăng ký nằm trong lịch làm việc của doanh nghiệp. Đăng ký lịch
-          không thay thế thao tác chấm công hằng ngày.
-        </p>
+          <ErrorBox error={q.error} retry={() => void q.refetch()} />
+          {q.isPending ? (
+            <Loading />
+          ) : (
+            <div className="calendar-scroll">
+              <div
+                className="calendar-grid"
+                role="group"
+                aria-label={t("Lịch đăng ký làm việc")}
+              >
+                {days.map((d) => (
+                  <div className="calendar-weekday" key={d}>
+                    {t(d)}
+                  </div>
+                ))}
+                {Array.from({ length: offset }, (_, i) => (
+                  <div key={`blank-${i}`} className="calendar-blank" />
+                ))}
+                {Array.from({ length: last }, (_, i) => {
+                  const date = `${month}-${String(i + 1).padStart(2, "0")}`,
+                    r = byDate.get(date),
+                    canRegister = isWork(date) && date >= today();
+                  return (
+                    <button
+                      key={date}
+                      className={`calendar-day ${date === today() ? "is-today" : ""} ${!isWork(date) ? "is-off" : ""}`}
+                      disabled={!r && !canRegister}
+                      aria-label={`${dayLabel(date)}${r ? t(", {0} đến {1}, xem lịch", [r.start, r.end]) : canRegister ? t(", đăng ký làm việc") : t(", ngày nghỉ")}`}
+                      onClick={() => (r ? setDetail(r) : setSelected(date))}
+                    >
+                      <span className="calendar-date">
+                        {i + 1}
+                        {date === today() && (
+                          <small>
+                            <StableText>{t("Hôm nay")}</StableText>
+                          </small>
+                        )}
+                      </span>
+                      {r ? (
+                        <span className={`calendar-event status-${r.status}`}>
+                          <strong>
+                            {r.start} – {r.end}
+                          </strong>
+                          <WorkflowBadge status={r.status} />
+                        </span>
+                      ) : canRegister ? (
+                        <span className="calendar-add">
+                          <Plus size={14} />
+                          <StableText>{t("Đăng ký")}</StableText>
+                        </span>
+                      ) : (
+                        <span className="calendar-off">
+                          <StableText>
+                            {!isWork(date) ? t("Ngày nghỉ") : ""}
+                          </StableText>
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          <footer className="calendar-footer">
+            <span>
+              <CalendarDays size={16} />
+              {rows.length} <StableText>{t("lịch đăng ký ·")}</StableText>{" "}
+              {rows.filter((r) => r.status === "approved").length}{" "}
+              <StableText>{t("đã duyệt")}</StableText>
+            </span>
+            <span>
+              <StableText>{t("Nghỉ giữa ca:")}</StableText>{" "}
+              {schedule?.breakStart ?? "—"} – {schedule?.breakEnd ?? "—"}
+            </span>
+          </footer>
+        </section>
       )}
       {selected && schedule && (
         <Modal
-          title={existing ? "Điều chỉnh lịch đăng ký" : "Đăng ký làm việc"}
+          title={
+            existing ? t("Điều chỉnh lịch đăng ký") : t("Đăng ký làm việc")
+          }
           description={dayLabel(selected)}
           icon={<CalendarDays size={22} />}
           onClose={() => setSelected(null)}
@@ -281,28 +260,27 @@ export function WorkSchedulePage({
             fields={[
               {
                 name: "start",
-                label: "Bắt đầu",
+                label: t("Bắt đầu"),
                 type: "select",
                 options: timeOptions,
                 required: true,
               },
               {
                 name: "end",
-                label: "Kết thúc",
+                label: t("Kết thúc"),
                 type: "select",
                 options: timeOptions,
                 required: true,
               },
               {
                 name: "reason",
-                label: "Kế hoạch / ghi chú công việc",
+                label: t("Kế hoạch / ghi chú công việc"),
                 type: "textarea",
                 span: "full",
                 required: true,
-                hint: "Đề nghị được chuyển cho quản lý trực tiếp, sau đó nhân sự xác nhận.",
               },
             ]}
-            submitLabel="Gửi đăng ký"
+            submitLabel={t("Gửi đăng ký")}
             onSubmit={async (body) => {
               await save.mutateAsync({ path: "/work-registrations", body });
               setSelected(null);
@@ -312,7 +290,7 @@ export function WorkSchedulePage({
       )}
       {detail && (
         <Modal
-          title={approvals ? detail.employeeName : "Chi tiết lịch làm việc"}
+          title={approvals ? detail.employeeName : t("Chi tiết lịch làm việc")}
           description={`${dayLabel(detail.date)} · ${detail.start} – ${detail.end}`}
           onClose={() => setDetail(null)}
         >
@@ -328,32 +306,35 @@ export function WorkSchedulePage({
               <>
                 <Button
                   variant="secondary"
+                  tone="danger"
                   onClick={() => {
                     setReview({ record: detail, action: "reject" });
                     setDetail(null);
                   }}
                 >
-                  Từ chối
+                  {t("Từ chối")}
                 </Button>
                 <Button
+                  tone="success"
                   onClick={() => {
                     setReview({ record: detail, action: "approve" });
                     setDetail(null);
                   }}
                 >
-                  Duyệt lịch
+                  {t("Duyệt lịch")}
                 </Button>
               </>
             )}
             {detail.canCancel && (
               <Button
                 variant="secondary"
+                tone="danger"
                 onClick={() => {
                   setReview({ record: detail, action: "cancel" });
                   setDetail(null);
                 }}
               >
-                Rút đăng ký
+                {t("Rút đăng ký")}
               </Button>
             )}
             {!approvals &&
@@ -365,7 +346,7 @@ export function WorkSchedulePage({
                     setDetail(null);
                   }}
                 >
-                  Chỉnh sửa & gửi lại
+                  {t("Chỉnh sửa & gửi lại")}
                 </Button>
               )}
           </div>

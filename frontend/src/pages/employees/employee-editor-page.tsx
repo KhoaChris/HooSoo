@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import {
@@ -19,6 +20,7 @@ import {
 } from "../../components/ui";
 import { useCatalogs } from "../../hooks/catalogs";
 export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
+  useLocale();
   const { employeeId } = useParams();
   const navigate = useNavigate();
   const q = useApi<EmployeeView>("/employees/" + employeeId, !!employeeId),
@@ -47,50 +49,48 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
   if (employeeId && q.data?.canEdit !== true)
     return (
       <div className="notice">
-        Hồ sơ này thuộc cấp ngang hàng hoặc cấp cao hơn. Chỉ người có quyền phù
-        hợp mới được chỉnh sửa.
+        {t("Bạn không có quyền chỉnh sửa hồ sơ này.")}
       </div>
     );
   const fields: FormField[] = [
     {
-      name: "employeeCode",
-      label: "Mã nhân viên",
-      required: true,
-      placeholder: "VD: HS-005",
-      section: "Thông tin cá nhân",
-    },
-    {
       name: "name",
-      label: "Họ và tên",
+      label: t("Họ và tên"),
+      section: t("Thông tin cá nhân"),
       required: true,
-      placeholder: "Nhập họ và tên đầy đủ",
+      placeholder: t("Nhập họ và tên đầy đủ"),
     },
     {
       name: "email",
-      label: "Email công việc",
+      label: t("Email công việc"),
       type: "email",
       required: true,
       placeholder: "ten@congty.vn",
-      hint: employeeId
-        ? "Email đã liên kết tài khoản không thể đổi tại đây."
-        : "Dùng để liên kết tài khoản khi cấp quyền truy cập.",
+      hint:
+        employeeId && q.data?.uid
+          ? t("Email đã liên kết tài khoản, không thể đổi.")
+          : undefined,
     },
-    { name: "phone", label: "Số điện thoại", placeholder: "Không bắt buộc" },
+    {
+      name: "phone",
+      label: t("Số điện thoại"),
+      placeholder: t("Không bắt buộc"),
+    },
     {
       name: "address",
-      label: "Địa chỉ liên hệ",
+      label: t("Địa chỉ liên hệ"),
       type: "textarea",
       span: "full",
-      placeholder: "Số nhà, đường, phường / xã, tỉnh / thành phố",
+      placeholder: t("Số nhà, đường, phường / xã, tỉnh / thành phố"),
     },
     {
       name: "departmentId",
-      section: "Thông tin công việc",
+      section: t("Thông tin công việc"),
       required: true,
-      label: "Phòng ban",
+      label: t("Phòng ban"),
       type: "select",
       options: [
-        { value: "", label: "Chọn phòng ban" },
+        { value: "", label: t("Chọn phòng ban") },
         ...departments
           .data!.items.filter((d) => d.active)
           .map((d) => ({ value: d.id, label: d.name })),
@@ -99,10 +99,10 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
     {
       name: "positionId",
       required: true,
-      label: "Chức danh",
+      label: t("Chức danh"),
       type: "select",
       options: [
-        { value: "", label: "Chọn chức danh" },
+        { value: "", label: t("Chọn chức danh") },
         ...positions
           .data!.items.filter((d) => d.active)
           .map((d) => ({ value: d.id, label: d.name })),
@@ -111,10 +111,10 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
     {
       name: "managerId",
       span: "full",
-      label: "Người quản lý trực tiếp",
+      label: t("Người quản lý trực tiếp"),
       type: "select",
       options: [
-        { value: "", label: "Không có" },
+        { value: "", label: t("Không có") },
         ...(all.data?.items
           .filter(
             (e) =>
@@ -126,19 +126,24 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
           )
           .map((e) => ({
             value: e.id,
-            label: e.name + " · " + labels[e.accessRole!],
+            label: e.name + " · " + t(labels[e.accessRole!]),
           })) || []),
       ],
     },
-    { name: "hireDate", label: "Ngày vào làm", type: "date", required: true },
+    {
+      name: "hireDate",
+      label: t("Ngày vào làm"),
+      type: "date",
+      required: true,
+    },
     {
       name: "status",
-      label: "Trạng thái làm việc",
+      label: t("Trạng thái làm việc"),
       type: "select",
       options: [
-        { value: "active", label: "Đang làm việc" },
-        { value: "probation", label: "Thử việc" },
-        { value: "terminated", label: "Đã nghỉ việc" },
+        { value: "active", label: t("Đang làm việc") },
+        { value: "probation", label: t("Thử việc") },
+        { value: "terminated", label: t("Đã nghỉ việc") },
       ],
     },
   ];
@@ -153,26 +158,19 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
     <>
       {!dialog && (
         <Heading
-          title={employeeId ? "Chỉnh sửa hồ sơ" : "Thêm nhân viên"}
-          description="Thông tin công việc được lưu cùng lịch sử thay đổi."
+          title={employeeId ? t("Chỉnh sửa hồ sơ") : t("Thêm nhân viên")}
           action={
             <Link className="button secondary" to="/employees">
               <ArrowLeft size={16} />
-              Danh sách
+              {t("Danh sách")}
             </Link>
           }
         />
       )}
       <div className={dialog ? "creation-form" : "panel editor-panel"}>
-        {dialog && (
+        {dialog && employeeId && (
           <p className="form-intro">
-            {employeeId ? (
-              <>
-                <strong>{q.data?.name}</strong> · {q.data?.employeeCode}
-              </>
-            ) : (
-              "Bạn có thể cấp tài khoản đăng nhập sau khi tạo hồ sơ."
-            )}
+            <strong>{q.data?.name}</strong> · {q.data?.employeeCode}
           </p>
         )}
         <Form
@@ -188,7 +186,7 @@ export function EmployeeEditor({ dialog = false }: { dialog?: boolean }) {
             })) as EmployeeView;
             navigate("/employees/" + result.id, { replace: dialog });
           }}
-          submitLabel={employeeId ? "Lưu hồ sơ" : "Tạo hồ sơ"}
+          submitLabel={employeeId ? t("Lưu hồ sơ") : t("Tạo hồ sơ")}
           onCancel={
             dialog ? undefined : () => navigate("/employees/" + employeeId)
           }

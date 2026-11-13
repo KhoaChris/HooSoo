@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useEffect, useState } from "react";
 import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import {
@@ -22,6 +24,7 @@ export function JobEditor({
   directory: RecruitmentDirectory;
   onSaved: (id: string) => void;
 }) {
+  useLocale();
   const [initial] = useState(() => ({
       title: job?.title ?? "",
       description: job?.description ?? "",
@@ -81,16 +84,16 @@ export function JobEditor({
       <ErrorBox error={error} />
       <div className="job-fields">
         <label>
-          Vị trí tuyển dụng
+          <StableText>{t("Vị trí tuyển dụng")}</StableText>
           <Input
             required
             value={value.title}
             onChange={(e) => set("title", e.target.value)}
-            placeholder="Ví dụ: Chuyên viên nhân sự"
+            placeholder={t("Ví dụ: Chuyên viên nhân sự")}
           />
         </label>
         <label>
-          Số lượng cần tuyển
+          <StableText>{t("Số lượng cần tuyển")}</StableText>
           <Input
             required
             type="number"
@@ -101,9 +104,9 @@ export function JobEditor({
           />
         </label>
         <label>
-          Phòng ban
+          <StableText>{t("Phòng ban")}</StableText>
           <Select
-            aria-label="Phòng ban tuyển dụng"
+            aria-label={t("Phòng ban tuyển dụng")}
             value={value.departmentId}
             onValueChange={(v) =>
               setValue((old) => ({
@@ -113,7 +116,7 @@ export function JobEditor({
               }))
             }
             options={[
-              { value: "", label: "Chọn phòng ban" },
+              { value: "", label: t("Chọn phòng ban") },
               ...directory.departments.map((d) => ({
                 value: d.id,
                 label: d.name,
@@ -122,13 +125,13 @@ export function JobEditor({
           />
         </label>
         <label>
-          Người phụ trách
+          <StableText>{t("Người phụ trách")}</StableText>
           <Select
-            aria-label="Người phụ trách tuyển dụng"
+            aria-label={t("Người phụ trách tuyển dụng")}
             value={value.hiringManagerId}
             onValueChange={(v) => set("hiringManagerId", v)}
             options={[
-              { value: "", label: "Chọn người phụ trách" },
+              { value: "", label: t("Chọn người phụ trách") },
               ...directory.reviewers
                 .filter((r) => r.departmentId === value.departmentId)
                 .map((r) => ({ value: r.id, label: r.name })),
@@ -137,7 +140,7 @@ export function JobEditor({
         </label>
       </div>
       <label className="job-description">
-        Mô tả & yêu cầu
+        <StableText>{t("Mô tả & yêu cầu")}</StableText>
         <Textarea
           rows={3}
           value={value.description}
@@ -146,8 +149,14 @@ export function JobEditor({
       </label>
       <div className="stage-editor-heading">
         <div>
-          <h3>Quy trình tuyển dụng</h3>
-          <p>Các vòng đã có ứng viên được giữ nguyên thứ tự.</p>
+          <h3>
+            <StableText>{t("Quy trình tuyển dụng")}</StableText>
+          </h3>
+          <p>
+            <StableText>
+              {t("Các vòng đã có ứng viên được giữ nguyên thứ tự.")}
+            </StableText>
+          </p>
         </div>
         <Button
           type="button"
@@ -158,7 +167,7 @@ export function JobEditor({
               ...value.stages.slice(0, -1),
               {
                 id: crypto.randomUUID(),
-                name: `Phỏng vấn ${value.stages.length - 1}`,
+                name: t("Phỏng vấn {0}", [value.stages.length - 1]),
                 kind: "interview",
               },
               value.stages.at(-1)!,
@@ -166,7 +175,7 @@ export function JobEditor({
           }
         >
           <Plus size={15} />
-          Thêm vòng
+          {t("Thêm vòng")}
         </Button>
       </div>
       <ol className="stage-editor">
@@ -174,7 +183,7 @@ export function JobEditor({
           <li key={stage.id}>
             <span>{String(i + 1).padStart(2, "0")}</span>
             <Input
-              aria-label={`Tên vòng ${i + 1}`}
+              aria-label={t("Tên vòng {0}", [i + 1])}
               required
               value={stage.name}
               onChange={(e) =>
@@ -187,18 +196,20 @@ export function JobEditor({
               }
             />
             <small>
-              {stage.kind === "screening"
-                ? "Sơ tuyển"
-                : stage.kind === "decision"
-                  ? "Quyết định"
-                  : "Phỏng vấn"}
+              <StableText>
+                {stage.kind === "screening"
+                  ? t("Sơ tuyển")
+                  : stage.kind === "decision"
+                    ? t("Quyết định")
+                    : t("Phỏng vấn")}
+              </StableText>
             </small>
             {stage.kind === "interview" && (
               <div className="row-actions">
                 <Button
                   type="button"
                   variant="ghost"
-                  aria-label={`Đưa vòng ${i + 1} lên`}
+                  aria-label={t("Đưa vòng {0} lên", [i + 1])}
                   disabled={i <= 1}
                   onClick={() => {
                     const list = [...value.stages];
@@ -211,7 +222,7 @@ export function JobEditor({
                 <Button
                   type="button"
                   variant="ghost"
-                  aria-label={`Đưa vòng ${i + 1} xuống`}
+                  aria-label={t("Đưa vòng {0} xuống", [i + 1])}
                   disabled={i >= value.stages.length - 2}
                   onClick={() => {
                     const list = [...value.stages];
@@ -224,7 +235,8 @@ export function JobEditor({
                 <Button
                   type="button"
                   variant="ghost"
-                  aria-label={`Xóa vòng ${i + 1}`}
+                  aria-label={t("Xóa vòng {0}", [i + 1])}
+                  tone="danger"
                   onClick={() =>
                     set(
                       "stages",
@@ -241,14 +253,14 @@ export function JobEditor({
       </ol>
       {job && (
         <label>
-          Trạng thái đợt tuyển
+          <StableText>{t("Trạng thái đợt tuyển")}</StableText>
           <Select
-            aria-label="Trạng thái đợt tuyển"
+            aria-label={t("Trạng thái đợt tuyển")}
             value={String(value.active)}
             onValueChange={(v) => set("active", v === "true")}
             options={[
-              { value: "true", label: "Đang tuyển" },
-              { value: "false", label: "Tạm đóng" },
+              { value: "true", label: t("Đang tuyển") },
+              { value: "false", label: t("Tạm đóng") },
             ]}
           />
         </label>
@@ -260,10 +272,10 @@ export function JobEditor({
           disabled={save.isPending}
           onClick={modal?.requestClose}
         >
-          Hủy
+          {t("Hủy")}
         </Button>
         <Button type="submit" busy={save.isPending}>
-          {job ? "Lưu quy trình" : "Tạo đợt tuyển dụng"}
+          {job ? t("Lưu quy trình") : t("Tạo đợt tuyển dụng")}
         </Button>
       </div>
     </form>

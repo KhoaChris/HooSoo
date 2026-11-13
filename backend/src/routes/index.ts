@@ -1,3 +1,4 @@
+import { notificationsRoutes } from "../modules/notifications/notifications.routes";
 import { professionalRoutes } from "../modules/professional/professional.routes";
 import { workflowsRoutes } from "../modules/workflows/workflows.routes";
 import { recruitmentRoutes } from "../modules/recruitment/recruitment.routes";
@@ -12,7 +13,13 @@ import { settingsRoutes } from "../modules/settings/settings.routes";
 import { reportsRoutes } from "../modules/reports/reports.routes";
 import { eventsRoutes } from "../modules/events/events.routes";
 
+import { avatarRoutes } from "../modules/employees/avatar.routes";
+
+import { chatRoutes } from "../modules/chat/chat.routes";
 export const api = Router();
+api.use(notificationsRoutes);
+api.use(chatRoutes);
+api.use(avatarRoutes);
 api.use(eventsRoutes);
 api.use(accountsRoutes);
 api.use(dashboardRoutes);

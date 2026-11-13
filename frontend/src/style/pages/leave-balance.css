@@ -1,0 +1,373 @@
+/* Leave allowance adjustment: direction, positive quantity and a clear preview. */
+.balance-adjustment {
+  gap: 20px;
+}
+.balance-adjustment-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--line);
+}
+.balance-adjustment-summary > div {
+  padding: 0 14px;
+  border-left: 1px solid var(--line);
+  min-width: 0;
+}
+.balance-adjustment-summary > div:first-child {
+  padding-left: 0;
+  border: 0;
+}
+.balance-adjustment-summary > div:last-child {
+  padding-right: 0;
+}
+.balance-adjustment-summary dt {
+  font-size: 11px;
+  color: var(--text-secondary);
+  min-height: 34px;
+}
+.balance-adjustment-summary dd {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+}
+.balance-adjustment-summary dd small {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+.balance-adjustment-summary > div:last-child dd {
+  color: var(--teal);
+}
+.balance-adjustment-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.balance-adjustment-warning > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.balance-adjustment-warning {
+  padding: 12px;
+  border: 1px solid var(--warning-line);
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  border-radius: 8px;
+}
+.balance-adjustment-direction {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+.balance-adjustment-direction legend {
+  padding: 0;
+  margin-bottom: 9px;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 550;
+}
+.balance-direction-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.balance-direction-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 10px;
+  min-height: 56px;
+  border: 1px solid var(--control-border);
+  border-radius: 9px;
+  cursor: pointer;
+  background: var(--surface);
+}
+.balance-direction-option > span:last-child {
+  min-width: 0;
+}
+.balance-direction-option strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.balance-direction-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--surface-subtle);
+  color: var(--text-secondary);
+}
+.balance-direction-option:hover {
+  background: var(--surface-hover);
+  border-color: var(--control-border-hover);
+}
+.balance-direction-option.increase.is-selected {
+  background: var(--selected-surface);
+  border-color: var(--teal);
+}
+.balance-direction-option.increase.is-selected .balance-direction-icon {
+  background: var(--action-bg);
+  color: var(--on-accent);
+}
+.balance-direction-option.decrease.is-selected {
+  background: var(--warning-bg);
+  border-color: var(--warning-text);
+}
+.balance-direction-option.decrease.is-selected .balance-direction-icon {
+  background: var(--warning-text);
+  color: var(--warning-bg);
+}
+.balance-direction-option:focus-within {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.balance-adjustment-direction:disabled .balance-direction-option {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.balance-direction-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.balance-day-stepper {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto 44px;
+  align-items: center;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.balance-day-stepper:focus-within {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px light-dark(#087e7826, #80d5be40);
+}
+.balance-day-stepper.has-error {
+  border-color: var(--danger-text);
+}
+.balance-day-stepper button {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  border: 0;
+  color: var(--text-secondary);
+  background: var(--surface-subtle);
+}
+.balance-day-stepper button:first-child {
+  border-right: 1px solid var(--line);
+}
+.balance-day-stepper button:last-child {
+  border-left: 1px solid var(--line);
+}
+.balance-day-stepper button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--teal);
+}
+.balance-day-stepper button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+.balance-day-stepper button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.modal .balance-day-stepper .input-control {
+  min-width: 0;
+  min-height: 48px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+  box-shadow: none;
+}
+.balance-day-unit {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding-right: 16px;
+}
+.balance-adjustment-preview {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 15px;
+  background: var(--surface-subtle);
+}
+.balance-adjustment-preview h3 {
+  margin: 0 0 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.balance-preview-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 64px 20px 64px;
+  gap: 8px;
+  text-align: right;
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 3px;
+}
+.balance-adjustment-preview dl {
+  margin: 0;
+}
+.balance-adjustment-preview dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 164px;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 0;
+  font-size: 12px;
+}
+.balance-adjustment-preview dt {
+  color: var(--text-secondary);
+}
+.balance-adjustment-preview dd {
+  display: grid;
+  grid-template-columns: 64px 20px 64px;
+  gap: 8px;
+  align-items: center;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+.balance-adjustment-preview dd > svg {
+  justify-self: center;
+  color: var(--muted);
+}
+.balance-adjustment-preview dd > strong {
+  color: var(--teal);
+  font-size: 16px;
+  font-weight: 600;
+}
+.balance-adjustment-preview.decrease dd > strong {
+  color: var(--warning-text);
+}
+.balance-adjustment-history {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.balance-adjustment-history summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 550;
+}
+.balance-adjustment-history summary::-webkit-details-marker {
+  display: none;
+}
+.balance-adjustment-history summary:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.balance-adjustment-history[open] summary > svg {
+  transform: rotate(180deg);
+}
+.balance-adjustment-history summary > svg {
+  flex-shrink: 0;
+}
+.balance-adjustment-history ol {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  max-height: 200px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.balance-adjustment-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+}
+.balance-adjustment-history li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.balance-adjustment-history li > div {
+  min-width: 0;
+}
+.balance-adjustment-history li > span {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.balance-adjustment-history time {
+  display: block;
+  font-size: 10px;
+  margin: 3px 0;
+  color: var(--muted);
+}
+.balance-adjustment-history p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.balance-history-increase {
+  color: var(--success-text);
+}
+.balance-history-decrease {
+  color: var(--warning-text);
+}
+@media (max-width: 600px) {
+  .balance-adjustment-summary > div {
+    padding-inline: 10px;
+  }
+  .balance-adjustment-summary dd {
+    font-size: 22px;
+  }
+  .balance-direction-options {
+    gap: 8px;
+  }
+  .balance-direction-option {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    min-height: 90px;
+  }
+  .balance-adjustment-preview {
+    padding: 12px;
+  }
+  .balance-preview-columns {
+    grid-template-columns: minmax(0, 1fr) 46px 16px 46px;
+    gap: 5px;
+  }
+  .balance-adjustment-preview dl > div {
+    grid-template-columns: minmax(0, 1fr) 118px;
+    gap: 5px;
+  }
+  .balance-adjustment-preview dd {
+    grid-template-columns: 46px 16px 46px;
+    gap: 5px;
+  }
+  .balance-adjustment .form-actions .button {
+    flex: 1 1 auto;
+  }
+}

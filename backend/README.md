@@ -108,3 +108,15 @@ See [workflow contracts](../docs/hr-workflows.md) for permissions, storage and l
 ## Hierarchy and professional work
 
 `shared/src/access/` defines 14 access roles independently of job titles. `common/authorization.ts` enforces scope and strict target hierarchy on personnel changes and approvals. `modules/professional/` owns `/professional/workspace` and versioned `/professional/work-items` operations stored in Firestore `workItems`. Admin can add missing IT job titles through `/positions/templates`. See [access and specialty contracts](../docs/access-and-specialties.md) for the role matrix, safeguards, routes and verification scope.
+
+## Notification feed
+
+`GET /api/v1/notifications` is implemented in `modules/notifications/notifications.routes.ts`. It returns up to 40 recent items derived from the current user's chat rooms, their own requests, and requests they can approve under existing hierarchy rules. It does not expose private message text or add a Firestore notification collection. Read selections reuse the repository cache and existing live invalidation. The frontend refreshes this feed only through normal query lifecycle or relevant collection changes, not a new polling timer.
+
+## Legacy account identity cleanup
+
+`scripts/normalize-account-identities.ts` migrates legacy employee names, codes and document IDs containing `Demo` in the existing `hoosoo-37881` organization. It updates linked records, deterministic attendance/balance/schedule keys and direct-chat/message keys in one transaction. Auth UIDs, credentials, permissions, message content and historical audit facts are preserved. New employee codes continue after the stored `HS-xxxxxx` sequence.
+
+From the repository root, preview with `node --import tsx backend/scripts/normalize-account-identities.ts --project=hoosoo-37881`. Add `--apply` to migrate. A private backup with exact Firestore timestamps is saved in `backend/.secrets/identity-migrations/` before writes. This is a small-data migration with a conservative atomic-write limit; it refuses oversized collections or ID collisions. Rerunning after completion does not renumber employees. Auth display-name synchronization can be retried independently by rerunning the same command.
+
+The script updates the existing collection-version signals so connected sessions refresh without restarting the API. Previously bookmarked employee/detail or direct-chat URLs containing an old ID must be reopened from the current list. Do not rerun the original cloud bootstrap against this migrated organization. Run the focused local tests from `backend/` with `npx vitest run tests/account-identities.test.ts`.

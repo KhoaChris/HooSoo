@@ -1,14 +1,15 @@
 /* Report navigation stays with its data and filters. */
 .report-tabs {
-  display: flex;
+  display: grid;
   gap: 4px;
   flex-wrap: wrap;
   padding: 4px;
-  background: #f3f6f5;
-  border: 1px solid #e9efeb;
+  background: light-dark(#f3f6f5, var(--surface));
+  border: 1px solid light-dark(#e9efeb, var(--line));
   border-radius: 9px;
   width: fit-content;
   margin: 0 0 20px;
+  grid-template-columns: repeat(4, 152px);
 }
 .report-tabs button {
   display: inline-flex;
@@ -19,18 +20,20 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
-  color: #7a8e8a;
+  color: light-dark(#7a8e8a, var(--text-secondary));
   transition:
     background 140ms,
     color 140ms;
+  justify-content: center;
 }
 .report-tabs button:hover {
-  color: #3b6c5c;
+  color: light-dark(#3b6c5c, hsl(160 29% 75%));
+  background: var(--surface-hover);
 }
 .report-tabs button.selected {
-  color: #286c57;
-  background: #fff;
-  box-shadow: 0 1px 4px #284b3c12;
+  color: light-dark(#286c57, var(--navy));
+  background: light-dark(#fff, var(--selected-surface));
+  box-shadow: 0 1px 4px light-dark(#284b3c12, #00000012);
 }
 @media (max-width: 600px) {
   .report-tabs {

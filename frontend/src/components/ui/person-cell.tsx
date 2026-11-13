@@ -1,24 +1,21 @@
+import { useLocale } from "../../i18n";
+import { Avatar } from "./avatar";
 import { Link } from "react-router-dom";
 export function PersonCell({
   name,
+  avatarUrl,
   detail,
   to,
 }: {
   name: string;
+  avatarUrl?: string | null;
   detail?: string;
   to?: string;
 }) {
+  useLocale();
   const content = (
     <>
-      <span className="table-person-avatar" aria-hidden="true">
-        {name
-          .trim()
-          .split(/\s+/)
-          .slice(-2)
-          .map((word) => word[0])
-          .join("")
-          .toLocaleUpperCase("vi")}
-      </span>
+      <Avatar name={name} src={avatarUrl} className="table-person-avatar" />
       <span className="person-cell-text">
         <strong>{name}</strong>
         {detail && <small>{detail}</small>}

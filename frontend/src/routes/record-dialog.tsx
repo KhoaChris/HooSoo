@@ -1,3 +1,4 @@
+import { t, useLocale } from "../i18n";
 import { Suspense } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CalendarPlus, SquarePen, UserRoundPlus } from "lucide-react";
@@ -5,6 +6,7 @@ import { Loading, Modal } from "../components/ui";
 import { recordDialogRoute } from "./record-dialog-routes";
 
 export function RecordDialog() {
+  useLocale();
   const navigate = useNavigate();
   const location = useLocation();
   const route = recordDialogRoute(location.pathname)!;
@@ -16,17 +18,10 @@ export function RecordDialog() {
     <Modal
       title={
         route.edit
-          ? "Chỉnh sửa hồ sơ"
+          ? t("Chỉnh sửa hồ sơ")
           : route.kind === "employee"
-            ? "Thêm nhân viên"
-            : "Tạo đơn nghỉ phép"
-      }
-      description={
-        route.edit
-          ? "Cập nhật thông tin cá nhân và vị trí làm việc của nhân viên."
-          : route.kind === "employee"
-            ? "Tạo hồ sơ và sắp xếp vị trí làm việc cho thành viên mới."
-            : "Chọn thời gian nghỉ và gửi yêu cầu đến người phụ trách."
+            ? t("Thêm nhân viên")
+            : t("Tạo đơn nghỉ phép")
       }
       icon={
         route.edit ? (

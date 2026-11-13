@@ -1,4 +1,9 @@
 import { z } from "zod";
+import {
+  recruitmentAssessmentSchema,
+  type RecruitmentAssessment,
+} from "./recruitment-assessment";
+export * from "./recruitment-assessment";
 import type { Meta, Schedule } from "../index";
 const id = z.string().regex(/^[a-zA-Z0-9_-]{1,100}$/);
 const day = z
@@ -152,6 +157,15 @@ export const candidateEditSchema = candidateSchema.extend({
   version: z.number().int().positive(),
 });
 export type CandidateInput = z.infer<typeof candidateSchema>;
+export const candidateHireSchema = reviewSchema.extend({
+  positionId: id,
+  hireDate: day,
+  workEmail: z
+    .email("Nhập email công việc hợp lệ")
+    .transform((v) => v.toLowerCase()),
+  employmentStatus: z.enum(["probation", "active"]).default("probation"),
+});
+export type CandidateHireInput = z.infer<typeof candidateHireSchema>;
 export const interviewSchema = z
   .object({
     version: z.number().int().positive(),
@@ -166,10 +180,18 @@ export const evaluationSchema = z
   .object({
     version: z.number().int().positive(),
     result: z.enum(["passed", "failed"]),
-    score: z.number().int().min(1).max(5),
+    score: z.number().int().min(1).max(5).optional(),
+    assessment: recruitmentAssessmentSchema.optional(),
     reason,
   })
-  .strict();
+  .strict()
+  .refine(
+    (value) => value.assessment !== undefined || value.score !== undefined,
+    {
+      message: "Cần có phiếu đánh giá hoặc điểm đánh giá.",
+      path: ["assessment"],
+    },
+  );
 export const candidateTransitionSchema = z
   .object({ version: z.number().int().positive(), stageId: id, reason })
   .strict();
@@ -189,11 +211,13 @@ export interface CandidateRound {
   interview?: Interview;
   result?: "passed" | "failed";
   score?: number;
+  assessment?: RecruitmentAssessment;
   feedback?: string;
   evaluatedBy?: string;
   evaluatedAt?: string;
 }
 export interface Candidate extends Meta, CandidateInput {
+  employeeId?: string;
   stageId: string;
   status: "active" | "hired" | "rejected";
   version: number;
@@ -207,6 +231,7 @@ export interface CandidateFile extends Meta {
   data: string;
 }
 export const workflowLabels: Record<string, string> = {
+  employee_created: "Đã tạo hồ sơ nhân viên",
   work_item_created: "Tạo công việc",
   work_item_updated: "Cập nhật công việc",
   work_item_start: "Bắt đầu xử lý",

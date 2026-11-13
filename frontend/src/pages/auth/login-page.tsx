@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import {
   signInWithEmailAndPassword,
@@ -11,6 +13,7 @@ import { useAuth } from "../../app/auth";
 import { Form, Loading, ErrorBox, Button } from "../../components/ui";
 
 export function Login({ forgot = false }: { forgot?: boolean }) {
+  useLocale();
   const session = useAuth(),
     location = useLocation();
   const [sent, setSent] = useState(false);
@@ -20,7 +23,7 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
       <main className="access-error">
         <ErrorBox error={session.error} retry={session.retry} />
         <Button variant="secondary" onClick={() => void session.logout()}>
-          Đăng xuất
+          {t("Đăng xuất")}
         </Button>
       </main>
     );
@@ -47,16 +50,22 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
       const code = (e as { code?: string }).code;
       throw new Error(
         code === "auth/network-request-failed"
-          ? "Không kết nối được dịch vụ đăng nhập. Vui lòng kiểm tra kết nối và thử lại."
+          ? t(
+              "Không kết nối được dịch vụ đăng nhập. Vui lòng kiểm tra kết nối và thử lại.",
+            )
           : [
                 "auth/configuration-not-found",
                 "auth/operation-not-allowed",
                 "auth/invalid-api-key",
               ].includes(code || "")
-            ? "Dịch vụ đăng nhập chưa được cấu hình đầy đủ. Vui lòng liên hệ quản trị viên."
+            ? t(
+                "Dịch vụ đăng nhập chưa được cấu hình đầy đủ. Vui lòng liên hệ quản trị viên.",
+              )
             : code === "auth/too-many-requests"
-              ? "Quá nhiều lần thử. Vui lòng chờ rồi đăng nhập lại."
-              : "Email hoặc mật khẩu chưa đúng, hoặc tài khoản không khả dụng.",
+              ? t("Quá nhiều lần thử. Vui lòng chờ rồi đăng nhập lại.")
+              : t(
+                  "Email hoặc mật khẩu chưa đúng, hoặc tài khoản không khả dụng.",
+                ),
       );
     }
   }
@@ -66,81 +75,102 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
         <div className="brand">
           <span className="brand-mark">h.</span>HooSoo
         </div>
-        <span className="eyebrow">CON NGƯỜI LÀ TRỌNG TÂM</span>
+        <span className="eyebrow">
+          <StableText>{t("CON NGƯỜI LÀ TRỌNG TÂM")}</StableText>
+        </span>
         <h1>
-          Một không gian.
+          <StableText>{t("Một không gian.")}</StableText>
           <br />
-          Kết nối cả đội ngũ.
+          <StableText>{t("Kết nối cả đội ngũ.")}</StableText>
         </h1>
         <p>
-          Quản lý công việc nhân sự hằng ngày, để bạn có thêm thời gian dành cho
-          con người.
+          <StableText>
+            {t(
+              "Quản lý công việc nhân sự hằng ngày, để bạn có thêm thời gian dành cho con người.",
+            )}
+          </StableText>
         </p>
         <div className="story-illustration">
           <div className="orbit-person">
             <Users size={42} />
           </div>
-          <div className="story-line">
-            <span />
-            <span />
-            <span />
-          </div>
+          <div className="story-line" aria-hidden="true" />
           <div className="story-nodes">
-            <span>Nhân sự</span>
-            <span>Đội ngũ</span>
-            <span>Cá nhân</span>
+            <span className="story-node">
+              <StableText>{t("Nhân sự")}</StableText>
+            </span>
+            <span className="story-node">
+              <StableText>{t("Đội ngũ")}</StableText>
+            </span>
+            <span className="story-node">
+              <StableText>{t("Cá nhân")}</StableText>
+            </span>
           </div>
         </div>
-        <footer>HooSoo · Dự án cá nhân của Bùi Đức Đăng Khoa</footer>
+        <footer>{t("HooSoo · Dự án cá nhân của Bùi Đức Đăng Khoa")}</footer>
       </section>
       <section className="login-form">
         <div className="login-inner">
-          <span className="eyebrow">CHÀO MỪNG ĐẾN HOOSOO</span>
-          <h2>{forgot ? "Lấy lại mật khẩu" : "Bắt đầu ngày làm việc"}</h2>
+          <span className="eyebrow">
+            <StableText>{t("CHÀO MỪNG ĐẾN HOOSOO")}</StableText>
+          </span>
+          <h2>
+            <StableText>
+              {forgot ? t("Lấy lại mật khẩu") : t("Bắt đầu ngày làm việc")}
+            </StableText>
+          </h2>
 
           {sent ? (
             <div className="notice success">
-              Nếu email có tài khoản, hướng dẫn khôi phục đã được gửi.{" "}
+              {t("Nếu email có tài khoản, hướng dẫn khôi phục đã được gửi.")}{" "}
               {env.VITE_FIREBASE_MODE === "emulator" &&
-                "Ở chế độ local, liên kết xuất hiện trong terminal Auth emulator."}
+                t(
+                  "Ở chế độ local, liên kết xuất hiện trong terminal Auth emulator.",
+                )}
             </div>
           ) : (
             <Form
               schema={z.object({
-                email: z.email("Email chưa hợp lệ"),
+                email: z.email(t("Email chưa hợp lệ")),
                 ...(forgot
                   ? {}
-                  : { password: z.string().min(1, "Vui lòng nhập mật khẩu") }),
+                  : {
+                      password: z.string().min(1, t("Vui lòng nhập mật khẩu")),
+                    }),
               })}
               fields={[
-                { name: "email", label: "Email công việc", type: "email" },
+                { name: "email", label: t("Email công việc"), type: "email" },
                 ...(!forgot
                   ? [
                       {
                         name: "password",
-                        label: "Mật khẩu",
+                        label: t("Mật khẩu"),
                         type: "password" as const,
                       },
                     ]
                   : []),
               ]}
               onSubmit={submit}
-              submitLabel={forgot ? "Gửi hướng dẫn" : "Đăng nhập"}
+              submitLabel={forgot ? t("Gửi hướng dẫn") : t("Đăng nhập")}
             />
           )}
           <Link
             className="text-link"
             to={forgot ? "/login" : "/forgot-password"}
           >
-            {forgot ? "Quay lại đăng nhập" : "Quên mật khẩu?"}
+            <StableText>
+              {forgot ? t("Quay lại đăng nhập") : t("Quên mật khẩu?")}
+            </StableText>
             <ArrowUpRight size={16} />
           </Link>
           <div className="login-note">
             <ShieldCheck size={18} />
             <span>
-              {env.VITE_FIREBASE_MODE === "emulator"
-                ? "Môi trường demo riêng · Dữ liệu giả lập"
-                : "Truy cập theo quyền được cấp"}
+              <StableText>
+                {env.VITE_FIREBASE_MODE === "emulator"
+                  ? t("Môi trường demo riêng · Dữ liệu giả lập")
+                  : t("Truy cập theo quyền được cấp")}
+              </StableText>
             </span>
           </div>
         </div>

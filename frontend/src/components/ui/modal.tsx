@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import {
   createContext,
   useCallback,
@@ -11,6 +12,7 @@ import {
 } from "react";
 import { X, TriangleAlert } from "lucide-react";
 import { Button } from "./button";
+import { StableText } from "../../i18n/stable-text";
 
 type FormStatus = { dirty: boolean; busy: boolean };
 const ModalContext = createContext<{
@@ -23,17 +25,20 @@ export function Modal({
   title,
   description,
   icon,
+  className = "",
   size = "medium",
   onClose,
   children,
 }: {
   title: string;
-  description?: string;
+  description?: ReactNode;
   icon?: ReactNode;
+  className?: string;
   size?: "medium" | "wide";
   onClose: () => void;
   children: ReactNode;
 }) {
+  useLocale();
   const ref = useRef<HTMLDialogElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const keepRef = useRef<HTMLButtonElement>(null);
@@ -93,7 +98,7 @@ export function Modal({
   return (
     <dialog
       ref={ref}
-      className={`modal modal-${size}`}
+      className={`modal modal-${size} ${className}`.trim()}
       aria-labelledby={`${id}-title`}
       aria-describedby={description ? `${id}-description` : undefined}
       onKeyDown={(event) => {
@@ -105,8 +110,13 @@ export function Modal({
           event.altKey
         )
           return;
-        // Radix manages focus inside an open select menu itself.
-        if (event.currentTarget.querySelector('[role="listbox"]')) return;
+        // Nested Radix controls own their focus loop while open.
+        if (
+          event.currentTarget.querySelector(
+            '[role="listbox"], [data-date-time-popover]',
+          )
+        )
+          return;
         const controls = Array.from(
           event.currentTarget.querySelectorAll<HTMLElement>(
             "button, a[href], input, textarea, select, [tabindex]",
@@ -152,14 +162,22 @@ export function Modal({
         )}
         <div className="modal-heading">
           <h2 ref={titleRef} tabIndex={-1} id={`${id}-title`}>
-            {title}
+            <StableText>{title}</StableText>
           </h2>
-          {description && <p id={`${id}-description`}>{description}</p>}
+          {description && (
+            <p id={`${id}-description`}>
+              {typeof description === "string" ? (
+                <StableText>{description}</StableText>
+              ) : (
+                description
+              )}
+            </p>
+          )}
         </div>
         <button
           type="button"
           className="icon-button modal-close"
-          aria-label="Đóng"
+          aria-label={t("Đóng")}
           disabled={status.busy}
           onClick={requestClose}
         >
@@ -181,17 +199,23 @@ export function Modal({
         >
           <div className="modal-discard-content">
             <TriangleAlert size={25} aria-hidden="true" />
-            <h3 id={`${id}-discard-title`}>Bỏ thay đổi chưa lưu?</h3>
+            <h3 id={`${id}-discard-title`}>{t("Bỏ thay đổi chưa lưu?")}</h3>
             <p id={`${id}-discard-description`}>
-              Nội dung vừa nhập sẽ không được lưu. Bạn có thể quay lại để tiếp
-              tục hoàn tất.
+              {t(
+                "Nội dung vừa nhập sẽ không được lưu. Bạn có thể quay lại để tiếp tục hoàn tất.",
+              )}
             </p>
             <div className="modal-discard-actions">
-              <Button type="button" variant="secondary" onClick={onClose}>
-                Bỏ thay đổi
+              <Button
+                type="button"
+                variant="secondary"
+                tone="danger"
+                onClick={onClose}
+              >
+                {t("Bỏ thay đổi")}
               </Button>
               <Button ref={keepRef} type="button" onClick={keepEditing}>
-                Tiếp tục nhập
+                {t("Tiếp tục nhập")}
               </Button>
             </div>
           </div>

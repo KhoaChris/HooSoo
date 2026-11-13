@@ -182,6 +182,19 @@ export async function featureCommandState(
     )
       await load({ candidates: { field: "jobId", value: jobId } });
     if (jobId) jobFor(s, a, jobId);
+    if (["hire", "direct-hire", "employee"].includes(parts[3])) {
+      requireRole(a, ["Admin", "HR"]);
+      const job = s.recruitmentJobs[jobId];
+      // One bounded directory read only when hiring, for code/email uniqueness
+      // and the existing employee-creation manager/cycle validation.
+      await load({
+        employees: true,
+        employeeSequences: { ids: ["main"] },
+        departments: { ids: job ? [job.departmentId] : [] },
+        positions: { ids: [String(input.positionId)] },
+        memberships: { field: "employeeId", value: job?.hiringManagerId ?? "" },
+      });
+    }
     if (parts[3] === "interview" || parts[3] === "confirm-interview") {
       const interview = c?.rounds.find(
         (r) => r.stageId === c.stageId,

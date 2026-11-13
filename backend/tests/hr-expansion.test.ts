@@ -322,6 +322,10 @@ describe("recruitment", () => {
       }),
     ).toThrow();
     recruiting.decideCandidate(s, a, c.id, "direct-hire", {
+      positionId: "dev",
+      hireDate: "2026-11-16",
+      workEmail: c.email,
+      employmentStatus: "probation",
       version: 1,
       reason: "Đã đánh giá từ chương trình thực tập",
     });

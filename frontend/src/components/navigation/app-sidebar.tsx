@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { ArrowUpRight, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
@@ -26,12 +27,13 @@ export function AppSidebar({
   mobileOpen,
   closeMobile,
 }: AppSidebarProps) {
+  useLocale();
   const sidebar = useRef<HTMLElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const compact = collapsed && !isMobile;
   const toggleLabel = compact
-    ? "Mở rộng thanh điều hướng"
-    : "Thu gọn thanh điều hướng";
+    ? t("Mở rộng thanh điều hướng")
+    : t("Thu gọn thanh điều hướng");
 
   useEffect(() => {
     if (!isMobile || !mobileOpen) return;
@@ -92,7 +94,7 @@ export function AppSidebar({
       id="app-sidebar"
       ref={sidebar}
       className={"sidebar" + (mobileOpen ? " open" : "")}
-      aria-label="Thanh điều hướng"
+      aria-label={t("Thanh điều hướng")}
       role={isMobile && mobileOpen ? "dialog" : undefined}
       aria-modal={isMobile && mobileOpen ? true : undefined}
       inert={isMobile && !mobileOpen}
@@ -101,7 +103,7 @@ export function AppSidebar({
         <NavLink
           to="/dashboard"
           className="brand"
-          aria-label="HooSoo · Tổng quan"
+          aria-label={t("HooSoo · Tổng quan")}
           onClick={closeMobile}
         >
           <span className="brand-mark" aria-hidden="true">
@@ -134,7 +136,7 @@ export function AppSidebar({
           ref={closeButton}
           type="button"
           className="icon-button sidebar-close"
-          aria-label="Đóng điều hướng"
+          aria-label={t("Đóng điều hướng")}
           onClick={closeMobile}
         >
           <X size={20} />
@@ -146,10 +148,10 @@ export function AppSidebar({
         </span>
         <div className="workspace-description">
           <strong>{companyName}</strong>
-          <small>Không gian nhân sự</small>
+          <small>{t("Không gian nhân sự")}</small>
         </div>
       </div>
-      <nav id="sidebar-navigation" aria-label="Điều hướng chính">
+      <nav id="sidebar-navigation" aria-label={t("Điều hướng chính")}>
         {navigation
           .filter((n) => n.roles.includes(role))
           .map((n) => (
@@ -159,20 +161,20 @@ export function AppSidebar({
             >
               {n.group && (
                 <div className="nav-group" aria-hidden={compact || undefined}>
-                  {n.group}
+                  {t(n.group)}
                 </div>
               )}
-              <Tooltip content={n.label} disabled={!compact}>
+              <Tooltip content={t(n.label)} disabled={!compact}>
                 <NavLink
                   end={["/attendance", "/settings", "/work-schedule"].includes(
                     n.path,
                   )}
                   to={n.path}
                   onClick={closeMobile}
-                  aria-label={n.label}
+                  aria-label={t(n.label)}
                 >
                   <n.icon size={18} aria-hidden="true" />
-                  <span className="nav-label">{n.label}</span>
+                  <span className="nav-label">{t(n.label)}</span>
                 </NavLink>
               </Tooltip>
             </div>

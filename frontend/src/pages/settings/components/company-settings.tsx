@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../../i18n";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -14,51 +15,44 @@ import { useAction } from "../../../hooks/data";
 import { dateText, timeText } from "../../../utils/date-time";
 
 export function CompanySettings({ settings }: { settings: Settings }) {
+  useLocale();
   const [edit, setEdit] = useState(false),
     action = useAction();
   return (
     <>
-      <Heading
-        eyebrow="QUẢN TRỊ"
-        title="Thông tin doanh nghiệp"
-        description="Thông tin nhận diện dùng chung trong không gian làm việc."
-      />
+      <Heading eyebrow={t("QUẢN TRỊ")} title={t("Thông tin doanh nghiệp")} />
       <section className="company-workspace">
         <header className="company-identity">
           <span className="company-monogram" aria-hidden="true">
             {settings.companyName.trim().slice(0, 1).toUpperCase()}
           </span>
           <div>
-            <span className="company-kicker">DOANH NGHIỆP</span>
+            <span className="company-kicker">{t("DOANH NGHIỆP")}</span>
             <h2>{settings.companyName}</h2>
-            <p>Không gian quản trị nhân sự</p>
           </div>
           <Button variant="secondary" onClick={() => setEdit(true)}>
             <Pencil size={15} />
-            Chỉnh sửa thông tin
+            {t("Chỉnh sửa thông tin")}
           </Button>
         </header>
         <div className="company-content">
           <div>
-            <h3>Thông tin chung</h3>
-            <p>
-              Tên doanh nghiệp xuất hiện trên thanh điều hướng và sơ đồ tổ chức.
-            </p>
+            <h3>{t("Thông tin chung")}</h3>
           </div>
           <dl>
             <div>
-              <dt>Tên doanh nghiệp</dt>
+              <dt>{t("Tên doanh nghiệp")}</dt>
               <dd>{settings.companyName}</dd>
             </div>
             <div>
-              <dt>Múi giờ làm việc</dt>
+              <dt>{t("Múi giờ làm việc")}</dt>
               <dd>
-                Việt Nam <span>UTC+7</span>
+                {t("Việt Nam")} <span>UTC+7</span>
               </dd>
             </div>
             {settings.updatedAt && (
               <div>
-                <dt>Cập nhật cấu hình gần nhất</dt>
+                <dt>{t("Cập nhật cấu hình gần nhất")}</dt>
                 <dd>
                   {dateText(settings.updatedAt)} ·{" "}
                   {timeText(settings.updatedAt)}
@@ -68,34 +62,30 @@ export function CompanySettings({ settings }: { settings: Settings }) {
           </dl>
         </div>
       </section>
-      <section className="admin-shortcuts" aria-label="Quản trị liên quan">
-        <h2>Quản trị không gian làm việc</h2>
+      <section className="admin-shortcuts" aria-label={t("Quản trị liên quan")}>
+        <h2>{t("Quản trị không gian làm việc")}</h2>
         <div>
           {[
             {
               to: "/settings/users",
-              title: "Tài khoản & phân quyền",
-              text: "Cấp quyền truy cập cho thành viên.",
+              title: t("Tài khoản & phân quyền"),
               icon: ShieldCheck,
             },
             {
               to: "/settings/hr",
-              title: "Chính sách nhân sự",
-              text: "Lịch làm việc và chính sách nghỉ phép.",
+              title: t("Chính sách nhân sự"),
               icon: CalendarDays,
             },
             {
               to: "/audit-logs",
-              title: "Nhật ký thao tác",
-              text: "Tra cứu những thay đổi đã ghi nhận.",
+              title: t("Nhật ký thao tác"),
               icon: History,
             },
-          ].map(({ to, title, text, icon: Icon }) => (
+          ].map(({ to, title, icon: Icon }) => (
             <Link key={to} to={to}>
               <Icon size={20} />
               <span>
                 <strong>{title}</strong>
-                <small>{text}</small>
               </span>
               <ArrowUpRight size={16} />
             </Link>
@@ -104,8 +94,7 @@ export function CompanySettings({ settings }: { settings: Settings }) {
       </section>
       {edit && (
         <Modal
-          title="Chỉnh sửa thông tin doanh nghiệp"
-          description="Tên mới sẽ được sử dụng trong toàn bộ không gian làm việc."
+          title={t("Chỉnh sửa thông tin doanh nghiệp")}
           icon={<Building2 size={21} />}
           onClose={() => setEdit(false)}
         >
@@ -114,9 +103,9 @@ export function CompanySettings({ settings }: { settings: Settings }) {
             fields={[
               {
                 name: "companyName",
-                label: "Tên doanh nghiệp",
+                label: t("Tên doanh nghiệp"),
                 required: true,
-                placeholder: "Nhập tên doanh nghiệp",
+                placeholder: t("Nhập tên doanh nghiệp"),
               },
             ]}
             defaults={{ companyName: settings.companyName }}
@@ -129,7 +118,7 @@ export function CompanySettings({ settings }: { settings: Settings }) {
               setEdit(false);
             }}
             onCancel={() => setEdit(false)}
-            submitLabel="Lưu thông tin"
+            submitLabel={t("Lưu thông tin")}
           />
         </Modal>
       )}

@@ -1,14 +1,14 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Plus,
   Search,
   SlidersHorizontal,
-  ArrowRight,
-  CalendarDays,
-  GripVertical,
   BriefcaseBusiness,
 } from "lucide-react";
-import type { Candidate } from "@hoosoo/shared";
+import { isSupervisorRole, type Candidate } from "@hoosoo/shared";
 import { useAuth } from "../../app/auth";
 import { useApi } from "../../hooks/data";
 import {
@@ -27,23 +27,26 @@ import {
   CandidateActionDialog,
   type CandidateAction,
 } from "./candidate-dialogs";
-import { dayLabel } from "../workflows/workflow-ui";
+import { RecruitmentBoard } from "./recruitment-board";
+import { candidateMovement } from "./candidate-movement";
 export function RecruitmentPage() {
+  useLocale();
+  const [searchParams] = useSearchParams();
   const { me } = useAuth(),
     hr = me?.actor.role === "Admin" || me?.actor.role === "HR";
   const directory = useApi<RecruitmentDirectory>("/recruitment/jobs");
-  const [jobId, setJobId] = useState(""),
+  const [jobId, setJobId] = useState(() => searchParams.get("job") ?? ""),
     [editJob, setEditJob] = useState<"new" | "edit" | null>(null),
     [create, setCreate] = useState<"new" | "sample" | null>(null),
     [editCandidate, setEditCandidate] = useState<Candidate | null>(null),
     [search, setSearch] = useState(""),
     [detailId, setDetailId] = useState<string | null>(null),
+    [detailTab, setDetailTab] = useState<"profile" | "rounds">("profile"),
     [action, setAction] = useState<{
       candidate: Candidate;
       action: CandidateAction;
-    } | null>(null),
-    [dragId, setDragId] = useState<string | null>(null),
-    [notice, setNotice] = useState("");
+      targetId?: string;
+    } | null>(null);
   const job =
     directory.data?.items.find((j) => j.id === jobId) ??
     directory.data?.items[0];
@@ -60,26 +63,36 @@ export function RecruitmentPage() {
         .includes(search.toLocaleLowerCase("vi")),
     ),
     detail = rows.find((c) => c.id === detailId);
-  const openAction = (c: Candidate, a: CandidateAction) => {
+  const canManage = !!(
+    me &&
+    job &&
+    (hr ||
+      (isSupervisorRole(me.actor.role) &&
+        job.hiringManagerId === me.actor.employeeId &&
+        job.departmentId === me.employee.departmentId))
+  );
+  const openAction = (c: Candidate, a: CandidateAction, targetId?: string) => {
+    if (a === "move" && (!job || !candidateMovement(c, job, canManage).allowed))
+      return;
     setDetailId(null);
-    setAction({ candidate: structuredClone(c), action: a });
+    setAction({
+      candidate: structuredClone(c),
+      action: a,
+      targetId:
+        a === "move"
+          ? (targetId ?? candidateMovement(c, job!, canManage).next?.id)
+          : undefined,
+    });
   };
-  const canMove = (c: Candidate, target: string) =>
-    job?.active &&
-    c.status === "active" &&
-    c.rounds.find((r) => r.stageId === c.stageId)?.result === "passed" &&
-    job.stages[job.stages.findIndex((s) => s.id === c.stageId) + 1]?.id ===
-      target;
   return (
     <>
       <Heading
-        title="Theo dõi tuyển dụng"
-        description="Từ tiếp nhận hồ sơ đến quyết định tuyển dụng, trong một quy trình thống nhất."
+        title={t("Theo dõi tuyển dụng")}
         action={
           hr && (
             <Button onClick={() => setEditJob("new")}>
               <Plus size={17} />
-              Mở đợt tuyển dụng
+              {t("Mở đợt tuyển dụng")}
             </Button>
           )
         }
@@ -93,15 +106,12 @@ export function RecruitmentPage() {
       ) : directory.error && !directory.data ? null : !job ? (
         <div className="recruitment-empty">
           <BriefcaseBusiness size={34} />
-          <h2>Chưa có đợt tuyển dụng</h2>
-          <p>
-            {hr
-              ? "Thiết lập vị trí và các vòng phỏng vấn để bắt đầu tiếp nhận ứng viên."
-              : "Các đợt tuyển dụng bạn phụ trách sẽ xuất hiện tại đây."}
-          </p>
+          <h2>
+            <StableText>{t("Chưa có đợt tuyển dụng")}</StableText>
+          </h2>
           {hr && (
             <Button onClick={() => setEditJob("new")}>
-              Tạo đợt tuyển dụng đầu tiên
+              {t("Tạo đợt tuyển dụng đầu tiên")}
             </Button>
           )}
         </div>
@@ -109,18 +119,19 @@ export function RecruitmentPage() {
         <>
           <section className="recruitment-toolbar">
             <div className="recruitment-job">
-              <span className="section-eyebrow">ĐỢT TUYỂN DỤNG</span>
+              <span className="section-eyebrow">
+                <StableText>{t("ĐỢT TUYỂN DỤNG")}</StableText>
+              </span>
               <Select
-                aria-label="Chọn đợt tuyển dụng"
+                aria-label={t("Chọn đợt tuyển dụng")}
                 value={job.id}
                 onValueChange={(v) => {
                   setJobId(v);
                   setSearch("");
-                  setNotice("");
                 }}
                 options={directory.data!.items.map((j) => ({
                   value: j.id,
-                  label: j.title + (j.active ? "" : " · Đã đóng"),
+                  label: j.title + (j.active ? "" : t(" · Đã đóng")),
                 }))}
               />
               <p>
@@ -130,20 +141,20 @@ export function RecruitmentPage() {
                   )?.name
                 }{" "}
                 · {rows.filter((c) => c.status === "hired").length}/
-                {job.openings} vị trí đã tuyển
+                {job.openings} <StableText>{t("vị trí đã tuyển")}</StableText>
               </p>
             </div>
             <div className="row-actions">
               {hr && (
                 <Button variant="secondary" onClick={() => setEditJob("edit")}>
                   <SlidersHorizontal size={16} />
-                  Quy trình
+                  {t("Quy trình")}
                 </Button>
               )}
               {hr && job.active && (
                 <Button onClick={() => setCreate("new")}>
                   <Plus size={16} />
-                  Tiếp nhận ứng viên
+                  {t("Tiếp nhận ứng viên")}
                 </Button>
               )}
             </div>
@@ -152,18 +163,20 @@ export function RecruitmentPage() {
             <label className="search-input">
               <Search size={16} />
               <Input
-                placeholder="Tìm tên hoặc email ứng viên…"
-                aria-label="Tìm ứng viên"
+                placeholder={t("Tìm tên hoặc email ứng viên…")}
+                aria-label={t("Tìm ứng viên")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </label>
             <span>
-              {filtered.length} hồ sơ · {job.stages.length} vòng tuyển dụng
+              {filtered.length} <StableText>{t("hồ sơ ·")}</StableText>{" "}
+              {job.stages.length}{" "}
+              <StableText>{t("vòng tuyển dụng")}</StableText>
             </span>
             {hr && job.active && (
               <Button variant="ghost" onClick={() => setCreate("sample")}>
-                Tạo hồ sơ mẫu
+                {t("Tạo hồ sơ mẫu")}
               </Button>
             )}
           </div>
@@ -171,195 +184,31 @@ export function RecruitmentPage() {
             error={candidates.error}
             retry={() => void candidates.refetch()}
           />
-          {notice && (
-            <p className="workflow-notice" role="status">
-              {notice}
-            </p>
-          )}
           {candidates.isPending ? (
             <Loading />
           ) : (
-            <div className="kanban-scroll" aria-label="Quy trình tuyển dụng">
-              <div className="kanban-board">
-                {[
-                  ...job.stages.map((s, i) => ({ ...s, step: i + 1 })),
-                  {
-                    id: "hired",
-                    name: "Trúng tuyển",
-                    kind: "terminal",
-                    step: 0,
-                  },
-                  {
-                    id: "rejected",
-                    name: "Không tiếp tục",
-                    kind: "terminal",
-                    step: 0,
-                  },
-                ].map((stage) => {
-                  const items = filtered.filter((c) =>
-                      stage.kind === "terminal"
-                        ? c.status === stage.id
-                        : c.status === "active" && c.stageId === stage.id,
-                    ),
-                    dragged = rows.find((c) => c.id === dragId),
-                    allowed = dragged && canMove(dragged, stage.id);
-                  return (
-                    <section
-                      className={`kanban-column ${allowed ? "can-drop" : ""}`}
-                      key={stage.id}
-                      onDragOver={(e) => {
-                        if (allowed) {
-                          e.preventDefault();
-                          e.dataTransfer.dropEffect = "move";
-                        }
-                      }}
-                      onDrop={(e) => {
-                        e.preventDefault();
-                        if (dragged && allowed) openAction(dragged, "move");
-                        else
-                          setNotice(
-                            "Chỉ chuyển sang vòng kế tiếp sau khi đánh giá đạt ở vòng hiện tại.",
-                          );
-                        setDragId(null);
-                      }}
-                    >
-                      <header>
-                        <div>
-                          {stage.step > 0 ? (
-                            <span className="kanban-step">
-                              {String(stage.step).padStart(2, "0")}
-                            </span>
-                          ) : (
-                            <span
-                              className={`kanban-terminal terminal-${stage.id}`}
-                            />
-                          )}
-                          <h3>{stage.name}</h3>
-                        </div>
-                        <span className="kanban-count">{items.length}</span>
-                      </header>
-                      <div className="kanban-cards">
-                        {items.map((c) => {
-                          const round = c.rounds.find(
-                              (r) => r.stageId === c.stageId,
-                            ),
-                            next =
-                              job.stages[
-                                job.stages.findIndex(
-                                  (s) => s.id === c.stageId,
-                                ) + 1
-                              ],
-                            movable = !!next && canMove(c, next.id);
-                          return (
-                            <article
-                              className={`candidate-card ${movable ? "is-draggable" : ""}`}
-                              key={c.id}
-                              draggable={movable}
-                              onDragStart={(e) => {
-                                e.dataTransfer.setData("text/plain", c.id);
-                                e.dataTransfer.effectAllowed = "move";
-                                setDragId(c.id);
-                                setNotice(`Kéo ${c.name} sang ${next?.name}.`);
-                              }}
-                              onDragEnd={() => {
-                                setDragId(null);
-                                setNotice("");
-                              }}
-                            >
-                              <div className="candidate-card-top">
-                                <span className="candidate-initial">
-                                  {c.name
-                                    .trim()
-                                    .split(/\s+/)
-                                    .slice(-2)
-                                    .map((n) => n[0])
-                                    .join("")}
-                                </span>
-                                {c.source === "sample" && (
-                                  <small className="sample-label">
-                                    Hồ sơ mẫu
-                                  </small>
-                                )}
-                                {movable && (
-                                  <GripVertical
-                                    size={16}
-                                    aria-label="Có thể kéo sang vòng tiếp theo"
-                                  />
-                                )}
-                              </div>
-                              <button
-                                className="candidate-open"
-                                onClick={() => setDetailId(c.id)}
-                              >
-                                <strong>{c.name}</strong>
-                                <span>{c.email}</span>
-                              </button>
-                              {round?.interview && (
-                                <div className="candidate-card-interview">
-                                  <CalendarDays size={14} />
-                                  <span>
-                                    {dayLabel(round.interview.date)} ·{" "}
-                                    {round.interview.start}
-                                    <small>
-                                      {round.interview.status === "confirmed"
-                                        ? "Đã duyệt lịch"
-                                        : "Chờ duyệt lịch"}
-                                    </small>
-                                  </span>
-                                </div>
-                              )}
-                              <footer>
-                                <span
-                                  className={`candidate-result ${round?.result ?? ""}`}
-                                >
-                                  {c.status === "hired"
-                                    ? "Đã trúng tuyển"
-                                    : c.status === "rejected"
-                                      ? "Đã kết thúc"
-                                      : round?.result === "passed"
-                                        ? "Đạt yêu cầu"
-                                        : round?.result === "failed"
-                                          ? "Chưa đạt"
-                                          : "Chưa đánh giá"}
-                                </span>
-                                {movable && (
-                                  <Button
-                                    variant="ghost"
-                                    aria-label={`Chuyển vòng cho ${c.name}`}
-                                    onClick={() => openAction(c, "move")}
-                                  >
-                                    <ArrowRight size={16} />
-                                  </Button>
-                                )}
-                              </footer>
-                            </article>
-                          );
-                        })}
-                        {!items.length && (
-                          <div className="kanban-empty">
-                            {allowed
-                              ? "Thả ứng viên vào đây"
-                              : "Chưa có ứng viên"}
-                          </div>
-                        )}
-                      </div>
-                    </section>
-                  );
-                })}
-              </div>
-            </div>
+            <RecruitmentBoard
+              key={job.id}
+              job={job}
+              candidates={filtered}
+              canManage={canManage}
+              onOpen={(id, tab = "profile") => {
+                setDetailTab(tab);
+                setDetailId(id);
+              }}
+              onMove={(candidate, targetId) =>
+                openAction(candidate, "move", targetId)
+              }
+            />
           )}
-          <p className="workflow-help">
-            Đánh giá đạt để chuyển sang vòng kế tiếp. Bạn có thể kéo thả hoặc
-            dùng nút mũi tên trên hồ sơ. Lịch phỏng vấn cần được nhân sự xác
-            nhận.
-          </p>
         </>
       )}
       {editJob && directory.data && (
         <Modal
           title={
-            editJob === "new" ? "Mở đợt tuyển dụng" : "Thiết lập đợt tuyển dụng"
+            editJob === "new"
+              ? t("Mở đợt tuyển dụng")
+              : t("Thiết lập đợt tuyển dụng")
           }
           size="wide"
           onClose={() => setEditJob(null)}
@@ -391,6 +240,8 @@ export function RecruitmentPage() {
       )}
       {detail && job && (
         <CandidateDetail
+          key={detail.id}
+          initialTab={detailTab}
           candidate={detail}
           job={job}
           hr={hr}
@@ -406,8 +257,16 @@ export function RecruitmentPage() {
         <CandidateActionDialog
           candidate={action.candidate}
           action={action.action}
+          moveTargetId={action.targetId}
+          currentCandidate={rows.find((c) => c.id === action.candidate.id)}
+          canMove={canManage}
           job={job}
           directory={directory.data}
+          interviewLocations={rows.flatMap((candidate) =>
+            candidate.rounds.flatMap((round) =>
+              round.interview?.location ? [round.interview.location] : [],
+            ),
+          )}
           onClose={() => setAction(null)}
         />
       )}

@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { useState, useRef, useEffect } from "react";
 import { UploadCloud, FileText, Download } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -6,6 +7,7 @@ import { api } from "../../services/api-client";
 import { refreshQueries } from "../../services/query-sync";
 import { Button, ErrorBox } from "../../components/ui";
 import { useModalForm } from "../../components/ui/modal";
+import { showToast } from "../../components/ui/toast-events";
 export function CandidateCV({
   candidate,
   editable,
@@ -15,6 +17,7 @@ export function CandidateCV({
   editable: boolean;
   onPendingChange: (pending: boolean) => void;
 }) {
+  useLocale();
   const [file, setFile] = useState<File | null>(null),
     [error, setError] = useState<Error | null>(null),
     [busy, setBusy] = useState(false),
@@ -44,7 +47,7 @@ export function CandidateCV({
     if (!f) return;
     setError(null);
     if (f.size > 2 * 1024 * 1024 || !f.name.toLowerCase().endsWith(".pdf")) {
-      setError(new Error("Chọn tệp PDF tối đa 2 MB."));
+      setError(new Error(t("Chọn tệp PDF tối đa 2 MB.")));
       return;
     }
     setFile(f);
@@ -66,6 +69,7 @@ export function CandidateCV({
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch (e) {
       setError(e as Error);
+      showToast((e as Error).message, "error");
     } finally {
       setBusy(false);
     }
@@ -78,7 +82,9 @@ export function CandidateCV({
           <FileText size={28} />
           <div>
             <strong>{candidate.cv.name}</strong>
-            <small>{Math.ceil(candidate.cv.size / 1024)} KB · PDF gốc</small>
+            <small>
+              {Math.ceil(candidate.cv.size / 1024)} {t("KB · PDF gốc")}
+            </small>
           </div>
           <Button
             variant="secondary"
@@ -86,14 +92,15 @@ export function CandidateCV({
             onClick={() => void download()}
           >
             <Download size={16} />
-            Tải CV
+            {t("Tải CV")}
           </Button>
         </div>
-      ) : (
-        <p className="workflow-help">
-          Chưa có CV đính kèm. Thông tin hồ sơ được ghi nhận ở mục Hồ sơ.
-        </p>
-      )}
+      ) : !editable ? (
+        <div className="candidate-detail-empty">
+          <FileText size={28} aria-hidden="true" />
+          <p>{t("Chưa có CV đính kèm.")}</p>
+        </div>
+      ) : null}
       {editable && (
         <>
           <div
@@ -105,18 +112,19 @@ export function CandidateCV({
             }}
           >
             <UploadCloud size={26} />
-            <strong>{file?.name ?? "Kéo thả CV vào đây"}</strong>
-            <span>PDF tối đa 2 MB · Lưu nguyên bản tài liệu</span>
+            <strong>{file?.name ?? t("Kéo thả CV vào đây")}</strong>
+            <span>{t("PDF · Tối đa 2 MB")}</span>
             <Button
               variant="secondary"
               disabled={busy}
               onClick={() => input.current?.click()}
             >
-              Chọn tệp PDF
+              {t("Chọn tệp PDF")}
             </Button>
             <input
               ref={input}
               type="file"
+              aria-label={t("Chọn tệp PDF")}
               accept="application/pdf,.pdf"
               hidden
               onChange={(e) => choose(e.target.files?.[0])}
@@ -126,10 +134,11 @@ export function CandidateCV({
             <div className="workflow-actions">
               <Button
                 variant="secondary"
+                tone="danger"
                 disabled={busy}
                 onClick={() => setFile(null)}
               >
-                Bỏ tệp
+                {t("Bỏ tệp")}
               </Button>
               <Button
                 busy={busy}
@@ -148,19 +157,16 @@ export function CandidateCV({
                     window.dispatchEvent(new Event("hoosoo:saved"));
                   } catch (e) {
                     setError(e as Error);
+                    showToast((e as Error).message, "error");
                   } finally {
                     setBusy(false);
                   }
                 }}
               >
-                Lưu CV vào hồ sơ
+                {t("Lưu CV vào hồ sơ")}
               </Button>
             </div>
           )}
-          <p className="workflow-help">
-            CV được lưu riêng và chỉ tải khi cần. Nội dung hồ sơ có cấu trúc cần
-            được nhập và đối chiếu với CV gốc.
-          </p>
         </>
       )}
     </section>

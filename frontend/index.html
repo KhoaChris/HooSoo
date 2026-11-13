@@ -1,1 +1,31 @@
-<!doctype html><html lang="vi"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#152e41"/><meta name="description" content="HooSoo — Không gian quản trị nhân sự của bạn."/><title>HooSoo · Quản trị nhân lực</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#152e41" />
+    <meta
+      name="description"
+      content="HooSoo — Không gian quản trị nhân sự của bạn."
+    />
+    <title>HooSoo · Quản trị nhân lực</title>
+    <script>
+      try {
+        var p = JSON.parse(
+          localStorage.getItem("hoosoo:appearance:v1") || "{}",
+        );
+        var dark =
+          p.theme === "dark" ||
+          (p.theme !== "light" &&
+            matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        document.documentElement.style.colorScheme = dark ? "dark" : "light";
+        document.documentElement.lang = p.locale === "en" ? "en" : "vi";
+      } catch (_) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

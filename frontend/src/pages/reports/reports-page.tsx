@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { Input } from "../../components/ui";
 import { useState } from "react";
 import {
@@ -27,6 +28,7 @@ import {
 type Row = { id: string } & Record<string, unknown>;
 
 export function ReportsPage() {
+  useLocale();
   const [kind, setKind] = useState("employees"),
     [filters, setFilters] = useState({
       page: 1,
@@ -73,36 +75,36 @@ export function ReportsPage() {
   }
   const keys: Record<string, string[][]> = {
     employees: [
-      ["employeeCode", "Mã nhân viên"],
-      ["name", "Họ tên"],
-      ["departmentId", "Phòng ban"],
-      ["positionId", "Chức danh"],
-      ["status", "Trạng thái"],
+      ["employeeCode", t("Mã nhân viên")],
+      ["name", t("Họ tên")],
+      ["departmentId", t("Phòng ban")],
+      ["positionId", t("Chức danh")],
+      ["status", t("Trạng thái")],
     ],
     attendance: [
-      ["employeeName", "Nhân viên"],
-      ["date", "Ngày"],
-      ["checkIn", "Giờ vào"],
-      ["checkOut", "Giờ ra"],
-      ["presenceMinutes", "Phút hiện diện"],
-      ["paidMinutes", "Phút tính công"],
-      ["status", "Trạng thái"],
+      ["employeeName", t("Nhân viên")],
+      ["date", t("Ngày")],
+      ["checkIn", t("Giờ vào")],
+      ["checkOut", t("Giờ ra")],
+      ["presenceMinutes", t("Phút hiện diện")],
+      ["paidMinutes", t("Phút tính công")],
+      ["status", t("Trạng thái")],
     ],
     leave: [
-      ["employeeName", "Nhân viên"],
-      ["typeName", "Loại phép"],
-      ["startDate", "Từ ngày"],
-      ["endDate", "Đến ngày"],
-      ["days", "Số ngày"],
-      ["status", "Trạng thái"],
+      ["employeeName", t("Nhân viên")],
+      ["typeName", t("Loại phép")],
+      ["startDate", t("Từ ngày")],
+      ["endDate", t("Đến ngày")],
+      ["days", t("Số ngày")],
+      ["status", t("Trạng thái")],
     ],
     balances: [
-      ["employeeName", "Nhân viên"],
-      ["year", "Năm"],
-      ["allowance", "Hạn mức"],
-      ["used", "Đã duyệt"],
-      ["pending", "Chờ duyệt"],
-      ["available", "Khả dụng"],
+      ["employeeName", t("Nhân viên")],
+      ["year", t("Năm")],
+      ["allowance", t("Hạn mức")],
+      ["used", t("Đã duyệt")],
+      ["pending", t("Chờ duyệt")],
+      ["available", t("Khả dụng")],
     ],
   };
   function display(key: string, value: unknown) {
@@ -122,10 +124,10 @@ export function ReportsPage() {
     return String(value);
   }
   const reportTitles: Record<string, string> = {
-    employees: "Danh sách nhân sự",
-    attendance: "Tổng hợp chấm công",
-    leave: "Tổng hợp nghỉ phép",
-    balances: "Số dư phép năm",
+    employees: t("Danh sách nhân sự"),
+    attendance: t("Tổng hợp chấm công"),
+    leave: t("Tổng hợp nghỉ phép"),
+    balances: t("Số dư phép năm"),
   };
   const reportIcons = {
     employees: <UsersRound size={16} />,
@@ -142,8 +144,7 @@ export function ReportsPage() {
   return (
     <>
       <Heading
-        title="Báo cáo nhân sự"
-        description="Tổng hợp dữ liệu thực tế trong phạm vi quyền truy cập của bạn."
+        title={t("Báo cáo nhân sự")}
         action={
           <Button
             variant="secondary"
@@ -151,7 +152,7 @@ export function ReportsPage() {
             onClick={() => void download()}
           >
             <Download size={16} />
-            Xuất CSV
+            {t("Xuất CSV")}
           </Button>
         }
       />
@@ -167,13 +168,13 @@ export function ReportsPage() {
             <div
               className="report-tabs"
               role="tablist"
-              aria-label="Loại báo cáo"
+              aria-label={t("Loại báo cáo")}
             >
               {[
-                ["employees", "Nhân viên"],
-                ["attendance", "Chấm công"],
-                ["leave", "Nghỉ phép"],
-                ["balances", "Số dư phép"],
+                ["employees", t("Nhân viên")],
+                ["attendance", t("Chấm công")],
+                ["leave", t("Nghỉ phép")],
+                ["balances", t("Số dư phép")],
               ].map(([value, label]) => (
                 <button
                   role="tab"
@@ -202,7 +203,7 @@ export function ReportsPage() {
               )}{" "}
               {kind === "balances" && (
                 <label className="filter-label">
-                  Năm
+                  {t("Năm")}
                   <Input
                     type="number"
                     value={filters.year}
@@ -217,13 +218,13 @@ export function ReportsPage() {
                 </label>
               )}
               <Select
-                aria-label="Phòng ban"
+                aria-label={t("Phòng ban")}
                 value={filters.departmentId}
                 onValueChange={(value) =>
                   setFilters({ ...filters, departmentId: value, page: 1 })
                 }
                 options={[
-                  { value: "", label: "Tất cả phòng ban" },
+                  { value: "", label: t("Tất cả phòng ban") },
                   ...(departments.data?.items.map((item) => ({
                     value: item.id,
                     label: item.name,
@@ -231,13 +232,13 @@ export function ReportsPage() {
                 ]}
               />
               <Select
-                aria-label="Nhân viên"
+                aria-label={t("Nhân viên")}
                 value={filters.employeeId}
                 onValueChange={(value) =>
                   setFilters({ ...filters, employeeId: value, page: 1 })
                 }
                 options={[
-                  { value: "", label: "Tất cả nhân viên" },
+                  { value: "", label: t("Tất cả nhân viên") },
                   ...(staff.data?.items.map((item) => ({
                     value: item.id,
                     label: item.name,
@@ -246,16 +247,16 @@ export function ReportsPage() {
               />
               {statuses[kind].length > 0 && (
                 <Select
-                  aria-label="Trạng thái"
+                  aria-label={t("Trạng thái")}
                   value={filters.status}
                   onValueChange={(value) =>
                     setFilters({ ...filters, status: value, page: 1 })
                   }
                   options={[
-                    { value: "", label: "Tất cả trạng thái" },
+                    { value: "", label: t("Tất cả trạng thái") },
                     ...statuses[kind].map((status) => ({
                       value: status,
-                      label: labels[status],
+                      label: t(labels[status]),
                     })),
                   ]}
                 />
@@ -281,7 +282,7 @@ export function ReportsPage() {
                     })
                   }
                 >
-                  Đặt lại
+                  {t("Đặt lại")}
                 </Button>
               )}
             </div>
@@ -290,11 +291,7 @@ export function ReportsPage() {
         footerNote={
           <>
             <Info size={14} />
-            <span>
-              CSV gồm toàn bộ kết quả đã lọc, tối đa 5.000 dòng.
-              {kind === "attendance" &&
-                " Dữ liệu chấm công là bản tổng hợp, không thay thế bảng lương được xác nhận."}
-            </span>
+            <span>{t("CSV · Tối đa 5.000 dòng")}</span>
           </>
         }
         data={q.data}
@@ -302,6 +299,16 @@ export function ReportsPage() {
         onPage={(page) => setFilters({ ...filters, page })}
         columns={keys[kind].map(([key, label]) => ({
           label,
+          minWidth: [
+            "name",
+            "employeeName",
+            "departmentName",
+            "positionName",
+          ].includes(key)
+            ? 240
+            : key === "status"
+              ? 185
+              : 155,
           align: [
             "presenceMinutes",
             "paidMinutes",

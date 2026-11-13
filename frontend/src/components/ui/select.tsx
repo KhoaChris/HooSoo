@@ -1,4 +1,5 @@
-import { useRef, useState, type ComponentProps, type Ref } from "react";
+import { t, useLocale } from "../../i18n";
+import { useRef, useState, type ComponentProps, type Ref, type ReactNode } from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -24,6 +25,8 @@ type SelectProps = Pick<
   onValueChange: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
+  displayValue?: ReactNode;
+  contentClassName?: string;
   ref?: Ref<HTMLButtonElement>;
 };
 
@@ -36,11 +39,14 @@ export function Select({
   value,
   onValueChange,
   disabled,
-  placeholder = "Chọn một mục",
+  placeholder = t("Chọn một mục"),
   className = "",
+  displayValue,
+  contentClassName = "",
   ref,
   ...props
 }: SelectProps) {
+  useLocale();
   const trigger = useRef<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
   const [container, setContainer] = useState<HTMLElement | undefined>();
@@ -68,15 +74,15 @@ export function Select({
         className={`select-trigger ${className}`}
       >
         <SelectPrimitive.Value
-          placeholder={options.length ? placeholder : "Chưa có lựa chọn"}
-        />
+          placeholder={options.length ? placeholder : t("Chưa có lựa chọn")}
+        >{displayValue}</SelectPrimitive.Value>
         <SelectPrimitive.Icon className="select-chevron">
           <ChevronDown size={16} aria-hidden="true" />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
       <SelectPrimitive.Portal container={container}>
         <SelectPrimitive.Content
-          className="select-content"
+          className={`select-content ${contentClassName}`}
           position="popper"
           align="start"
           sideOffset={6}

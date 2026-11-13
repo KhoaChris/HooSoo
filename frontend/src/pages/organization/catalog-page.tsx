@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useAuth } from "../../app/auth";
 import { useEffect, useState } from "react";
 import {
@@ -25,6 +27,7 @@ import {
 } from "../../components/ui";
 
 export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
+  useLocale();
   const { me } = useAuth();
   const [templates, setTemplates] = useState(false);
   const [page, setPage] = useState(1),
@@ -34,7 +37,7 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
       catalogPath(kind),
     ),
     action = useAction();
-  const label = kind === "departments" ? "Phòng ban" : "Chức danh";
+  const label = kind === "departments" ? t("Phòng ban") : t("Chức danh");
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   useEffect(() => {
@@ -63,24 +66,27 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
     <>
       <Heading
         title={label}
-        description="Sắp xếp đội ngũ theo cơ cấu doanh nghiệp."
         action={
           <div className="row-actions">
             {kind === "positions" && me?.actor.role === "Admin" && (
               <Button variant="secondary" onClick={() => setTemplates(true)}>
-                Thêm bộ chức danh CNTT
+                {t("Thêm bộ chức danh CNTT")}
               </Button>
             )}
             <Button onClick={() => setEdit("new")}>
               <Plus size={17} />
-              Thêm {label.toLowerCase()}
+              {kind === "departments"
+                ? t("Thêm phòng ban")
+                : t("Thêm chức danh")}
             </Button>
           </div>
         }
       />
       <DataTable
         title={
-          kind === "departments" ? "Danh sách phòng ban" : "Danh sách chức danh"
+          kind === "departments"
+            ? t("Danh sách phòng ban")
+            : t("Danh sách chức danh")
         }
         icon={
           kind === "departments" ? (
@@ -98,8 +104,12 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
             <label className="search-input">
               <Search size={16} />
               <Input
-                aria-label={"Tìm " + label.toLowerCase()}
-                placeholder={"Tìm " + label.toLowerCase() + "…"}
+                aria-label={
+                  kind === "departments"
+                    ? t("Tìm phòng ban")
+                    : t("Tìm chức danh")
+                }
+                placeholder={t("Tìm ") + label.toLowerCase() + "…"}
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -108,16 +118,16 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
               />
             </label>
             <Select
-              aria-label="Trạng thái danh mục"
+              aria-label={t("Trạng thái danh mục")}
               value={status}
               onValueChange={(value) => {
                 setStatus(value);
                 setPage(1);
               }}
               options={[
-                { value: "", label: "Tất cả trạng thái" },
-                { value: "enabled", label: "Đang hoạt động" },
-                { value: "disabled", label: "Ngừng sử dụng" },
+                { value: "", label: t("Tất cả trạng thái") },
+                { value: "enabled", label: t("Đang hoạt động") },
+                { value: "disabled", label: t("Ngừng sử dụng") },
               ]}
             />
             {(search || status) && (
@@ -130,7 +140,7 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
                   setPage(1);
                 }}
               >
-                Xóa bộ lọc
+                {t("Xóa bộ lọc")}
               </Button>
             )}
           </div>
@@ -142,7 +152,9 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
         onPage={setPage}
         columns={[
           {
-            label: "Tên " + label.toLowerCase(),
+            minWidth: 300,
+            label:
+              kind === "departments" ? t("Tên phòng ban") : t("Tên chức danh"),
             render: (c) => (
               <div className="cell-catalog">
                 <span className="cell-catalog-icon" aria-hidden="true">
@@ -154,26 +166,29 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
                 </span>
                 <div>
                   <strong>{c.name}</strong>
-                  <small>{c.description || "Chưa có mô tả"}</small>
+                  <small>{c.description || t("Chưa có mô tả")}</small>
                 </div>
               </div>
             ),
           },
           {
-            label: "Thành viên",
+            minWidth: 200,
+            label: t("Thành viên"),
             render: (c) => (
               <span className="cell-member-count">
                 <UsersRound size={14} />
-                <strong>{c.employeeCount}</strong> nhân viên
+                <strong>{c.employeeCount}</strong> {t("nhân viên")}
               </span>
             ),
           },
           {
-            label: "Trạng thái",
+            minWidth: 200,
+            label: t("Trạng thái"),
             render: (c) => <Badge value={c.active ? "enabled" : "disabled"} />,
           },
           {
-            label: "Thao tác",
+            minWidth: 300,
+            label: t("Thao tác"),
             className: "cell-actions",
             render: (c) => (
               <div className="row-actions">
@@ -182,22 +197,25 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
                   disabled={!c.canEdit}
                   title={
                     !c.canEdit
-                      ? "Danh mục đang gắn với hồ sơ được bảo vệ theo phân cấp"
+                      ? t(
+                          "Danh mục đang gắn với hồ sơ được bảo vệ theo phân cấp",
+                        )
                       : undefined
                   }
                   onClick={() => setEdit(c)}
                 >
                   <Pencil size={16} />
-                  Chỉnh sửa
+                  {t("Chỉnh sửa")}
                 </Button>
                 <Button
                   className="status-action"
+                  tone={c.active ? "danger" : "success"}
                   disabled={!c.canEdit}
                   variant="ghost"
                   onClick={() => setConfirm(c)}
                 >
                   <Power size={14} />
-                  {c.active ? "Ngừng sử dụng" : "Kích hoạt"}
+                  {c.active ? t("Ngừng sử dụng") : t("Kích hoạt")}
                 </Button>
               </div>
             ),
@@ -207,14 +225,15 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
       {edit && (
         <Modal
           title={
-            (edit === "new" ? "Thêm " : "Chỉnh sửa ") + label.toLowerCase()
+            edit === "new"
+              ? kind === "departments"
+                ? t("Thêm phòng ban")
+                : t("Thêm chức danh")
+              : kind === "departments"
+                ? t("Chỉnh sửa phòng ban")
+                : t("Chỉnh sửa chức danh")
           }
           onClose={() => setEdit(null)}
-          description={
-            kind === "departments"
-              ? "Nhóm nhân viên theo bộ phận và chức năng trong doanh nghiệp."
-              : "Thiết lập chức danh để sử dụng trong hồ sơ nhân viên."
-          }
           icon={
             kind === "departments" ? (
               <Building2 size={21} />
@@ -228,19 +247,21 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
             fields={[
               {
                 name: "name",
-                label: "Tên " + label.toLowerCase(),
+                label:
+                  kind === "departments"
+                    ? t("Tên phòng ban")
+                    : t("Tên chức danh"),
                 required: true,
                 placeholder:
                   kind === "departments"
-                    ? "VD: Chăm sóc khách hàng"
-                    : "VD: Chuyên viên nhân sự",
+                    ? t("VD: Chăm sóc khách hàng")
+                    : t("VD: Chuyên viên nhân sự"),
               },
               {
                 name: "description",
-                label: "Mô tả",
+                label: t("Mô tả"),
                 type: "textarea",
-                placeholder: "Vai trò, trách nhiệm hoặc ghi chú liên quan",
-                hint: "Không bắt buộc. Giúp mọi người hiểu rõ chức năng khi tra cứu.",
+                placeholder: t("Vai trò, trách nhiệm hoặc ghi chú liên quan"),
               },
             ]}
             defaults={
@@ -258,20 +279,26 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
             }}
             onCancel={() => setEdit(null)}
             submitLabel={
-              edit === "new" ? "Thêm " + label.toLowerCase() : "Lưu thay đổi"
+              edit === "new"
+                ? kind === "departments"
+                  ? t("Thêm phòng ban")
+                  : t("Thêm chức danh")
+                : t("Lưu thay đổi")
             }
           />
         </Modal>
       )}
       {templates && (
         <Modal
-          title="Bổ sung chức danh ngành CNTT"
+          title={t("Bổ sung chức danh ngành CNTT")}
           onClose={() => setTemplates(false)}
         >
           <p>
-            Thêm các chức danh quản lý, phát triển, QA/QC, BA, UI/UX, DevOps, dữ
-            liệu và an toàn thông tin còn thiếu. Chức danh đã có được giữ
-            nguyên. Quyền truy cập cần được Admin cấp riêng.
+            <StableText>
+              {t(
+                "Bổ sung chức danh CNTT còn thiếu, giữ nguyên chức danh đã có.",
+              )}
+            </StableText>
           </p>
           <Form
             schema={z.object({})}
@@ -284,19 +311,23 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
               setTemplates(false);
             }}
             onCancel={() => setTemplates(false)}
-            submitLabel="Bổ sung chức danh"
+            submitLabel={t("Bổ sung chức danh")}
           />
         </Modal>
       )}
       {confirm && (
         <Modal
-          title="Xác nhận thay đổi trạng thái"
+          title={t("Xác nhận thay đổi trạng thái")}
           onClose={() => setConfirm(null)}
         >
           <p>
-            {confirm.active ? "Ngừng sử dụng" : "Kích hoạt lại"}{" "}
-            <strong>{confirm.name}</strong>? Nhân viên đang làm việc cần được
-            điều chuyển trước khi ngừng sử dụng.
+            <StableText>
+              {confirm.active ? t("Ngừng sử dụng") : t("Kích hoạt lại")}
+            </StableText>{" "}
+            <strong>{confirm.name}</strong>
+            <StableText>
+              {t("? Cần điều chuyển nhân viên đang làm việc trước.")}
+            </StableText>
           </p>
           <Form
             schema={z.object({})}
@@ -310,7 +341,8 @@ export function CatalogPage({ kind }: { kind: "departments" | "positions" }) {
               setConfirm(null);
             }}
             onCancel={() => setConfirm(null)}
-            submitLabel="Xác nhận"
+            submitTone={confirm.active ? "danger" : "success"}
+            submitLabel={t("Xác nhận")}
           />
         </Modal>
       )}

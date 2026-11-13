@@ -9,6 +9,7 @@ export { Modal } from "./modal";
 export { Form } from "./form";
 export { Metric } from "./metric";
 export { DateFilters } from "./date-filters";
+export { DateTimePicker } from "./date-time-picker";
 export { Select } from "./select";
 export { Toast } from "./toast";
 export { Input } from "./input";

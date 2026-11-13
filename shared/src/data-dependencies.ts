@@ -4,7 +4,18 @@ export function queryCollections(path: string): Table[] | null {
   const route = path.split("?")[0];
   const authorization: Table[] = ["memberships", "employees"];
   let data: Table[];
-  if (route.startsWith("/professional")) data = ["workItems", "departments"];
+  if (route === "/notifications")
+    data = [
+      "chatRooms",
+      "leaveRequests",
+      "workRegistrations",
+      "internalRequests",
+    ];
+  else if (route === "/chat/people") data = [];
+  else if (route.startsWith("/chat/rooms"))
+    data = ["chatRooms", "chatMessages"];
+  else if (route.startsWith("/professional"))
+    data = ["workItems", "departments"];
   else if (route.startsWith("/work-registrations"))
     data = ["workRegistrations", "settings"];
   else if (route.startsWith("/internal-requests"))
@@ -53,6 +64,15 @@ export function queryCollections(path: string): Table[] | null {
 }
 
 export function mutationCollections(path: string): Table[] | null {
+  if (path.startsWith("/chat/")) return ["chatRooms", "chatMessages"];
+  if (/^\/(me|employees\/[^/]+)\/avatar$/.test(path.split("?")[0]))
+    return ["employees", "auditLogs"];
+  if (
+    /^\/recruitment\/candidates\/[^/]+\/(hire|direct-hire|employee)$/.test(
+      path.split("?")[0],
+    )
+  )
+    return ["candidates", "employees", "auditLogs"];
   if (path.startsWith("/recruitment/candidates"))
     return ["candidates", "auditLogs"];
   if (path.startsWith("/recruitment/jobs"))

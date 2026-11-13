@@ -7,11 +7,11 @@
   flex-direction: column;
   gap: 11px;
   padding: 48px 25px;
-  color: #93a4af;
+  color: light-dark(#93a4af, var(--muted));
   text-align: center;
 }
 .empty strong {
-  color: #6a7e8d;
+  color: light-dark(#6a7e8d, var(--text-secondary));
   font-size: 13px;
 }
 .empty p {
@@ -23,14 +23,14 @@
   justify-content: center;
   gap: 10px;
   min-height: 160px;
-  color: #6e8c89;
+  color: light-dark(#6e8c89, var(--text-secondary));
 }
 .error-box {
   display: flex;
   gap: 11px;
-  background: #fff1ee;
-  color: #9d4e44;
-  border: 1px solid #f2d9d2;
+  background: light-dark(#fff1ee, var(--danger-bg));
+  color: light-dark(#9d4e44, var(--danger-text));
+  border: 1px solid light-dark(#f2d9d2, var(--danger-line));
   padding: 15px;
   border-radius: 8px;
   margin: 16px 0;
@@ -43,25 +43,25 @@
 .error-box small {
   display: block;
   margin: 7px 0;
-  color: #b57d72;
+  color: light-dark(#b57d72, var(--danger-text));
 }
 .error-box .button {
   margin-top: 10px;
 }
 .notice {
   padding: 14px 16px;
-  background: #fff7e7;
-  border: 1px solid #f1e2bf;
+  background: light-dark(#fff7e7, var(--warning-bg));
+  border: 1px solid light-dark(#f1e2bf, var(--warning-line));
   border-radius: 8px;
-  color: #90703d;
+  color: light-dark(#90703d, var(--warning-text));
   font-size: 12px;
   margin: 15px 0;
   line-height: 1.7;
 }
 .notice.success {
-  background: #eaf6ee;
-  color: #397b5c;
-  border-color: #d3e8db;
+  background: light-dark(#eaf6ee, var(--success-bg));
+  color: light-dark(#397b5c, var(--success-text));
+  border-color: light-dark(#d3e8db, var(--success-line));
 }
 .notice small {
   display: block;

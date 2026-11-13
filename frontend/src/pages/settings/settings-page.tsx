@@ -1,4 +1,7 @@
-import { Clock3, CalendarDays, ShieldCheck, Info } from "lucide-react";
+import { StableText } from "../../i18n/stable-text";
+import { weekdayLabel } from "../../i18n/preferences";
+import { t, useLocale } from "../../i18n";
+import { Clock3, CalendarDays, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { scheduleSchema, type Settings } from "@hoosoo/shared";
@@ -41,6 +44,7 @@ const scheduleForm = z
   .pipe(z.object({ schedule: scheduleSchema, annualAllowance: z.number() }));
 
 export function SettingsPage({ hr = false }: { hr?: boolean }) {
+  useLocale();
   const q = useApi<Settings>("/settings"),
     action = useAction();
   const [confirmation, setConfirmation] = useState<Record<
@@ -54,20 +58,17 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
   return (
     <>
       <Heading
-        title={hr ? "Chính sách nhân sự" : "Thông tin doanh nghiệp"}
-        description={
-          hr
-            ? "Lịch làm việc và chính sách phép của doanh nghiệp."
-            : "Cấu hình không gian làm việc HooSoo."
-        }
+        title={hr ? t("Chính sách nhân sự") : t("Thông tin doanh nghiệp")}
       />
       <div className={hr ? "policy-layout" : undefined}>
         {hr && (
           <aside className="policy-overview">
-            <span className="policy-overview-label">CHÍNH SÁCH HIỆN TẠI</span>
+            <span className="policy-overview-label">
+              {t("CHÍNH SÁCH HIỆN TẠI")}
+            </span>
             <h2>
               <Clock3 size={20} />
-              Khung giờ làm việc
+              <StableText>{t("Khung giờ làm việc")}</StableText>
             </h2>
             <p className="policy-current-hours">
               {s.schedule.start}
@@ -77,32 +78,36 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
             <p className="policy-current-days">
               {[1, 2, 3, 4, 5, 6, 0]
                 .filter((day) => s.schedule.workDays.includes(day))
-                .map((day) => (day === 0 ? "Chủ nhật" : "Thứ " + (day + 1)))
+                .map((day) => weekdayLabel(day))
                 .join(" · ")}
             </p>
             <dl>
               <div>
-                <dt>Nghỉ giữa ca</dt>
+                <dt>
+                  <StableText>{t("Nghỉ giữa ca")}</StableText>
+                </dt>
                 <dd>
                   {s.schedule.breakStart} – {s.schedule.breakEnd}
                 </dd>
               </div>
               <div>
-                <dt>Ngưỡng đi muộn</dt>
-                <dd>{s.schedule.lateGraceMinutes} phút</dd>
+                <dt>
+                  <StableText>{t("Ngưỡng đi muộn")}</StableText>
+                </dt>
+                <dd>
+                  {s.schedule.lateGraceMinutes}{" "}
+                  <StableText>{t("phút")}</StableText>
+                </dd>
               </div>
               <div>
-                <dt>Phép năm ban đầu</dt>
-                <dd>{s.annualAllowance} ngày</dd>
+                <dt>
+                  <StableText>{t("Phép năm ban đầu")}</StableText>
+                </dt>
+                <dd>
+                  {s.annualAllowance} <StableText>{t("ngày")}</StableText>
+                </dd>
               </div>
             </dl>
-            <p className="policy-overview-note">
-              <ShieldCheck size={17} />
-              <span>
-                Thay đổi chính sách áp dụng cho các bản ghi mới. Dữ liệu đã ghi
-                nhận giữ nguyên chính sách tại thời điểm tạo.
-              </span>
-            </p>
           </aside>
         )}
         <section className={hr ? "policy-editor" : "panel editor-panel"}>
@@ -112,8 +117,9 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
                 <CalendarDays size={20} />
               </span>
               <div>
-                <h2>Lịch làm việc & nghỉ phép</h2>
-                <p>Thiết lập thời gian và quỹ phép chung cho đội ngũ.</p>
+                <h2>
+                  <StableText>{t("Lịch làm việc & nghỉ phép")}</StableText>
+                </h2>
               </div>
             </header>
           )}
@@ -126,60 +132,58 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
               fields={[
                 {
                   name: "start",
-                  label: "Bắt đầu ca",
+                  label: t("Bắt đầu ca"),
                   type: "time",
                   required: true,
-                  section: "01 · Thời gian làm việc",
+                  section: t("01 · Thời gian làm việc"),
                 },
                 {
                   name: "end",
-                  label: "Kết thúc ca",
+                  label: t("Kết thúc ca"),
                   type: "time",
                   required: true,
                 },
                 {
                   name: "breakStart",
-                  label: "Bắt đầu nghỉ giữa ca",
+                  label: t("Bắt đầu nghỉ giữa ca"),
                   type: "time",
                   required: true,
                 },
                 {
                   name: "breakEnd",
-                  label: "Kết thúc nghỉ giữa ca",
+                  label: t("Kết thúc nghỉ giữa ca"),
                   type: "time",
                   required: true,
                 },
                 {
                   name: "workDays",
-                  label: "Ngày làm việc trong tuần",
+                  label: t("Ngày làm việc trong tuần"),
                   type: "choices",
                   span: "full",
-                  section: "02 · Lịch làm việc",
+                  section: t("02 · Lịch làm việc"),
                   options: [1, 2, 3, 4, 5, 6, 0].map((day) => ({
                     value: String(day),
-                    label: day === 0 ? "Chủ nhật" : "Thứ " + (day + 1),
+                    label: weekdayLabel(day),
                   })),
-                  hint: "Chọn những ngày áp dụng lịch làm việc của doanh nghiệp.",
                 },
                 {
                   name: "lateGraceMinutes",
-                  label: "Ngưỡng đi muộn (phút)",
+                  label: t("Ngưỡng đi muộn (phút)"),
                   type: "number",
-                  hint: "Khoảng thời gian được phép trễ so với giờ bắt đầu ca.",
                 },
                 {
                   name: "annualAllowance",
-                  label: "Phép năm ban đầu (ngày)",
+                  label: t("Phép năm ban đầu (ngày)"),
                   type: "number",
-                  section: "03 · Nghỉ lễ & phép năm",
-                  hint: "Dùng khi khởi tạo số dư mới. Số dư đã có được điều chỉnh riêng.",
+                  section: t("03 · Nghỉ lễ & phép năm"),
+                  hint: t("Áp dụng khi cấp quỹ phép mới."),
                 },
                 {
                   name: "holidays",
-                  label: "Ngày nghỉ lễ",
+                  label: t("Ngày nghỉ lễ"),
                   type: "textarea",
                   placeholder: "2026-01-01\n2026-09-02",
-                  hint: "Mỗi dòng một ngày theo định dạng YYYY-MM-DD.",
+                  hint: t("YYYY-MM-DD, mỗi dòng một ngày."),
                 },
               ]}
               defaults={{
@@ -191,45 +195,43 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
               onSubmit={async (body) => {
                 setConfirmation(body);
               }}
-              submitLabel="Xem lại thay đổi"
+              submitLabel={t("Xem lại thay đổi")}
             />
           ) : null}
-          {hr && (
-            <p className="policy-editor-note">
-              <Info size={14} />
-              Bạn sẽ được xem lại các thông tin trước khi lưu chính sách.
-            </p>
-          )}
         </section>
       </div>
       {confirmation && (
         <Modal
-          title="Xác nhận cập nhật chính sách"
-          description="Kiểm tra lịch làm việc và hạn mức trước khi lưu."
+          title={t("Xác nhận cập nhật chính sách")}
           icon={<ShieldCheck size={21} />}
           onClose={() => setConfirmation(null)}
         >
           <p>
-            Chính sách mới áp dụng cho các bản ghi mới. Ca chấm công và số ngày
-            nghỉ đã lưu được giữ theo chính sách tại thời điểm tạo.
+            <StableText>{t("Chỉ áp dụng cho bản ghi mới.")}</StableText>
           </p>
           <dl className="policy-review">
             <div>
-              <dt>Giờ làm việc</dt>
+              <dt>
+                <StableText>{t("Giờ làm việc")}</StableText>
+              </dt>
               <dd>
                 {String((confirmation.schedule as Settings["schedule"]).start)}{" "}
                 – {String((confirmation.schedule as Settings["schedule"]).end)}
               </dd>
             </div>
             <div>
-              <dt>Nghỉ giữa ca</dt>
+              <dt>
+                <StableText>{t("Nghỉ giữa ca")}</StableText>
+              </dt>
               <dd>
                 {(confirmation.schedule as Settings["schedule"]).breakStart} –{" "}
                 {(confirmation.schedule as Settings["schedule"]).breakEnd}
               </dd>
             </div>
             <div>
-              <dt>Ngày làm việc</dt>
+              <dt>
+                <StableText>{t("Ngày làm việc")}</StableText>
+              </dt>
               <dd>
                 {[1, 2, 3, 4, 5, 6, 0]
                   .filter((day) =>
@@ -237,30 +239,39 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
                       confirmation.schedule as Settings["schedule"]
                     ).workDays.includes(day),
                   )
-                  .map((day) => (day === 0 ? "Chủ nhật" : "Thứ " + (day + 1)))
+                  .map((day) => weekdayLabel(day))
                   .join(", ")}
               </dd>
             </div>
             <div>
-              <dt>Ngưỡng đi muộn</dt>
+              <dt>
+                <StableText>{t("Ngưỡng đi muộn")}</StableText>
+              </dt>
               <dd>
                 {
                   (confirmation.schedule as Settings["schedule"])
                     .lateGraceMinutes
                 }{" "}
-                phút
+                <StableText>{t("phút")}</StableText>
               </dd>
             </div>
             <div>
-              <dt>Phép năm ban đầu</dt>
-              <dd>{String(confirmation.annualAllowance)} ngày</dd>
+              <dt>
+                <StableText>{t("Phép năm ban đầu")}</StableText>
+              </dt>
+              <dd>
+                {String(confirmation.annualAllowance)}{" "}
+                <StableText>{t("ngày")}</StableText>
+              </dd>
             </div>
             <div>
-              <dt>Ngày nghỉ lễ</dt>
+              <dt>
+                <StableText>{t("Ngày nghỉ lễ")}</StableText>
+              </dt>
               <dd>
                 {(confirmation.schedule as Settings["schedule"]).holidays.join(
                   ", ",
-                ) || "Chưa thiết lập"}
+                ) || t("Chưa thiết lập")}
               </dd>
             </div>
           </dl>
@@ -275,7 +286,7 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
               });
               setConfirmation(null);
             }}
-            submitLabel="Lưu chính sách"
+            submitLabel={t("Lưu chính sách")}
             onCancel={() => setConfirmation(null)}
           />
         </Modal>

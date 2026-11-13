@@ -1,17 +1,81 @@
-/* base/tokens: keep responsive rules with the styles they adjust. */
-
+/* Shared surfaces and states. Page/component rules retain their light values. */
 @theme {
   --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
 }
 :root {
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  color: #243747;
-  background: #f7f9fb;
   font-size: 14px;
   font-synthesis: none;
+  color-scheme: light;
+  color: var(--text-primary);
+  background: var(--canvas);
+  --canvas: #f7f9fb;
+  --surface: #ffffff;
+  --surface-subtle: #f5f7f8;
+  --surface-hover: #edf3f1;
+  --selected-surface: #e7f3ee;
   --navy: #172f42;
-  --teal: #087e78;
+  --text-primary: #243747;
+  --text-secondary: #526777;
   --muted: #73818e;
   --line: #e5ebef;
-  --surface: #fff;
+  --control-border: #dce4e9;
+  --control-border-hover: #9ebbb2;
+  --teal: #087e78;
+  --action-bg: #087e78;
+  --action-hover: #066c67;
+  --on-accent: #ffffff;
+  --hover-surface: var(--surface-hover);
+  --focus-ring: #299d8c;
+  --success-bg: #eaf5ef;
+  --success-text: #267757;
+  --success-line: #cfe4d8;
+  --success-action: #24714f;
+  --success-action-hover: #195a3e;
+  --warning-bg: #fff5df;
+  --warning-text: #8a651b;
+  --warning-line: #ead9ad;
+  --danger-bg: #fcefeb;
+  --danger-text: #a34436;
+  --danger-line: #eccdc5;
+  --danger-action: #b63c3c;
+  --danger-action-hover: #982f2f;
+  --info-bg: #eaf1f9;
+  --info-text: #3f698d;
+  --info-line: #cbdceb;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #101216;
+  --surface: #1a1e25;
+  --surface-subtle: #20262f;
+  --surface-hover: #303a47;
+  --selected-surface: #183b33;
+  --navy: #edf0f4;
+  --text-primary: #dce1e8;
+  --text-secondary: #b9c1cc;
+  --muted: #9ca7b6;
+  --line: #343c48;
+  --control-border: #647184;
+  --control-border-hover: #849487;
+  --teal: #75cbb5;
+  --action-bg: #19776a;
+  --action-hover: #208172;
+  --focus-ring: #80d5be;
+  --success-bg: #18392c;
+  --success-text: #95d8b2;
+  --success-line: #365d47;
+  --success-action: #24734f;
+  --success-action-hover: #2b8059;
+  --warning-bg: #3b301c;
+  --warning-text: #ebc479;
+  --warning-line: #6a5530;
+  --danger-bg: #40272c;
+  --danger-text: #f0a3aa;
+  --danger-line: #75434b;
+  --danger-action: #ac373e;
+  --danger-action-hover: #bd4148;
+  --info-bg: #24354b;
+  --info-text: #accdf5;
+  --info-line: #465f7d;
 }

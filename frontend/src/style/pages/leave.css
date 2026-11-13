@@ -2,7 +2,7 @@
 
 .policy-note ul {
   padding-left: 20px;
-  color: #71848e;
+  color: light-dark(#71848e, var(--text-secondary));
   font-size: 13px;
   line-height: 1.9;
 }

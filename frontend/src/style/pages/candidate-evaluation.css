@@ -1,0 +1,294 @@
+.evaluation-form {
+  display: grid;
+  gap: 22px;
+}
+.evaluation-form fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.evaluation-form legend {
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text-primary);
+}
+.evaluation-overview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.evaluation-overview > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.evaluation-overview > div:first-child > span {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.evaluation-overview strong {
+  color: var(--teal);
+  font-size: 26px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.evaluation-completion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.evaluation-meter {
+  flex-basis: 100%;
+  height: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--line);
+}
+.evaluation-meter > span {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+  transition: width 150ms;
+}
+.evaluation-criterion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: 6px 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.evaluation-criterion:first-of-type {
+  padding-top: 0;
+}
+.evaluation-criterion-label label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.evaluation-criterion-label label > span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.evaluation-criterion-label small {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.evaluation-criterion.is-invalid .select-trigger {
+  border-color: var(--danger-text);
+}
+.evaluation-evidence-toggle {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  padding: 3px 0;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--teal);
+}
+.evaluation-evidence-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.evaluation-evidence {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+.evaluation-note-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.evaluation-notes label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.evaluation-summary {
+  margin-top: 16px;
+}
+.evaluation-form .textarea-control {
+  width: 100%;
+  resize: vertical;
+}
+.evaluation-form [aria-invalid="true"] {
+  border-color: var(--danger-text);
+}
+.evaluation-outcome {
+  display: flex;
+  gap: 12px;
+}
+.evaluation-outcome > label {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  min-width: 0;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.evaluation-outcome > label > span {
+  flex: 1;
+}
+.evaluation-outcome input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.evaluation-outcome > label:focus-within {
+  outline: 2px solid var(--outcome-text);
+  outline-offset: 2px;
+}
+.evaluation-outcome .passed {
+  --outcome-text: var(--success-text);
+  --outcome-bg: var(--success-bg);
+}
+.evaluation-outcome .failed {
+  --outcome-text: var(--danger-text);
+  --outcome-bg: var(--danger-bg);
+}
+.evaluation-outcome > label.is-selected,
+.evaluation-outcome:not(:disabled) > label:is(:hover, :focus-within) {
+  color: var(--outcome-text);
+  background: var(--outcome-bg);
+  border-color: var(--outcome-text);
+}
+.evaluation-outcome > label:has([aria-invalid="true"]) {
+  border-color: var(--danger-text);
+}
+.evaluation-form .form-actions {
+  margin-top: 0;
+}
+.round-result.evaluation-result {
+  background: transparent;
+  border-radius: 0;
+  border-top: 1px solid var(--line);
+  padding: 16px 0 0;
+}
+.evaluation-result-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.evaluation-result-heading > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.evaluation-result-heading > span {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.evaluation-result-date {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.assessment-saved {
+  margin-top: 16px;
+}
+.assessment-saved dl {
+  margin: 0;
+}
+.assessment-saved dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.assessment-saved dt small {
+  margin-left: 8px;
+  color: var(--muted);
+}
+.assessment-saved dd {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 550;
+}
+.assessment-saved dl p {
+  grid-column: 1/-1;
+  font-size: 12px;
+  margin: 0;
+}
+.assessment-saved-notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.assessment-saved-notes h4 {
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.assessment-saved-notes p,
+.evaluation-result-summary {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--text-secondary);
+}
+.evaluation-result-summary {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  margin-top: 14px;
+}
+@media (max-width: 600px) {
+  .evaluation-criterion {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .evaluation-note-grid,
+  .assessment-saved-notes {
+    grid-template-columns: 1fr;
+  }
+  .evaluation-overview > div:first-child {
+    flex: 1;
+    justify-content: space-between;
+  }
+  .evaluation-outcome {
+    flex-direction: column;
+  }
+  .evaluation-outcome > label {
+    flex: auto;
+  }
+  .assessment-saved dl > div {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .evaluation-meter > span {
+    transition: none;
+  }
+}

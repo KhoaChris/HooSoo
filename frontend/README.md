@@ -78,3 +78,11 @@ npm run build
 Work calendar and request styles are in `style/pages/workflows.css`; recruitment styles are in `style/pages/recruitment.css`. New forms reuse the shared dialogs and pending-change guards. The calendar observes company hours and holidays; server validation remains authoritative. Recruitment provides pointer dragging and a next-stage button for keyboard/touch. All pages reuse the existing per-session query cache and scoped event invalidation. See [workflow contracts](../docs/hr-workflows.md).
 
 Role access reference and professional work screens live in `pages/professional/`, with page styles in `style/pages/access.css`. They reuse existing dialogs, forms, custom selects, tables, per-account caching and collection event invalidation. Shared role definitions drive navigation, route guards and role descriptions; server-provided capabilities control protected employee, catalog and balance actions. See [access and specialty contracts](../docs/access-and-specialties.md).
+
+## Appearance, language and notifications
+
+The account header controls live in `components/header/header-tools.tsx`, styled by `style/components/header-tools.css`. `i18n/preferences.ts` persists light/dark mode and VI/EN in browser storage; it does not modify authentication or call the API. The HTML bootstrap applies the saved theme before React renders. Colors use paired light/dark values in the existing component/page styles, with shared tokens in `style/base/tokens.css`.
+
+Application copy is translated through `t()` and `i18n/english.ts`. Subscribe with `useLocale()` in components that render translated copy. Keep names, messages, CV text and API payload values untouched; interpolate user content rather than translate it. `intlLocale()` selects display formatting while business dates continue to use the existing Vietnam timezone. Switching language preserves mounted form state.
+
+The bell reads `/notifications` through the account-scoped query cache and existing collection-change stream. There is no notification polling interval. Read markers are browser-local and scoped to the signed-in UID; a new record version appears unread. The feed contains the latest 40 accessible chat/leave/work-schedule/request updates. It is a current activity feed, not an immutable notification archive.

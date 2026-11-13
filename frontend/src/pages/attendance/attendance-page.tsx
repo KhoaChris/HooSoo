@@ -1,3 +1,4 @@
+import { t, useLocale } from "../../i18n";
 import { PersonCell } from "../../components/ui/person-cell";
 import { useState } from "react";
 import { Clock, LogIn, LogOut, Pencil, History } from "lucide-react";
@@ -23,8 +24,8 @@ import {
 
 const minutes = (v: number | null) =>
   v === null
-    ? "Chưa đủ dữ liệu"
-    : `${Math.floor(v / 60)} giờ ${Math.round(v % 60)} phút`;
+    ? t("Chưa đủ dữ liệu")
+    : t("{0} giờ {1} phút", [Math.floor(v / 60), Math.round(v % 60)]);
 
 function localInput(iso: string | null) {
   if (!iso) return "";
@@ -32,6 +33,7 @@ function localInput(iso: string | null) {
 }
 
 export function AttendancePage({ personal = false }: { personal?: boolean }) {
+  useLocale();
   const { me } = useAuth();
   const [filters, setFilters] = useState({
     page: 1,
@@ -59,8 +61,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
   return (
     <>
       <Heading
-        title={personal ? "Chấm công của tôi" : "Bảng chấm công"}
-        description="Thời gian theo múi giờ Việt Nam · Một ca làm việc trong ngày."
+        title={personal ? t("Chấm công của tôi") : t("Bảng chấm công")}
       />
       {personal && (
         <>
@@ -70,23 +71,25 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
                 <Clock size={26} />
               </span>
               <div>
-                <h2>Hôm nay, {dateText(today())}</h2>
+                <h2>
+                  {t("Hôm nay,")} {dateText(today())}
+                </h2>
                 <p>
                   {row
                     ? row.checkOut
-                      ? "Bạn đã kết thúc ca hôm nay."
-                      : "Bạn đang trong ca làm việc."
-                    : "Bắt đầu ngày làm việc bằng một lần chấm công."}
+                      ? t("Đã kết thúc ca.")
+                      : t("Đang trong ca.")
+                    : t("Chưa vào ca.")}
                 </p>
               </div>
             </div>
             <div className="checkin-times">
               <div>
-                <span>Giờ vào</span>
+                <span>{t("Giờ vào")}</span>
                 <strong>{timeText(row?.checkIn)}</strong>
               </div>
               <div>
-                <span>Giờ ra</span>
+                <span>{t("Giờ ra")}</span>
                 <strong>{timeText(row?.checkOut)}</strong>
               </div>
             </div>
@@ -97,7 +100,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
                 onClick={() => action.mutate({ path: "/attendance/check-in" })}
               >
                 <LogIn size={17} />
-                Vào ca
+                {t("Vào ca")}
               </Button>
               <Button
                 variant="secondary"
@@ -106,36 +109,36 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
                 onClick={() => action.mutate({ path: "/attendance/check-out" })}
               >
                 <LogOut size={17} />
-                Kết thúc ca
+                {t("Kết thúc ca")}
               </Button>
             </div>
           </section>
           <ErrorBox error={action.error || current.error} />
           {row?.leaveConflict && (
             <p className="notice">
-              Chấm công hôm nay trùng ngày nghỉ đã được duyệt. Vui lòng liên hệ
-              nhân sự.
+              {t("Trùng ngày nghỉ đã duyệt. Liên hệ nhân sự.")}
             </p>
           )}
           <div className="metrics two">
             <Metric
-              label="Thời gian hiện diện"
-              value={minutes(row?.presenceMinutes ?? null)}
+              label={t("Thời gian hiện diện")}
+              value={
+                row?.presenceMinutes == null
+                  ? null
+                  : minutes(row.presenceMinutes)
+              }
+              emptyLabel={t("Chưa đủ dữ liệu")}
             />
             <Metric
-              label="Thời gian tính công trong ca"
-              value={minutes(row?.paidMinutes ?? null)}
-              note="Chỉ trừ phần nghỉ giữa ca giao với thời gian thực tế"
+              label={t("Thời gian tính công trong ca")}
+              value={row?.paidMinutes == null ? null : minutes(row.paidMinutes)}
+              emptyLabel={t("Chưa đủ dữ liệu")}
             />
           </div>
-          <p className="muted-note">
-            Chấm công web phục vụ minh họa, không xác thực vị trí làm việc. Hệ
-            thống sử dụng thời gian máy chủ.
-          </p>
         </>
       )}
       <DataTable
-        title={personal ? "Lịch sử chấm công" : "Dữ liệu chấm công"}
+        title={personal ? t("Lịch sử chấm công") : t("Dữ liệu chấm công")}
         icon={<Clock size={18} />}
         loading={q.isPending}
         error={q.error}
@@ -152,13 +155,13 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
             {!personal && (
               <>
                 <Select
-                  aria-label="Lọc phòng ban"
+                  aria-label={t("Lọc phòng ban")}
                   value={filters.departmentId}
                   onValueChange={(value) =>
                     setFilters({ ...filters, departmentId: value, page: 1 })
                   }
                   options={[
-                    { value: "", label: "Tất cả phòng ban" },
+                    { value: "", label: t("Tất cả phòng ban") },
                     ...(departments.data?.items.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -166,13 +169,13 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
                   ]}
                 />
                 <Select
-                  aria-label="Lọc nhân viên"
+                  aria-label={t("Lọc nhân viên")}
                   value={filters.employeeId}
                   onValueChange={(value) =>
                     setFilters({ ...filters, employeeId: value, page: 1 })
                   }
                   options={[
-                    { value: "", label: "Tất cả nhân viên" },
+                    { value: "", label: t("Tất cả nhân viên") },
                     ...(staff.data?.items.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -182,17 +185,17 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
               </>
             )}
             <Select
-              aria-label="Lọc trạng thái chấm công"
+              aria-label={t("Lọc trạng thái chấm công")}
               value={filters.status}
               onValueChange={(value) =>
                 setFilters({ ...filters, status: value, page: 1 })
               }
               options={[
-                { value: "", label: "Tất cả trạng thái" },
-                { value: "on_time", label: "Đúng giờ" },
-                { value: "late", label: "Đi muộn" },
-                { value: "missing_checkout", label: "Thiếu giờ ra" },
-                { value: "working", label: "Đang làm việc" },
+                { value: "", label: t("Tất cả trạng thái") },
+                { value: "on_time", label: t("Đúng giờ") },
+                { value: "late", label: t("Đi muộn") },
+                { value: "missing_checkout", label: t("Thiếu giờ ra") },
+                { value: "working", label: t("Đang làm việc") },
               ]}
             />
             {(filters.departmentId ||
@@ -214,7 +217,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
                   })
                 }
               >
-                Đặt lại
+                {t("Đặt lại")}
               </Button>
             )}
           </div>
@@ -226,65 +229,87 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
           ...(!personal
             ? [
                 {
-                  label: "Nhân viên",
+                  minWidth: 240,
+                  label: t("Nhân viên"),
                   render: (r: AttendanceView) => (
-                    <PersonCell name={r.employeeName} detail={r.employeeCode} />
+                    <PersonCell
+                      name={r.employeeName}
+                      detail={r.employeeCode}
+                      avatarUrl={
+                        personal
+                          ? me?.employee.avatarUrl
+                          : staff.data?.items.find((e) => e.id === r.employeeId)
+                              ?.avatarUrl
+                      }
+                    />
                   ),
                 },
               ]
             : []),
-          { label: "Ngày làm việc", render: (r) => dateText(r.date) },
           {
-            label: "Giờ vào / ra",
+            minWidth: 150,
+            label: t("Ngày làm việc"),
+            render: (r) => dateText(r.date),
+          },
+          {
+            minWidth: 150,
+            label: t("Giờ vào / ra"),
             render: (r) => (
               <div className="attendance-time-cell">
                 <span>
-                  <small>Vào</small>
+                  <small>{t("Vào")}</small>
                   <strong>{timeText(r.checkIn)}</strong>
                 </span>
                 <span>
-                  <small>Ra</small>
+                  <small>{t("Ra")}</small>
                   <strong>{timeText(r.checkOut)}</strong>
                 </span>
               </div>
             ),
           },
-          { label: "Hiện diện", render: (r) => minutes(r.presenceMinutes) },
           {
-            label: "Tính công",
+            minWidth: 150,
+            label: t("Hiện diện"),
+            render: (r) => minutes(r.presenceMinutes),
+          },
+          {
+            minWidth: 150,
+            label: t("Tính công"),
             className: "cell-number",
             render: (r) => (
               <span className="cell-duration">{minutes(r.paidMinutes)}</span>
             ),
           },
           {
-            label: "Trạng thái",
+            minWidth: 180,
+            label: t("Trạng thái"),
             render: (r) => (
               <>
                 <Badge value={r.status} />
                 {r.late && r.status !== "late" && <Badge value="late" />}
                 {r.leaveConflict && (
                   <small className="warning-text">
-                    Trùng ngày nghỉ đã duyệt
+                    {t("Trùng ngày nghỉ đã duyệt")}
                   </small>
                 )}
               </>
             ),
           },
           {
-            label: "Thao tác",
+            minWidth: personal ? 160 : 280,
+            label: t("Thao tác"),
             className: "cell-actions",
             render: (r) => (
               <div className="row-actions">
                 {canEdit && r.canAdjust && (
                   <Button variant="ghost" onClick={() => setEdit(r)}>
                     <Pencil size={15} />
-                    Điều chỉnh
+                    {t("Điều chỉnh")}
                   </Button>
                 )}
                 <Button variant="ghost" onClick={() => setHistory(r)}>
                   <History size={15} />
-                  Lịch sử
+                  {t("Lịch sử")}
                 </Button>
               </div>
             ),
@@ -293,14 +318,16 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
       />{" "}
       {edit && (
         <Modal
-          title="Điều chỉnh chấm công"
+          title={t("Điều chỉnh chấm công")}
           description={
-            edit.employeeName + " · " + dateText(edit.date) + " · Giờ Việt Nam"
+            edit.employeeName +
+            " · " +
+            dateText(edit.date) +
+            t(" · Giờ Việt Nam")
           }
           icon={<Clock size={21} />}
           onClose={() => setEdit(null)}
         >
-          <p>Ngày {dateText(edit.date)}. Giờ nhập theo múi giờ Việt Nam.</p>
           <Form
             schema={z
               .object({
@@ -321,14 +348,18 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
               reason: "",
             }}
             fields={[
-              { name: "checkIn", label: "Giờ vào", type: "datetime-local" },
+              { name: "checkIn", label: t("Giờ vào"), type: "datetime-local" },
               {
                 name: "checkOut",
-                label: "Giờ ra",
+                label: t("Giờ ra"),
                 type: "datetime-local",
-                hint: "Để trống nếu chưa xác minh được giờ ra.",
+                hint: t("Bỏ trống nếu chưa có giờ ra."),
               },
-              { name: "reason", label: "Lý do điều chỉnh", type: "textarea" },
+              {
+                name: "reason",
+                label: t("Lý do điều chỉnh"),
+                type: "textarea",
+              },
             ]}
             onSubmit={async (body) => {
               await action.mutateAsync({
@@ -344,7 +375,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
       )}
       {history && (
         <Modal
-          title="Lịch sử điều chỉnh chấm công"
+          title={t("Lịch sử điều chỉnh chấm công")}
           description={history.employeeName + " · " + dateText(history.date)}
           icon={<History size={21} />}
           onClose={() => setHistory(null)}
@@ -354,7 +385,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
               <div className="history-entry" key={i}>
                 <strong>{h.reason}</strong>
                 <p>
-                  Trước: {timeText(h.before.checkIn)} →{" "}
+                  {t("Trước:")} {timeText(h.before.checkIn)} →{" "}
                   {timeText(h.before.checkOut)}
                 </p>
                 <p>
@@ -367,9 +398,7 @@ export function AttendancePage({ personal = false }: { personal?: boolean }) {
               </div>
             ))
           ) : (
-            <p>
-              Chưa có điều chỉnh nào. Bản ghi được tạo từ thao tác chấm công.
-            </p>
+            <p>{t("Chưa có điều chỉnh.")}</p>
           )}
         </Modal>
       )}

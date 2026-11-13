@@ -23,7 +23,7 @@ import { parseEnv } from "../src/config/env";
 import { parseFrontendEnv } from "../../frontend/src/config/env";
 import { bootstrapDemoState, demoUsers } from "../scripts/lib/demo-bootstrap";
 import { emptyState } from "../src/database/store";
-import type { Attendance } from "@hoosoo/shared";
+import { employeeSchema, type Attendance } from "@hoosoo/shared";
 
 const input = {
   leaveTypeId: "annual",
@@ -31,6 +31,84 @@ const input = {
   endDate: "2026-11-17",
   reason: "Personal leave test",
 };
+describe("automatic employee codes", () => {
+  const employeeInput = () =>
+    employeeSchema.parse({
+      name: "New employee",
+      email: "new@example.test",
+      departmentId: "a",
+      positionId: "dev",
+      managerId: "manager",
+      hireDate: "2026-11-16",
+    });
+
+  it("continues existing numbers without modifying legacy codes or trusting client codes", () => {
+    const s = fixture();
+    s.employees.employee.employeeCode = "hs-000041";
+    s.employees.outsider.employeeCode = "HS-9999999999";
+    const original = structuredClone(s.employees);
+    const created = saveEmployee(s, actor("HR"), {
+      ...employeeInput(),
+      employeeCode: "ADMIN",
+    });
+    expect(created.employeeCode).toBe("HS-000042");
+    expect(s.employeeSequences.main.lastNumber).toBe(42);
+    for (const [id, employee] of Object.entries(original))
+      expect(s.employees[id]).toEqual(employee);
+  });
+
+  it("never reuses a previously allocated number if its employee is no longer present", () => {
+    const s = fixture();
+    s.employeeSequences.main = { id: "main", lastNumber: 50 };
+    expect(saveEmployee(s, actor("HR"), employeeInput()).employeeCode).toBe(
+      "HS-000051",
+    );
+    expect(saveEmployee(s, actor("HR"), employeeInput()).employeeCode).toBe(
+      "HS-000052",
+    );
+  });
+
+  it("does not advance the sequence when employee validation fails", () => {
+    const s = fixture();
+    const before = structuredClone(s);
+    expect(() =>
+      saveEmployee(s, actor("HR"), {
+        ...employeeInput(),
+        departmentId: "missing",
+      }),
+    ).toThrow();
+    expect(s).toEqual(before);
+    expect(saveEmployee(s, actor("HR"), employeeInput()).employeeCode).toBe(
+      "HS-000001",
+    );
+  });
+
+  it.each([-1, 1.5, NaN, 1000000, undefined, null])(
+    "fails safely for a corrupt sequence (%s)",
+    (lastNumber) => {
+      const s = fixture();
+      s.employeeSequences.main = {
+        id: "main",
+        lastNumber: lastNumber as number,
+      };
+      const before = structuredClone(s);
+      expect(() => saveEmployee(s, actor("HR"), employeeInput())).toThrow(
+        "Chưa thể cấp mã",
+      );
+      expect(s).toEqual(before);
+    },
+  );
+
+  it("reports an exhausted range without creating an incomplete employee", () => {
+    const s = fixture();
+    s.employeeSequences.main = { id: "main", lastNumber: 999999 };
+    const before = structuredClone(s);
+    expect(() => saveEmployee(s, actor("HR"), employeeInput())).toThrow(
+      "Dải mã nhân viên đã đầy",
+    );
+    expect(s).toEqual(before);
+  });
+});
 describe("Cloud demo bootstrap safeguards", () => {
   it("links the initial Admin and creates valid employee references and balances", () => {
     const s = emptyState();
@@ -266,10 +344,15 @@ describe("Organizational authorization and invariants", () => {
       true,
     );
   });
-  it("rejects duplicate codes, cycles, dangling references and in-use department deactivation", () => {
+  it("rejects code changes, cycles, dangling references and in-use department deactivation", () => {
     const s = fixture();
     expect(() =>
-      saveEmployee(s, actor("HR"), fields(s.employees.employee)),
+      saveEmployee(
+        s,
+        actor("HR"),
+        { ...fields(s.employees.employee), employeeCode: "CHANGED" },
+        "employee",
+      ),
     ).toThrow();
     expect(() =>
       saveEmployee(

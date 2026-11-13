@@ -19,7 +19,7 @@ pre {
 }
 .warning-text {
   display: block;
-  color: #9c5f10;
+  color: light-dark(#9c5f10, hsl(34 60% 75%));
 }
 .spin {
   animation: spin 1s linear infinite;

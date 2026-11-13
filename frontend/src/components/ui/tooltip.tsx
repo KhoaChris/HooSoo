@@ -1,3 +1,4 @@
+import { useLocale } from "../../i18n";
 import {
   cloneElement,
   useEffect,
@@ -16,6 +17,7 @@ type TooltipProps = {
 
 /** Portals keep labels visible outside scrollable navigation and table regions. */
 export function Tooltip({ content, disabled = false, children }: TooltipProps) {
+  useLocale();
   const id = useId();
   const anchor = useRef<HTMLSpanElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);

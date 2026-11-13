@@ -9,10 +9,10 @@
   min-width: 0;
   max-width: 100%;
   padding: 10px 12px;
-  border: 1px solid #dce4e9;
+  border: 1px solid light-dark(#dce4e9, var(--control-border));
   border-radius: 7px;
   background: var(--surface);
-  color: #243747;
+  color: light-dark(#243747, var(--navy));
   text-align: left;
   transition:
     border-color 140ms ease,
@@ -24,28 +24,28 @@
   text-overflow: ellipsis;
 }
 .select-trigger:hover:not(:disabled) {
-  border-color: #a9bfc4;
+  border-color: light-dark(#a9bfc4, var(--control-border-hover));
 }
 .select-trigger:focus-visible,
 .select-trigger[data-state="open"] {
   outline: none;
   border-color: var(--teal);
-  box-shadow: 0 0 0 3px #087e7817;
+  box-shadow: 0 0 0 3px light-dark(#087e7817, #80d5be40);
 }
 .select-trigger[aria-invalid="true"] {
-  border-color: #b8584d;
+  border-color: light-dark(#b8584d, var(--danger-text));
 }
 .select-trigger[data-placeholder] {
   color: var(--muted);
 }
 .select-trigger:disabled {
-  background: #f5f7f9;
+  background: light-dark(#f5f7f9, var(--surface-subtle));
   opacity: 0.65;
 }
 .select-chevron {
   display: flex;
   flex-shrink: 0;
-  color: #718590;
+  color: light-dark(#718590, var(--text-secondary));
   transition: transform 140ms ease;
 }
 .select-trigger[data-state="open"] .select-chevron {
@@ -58,13 +58,13 @@
   max-width: calc(100vw - 24px);
   max-height: min(300px, var(--radix-select-content-available-height));
   overflow: hidden;
-  border: 1px solid #dce6e8;
+  border: 1px solid light-dark(#dce6e8, var(--control-border));
   border-radius: 10px;
   background: var(--surface);
-  color: #243747;
+  color: light-dark(#243747, var(--navy));
   box-shadow:
-    0 12px 32px #172f421a,
-    0 2px 6px #172f420a;
+    0 12px 32px light-dark(#172f421a, #0000001a),
+    0 2px 6px light-dark(#172f420a, #0000000a);
   transform-origin: var(--radix-select-content-transform-origin);
   animation: select-appear 140ms ease-out;
 }
@@ -86,14 +86,14 @@
   outline: none;
 }
 .select-option[data-state="checked"] {
-  color: #076c66;
-  background: #edf7f5;
+  color: light-dark(#076c66, var(--navy));
+  background: light-dark(#edf7f5, var(--selected-surface));
   font-weight: 550;
 }
 .select-option[data-highlighted] {
-  background: #e0f1ed;
-  color: #075e59;
-  box-shadow: inset 0 0 0 1px #acd5ce;
+  background: light-dark(#e0f1ed, var(--surface-hover));
+  color: light-dark(#075e59, var(--navy));
+  box-shadow: inset 0 0 0 1px var(--control-border-hover);
 }
 .select-option[data-disabled] {
   opacity: 0.45;
@@ -111,7 +111,7 @@
   justify-content: center;
   height: 24px;
   color: var(--teal);
-  background: white;
+  background: var(--surface);
 }
 @keyframes select-appear {
   from {

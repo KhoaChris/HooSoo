@@ -8,13 +8,18 @@ import { recordUsage, requestUsage } from "../observability/firestore-usage";
 import type { Table } from "@hoosoo/shared";
 import { invalidateReadCache, setReadCacheLive } from "./read-cache";
 
-type Change = { version: string; collections: Table[] | null };
+type Change = {
+  version: string;
+  collections: Table[] | null;
+  chatMemberIds?: string[] | null;
+};
 type Subscriber = { change: (change: Change) => void; error: () => void };
 const clients = new Set<Subscriber>();
 let unsubscribe: (() => void) | undefined;
 let last: Change | undefined;
 let versions: Record<string, number> | undefined;
 let retryAt = 0;
+let chatVersions: Record<string, number> | undefined;
 export function assertLiveAvailable() {
   if (Date.now() < retryAt) throw quotaError();
 }
@@ -35,6 +40,14 @@ export function subscribeChanges(client: Subscriber) {
           retryAt = 0;
           const next = snapshot.get("collectionVersions") as
             Record<string, number> | undefined;
+          const nextChat = snapshot.get("chatMemberVersions") as
+            Record<string, number> | undefined;
+          const chatMemberIds =
+            chatVersions && nextChat
+              ? Object.keys(nextChat).filter(
+                  (id) => nextChat[id] !== chatVersions![id],
+                )
+              : null;
           const changed =
             versions && next
               ? tables.filter((k) => next[k] !== versions![k])
@@ -47,7 +60,12 @@ export function subscribeChanges(client: Subscriber) {
           // receive the result from before this commit (including other servers).
           invalidateReadCache(changed?.length ? changed : null);
           setReadCacheLive(true);
-          last = { version, collections: changed?.length ? changed : null };
+          last = {
+            version,
+            collections: changed?.length ? changed : null,
+            chatMemberIds,
+          };
+          chatVersions = nextChat ?? {};
           versions = next;
           for (const subscriber of clients) subscriber.change(last);
         },
@@ -73,4 +91,17 @@ function closeChanges() {
   unsubscribe = undefined;
   last = undefined;
   versions = undefined;
+  chatVersions = undefined;
+}
+
+// A chat update must not refresh unrelated people or business screens.
+export function visibleCollections(change: Change, employeeId: string) {
+  return (
+    change.collections?.filter(
+      (k) =>
+        !["chatRooms", "chatMessages"].includes(k) ||
+        change.chatMemberIds == null ||
+        change.chatMemberIds.includes(employeeId),
+    ) ?? null
+  );
 }

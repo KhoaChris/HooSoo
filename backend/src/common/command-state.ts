@@ -60,12 +60,17 @@ export async function commandState(
       break;
     case "employees":
       requireRole(actor, ["Admin", "HR"]);
+      if (parts[2] === "avatar") {
+        plan.employees = { ids: [parts[1]] };
+        break;
+      }
       Object.assign(plan, {
         employees: true,
         memberships: true,
         departments: true,
         positions: true,
       });
+      if (!parts[1]) plan.employeeSequences = { ids: ["main"] };
       break;
     case "users":
       requireRole(actor, ["Admin"]);

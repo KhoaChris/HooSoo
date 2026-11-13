@@ -1,6 +1,7 @@
 export interface OrganizationMember {
   id: string;
   name: string;
+  avatarUrl?: string | null;
   employeeCode?: string;
   positionName?: string;
   managerName: string;

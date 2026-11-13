@@ -10,6 +10,7 @@ import {
   evaluationSchema,
   candidateTransitionSchema,
   reviewSchema,
+  candidateHireSchema,
 } from "@hoosoo/shared";
 import { handlers, context, param } from "../../routes/helpers";
 import { readState, mergeState } from "../../database/store";
@@ -141,10 +142,16 @@ for (const decision of ["hire", "reject", "direct-hire"] as const)
   write(
     "post",
     `/recruitment/candidates/:id/${decision}`,
-    reviewSchema,
+    decision === "reject" ? reviewSchema : candidateHireSchema,
     (s, a, input, req) =>
       service.decideCandidate(s, a, param(req, "id"), decision, input),
   );
+write(
+  "post",
+  "/recruitment/candidates/:id/employee",
+  candidateHireSchema,
+  (s, a, input, req) => service.onboardCandidate(s, a, param(req, "id"), input),
+);
 recruitmentRoutes.post(
   "/recruitment/candidates/:id/cv",
   raw({ type: "application/pdf", limit: "2mb" }),

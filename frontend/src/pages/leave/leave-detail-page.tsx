@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Check, X } from "lucide-react";
@@ -16,6 +18,7 @@ import {
 } from "../../components/ui";
 
 export function LeaveDetail() {
+  useLocale();
   const { requestId } = useParams();
   const q = useApi<LeaveView>("/leave-requests/" + requestId),
     action = useAction();
@@ -25,16 +28,20 @@ export function LeaveDetail() {
   if (q.isPending) return <Loading />;
   if (q.error) return <ErrorBox error={q.error} />;
   const r = q.data!,
-    title = { approve: "Duyệt đơn", reject: "Từ chối đơn", cancel: "Hủy đơn" };
+    title = {
+      approve: t("Duyệt đơn"),
+      reject: t("Từ chối đơn"),
+      cancel: t("Hủy đơn"),
+    };
   return (
     <>
       <Heading
-        title="Chi tiết yêu cầu nghỉ phép"
+        title={t("Chi tiết yêu cầu nghỉ phép")}
         description={r.employeeName + " · " + r.employeeCode}
         action={
           <Link className="button secondary" to="/leave/my">
             <ArrowLeft size={16} />
-            Danh sách cá nhân
+            <StableText>{t("Danh sách cá nhân")}</StableText>
           </Link>
         }
       />
@@ -45,52 +52,69 @@ export function LeaveDetail() {
             <Badge value={r.status} />
           </div>
           <dl className="details">
-            <dt>Từ ngày</dt>
+            <dt>
+              <StableText>{t("Từ ngày")}</StableText>
+            </dt>
             <dd>{dateText(r.startDate)}</dd>
-            <dt>Đến ngày</dt>
+            <dt>
+              <StableText>{t("Đến ngày")}</StableText>
+            </dt>
             <dd>{dateText(r.endDate)}</dd>
-            <dt>Số ngày làm việc</dt>
-            <dd>{r.days} ngày</dd>
-            <dt>Trừ số dư phép</dt>
-            <dd>{r.deductsBalance ? "Có" : "Không"}</dd>
-            <dt>Lý do</dt>
+            <dt>
+              <StableText>{t("Số ngày làm việc")}</StableText>
+            </dt>
+            <dd>
+              {r.days} <StableText>{t("ngày")}</StableText>
+            </dd>
+            <dt>
+              <StableText>{t("Trừ số dư phép")}</StableText>
+            </dt>
+            <dd>
+              <StableText>{r.deductsBalance ? t("Có") : t("Không")}</StableText>
+            </dd>
+            <dt>
+              <StableText>{t("Lý do")}</StableText>
+            </dt>
             <dd className="whitespace-pre-wrap">{r.reason}</dd>
           </dl>
           <div className="row-actions">
             {r.canApprove && (
               <>
-                <Button onClick={() => setDecision("approve")}>
+                <Button tone="success" onClick={() => setDecision("approve")}>
                   <Check size={16} />
-                  Duyệt đơn
+                  {t("Duyệt đơn")}
                 </Button>
                 <Button
                   variant="secondary"
+                  tone="danger"
                   onClick={() => setDecision("reject")}
                 >
                   <X size={16} />
-                  Từ chối
+                  {t("Từ chối")}
                 </Button>
               </>
             )}
             {r.canCancel && (
               <Button variant="danger" onClick={() => setDecision("cancel")}>
-                Hủy đơn
+                {t("Hủy đơn")}
               </Button>
             )}
           </div>
         </section>
         <section className="panel">
-          <h2>Tiến trình xử lý</h2>
+          <h2>
+            <StableText>{t("Tiến trình xử lý")}</StableText>
+          </h2>
           <ul className="timeline">
             {r.history.map((h, i) => (
               <li key={i}>
                 <span className="timeline-dot" />
                 <strong>
                   {{
-                    created: "Gửi yêu cầu",
-                    approve: "Đã duyệt",
-                    reject: "Đã từ chối",
-                    cancel: "Đã hủy",
+                    created: t("Gửi yêu cầu"),
+                    approve: t("Đã duyệt"),
+                    reject: t("Đã từ chối"),
+                    cancel: t("Đã hủy"),
                   }[h.action] || h.action}
                 </strong>
                 <small>
@@ -100,20 +124,21 @@ export function LeaveDetail() {
               </li>
             ))}
           </ul>
-          <p className="muted-note">
-            Ngày tính phép được lưu tại thời điểm gửi đơn. Thay đổi chính sách
-            sau đó không sửa lịch sử đơn.
-          </p>
         </section>
       </div>
       {decision && (
         <Modal title={title[decision]} onClose={() => setDecision(null)}>
           <p>
-            {decision === "approve"
-              ? `Xác nhận duyệt ${r.days} ngày nghỉ cho ${r.employeeName}?`
-              : decision === "cancel" && r.status === "approved"
-                ? "Đơn đã được duyệt. Số ngày phép bị trừ sẽ được hoàn đúng một lần."
-                : "Xác nhận xử lý yêu cầu này."}
+            <StableText>
+              {decision === "approve"
+                ? t("Xác nhận duyệt {0} ngày nghỉ cho {1}?", [
+                    r.days,
+                    r.employeeName,
+                  ])
+                : decision === "cancel" && r.status === "approved"
+                  ? t("Hủy đơn sẽ hoàn lại số ngày phép đã trừ.")
+                  : t("Xác nhận xử lý yêu cầu này.")}
+            </StableText>
           </p>
           <Form
             schema={z.object({
@@ -132,7 +157,9 @@ export function LeaveDetail() {
               {
                 name: "reason",
                 label:
-                  decision === "approve" ? "Ghi chú (không bắt buộc)" : "Lý do",
+                  decision === "approve"
+                    ? t("Ghi chú (không bắt buộc)")
+                    : t("Lý do"),
                 type: "textarea",
               },
             ]}
@@ -146,6 +173,7 @@ export function LeaveDetail() {
             }}
             onCancel={() => setDecision(null)}
             submitLabel={title[decision]}
+            submitTone={decision === "approve" ? "success" : "danger"}
           />
         </Modal>
       )}

@@ -1,4 +1,11 @@
+import { createHiredEmployee } from "./recruitment-onboarding";
+import { candidateHireSchema, type CandidateHireInput } from "@hoosoo/shared";
 import { isSupervisorRole } from "@hoosoo/shared";
+import {
+  assessmentPercent,
+  recruitmentAssessmentSchema,
+  type RecruitmentAssessmentInput,
+} from "@hoosoo/shared";
 import { randomUUID, createHash } from "node:crypto";
 import type {
   State,
@@ -70,6 +77,7 @@ function changed(
         s.recruitmentJobs[c.jobId]?.stages.find((x) => x.id === c.stageId)
           ?.name ?? "",
       status: c.status,
+      ...(c.employeeId ? { employeeId: c.employeeId } : {}),
     },
     reason,
   );
@@ -220,7 +228,8 @@ export function evaluateCandidate(
   input: {
     version: number;
     result: "passed" | "failed";
-    score: number;
+    score?: number;
+    assessment?: RecruitmentAssessmentInput;
     reason: string;
   },
 ) {
@@ -242,9 +251,36 @@ export function evaluateCandidate(
       "Chỉ đánh giá sau khi kết thúc lịch phỏng vấn.",
     );
   }
+  const assessment = input.assessment
+    ? recruitmentAssessmentSchema.parse(input.assessment)
+    : undefined;
+  assert(
+    !assessment || assessment.kind === stage.kind,
+    400,
+    "ASSESSMENT_STAGE_MISMATCH",
+    "Bộ tiêu chí không phù hợp với vòng tuyển dụng.",
+  );
+  assert(
+    assessment ||
+      (Number.isInteger(input.score) && input.score! >= 1 && input.score! <= 5),
+    400,
+    "ASSESSMENT_REQUIRED",
+    "Cần có phiếu đánh giá hợp lệ.",
+  );
+  const totalPercent = assessment ? assessmentPercent(assessment) : undefined;
+  // Keep the legacy score for older clients; it is never authoritative for a scorecard.
+  if (assessment)
+    round.assessment = {
+      ...structuredClone(assessment),
+      totalPercent: totalPercent!,
+    };
+  else delete round.assessment;
   Object.assign(round, {
     result: input.result,
-    score: input.score,
+    score:
+      totalPercent !== undefined
+        ? Math.max(1, Math.round(totalPercent / 20))
+        : input.score,
     feedback: input.reason,
     evaluatedBy: a.uid,
     evaluatedAt: new Date().toISOString(),
@@ -401,7 +437,7 @@ export function decideCandidate(
   a: Actor,
   id: string,
   decision: "hire" | "reject" | "direct-hire",
-  input: { version: number; reason: string },
+  input: { version: number; reason: string } | CandidateHireInput,
 ) {
   requireRole(a, ["Admin", "HR"]);
   const c = activeCandidate(s, a, id, input.version),
@@ -424,6 +460,8 @@ export function decideCandidate(
         "Cần đạt vòng quyết định trước khi xác nhận trúng tuyển.",
       );
   }
+  if (decision !== "reject")
+    createHiredEmployee(s, a, c, j, candidateHireSchema.parse(input));
   c.status = decision === "reject" ? "rejected" : "hired";
   return changed(
     s,
@@ -432,6 +470,24 @@ export function decideCandidate(
     decision === "direct-hire" ? "direct_hired" : c.status,
     input.reason,
   );
+}
+export function onboardCandidate(
+  s: State,
+  a: Actor,
+  id: string,
+  input: CandidateHireInput,
+) {
+  requireRole(a, ["Admin", "HR"]);
+  const c = candidateFor(s, a, id);
+  assertVersion(c, input.version);
+  assert(
+    c.status === "hired",
+    409,
+    "CANDIDATE_NOT_HIRED",
+    "Chỉ tạo hồ sơ nhân viên cho ứng viên đã trúng tuyển.",
+  );
+  createHiredEmployee(s, a, c, jobFor(s, a, c.jobId), input);
+  return changed(s, a, c, "employee_created", input.reason);
 }
 export const CV_CHUNK_BYTES = 256 * 1024,
   MAX_CV_BYTES = 2 * 1024 * 1024;

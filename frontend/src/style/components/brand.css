@@ -16,8 +16,8 @@
   justify-content: center;
   width: 35px;
   height: 35px;
-  background: var(--teal);
-  color: white;
+  background: var(--action-bg);
+  color: var(--on-accent);
   border-radius: 11px;
   font-size: 26px;
   font-weight: 650;
@@ -27,7 +27,7 @@
 .brand-dot {
   height: 5px;
   width: 5px;
-  background: #60b6a9;
+  background: light-dark(#60b6a9, #60b6a9);
   border-radius: 50%;
   margin-left: -6px;
   align-self: flex-end;

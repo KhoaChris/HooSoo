@@ -1,6 +1,10 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
+import { Avatar } from "../../components/ui/avatar";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
+  Camera,
   ArrowLeft,
   ArrowUpRight,
   BriefcaseBusiness,
@@ -22,9 +26,12 @@ function WorkField({
   label: string;
   children: ReactNode;
 }) {
+  useLocale();
   return (
     <div>
-      <dt>{label}</dt>
+      <dt>
+        <StableText>{label}</StableText>
+      </dt>
       <dd>{children}</dd>
     </div>
   );
@@ -36,6 +43,7 @@ export function EmployeeProfileView({
   canEdit,
   work,
   onEditContact,
+  onEditAvatar,
   history,
 }: {
   employee: EmployeeView;
@@ -43,23 +51,21 @@ export function EmployeeProfileView({
   canEdit: boolean;
   work: { department: string; position: string; manager: string };
   onEditContact: () => void;
+  onEditAvatar: () => void;
   history: ReactNode;
 }) {
-  const initials = e.name
-    .trim()
-    .split(/\s+/)
-    .slice(-2)
-    .map((word) => word[0])
-    .join("");
+  useLocale();
   return (
     <div className="employee-profile">
       <div className="employee-profile-breadcrumb">
         {personal ? (
-          <span>Hồ sơ của tôi</span>
+          <span>
+            <StableText>{t("Hồ sơ của tôi")}</StableText>
+          </span>
         ) : (
           <Link to="/employees">
             <ArrowLeft size={15} aria-hidden="true" />
-            Danh sách nhân viên
+            {t("Danh sách nhân viên")}
           </Link>
         )}
         <span aria-hidden="true">/</span>
@@ -67,9 +73,27 @@ export function EmployeeProfileView({
       </div>
       <article className="employee-profile-surface">
         <header className="employee-profile-header">
-          <span className="employee-profile-avatar" aria-hidden="true">
-            {initials}
-          </span>
+          <div className="employee-avatar-control">
+            <Avatar
+              name={e.name}
+              src={e.avatarUrl}
+              className="employee-profile-avatar"
+            />
+            {(personal || canEdit) && (
+              <button
+                type="button"
+                className="employee-avatar-edit"
+                onClick={onEditAvatar}
+                aria-label={t("Đổi ảnh đại diện")}
+                title={t("Đổi ảnh đại diện")}
+              >
+                <Camera size={16} />
+                <span>
+                  <StableText>{t("Đổi ảnh")}</StableText>
+                </span>
+              </button>
+            )}
+          </div>
           <div className="employee-profile-identity">
             <div className="employee-profile-title">
               <h1>{e.name}</h1>
@@ -81,13 +105,14 @@ export function EmployeeProfileView({
               {work.department}
             </p>
             <span className="employee-profile-code">
-              Mã nhân viên <strong>{e.employeeCode}</strong>
+              <StableText>{t("Mã nhân viên")}</StableText>{" "}
+              <strong>{e.employeeCode}</strong>
             </span>
           </div>
           {personal ? (
             <Button variant="secondary" onClick={onEditContact}>
               <Pencil size={16} aria-hidden="true" />
-              Cập nhật liên hệ
+              {t("Cập nhật liên hệ")}
             </Button>
           ) : (
             canEdit && (
@@ -96,7 +121,7 @@ export function EmployeeProfileView({
                 to={`/employees/${e.id}/edit`}
               >
                 <Pencil size={16} aria-hidden="true" />
-                Chỉnh sửa hồ sơ
+                {t("Chỉnh sửa hồ sơ")}
               </DialogLink>
             )
           )}
@@ -109,23 +134,24 @@ export function EmployeeProfileView({
             >
               <header className="employee-section-heading">
                 <div>
-                  <h2 id="employee-work-title">Thông tin công việc</h2>
-                  <p>Vị trí hiện tại trong doanh nghiệp</p>
+                  <h2 id="employee-work-title">
+                    <StableText>{t("Thông tin công việc")}</StableText>
+                  </h2>
                 </div>
                 <BriefcaseBusiness size={18} aria-hidden="true" />
               </header>
               <dl className="employee-work-grid">
-                <WorkField label="Phòng ban">{work.department}</WorkField>
-                <WorkField label="Chức danh">{work.position}</WorkField>
-                <WorkField label="Người quản lý trực tiếp">
+                <WorkField label={t("Phòng ban")}>{work.department}</WorkField>
+                <WorkField label={t("Chức danh")}>{work.position}</WorkField>
+                <WorkField label={t("Người quản lý trực tiếp")}>
                   {work.manager}
                 </WorkField>
-                <WorkField label="Ngày vào làm">
+                <WorkField label={t("Ngày vào làm")}>
                   {dateText(e.hireDate)}
                 </WorkField>
               </dl>
               <Link className="employee-organization-link" to="/organization">
-                Xem sơ đồ tổ chức
+                {t("Xem sơ đồ tổ chức")}
                 <ArrowUpRight size={15} aria-hidden="true" />
               </Link>
             </section>
@@ -135,8 +161,9 @@ export function EmployeeProfileView({
             >
               <header className="employee-section-heading">
                 <div>
-                  <h2 id="employee-contact-title">Thông tin liên hệ</h2>
-                  <p>Kết nối trong công việc</p>
+                  <h2 id="employee-contact-title">
+                    <StableText>{t("Thông tin liên hệ")}</StableText>
+                  </h2>
                 </div>
                 <UserRound size={18} aria-hidden="true" />
               </header>
@@ -144,7 +171,7 @@ export function EmployeeProfileView({
                 <div>
                   <dt>
                     <Mail size={17} aria-hidden="true" />
-                    Email công việc
+                    <StableText>{t("Email công việc")}</StableText>
                   </dt>
                   <dd>
                     <a href={`mailto:${e.email}`}>{e.email}</a>
@@ -154,7 +181,7 @@ export function EmployeeProfileView({
                   <div>
                     <dt>
                       <Phone size={17} aria-hidden="true" />
-                      Số điện thoại
+                      <StableText>{t("Số điện thoại")}</StableText>
                     </dt>
                     <dd>
                       {e.phone ? (
@@ -162,7 +189,9 @@ export function EmployeeProfileView({
                           {e.phone}
                         </a>
                       ) : (
-                        <span className="employee-missing">Chưa cập nhật</span>
+                        <span className="employee-missing">
+                          <StableText>{t("Chưa cập nhật")}</StableText>
+                        </span>
                       )}
                     </dd>
                   </div>
@@ -171,23 +200,19 @@ export function EmployeeProfileView({
                   <div>
                     <dt>
                       <MapPin size={17} aria-hidden="true" />
-                      Địa chỉ liên hệ
+                      <StableText>{t("Địa chỉ liên hệ")}</StableText>
                     </dt>
                     <dd>
                       {e.address || (
-                        <span className="employee-missing">Chưa cập nhật</span>
+                        <span className="employee-missing">
+                          <StableText>{t("Chưa cập nhật")}</StableText>
+                        </span>
                       )}
                     </dd>
                   </div>
                 )}
               </dl>
             </section>
-            {personal && (
-              <p className="employee-profile-help">
-                Bạn có thể cập nhật thông tin liên hệ. Để thay đổi thông tin
-                công việc, hãy liên hệ nhân sự.
-              </p>
-            )}
           </div>
           <aside className="employee-profile-activity">{history}</aside>
         </div>

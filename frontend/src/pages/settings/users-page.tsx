@@ -1,3 +1,5 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { useState } from "react";
 import { z } from "zod";
 import {
@@ -10,7 +12,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { PersonCell } from "../../components/ui/person-cell";
-import { RoleGuide, RoleIcon, roleDescriptions } from "./components/role-guide";
+import { RoleGuide, RoleIcon } from "./components/role-guide";
 import {
   userSchema,
   roles,
@@ -36,6 +38,7 @@ import {
 } from "../../components/ui";
 
 export function UsersPage() {
+  useLocale();
   const { me } = useAuth();
   const q = useApi<{
       items: (Membership & { name: string })[];
@@ -68,9 +71,8 @@ export function UsersPage() {
   return (
     <>
       <Heading
-        eyebrow="QUẢN TRỊ"
-        title="Tài khoản & phân quyền"
-        description="Cấp quyền truy cập và quản lý tài khoản liên kết với hồ sơ nhân viên."
+        eyebrow={t("QUẢN TRỊ")}
+        title={t("Tài khoản & phân quyền")}
         action={
           <Button
             onClick={() => {
@@ -79,7 +81,7 @@ export function UsersPage() {
             }}
           >
             <Plus size={16} />
-            Cấp tài khoản
+            {t("Cấp tài khoản")}
           </Button>
         }
       />
@@ -88,11 +90,18 @@ export function UsersPage() {
           <AlertCircle size={20} />
           <div>
             <strong>
-              {j.status === "pending"
-                ? "Tài khoản đang được thiết lập"
-                : "Chưa hoàn tất cấp tài khoản"}
+              <StableText>
+                {j.status === "pending"
+                  ? t("Tài khoản đang được thiết lập")
+                  : t("Chưa hoàn tất cấp tài khoản")}
+              </StableText>
             </strong>
-            <p>{j.email} · Có thể cấp lại cùng hồ sơ để tiếp tục.</p>
+            <p>
+              {j.email}{" "}
+              <StableText>
+                {t("· Có thể cấp lại cùng hồ sơ để tiếp tục.")}
+              </StableText>
+            </p>
           </div>
           <Button
             variant="secondary"
@@ -101,14 +110,13 @@ export function UsersPage() {
               setCreate(true);
             }}
           >
-            Tiếp tục cấp tài khoản
+            {t("Tiếp tục cấp tài khoản")}
           </Button>
         </div>
       ))}
       <DataTable
-        title="Danh sách tài khoản"
+        title={t("Danh sách tài khoản")}
         icon={<ShieldCheck size={18} />}
-        description="Quản lý vai trò và trạng thái đăng nhập của từng thành viên."
         loading={q.isPending}
         error={q.error}
         onRetry={() => void q.refetch()}
@@ -118,29 +126,32 @@ export function UsersPage() {
             <label className="search-input">
               <Search size={16} />
               <Input
-                aria-label="Tìm tài khoản"
-                placeholder="Tìm tên hoặc email…"
+                aria-label={t("Tìm tài khoản")}
+                placeholder={t("Tìm tên hoặc email…")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </label>
             <Select
-              aria-label="Lọc vai trò"
+              aria-label={t("Lọc vai trò")}
               value={roleFilter}
               onValueChange={setRoleFilter}
               options={[
-                { value: "", label: "Tất cả vai trò" },
-                ...roles.map((role) => ({ value: role, label: labels[role] })),
+                { value: "", label: t("Tất cả vai trò") },
+                ...roles.map((role) => ({
+                  value: role,
+                  label: t(labels[role]),
+                })),
               ]}
             />
             <Select
-              aria-label="Lọc quyền truy cập"
+              aria-label={t("Lọc quyền truy cập")}
               value={statusFilter}
               onValueChange={setStatusFilter}
               options={[
-                { value: "", label: "Tất cả trạng thái" },
-                { value: "active", label: "Đang hoạt động" },
-                { value: "inactive", label: "Đã vô hiệu hóa" },
+                { value: "", label: t("Tất cả trạng thái") },
+                { value: "active", label: t("Đang hoạt động") },
+                { value: "inactive", label: t("Đã vô hiệu hóa") },
               ]}
             />
             {filtered && (
@@ -153,7 +164,7 @@ export function UsersPage() {
                   setStatusFilter("");
                 }}
               >
-                Xóa bộ lọc
+                {t("Xóa bộ lọc")}
               </Button>
             )}
           </div>
@@ -170,45 +181,57 @@ export function UsersPage() {
         }
         columns={[
           {
-            label: "Thành viên",
+            minWidth: 330,
+            label: t("Thành viên"),
             render: (u) => (
               <div className="account-person">
-                <PersonCell name={u.name || "Nhân viên"} detail={u.email} />
+                <PersonCell
+                  name={u.name || t("Nhân viên")}
+                  detail={u.email}
+                  avatarUrl={
+                    staff.data?.items.find((e) => e.id === u.employeeId)
+                      ?.avatarUrl
+                  }
+                />
                 {u.id === me!.actor.uid && (
-                  <span className="account-self">Bạn</span>
+                  <span className="account-self">{t("Bạn")}</span>
                 )}
               </div>
             ),
           },
           {
-            label: "Vai trò",
+            minWidth: 210,
+            label: t("Vai trò"),
             render: (u) => (
               <span className="account-role">
                 <RoleIcon role={u.role} />
-                {labels[u.role]}
+                {t(labels[u.role])}
               </span>
             ),
           },
           {
-            label: "Quyền truy cập",
+            minWidth: 190,
+            label: t("Quyền truy cập"),
             render: (u) => <Badge value={u.active ? "enabled" : "disabled"} />,
           },
           {
-            label: "Thao tác",
+            minWidth: 300,
+            label: t("Thao tác"),
             className: "cell-actions",
             render: (u) => (
               <div className="row-actions">
                 <Button variant="ghost" onClick={() => setEdit(u)}>
                   <KeyRound size={14} />
-                  Đổi vai trò
+                  {t("Đổi vai trò")}
                 </Button>
                 <Button
                   variant="ghost"
                   className="status-action"
+                  tone={u.active ? "danger" : "success"}
                   onClick={() => setStatus(u)}
                 >
                   <Power size={14} />
-                  {u.active ? "Vô hiệu hóa" : "Kích hoạt"}
+                  {u.active ? t("Vô hiệu hóa") : t("Kích hoạt")}
                 </Button>
               </div>
             ),
@@ -218,8 +241,7 @@ export function UsersPage() {
       <RoleGuide />
       {create && (
         <Modal
-          title="Cấp tài khoản nhân viên"
-          description="Liên kết tài khoản đăng nhập với hồ sơ và vai trò phù hợp."
+          title={t("Cấp tài khoản nhân viên")}
           icon={<UserRoundPlus size={21} />}
           onClose={() => setCreate(false)}
         >
@@ -231,8 +253,14 @@ export function UsersPage() {
               (employee) => !employee.uid && employee.status !== "terminated",
             ) ? (
             <div className="creation-empty">
-              <h3>Chưa có hồ sơ để cấp tài khoản</h3>
-              <p>Thêm hồ sơ nhân viên mới trước khi cấp quyền đăng nhập.</p>
+              <h3>
+                <StableText>{t("Chưa có hồ sơ để cấp tài khoản")}</StableText>
+              </h3>
+              <p>
+                <StableText>
+                  {t("Tạo hồ sơ nhân viên trước khi cấp tài khoản.")}
+                </StableText>
+              </p>
             </div>
           ) : (
             <Form
@@ -241,10 +269,10 @@ export function UsersPage() {
                 {
                   name: "employeeId",
                   required: true,
-                  label: "Hồ sơ nhân viên",
+                  label: t("Hồ sơ nhân viên"),
                   type: "select",
                   options: [
-                    { value: "", label: "Chọn nhân viên chưa có tài khoản" },
+                    { value: "", label: t("Chọn nhân viên chưa có tài khoản") },
                     ...(staff.data?.items
                       .filter((e) => !e.uid && e.status !== "terminated")
                       .map((e) => ({
@@ -256,16 +284,19 @@ export function UsersPage() {
                 {
                   name: "role",
                   required: true,
-                  label: "Vai trò",
+                  label: t("Vai trò"),
                   type: "select",
-                  options: roles.map((r) => ({ value: r, label: labels[r] })),
+                  options: roles.map((r) => ({
+                    value: r,
+                    label: t(labels[r]),
+                  })),
                 },
                 {
                   name: "password",
                   required: true,
-                  label: "Mật khẩu khởi tạo",
+                  label: t("Mật khẩu khởi tạo"),
                   type: "password",
-                  hint: "Tối thiểu 10 ký tự. Không lưu mật khẩu trong hồ sơ nghiệp vụ.",
+                  hint: t("Tối thiểu 10 ký tự."),
                 },
               ]}
               defaults={{
@@ -277,7 +308,7 @@ export function UsersPage() {
                 await action.mutateAsync({ path: "/users", body });
                 setCreate(false);
               }}
-              submitLabel="Cấp tài khoản"
+              submitLabel={t("Cấp tài khoản")}
               onCancel={() => setCreate(false)}
             />
           )}
@@ -285,26 +316,28 @@ export function UsersPage() {
       )}
       {edit && (
         <Modal
-          title="Thay đổi vai trò"
-          description="Chọn phạm vi quyền phù hợp với trách nhiệm công việc."
+          title={t("Thay đổi vai trò")}
           icon={<KeyRound size={21} />}
           onClose={() => setEdit(null)}
         >
           <div className="account-dialog-person">
-            <PersonCell name={edit.name || "Nhân viên"} detail={edit.email} />
+            <PersonCell
+              name={edit.name || t("Nhân viên")}
+              detail={edit.email}
+              avatarUrl={
+                staff.data?.items.find((e) => e.id === edit.employeeId)
+                  ?.avatarUrl
+              }
+            />
             <span className="account-role">
               <RoleIcon role={edit.role} />
-              {labels[edit.role]}
+              {t(labels[edit.role])}
             </span>
           </div>
-          <p className="account-role-context">
-            Hiện tại: {roleDescriptions[edit.role]}
-          </p>
           <RoleGuide />
           {edit.id === me!.actor.uid && (
             <p className="notice">
-              Bạn đang thay đổi vai trò của chính mình. Quyền truy cập sẽ cập
-              nhật ngay sau khi lưu.
+              <StableText>{t("Bạn đang đổi quyền của chính mình.")}</StableText>
             </p>
           )}
           <Form
@@ -313,9 +346,9 @@ export function UsersPage() {
             fields={[
               {
                 name: "role",
-                label: "Vai trò mới",
+                label: t("Vai trò mới"),
                 type: "select",
-                options: roles.map((r) => ({ value: r, label: labels[r] })),
+                options: roles.map((r) => ({ value: r, label: t(labels[r]) })),
               },
             ]}
             onSubmit={async (body) => {
@@ -334,10 +367,9 @@ export function UsersPage() {
         <Modal
           title={
             status.active
-              ? "Vô hiệu hóa tài khoản?"
-              : "Kích hoạt lại tài khoản?"
+              ? t("Vô hiệu hóa tài khoản?")
+              : t("Kích hoạt lại tài khoản?")
           }
-          description="Hồ sơ nhân viên và lịch sử thao tác được giữ nguyên."
           icon={<Power size={21} />}
           onClose={() => setStatus(null)}
         >
@@ -345,20 +377,23 @@ export function UsersPage() {
             <PersonCell
               name={
                 q.data?.items.find((u) => u.id === status.id)?.name ||
-                "Nhân viên"
+                t("Nhân viên")
               }
               detail={status.email}
             />
           </div>
           <p className="account-status-message">
-            {status.active
-              ? "Tài khoản này sẽ không thể tiếp tục truy cập không gian làm việc sau khi bạn xác nhận."
-              : "Nhân viên có thể đăng nhập trở lại với vai trò đã được cấp."}
+            <StableText>
+              {status.active
+                ? t("Tài khoản sẽ bị chặn đăng nhập.")
+                : t("Tài khoản sẽ được phép đăng nhập lại.")}
+            </StableText>
           </p>
           {status.id === me!.actor.uid && (
             <p className="notice">
-              Đây là tài khoản bạn đang sử dụng. Nếu vô hiệu hóa, bạn sẽ mất
-              quyền truy cập.
+              <StableText>
+                {t("Bạn sẽ mất quyền truy cập nếu vô hiệu hóa tài khoản này.")}
+              </StableText>
             </p>
           )}
           <Form
@@ -373,8 +408,11 @@ export function UsersPage() {
               setStatus(null);
             }}
             onCancel={() => setStatus(null)}
+            submitTone={status.active ? "danger" : "success"}
             submitLabel={
-              status.active ? "Vô hiệu hóa tài khoản" : "Kích hoạt tài khoản"
+              status.active
+                ? t("Vô hiệu hóa tài khoản")
+                : t("Kích hoạt tài khoản")
             }
           />
         </Modal>

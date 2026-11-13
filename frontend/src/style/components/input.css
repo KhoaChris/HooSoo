@@ -2,34 +2,34 @@
 
 input,
 textarea {
-  border: 1px solid #dce4e9;
-  background: #fff;
+  border: 1px solid light-dark(#dce4e9, var(--control-border));
+  background: light-dark(#fff, var(--surface));
   border-radius: 7px;
   padding: 10px 12px;
   min-height: 40px;
-  color: #243747;
+  color: light-dark(#243747, var(--navy));
   max-width: 100%;
 }
 input::placeholder,
 textarea::placeholder {
-  color: #8c98a3;
+  color: light-dark(#8c98a3, var(--muted));
 }
 input:focus,
 textarea:focus {
-  outline: 2px solid #82cac2;
+  outline: 2px solid light-dark(#82cac2, var(--focus-ring));
   outline-offset: 0;
   border-color: var(--teal);
 }
 
 .input-control:disabled,
 .textarea-control:disabled {
-  background: #f5f7f9;
+  background: light-dark(#f5f7f9, var(--surface-subtle));
   color: var(--muted);
   cursor: not-allowed;
 }
 .input-control[aria-invalid="true"],
 .textarea-control[aria-invalid="true"] {
-  border-color: #b8584d;
+  border-color: light-dark(#b8584d, var(--danger-text));
 }
 .textarea-control {
   resize: vertical;

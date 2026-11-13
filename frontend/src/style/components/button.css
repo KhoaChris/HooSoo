@@ -12,23 +12,27 @@
   padding: 9px 15px;
   border: 1px solid transparent;
   white-space: nowrap;
-  transition: background 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s;
 }
 .button.primary {
-  background: var(--teal);
-  color: white;
-  border-color: var(--teal);
+  background: var(--action-bg);
+  color: var(--on-accent);
+  border-color: var(--action-bg);
 }
-.button.primary:hover {
-  background: #066c67;
+.button.primary:hover:not(:disabled) {
+  background: var(--action-hover);
+  border-color: var(--action-hover);
 }
 .button.secondary {
-  background: white;
-  border-color: #dce4e9;
-  color: #344957;
+  background: var(--surface);
+  border-color: light-dark(#dce4e9, var(--control-border));
+  color: light-dark(#344957, var(--navy));
 }
-.button.secondary:hover {
-  background: #f3f7f8;
+.button.secondary:hover:not(:disabled) {
+  background: light-dark(#f3f7f8, var(--surface-hover));
 }
 .button.ghost {
   padding: 5px 7px;
@@ -36,13 +40,52 @@
   background: transparent;
   color: var(--teal);
 }
-.button.ghost:hover {
-  background: #edf6f4;
+.button.ghost:hover:not(:disabled) {
+  background: light-dark(#edf6f4, var(--surface-hover));
 }
-.button.danger {
-  background: #fff2ef;
-  color: #ad453a;
-  border-color: #f3d7d3;
+.button[data-tone="danger"] {
+  --button-tone-bg: var(--danger-bg);
+  --button-tone-text: var(--danger-text);
+  --button-tone-line: var(--danger-line);
+  --button-tone-action: var(--danger-action);
+  --button-tone-hover: var(--danger-action-hover);
+}
+.button[data-tone="success"] {
+  --button-tone-bg: var(--success-bg);
+  --button-tone-text: var(--success-text);
+  --button-tone-line: var(--success-line);
+  --button-tone-action: var(--success-action);
+  --button-tone-hover: var(--success-action-hover);
+}
+.button[data-tone] {
+  background: var(--button-tone-bg);
+  color: var(--button-tone-text);
+  border-color: var(--button-tone-line);
+}
+.button.secondary[data-tone] {
+  background: var(--surface);
+}
+.button.ghost[data-tone] {
+  background: transparent;
+  border-color: transparent;
+}
+.button[data-tone]:is(:hover, :focus-visible):not(:disabled) {
+  background: var(--button-tone-bg);
+  color: var(--button-tone-text);
+  border-color: var(--button-tone-text);
+}
+.button.primary[data-tone] {
+  background: var(--button-tone-action);
+  color: var(--on-accent);
+  border-color: var(--button-tone-action);
+}
+.button.primary[data-tone]:is(:hover, :focus-visible):not(:disabled) {
+  background: var(--button-tone-hover);
+  color: var(--on-accent);
+  border-color: var(--button-tone-hover);
+}
+.button[data-tone]:focus-visible {
+  outline-color: var(--button-tone-text);
 }
 .icon-button {
   display: inline-flex;
@@ -53,10 +96,10 @@
   width: 34px;
   height: 34px;
   border-radius: 6px;
-  color: #6c7c88;
+  color: light-dark(#6c7c88, var(--text-secondary));
 }
-.icon-button:hover {
-  background: #edf3f5;
+.icon-button:hover:not(:disabled) {
+  background: light-dark(#edf3f5, var(--surface-hover));
 }
 .text-link {
   display: inline-flex;

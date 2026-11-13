@@ -18,25 +18,13 @@
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 0.75rem;
-  background: #edf1f3;
-  color: #546c7c;
   white-space: nowrap;
-}
-.professional-status.state-in_progress {
-  background: #eaf2f9;
-  color: #356787;
-}
-.professional-status.state-in_review,
-.professional-status.state-returned {
-  background: #fcf3de;
-  color: #876623;
-}
-.professional-status.state-done {
-  background: #eaf5ef;
-  color: #2c7b61;
+  min-width: 144px;
+  justify-content: center;
+  border: 1px solid;
 }
 .professional-overdue {
-  color: #a3483b;
+  color: light-dark(#a3483b, hsl(7 47% 75%));
 }
 .professional-detail-status,
 .professional-actions {
@@ -104,6 +92,7 @@
   margin: 0;
 }
 .access-matrix {
+  margin-top: 24px;
   overflow-x: auto;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -112,9 +101,10 @@
 .access-matrix table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 1000px;
   text-align: left;
   font-size: 0.82rem;
+  table-layout: fixed;
 }
 .access-matrix caption {
   text-align: left;
@@ -130,14 +120,14 @@
 }
 .access-matrix th {
   color: var(--muted);
-  background: #f7faf9;
+  background: var(--surface-subtle);
   font-weight: 600;
 }
 .access-matrix td:first-child {
   min-width: 190px;
 }
 .access-selected {
-  background: #edf7f3;
+  background: var(--selected-surface);
 }
 @media (max-width: 700px) {
   .professional-context {
@@ -164,4 +154,15 @@
 .professional-context > strong,
 .professional-context > svg {
   flex: none;
+}
+
+@media (max-width: 700px) {
+  .access-current > div {
+    flex: 1 1 calc(100% - 40px);
+    min-width: 0;
+  }
+  .access-current > .button {
+    width: calc(100% - 40px);
+    white-space: normal;
+  }
 }

@@ -90,6 +90,7 @@ export async function requestState(
     !path ||
     path === "/employees" ||
     path === "/dashboard" ||
+    path === "/notifications" ||
     path.startsWith("/reports/") ||
     ["/attendance", "/leave-requests", "/leave-balances"].includes(path);
   if (target) {

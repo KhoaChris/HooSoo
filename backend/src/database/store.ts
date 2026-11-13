@@ -28,6 +28,9 @@ export type ReadSelection =
 export type ReadPlan = Partial<Record<Table, ReadSelection>>;
 export type StateReader = (plan: ReadPlan) => Promise<State>;
 export const capacities: Record<Table, number> = {
+  employeeSequences: 1,
+  chatRooms: 1000,
+  chatMessages: 1000,
   workItems: 3000,
   workRegistrations: 5000,
   internalRequests: 3000,
@@ -225,6 +228,26 @@ export async function mutate<T>(
             {
               updatedAt: FieldValue.serverTimestamp(),
               revision: FieldValue.increment(1),
+              ...(changed.includes("chatRooms")
+                ? {
+                    chatMemberVersions: Object.fromEntries(
+                      [
+                        ...new Set(
+                          Object.values(s.chatRooms)
+                            .filter(
+                              (room) =>
+                                JSON.stringify(room) !==
+                                JSON.stringify(before.chatRooms[room.id]),
+                            )
+                            .flatMap((room) => [
+                              ...room.memberIds,
+                              ...(before.chatRooms[room.id]?.memberIds ?? []),
+                            ]),
+                        ),
+                      ].map((id) => [id, FieldValue.increment(1)]),
+                    ),
+                  }
+                : {}),
               collectionVersions: Object.fromEntries(
                 changed
                   .filter((k) => k !== "receipts")

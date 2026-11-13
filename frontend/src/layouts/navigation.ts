@@ -1,6 +1,7 @@
 import { professionalRoles } from "@hoosoo/shared";
 import { supervisorRoles } from "@hoosoo/shared";
 import {
+  MessageCircle,
   LayoutDashboard,
   CalendarRange,
   FileText,
@@ -32,6 +33,7 @@ export const navigation = [
     roles: all,
     group: "KHÔNG GIAN CHUNG",
   },
+  { label: "Tin nhắn", path: "/chat", icon: MessageCircle, roles: all },
   { label: "Sơ đồ tổ chức", path: "/organization", icon: Network, roles: all },
   {
     label: "Hồ sơ của tôi",

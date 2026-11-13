@@ -3,6 +3,7 @@ import type { Table } from "@hoosoo/shared";
 const MAX_ENTRIES = 256;
 const MAX_BYTES = 8 * 1024 * 1024;
 const MAX_ENTRY_BYTES = 512 * 1024;
+const MAX_DIRECTORY_BYTES = 3 * 1024 * 1024;
 const values = new Map<
   string,
   { table: Table; value: unknown; expires: number; bytes: number }
@@ -71,7 +72,7 @@ export async function cachedRead<T>(
     const value = (await entry.result) as T;
     if (retain && live && (versions.get(table) ?? 0) === version) {
       const size = Buffer.byteLength(JSON.stringify(value));
-      if (size <= MAX_ENTRY_BYTES) {
+      if (size <= (table === "employees" ? MAX_DIRECTORY_BYTES : MAX_ENTRY_BYTES)) {
         while (values.size >= MAX_ENTRIES || bytes + size > MAX_BYTES)
           remove(values.keys().next().value!);
         values.set(id, {

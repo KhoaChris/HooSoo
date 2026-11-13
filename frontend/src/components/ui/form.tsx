@@ -1,7 +1,17 @@
+import { t, useLocale } from "../../i18n";
 import { Textarea } from "./textarea";
 import { Checkbox } from "./checkbox";
 import { Input } from "./input";
-import { Fragment, useEffect, useId, useRef, useState } from "react";
+import { DateTimePicker } from "./date-time-picker";
+import {
+  Fragment,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+  type Ref,
+} from "react";
 import {
   Controller,
   useForm,
@@ -12,9 +22,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ApiError } from "../../services/api-client";
 import { Select, type SelectOption } from "./select";
-import { Button } from "./button";
+import { Button, type ButtonTone } from "./button";
 import { ErrorBox } from "./error-box";
 import { useModalForm } from "./modal";
+import { StableText } from "../../i18n/stable-text";
+
+export type CustomFieldProps = {
+  id: string;
+  labelId: string;
+  value: unknown;
+  onChange: (value: unknown) => void;
+  onBlur: () => void;
+  ref: Ref<HTMLButtonElement>;
+  disabled: boolean;
+  invalid: boolean;
+  describedBy?: string;
+};
 
 export type FormField = {
   name: string;
@@ -36,8 +59,11 @@ export type FormField = {
   disabled?: boolean;
   required?: boolean;
   placeholder?: string;
+  min?: string;
+  max?: string;
   section?: string;
   span?: "full";
+  render?: (props: CustomFieldProps) => ReactNode;
 };
 
 export function Form({
@@ -45,7 +71,8 @@ export function Form({
   fields,
   defaults = {},
   onSubmit,
-  submitLabel = "Lưu thay đổi",
+  submitLabel = t("Lưu thay đổi"),
+  submitTone,
   onCancel,
   columns = 1,
   resetAfterSubmit = true,
@@ -55,10 +82,12 @@ export function Form({
   defaults?: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => Promise<unknown>;
   submitLabel?: string;
+  submitTone?: ButtonTone;
   onCancel?: () => void;
   columns?: 1 | 2;
   resetAfterSubmit?: boolean;
 }) {
+  useLocale();
   const {
     register,
     control,
@@ -123,11 +152,6 @@ export function Form({
       noValidate
     >
       <ErrorBox error={error} />
-      {fields.some((field) => field.required) && (
-        <p className="form-required-note">
-          <span aria-hidden="true">*</span> Thông tin bắt buộc
-        </p>
-      )}
       {Object.keys(errors).length > 0 && (
         <p className="form-validation" role="alert">
           {Object.entries(errors)
@@ -137,12 +161,16 @@ export function Form({
             )
             .filter(Boolean)
             .join(". ") ||
-            "Vui lòng kiểm tra các thông tin được đánh dấu bên dưới."}
+            t("Vui lòng kiểm tra các thông tin được đánh dấu bên dưới.")}
         </p>
       )}
       {fields.map((f) => (
         <Fragment key={f.name}>
-          {f.section && <h3 className="form-section">{f.section}</h3>}
+          {f.section && (
+            <h3 className="form-section">
+              <StableText>{t(f.section)}</StableText>
+            </h3>
+          )}
           <div
             className={
               "field " +
@@ -152,17 +180,48 @@ export function Form({
           >
             <label
               id={`${formId}-${f.name}-label`}
-              htmlFor={f.type === "choices" ? undefined : `${formId}-${f.name}`}
+              htmlFor={
+                f.render || f.type === "choices"
+                  ? undefined
+                  : `${formId}-${f.name}`
+              }
             >
-              {f.label}
-              {f.required && (
-                <span className="field-required" aria-hidden="true">
-                  {" "}
-                  *
-                </span>
-              )}
+              <StableText
+                after={
+                  f.required && (
+                    <span className="field-required" aria-hidden="true">
+                      {" "}
+                      *
+                    </span>
+                  )
+                }
+              >
+                {t(f.label)}
+              </StableText>
             </label>
-            {f.type === "choices" ? (
+            {f.render ? (
+              <Controller
+                name={f.name}
+                control={control}
+                render={({ field }) => (
+                  <>
+                    {f.render!({
+                      id: `${formId}-${f.name}`,
+                      labelId: `${formId}-${f.name}-label`,
+                      value: field.value,
+                      onChange: field.onChange,
+                      onBlur: field.onBlur,
+                      ref: field.ref,
+                      disabled: !!f.disabled || isSubmitting,
+                      invalid: !!errors[f.name],
+                      describedBy: errors[f.name]
+                        ? `${formId}-${f.name}-error`
+                        : undefined,
+                    })}
+                  </>
+                )}
+              />
+            ) : f.type === "choices" ? (
               <Controller
                 name={f.name}
                 control={control}
@@ -203,7 +262,7 @@ export function Form({
                             )
                           }
                         >
-                          {option.label}
+                          {t(option.label)}
                         </button>
                       ))}
                     </div>
@@ -218,7 +277,7 @@ export function Form({
                 render={({ field }) => (
                   <Select
                     id={`${formId}-${f.name}`}
-                    aria-label={f.label}
+                    aria-label={t(f.label)}
                     aria-invalid={!!errors[f.name]}
                     aria-required={f.required}
                     aria-describedby={
@@ -238,6 +297,40 @@ export function Form({
                   />
                 )}
               />
+            ) : f.type === "date" ||
+              f.type === "time" ||
+              f.type === "datetime-local" ? (
+              <Controller
+                name={f.name}
+                control={control}
+                defaultValue={defaults[f.name] ?? ""}
+                render={({ field }) => (
+                  <DateTimePicker
+                    type={f.type as "date" | "time" | "datetime-local"}
+                    id={`${formId}-${f.name}`}
+                    name={field.name}
+                    aria-label={t(f.label)}
+                    aria-invalid={!!errors[f.name]}
+                    aria-required={f.required}
+                    aria-describedby={
+                      [
+                        f.hint && `${formId}-${f.name}-hint`,
+                        errors[f.name] && `${formId}-${f.name}-error`,
+                      ]
+                        .filter(Boolean)
+                        .join(" ") || undefined
+                    }
+                    ref={field.ref}
+                    value={String(field.value ?? "")}
+                    onValueChange={field.onChange}
+                    onBlur={field.onBlur}
+                    placeholder={f.placeholder}
+                    min={f.min}
+                    max={f.max}
+                    disabled={f.disabled || isSubmitting}
+                  />
+                )}
+              />
             ) : f.type === "textarea" ? (
               <Textarea
                 aria-invalid={!!errors[f.name]}
@@ -250,7 +343,7 @@ export function Form({
                     .join(" ") || undefined
                 }
                 id={`${formId}-${f.name}`}
-                aria-label={f.label}
+                aria-label={t(f.label)}
                 placeholder={f.placeholder}
                 disabled={f.disabled || isSubmitting}
                 aria-required={f.required}
@@ -260,7 +353,7 @@ export function Form({
             ) : f.type === "checkbox" ? (
               <Checkbox
                 id={`${formId}-${f.name}`}
-                aria-label={f.label}
+                aria-label={t(f.label)}
                 {...register(f.name)}
                 disabled={f.disabled || isSubmitting}
               />
@@ -276,7 +369,7 @@ export function Form({
                     .join(" ") || undefined
                 }
                 id={`${formId}-${f.name}`}
-                aria-label={f.label}
+                aria-label={t(f.label)}
                 type={f.type || "text"}
                 placeholder={f.placeholder}
                 aria-required={f.required}
@@ -290,12 +383,25 @@ export function Form({
                 }
               />
             )}{" "}
-            {f.hint && <small id={`${formId}-${f.name}-hint`}>{f.hint}</small>}
+            {f.hint && (
+              <small id={`${formId}-${f.name}-hint`}>
+                <StableText>{t(f.hint)}</StableText>
+              </small>
+            )}
             {errors[f.name] && (
               <small id={`${formId}-${f.name}-error`} className="field-error">
                 {f.required && !getValues(f.name)
-                  ? `Vui lòng ${f.type === "select" || f.type === "date" ? "chọn" : "nhập"} ${f.label.toLocaleLowerCase("vi")}.`
-                  : String(errors[f.name]?.message || "Thông tin không hợp lệ")}
+                  ? t("Vui lòng {0} {1}.", [
+                      f.type === "select" || f.type === "date"
+                        ? t("chọn")
+                        : t("nhập"),
+                      t(f.label).toLocaleLowerCase(),
+                    ])
+                  : t(
+                      String(
+                        errors[f.name]?.message || t("Thông tin không hợp lệ"),
+                      ),
+                    )}
               </small>
             )}
           </div>
@@ -309,11 +415,11 @@ export function Form({
             disabled={isSubmitting}
             onClick={modal?.requestClose ?? onCancel}
           >
-            Hủy
+            {t("Hủy")}
           </Button>
         )}
-        <Button type="submit" busy={isSubmitting}>
-          {isSubmitting ? "Đang lưu…" : submitLabel}
+        <Button type="submit" tone={submitTone} busy={isSubmitting}>
+          {isSubmitting ? t("Đang lưu…") : submitLabel}
         </Button>
       </div>
     </form>

@@ -1,5 +1,7 @@
+import { StableText } from "../../i18n/stable-text";
+import { t, useLocale } from "../../i18n";
 import { Link } from "react-router-dom";
-import { ShieldCheck, ArrowUpRight, LockKeyhole } from "lucide-react";
+import { ShieldCheck, ArrowUpRight } from "lucide-react";
 import {
   roles,
   roleDefinitions,
@@ -12,110 +14,120 @@ import {
 import { useAuth } from "../../app/auth";
 import { Heading } from "../../components/ui";
 export function AccessPage() {
+  useLocale();
   const { me } = useAuth(),
     role = me!.actor.role,
     def = roleDefinitions[role];
   return (
     <>
-      <Heading
-        title="Vai trò & quyền truy cập"
-        description="Quyền được cấp theo vai trò; tên chức danh không tự mở thêm quyền."
-      />
+      <Heading title={t("Vai trò & quyền truy cập")} />
       <section className="access-current">
         <ShieldCheck size={26} />
         <div>
-          <span className="section-eyebrow">VAI TRÒ CỦA BẠN</span>
-          <h2>{def.label}</h2>
-          <p>{def.description}</p>
-          <span>Phạm vi: {scopeLabels[def.scope]}</span>
+          <span className="section-eyebrow">{t("VAI TRÒ CỦA BẠN")}</span>
+          <h2>
+            <StableText>{t(def.label)}</StableText>
+          </h2>
+          <span>
+            {t("Phạm vi:")} {t(scopeLabels[def.scope])}
+          </span>
         </div>
         {role === "Admin" && (
           <Link className="button secondary" to="/settings/users">
-            Quản lý phân quyền
+            {t("Quản lý phân quyền")}
             <ArrowUpRight size={16} />
           </Link>
         )}
       </section>
-      <div className="access-rule">
-        <LockKeyhole size={18} />
-        <p>
-          Cấp dưới không được sửa hồ sơ hoặc xử lý dữ liệu của cấp ngang hàng và
-          cấp trên. Chỉ Admin được cấp tài khoản và đổi vai trò. Mọi thao tác
-          vẫn phải nằm trong phạm vi được giao.
-        </p>
-      </div>
       <div className="table-wrap access-matrix">
         <table>
-          <caption>Phân cấp và phạm vi nghiệp vụ</caption>
+          <caption>{t("Phân cấp và phạm vi nghiệp vụ")}</caption>
           <thead>
             <tr>
-              <th>Vai trò</th>
-              <th>Phạm vi</th>
-              <th>Nhân sự</th>
-              <th>Phê duyệt</th>
-              <th>Chuyên môn</th>
+              <th>
+                <StableText>{t("Vai trò")}</StableText>
+              </th>
+              <th>
+                <StableText>{t("Phạm vi")}</StableText>
+              </th>
+              <th>
+                <StableText>{t("Nhân sự")}</StableText>
+              </th>
+              <th>
+                <StableText>{t("Phê duyệt")}</StableText>
+              </th>
+              <th>
+                <StableText>{t("Chuyên môn")}</StableText>
+              </th>
             </tr>
           </thead>
           <tbody>
             {roles.map((r) => (
               <tr key={r} className={r === role ? "access-selected" : ""}>
                 <td>
-                  <strong>{labels[r]}</strong>
+                  <strong>
+                    <StableText>{t(labels[r])}</StableText>
+                  </strong>
                   <small className="workflow-cell-subtext">
-                    {r === role
-                      ? "Vai trò hiện tại"
-                      : roleDefinitions[r].rank === 10
-                        ? "Chuyên viên"
-                        : r === "Admin"
-                          ? "Quản trị cao nhất"
-                          : r === "Director"
-                            ? "Điều hành phòng ban"
-                            : "Quản lý / điều phối"}
+                    <StableText>
+                      {r === role
+                        ? t("Vai trò hiện tại")
+                        : roleDefinitions[r].rank === 10
+                          ? t("Chuyên viên")
+                          : r === "Admin"
+                            ? t("Quản trị cao nhất")
+                            : r === "Director"
+                              ? t("Điều hành phòng ban")
+                              : t("Quản lý / điều phối")}
+                    </StableText>
                   </small>
                 </td>
-                <td>{scopeLabels[roleDefinitions[r].scope]}</td>
                 <td>
-                  {r === "Admin"
-                    ? "Toàn quyền"
-                    : businessRoles.includes(r)
-                      ? "Cấp thấp hơn"
-                      : "Chỉ xem theo phạm vi"}
+                  <StableText>
+                    {t(scopeLabels[roleDefinitions[r].scope])}
+                  </StableText>
                 </td>
                 <td>
-                  {isSupervisorRole(r)
-                    ? r === "HR"
-                      ? "Xác nhận cuối cấp dưới"
-                      : "Theo cấp & phân công"
-                    : "Gửi đề nghị cá nhân"}
+                  <StableText>
+                    {r === "Admin"
+                      ? t("Toàn quyền")
+                      : businessRoles.includes(r)
+                        ? t("Cấp thấp hơn")
+                        : t("Chỉ xem theo phạm vi")}
+                  </StableText>
+                </td>
+                <td>
+                  <StableText>
+                    {isSupervisorRole(r)
+                      ? r === "HR"
+                        ? t("Xác nhận cuối cấp dưới")
+                        : t("Theo cấp & phân công")
+                      : t("Gửi đề nghị cá nhân")}
+                  </StableText>
                 </td>
                 <td>
                   {professionalRoles.includes(r)
                     ? roleDefinitions[r].areas
-                        .map(
-                          (a) =>
-                            ({
+                        .map((area) =>
+                          t(
+                            {
                               delivery: "Điều phối",
                               engineering: "Phát triển",
                               quality: "Chất lượng",
                               analysis: "Nghiệp vụ",
                               design: "Thiết kế",
                               operations: "Vận hành",
-                            })[a],
+                            }[area],
+                          ),
                         )
                         .join(", ")
-                    : "Nghiệp vụ nhân sự / cá nhân"}
+                    : t("Nghiệp vụ nhân sự / cá nhân")}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="workflow-help">
-        PM và Trưởng nhóm cùng cấp; QA, QC, BA, Designer, Developer và DevOps
-        cùng cấp chuyên viên, khác quyền chuyên môn. Giám đốc và Trưởng phòng
-        phụ trách phòng ban; Phó phòng, PM và Trưởng nhóm phụ trách nhân viên
-        được gán quản lý trực tiếp.
-      </p>
     </>
   );
 }

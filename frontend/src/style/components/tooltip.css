@@ -9,11 +9,11 @@
   padding: 9px 12px;
   border-radius: 7px;
   background: var(--navy);
-  color: #fff;
+  color: light-dark(#fff, #fff);
   font-size: 12px;
   font-weight: 550;
   line-height: 1.4;
-  box-shadow: 0 4px 14px #172f4224;
+  box-shadow: 0 4px 14px light-dark(#172f4224, #00000024);
   animation: tooltip-reveal 0.12s ease-out;
 }
 .tooltip::before {

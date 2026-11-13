@@ -1,7 +1,7 @@
 /* Operational status in language useful to an administrator. */
 .system-overview {
-  border: 1px solid #e1e8e5;
-  background: white;
+  border: 1px solid light-dark(#e1e8e5, var(--line));
+  background: var(--surface);
   border-radius: 14px;
   overflow: hidden;
   max-width: 1000px;
@@ -11,8 +11,8 @@
   align-items: center;
   gap: 22px;
   padding: 34px;
-  border-bottom: 1px solid #e6ede8;
-  background: #f7fbf8;
+  border-bottom: 1px solid light-dark(#e6ede8, var(--line));
+  background: light-dark(#f7fbf8, var(--surface));
 }
 .system-status-icon {
   display: grid;
@@ -21,11 +21,11 @@
   height: 64px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #e4f2e9;
-  color: #468366;
+  background: light-dark(#e4f2e9, hsl(141 25% 15%));
+  color: light-dark(#468366, hsl(151 30% 75%));
 }
 .system-eyebrow {
-  color: #789181;
+  color: light-dark(#789181, var(--text-secondary));
   font-size: 9px;
   font-weight: 650;
   letter-spacing: 1.3px;
@@ -35,27 +35,27 @@
   margin-top: 6px;
   font-weight: 600;
   letter-spacing: -0.5px;
-  color: #294d3c;
+  color: light-dark(#294d3c, var(--navy));
 }
 .system-status-heading p {
   font-size: 12px;
-  color: #778e80;
+  color: light-dark(#778e80, var(--text-secondary));
   line-height: 1.8;
   margin-top: 8px;
 }
 .system-overview.attention .system-status-heading {
-  background: #fffaf2;
+  background: light-dark(#fffaf2, var(--surface));
 }
 .system-overview.attention .system-status-icon {
-  background: #f7ebd8;
-  color: #a78546;
+  background: light-dark(#f7ebd8, hsl(37 25% 15%));
+  color: light-dark(#a78546, hsl(39 41% 75%));
 }
 .system-overview.attention .system-status-heading h2 {
-  color: #7d6235;
+  color: light-dark(#7d6235, hsl(38 40% 75%));
 }
 .system-overview.checking .system-status-icon {
-  background: #edf3f5;
-  color: #758d99;
+  background: light-dark(#edf3f5, var(--surface));
+  color: light-dark(#758d99, var(--text-secondary));
 }
 .system-services {
   padding: 6px 34px;
@@ -65,13 +65,13 @@
   align-items: center;
   gap: 16px;
   padding: 25px 0;
-  border-bottom: 1px solid #ecf0ed;
+  border-bottom: 1px solid light-dark(#ecf0ed, var(--line));
 }
 .system-services > div:last-child {
   border-bottom: 0;
 }
 .system-service-icon {
-  color: #799789;
+  color: light-dark(#799789, var(--text-secondary));
   flex-shrink: 0;
 }
 .system-service-name {
@@ -80,19 +80,19 @@
 .system-service-name strong {
   display: block;
   font-size: 14px;
-  color: #39574b;
+  color: light-dark(#39574b, var(--navy));
   font-weight: 550;
 }
 .system-service-name small {
   display: block;
-  color: #82948a;
+  color: light-dark(#82948a, var(--text-secondary));
   font-size: 12px;
   margin-top: 6px;
   line-height: 1.8;
 }
 .system-service-state {
   font-size: 12px;
-  color: #83948b;
+  color: light-dark(#83948b, var(--text-secondary));
   display: flex;
   gap: 7px;
   align-items: center;
@@ -106,10 +106,10 @@
   background: currentColor;
 }
 .system-service-state.ok {
-  color: #3c8969;
+  color: light-dark(#3c8969, hsl(155 39% 75%));
 }
 .system-service-state.unknown {
-  color: #aa8642;
+  color: light-dark(#aa8642, hsl(39 44% 75%));
 }
 .system-check-meta {
   display: flex;
@@ -117,10 +117,10 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 15px;
-  background: #fafcfb;
-  border-top: 1px solid #e7ede9;
+  background: light-dark(#fafcfb, var(--surface));
+  border-top: 1px solid light-dark(#e7ede9, var(--line));
   padding: 18px 34px;
-  color: #7d9085;
+  color: light-dark(#7d9085, var(--text-secondary));
   font-size: 11px;
 }
 .system-check-meta > div {
@@ -135,19 +135,19 @@
   max-width: 850px;
   font-size: 12px;
   line-height: 1.9;
-  color: #7b8e83;
+  color: light-dark(#7b8e83, var(--text-secondary));
 }
 .system-context svg {
   flex-shrink: 0;
   margin-top: 3px;
-  color: #8ca596;
+  color: light-dark(#8ca596, var(--muted));
 }
 .system-connection-details {
   max-width: 1000px;
   padding-top: 18px;
-  border-top: 1px solid #e1e9e4;
+  border-top: 1px solid light-dark(#e1e9e4, var(--line));
   font-size: 12px;
-  color: #71887b;
+  color: light-dark(#71887b, var(--text-secondary));
 }
 .system-connection-details summary {
   cursor: pointer;
@@ -165,7 +165,7 @@
 }
 .system-connection-details dd {
   margin: 0;
-  color: #4a6756;
+  color: light-dark(#4a6756, var(--text-secondary));
 }
 .system-error {
   padding: 24px 34px 0;

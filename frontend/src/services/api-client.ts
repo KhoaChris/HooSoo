@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { auth, env } from "../config/firebase";
 export class ApiError extends Error {
   constructor(
@@ -68,8 +69,8 @@ export async function api<T>(
       throw new ApiError(
         data.error?.message ||
           (response.status === 503
-            ? "Cơ sở dữ liệu tạm thời không kết nối được."
-            : "Không nhận được phản hồi hợp lệ từ máy chủ."),
+            ? t("Cơ sở dữ liệu tạm thời không kết nối được.")
+            : t("Không nhận được phản hồi hợp lệ từ máy chủ.")),
         response.status,
         data.error?.code || "API_ERROR",
         data.error?.fieldErrors,
@@ -81,7 +82,7 @@ export async function api<T>(
       return (await response.json()) as T;
     } catch {
       throw new ApiError(
-        "Máy chủ trả về nội dung không hợp lệ. Kiểm tra kết nối API.",
+        t("Máy chủ trả về nội dung không hợp lệ. Kiểm tra kết nối API."),
         502,
         "INVALID_RESPONSE",
       );
@@ -90,10 +91,10 @@ export async function api<T>(
     if (e instanceof ApiError) throw e;
     throw new ApiError(
       controller.signal.aborted
-        ? "Yêu cầu hết thời gian chờ. Vui lòng thử lại."
+        ? t("Yêu cầu hết thời gian chờ. Vui lòng thử lại.")
         : navigator.onLine
-          ? "Không kết nối được máy chủ. Dữ liệu nhập vẫn được giữ lại."
-          : "Bạn đang ngoại tuyến. Hãy kiểm tra kết nối.",
+          ? t("Không kết nối được máy chủ. Dữ liệu nhập vẫn được giữ lại.")
+          : t("Bạn đang ngoại tuyến. Hãy kiểm tra kết nối."),
     );
   } finally {
     clearTimeout(timer);

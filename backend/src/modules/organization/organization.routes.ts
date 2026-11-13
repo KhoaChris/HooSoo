@@ -70,6 +70,7 @@ get("/organization/tree", ["departments", "positions", "settings"], (s, a) => ({
         .map((e) => ({
           id: e.id,
           name: e.name,
+          avatarUrl: e.avatarUrl ?? null,
           employeeCode: e.employeeCode,
           positionName: s.positions[e.positionId]?.name,
           managerName: s.employees[e.managerId]?.name || "",
