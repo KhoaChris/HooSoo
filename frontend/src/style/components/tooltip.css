@@ -8,12 +8,12 @@
   max-width: 260px;
   padding: 9px 12px;
   border-radius: 7px;
-  background: var(--navy);
-  color: light-dark(#fff, #fff);
+  background: var(--inverse-bg);
+  color: var(--inverse-text);
   font-size: 12px;
   font-weight: 550;
   line-height: 1.4;
-  box-shadow: 0 4px 14px light-dark(#172f4224, #00000024);
+  box-shadow: 0 4px 14px var(--shadow-color);
   animation: tooltip-reveal 0.12s ease-out;
 }
 .tooltip::before {

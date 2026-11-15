@@ -20,6 +20,7 @@ import {
   setReadCacheLive,
 } from "../src/database/read-cache";
 import { messageId } from "../src/modules/chat/chat.service";
+import { chatChangedMembers, type ChatRoom } from "@hoosoo/shared";
 beforeEach(() => {
   for (const fn of Object.values(mock)) fn.mockReset();
   const query = {
@@ -51,6 +52,32 @@ beforeEach(() => {
   setReadCacheLive(true);
 });
 describe("Bounded cloud chat queries", () => {
+  it("limits private mailbox invalidations and notifies departing members", () => {
+    const room: ChatRoom = {
+      id: "group",
+      kind: "group",
+      title: "Group",
+      memberIds: ["owner", "member"],
+      ownerId: "owner",
+      version: 1,
+      sequence: 0,
+      lastMessage: null,
+    };
+    expect(
+      chatChangedMembers(room, {
+        ...room,
+        memberState: { member: { version: 1, archivedThrough: 0 } },
+      }),
+    ).toEqual(["member"]);
+    expect(
+      chatChangedMembers(room, { ...room, memberIds: ["owner"], version: 2 }),
+    ).toEqual(["owner", "member"]);
+    expect(chatChangedMembers(room, { ...room, sequence: 1 })).toEqual([
+      "owner",
+      "member",
+    ]);
+    expect(chatChangedMembers(room, { ...room })).toEqual([]);
+  });
   it("uses the built-in ascending name index for the latest 40 sequences", async () => {
     await readMessages("room", 100);
     expect(mock.collection).toHaveBeenCalledWith("chatMessages");

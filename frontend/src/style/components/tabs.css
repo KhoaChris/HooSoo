@@ -2,7 +2,7 @@
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid light-dark(#dfe8ed, var(--line));
+  border-bottom: 1px solid var(--line);
   margin-bottom: 24px;
   gap: 8px;
   overflow-x: auto;
@@ -14,20 +14,20 @@
   padding: 13px 2px 15px;
   white-space: normal;
   font-size: 13px;
-  color: light-dark(#8897a2, var(--muted));
+  color: var(--muted);
   width: 160px;
   flex: 0 0 160px;
   min-height: 46px;
 }
 .tabs button.selected {
-  color: var(--teal);
+  color: var(--brand);
   font-weight: 600;
-  background: light-dark(#edf6f2, var(--selected-surface));
+  background: var(--selection-gradient);
 }
 .tabs button.selected:after {
   content: "";
   height: 2px;
-  background: var(--teal);
+  background: var(--brand);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -35,7 +35,7 @@
 }
 .tabs button:hover:not(.selected) {
   background: var(--surface-hover);
-  color: var(--navy);
+  color: var(--heading);
 }
 @media (max-width: 600px) {
   .tabs {

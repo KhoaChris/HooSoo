@@ -1,3 +1,4 @@
+import { recruitmentRewardSchema, salaryPackageSchema } from "../compensation";
 import { z } from "zod";
 import {
   recruitmentAssessmentSchema,
@@ -124,6 +125,7 @@ export const recruitmentJobSchema = z
     hiringManagerId: id,
     description: z.string().trim().max(4000),
     openings: z.number().int().min(1).max(100),
+    rewards: recruitmentRewardSchema.optional(),
     stages: z.array(stageSchema).min(2).max(8),
     active: z.boolean().default(true),
     version: z.number().int().min(0).default(0),
@@ -164,6 +166,7 @@ export const candidateHireSchema = reviewSchema.extend({
     .email("Nhập email công việc hợp lệ")
     .transform((v) => v.toLowerCase()),
   employmentStatus: z.enum(["probation", "active"]).default("probation"),
+  compensation: salaryPackageSchema.nullable().optional(),
 });
 export type CandidateHireInput = z.infer<typeof candidateHireSchema>;
 export const interviewSchema = z
@@ -205,7 +208,16 @@ export interface Interview {
   status: "proposed" | "confirmed";
   confirmedBy: string;
 }
+export interface EvaluationRevision {
+  result: "passed" | "failed";
+  score?: number;
+  assessment?: RecruitmentAssessment;
+  feedback?: string;
+  evaluatedBy?: string;
+  evaluatedAt?: string;
+}
 export interface CandidateRound {
+  evaluationHistory?: EvaluationRevision[];
   stageId: string;
   stageName: string;
   interview?: Interview;

@@ -137,6 +137,7 @@ export function EmployeeList() {
             label: t("Nhân viên"),
             render: (e) => (
               <PersonCell
+                employeeId={e.id}
                 name={e.name}
                 avatarUrl={e.avatarUrl}
                 detail={e.email}

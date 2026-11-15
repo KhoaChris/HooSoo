@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { isSupervisorRole, type NotificationItem } from "@hoosoo/shared";
+import {
+  chatViewer,
+  isSupervisorRole,
+  type NotificationItem,
+} from "@hoosoo/shared";
 import { context } from "../../routes/helpers";
 import { querySchema } from "@hoosoo/shared";
 import { readState, mergeState, type ReadPlan } from "../../database/store";
@@ -53,6 +57,8 @@ notificationsRoutes.get("/notifications", async (_req, res) => {
     const last = room.lastMessage;
     if (
       !room.memberIds.includes(a.employeeId) ||
+      chatViewer(room, a.employeeId).hidden ||
+      chatViewer(room, a.employeeId).archived ||
       !last ||
       last.senderId === a.employeeId
     )

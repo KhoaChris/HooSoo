@@ -1,9 +1,11 @@
-// The stream contains invalidation signals only. Business data still comes from
-// the normal authenticated, role-scoped API after a Firestore commit.
+import { presencePacketSchema, type PresencePacket } from "@hoosoo/shared";
+// Business invalidations and ephemeral presence share one authenticated stream.
+// Presence packets never invalidate business queries or trigger Firestore reads.
 export async function readChanges(
   body: ReadableStream<Uint8Array>,
   onChange: (version?: string, collections?: string[] | null) => void,
   onUnavailable: (retryAfterSeconds: number) => void = () => {},
+  onPresence: (packet: PresencePacket) => void = () => {},
 ) {
   const reader = body.getReader();
   const decoder = new TextDecoder();
@@ -39,6 +41,10 @@ export async function readChanges(
         } catch {
           /* Ignore malformed data. */
         }
+        if (type === "presence") {
+          const packet = presencePacketSchema.safeParse(payload);
+          if (packet.success) onPresence(packet.data);
+        }
         if (type === "changed")
           onChange(
             typeof payload.version === "string" ? payload.version : undefined,
@@ -68,9 +74,65 @@ export function startLiveUpdates(options: {
   token: () => Promise<string>;
   onChange: (collections: string[] | null) => void;
   onConnection: (connected: boolean) => void;
+  onPresence?: (packet: PresencePacket) => void;
 }) {
   options.onConnection(false);
   let stopped = false;
+  let connectionId = "",
+    bearer = "";
+  let pulse: ReturnType<typeof setInterval> | undefined;
+  let beating = false;
+  const presenceUrl = options.url.replace(/\/events$/, "/presence/");
+  const release = () => {
+    const id = connectionId;
+    connectionId = "";
+    clearInterval(pulse);
+    if (id && bearer)
+      void fetch(presenceUrl + "disconnect", {
+        method: "POST",
+        keepalive: true,
+        headers: {
+          Authorization: `Bearer ${bearer}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ connectionId: id }),
+      }).catch(() => {});
+  };
+  const beat = async () => {
+    if (!connectionId || stopped || beating) return;
+    const id = connectionId;
+    beating = true;
+    const timeout = new AbortController();
+    const timer = setTimeout(() => timeout.abort(), 5000);
+    try {
+      const token = await options.token();
+      if (stopped || connectionId !== id) return;
+      const response = await fetch(presenceUrl + "heartbeat", {
+        method: "POST",
+        signal: timeout.signal,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ connectionId: id }),
+      });
+      if (!response.ok && connectionId === id) request?.abort();
+    } catch {
+      if (connectionId === id) request?.abort();
+    } finally {
+      clearTimeout(timer);
+      beating = false;
+    }
+  };
+  const resume = () => {
+    if (
+      typeof document !== "undefined" &&
+      document.visibilityState === "visible"
+    )
+      void beat();
+  };
+  if (typeof document !== "undefined")
+    document.addEventListener("visibilitychange", resume);
   let request: AbortController | undefined;
   let timer: ReturnType<typeof setTimeout> | undefined;
   let retryMs = 1000;
@@ -87,6 +149,7 @@ export function startLiveUpdates(options: {
     try {
       const token = await options.token();
       if (stopped) return;
+      bearer = token;
       const response = await fetch(options.url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -133,11 +196,21 @@ export function startLiveUpdates(options: {
             Math.min(Math.max(seconds, 60), 300) * 1000,
           );
         },
+        (packet) => {
+          if (stopped) return;
+          if (packet.kind === "ready") {
+            connectionId = packet.connectionId;
+            clearInterval(pulse);
+            pulse = setInterval(() => void beat(), 25_000);
+          }
+          options.onPresence?.(packet);
+        },
       );
     } catch {
       // Retry quietly; normal API failures still appear in the relevant form.
     } finally {
       clearTimeout(watchdog);
+      release();
       controller.abort();
       if (!stopped) {
         options.onConnection(false);
@@ -149,6 +222,10 @@ export function startLiveUpdates(options: {
   void connect();
   return () => {
     stopped = true;
+    release();
+    options.onConnection(false);
+    if (typeof document !== "undefined")
+      document.removeEventListener("visibilitychange", resume);
     clearTimeout(timer);
     request?.abort();
   };

@@ -10,10 +10,10 @@
   min-width: 65px;
   min-height: 43px;
   padding: 9px 6px;
-  border: 1px solid light-dark(#dfe7e4, var(--line));
+  border: 1px solid var(--line);
   border-radius: 7px;
-  color: light-dark(#7b8c91, var(--text-secondary));
-  background: light-dark(#fff, var(--surface));
+  color: var(--text-secondary);
+  background: var(--surface);
   font-size: 12px;
   font-weight: 500;
   transition:
@@ -21,17 +21,17 @@
     border-color 140ms;
   width: 96px;
   flex: 0 0 96px;
-  border-color: light-dark(#dfe7e4, var(--control-border));
+  border-color: var(--control-border);
 }
 .choice-group button:hover {
-  border-color: light-dark(#a3c5b5, var(--control-border-hover));
-  background: light-dark(#f7faf8, var(--surface-hover));
+  border-color: var(--control-border-hover);
+  background: var(--surface-hover);
 }
 .choice-group button[aria-pressed="true"] {
-  background: light-dark(#eaf5ee, var(--selected-surface));
-  border-color: light-dark(#93bda8, var(--teal));
-  color: light-dark(#307257, var(--teal));
-  box-shadow: inset 0 0 0 1px light-dark(#93bda81a, #0000001a);
+  background: var(--selection-gradient);
+  border-color: var(--brand);
+  color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--focus-halo);
 }
 @media (max-width: 600px) {
   .choice-group {

@@ -1,3 +1,6 @@
+import { compensationCommand } from "../modules/compensation/compensation.reads";
+import { performanceCommand } from "../modules/performance/performance.reads";
+import { employmentCommand } from "../modules/employment/employment.reads";
 import { professionalCommand } from "../modules/professional/professional.reads";
 import { loadEmployeeAccess } from "./access-state";
 import { supervisorRoles } from "@hoosoo/shared";
@@ -25,6 +28,39 @@ export async function commandState(
     await read({ employees: { ids: employeeId ? [employeeId] : [] } }),
   );
   const actor = actorFor(s, uid);
+  if (
+    await compensationCommand(
+      read,
+      s,
+      actor,
+      route,
+      body,
+      s.receipts[receiptId]?.result as { id?: string } | undefined,
+    )
+  )
+    return s;
+  if (
+    await performanceCommand(
+      read,
+      s,
+      actor,
+      route,
+      body,
+      s.receipts[receiptId]?.result as { id?: string } | undefined,
+    )
+  )
+    return s;
+  if (
+    await employmentCommand(
+      read,
+      s,
+      actor,
+      route,
+      body,
+      s.receipts[receiptId]?.result as { id?: string } | undefined,
+    )
+  )
+    return s;
   if (await professionalCommand(read, s, actor, route, body)) {
     const replay = s.receipts[receiptId]?.result as { id?: string } | undefined;
     if (replay?.id && !s.workItems[replay.id])

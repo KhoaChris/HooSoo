@@ -3,11 +3,13 @@ import { Avatar } from "./avatar";
 import { Link } from "react-router-dom";
 export function PersonCell({
   name,
+  employeeId,
   avatarUrl,
   detail,
   to,
 }: {
   name: string;
+  employeeId?: string;
   avatarUrl?: string | null;
   detail?: string;
   to?: string;
@@ -15,7 +17,12 @@ export function PersonCell({
   useLocale();
   const content = (
     <>
-      <Avatar name={name} src={avatarUrl} className="table-person-avatar" />
+      <Avatar
+        employeeId={employeeId}
+        name={name}
+        src={avatarUrl}
+        className="table-person-avatar"
+      />
       <span className="person-cell-text">
         <strong>{name}</strong>
         {detail && <small>{detail}</small>}

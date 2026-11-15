@@ -1,3 +1,7 @@
+import { compensationEnglish } from "./compensation";
+import { presenceEnglish } from "./presence";
+import { performanceEnglish } from "./performance";
+import { employmentEnglish } from "./employment";
 import { english } from "./english";
 import { getPreferences } from "./preferences";
 export { useLocale, intlLocale } from "./preferences";
@@ -10,7 +14,13 @@ export function t(
   if (!message) return "";
   const key = message.replace(/\s+/g, " ").trim();
   const translated =
-    getPreferences().locale === "en" ? english[key] : undefined;
+    getPreferences().locale === "en"
+      ? (compensationEnglish[key] ??
+        presenceEnglish[key] ??
+        performanceEnglish[key] ??
+        employmentEnglish[key] ??
+        english[key])
+      : undefined;
   const text =
     translated === undefined
       ? message

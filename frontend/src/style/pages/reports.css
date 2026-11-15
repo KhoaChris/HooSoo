@@ -4,8 +4,8 @@
   gap: 4px;
   flex-wrap: wrap;
   padding: 4px;
-  background: light-dark(#f3f6f5, var(--surface));
-  border: 1px solid light-dark(#e9efeb, var(--line));
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: 9px;
   width: fit-content;
   margin: 0 0 20px;
@@ -20,20 +20,20 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
-  color: light-dark(#7a8e8a, var(--text-secondary));
+  color: var(--text-secondary);
   transition:
     background 140ms,
     color 140ms;
   justify-content: center;
 }
 .report-tabs button:hover {
-  color: light-dark(#3b6c5c, hsl(160 29% 75%));
+  color: var(--brand);
   background: var(--surface-hover);
 }
 .report-tabs button.selected {
-  color: light-dark(#286c57, var(--navy));
-  background: light-dark(#fff, var(--selected-surface));
-  box-shadow: 0 1px 4px light-dark(#284b3c12, #00000012);
+  color: var(--heading);
+  background: var(--selection-gradient);
+  box-shadow: 0 1px 4px var(--shadow-color);
 }
 @media (max-width: 600px) {
   .report-tabs {

@@ -219,3 +219,71 @@ describe("versioned recruitment scorecards", () => {
     expect(c.rounds[0].score).toBe(2);
   });
 });
+
+describe("evidence-based recruitment reviews v2", () => {
+  const v2 = (): RecruitmentAssessmentInput => ({
+    ...review(),
+    rubricVersion: 2,
+    observations: [
+      {
+        question: "Kinh nghiệm liên quan đến công việc?",
+        answer: "Đã trực tiếp phát triển và vận hành sản phẩm",
+        signal: "strong",
+      },
+    ],
+    followUp: "Kiểm tra thêm khả năng phối hợp",
+  });
+  it("requires evidence and observations without changing legacy weights", () => {
+    expect(
+      recruitmentAssessmentSchema.safeParse({ ...v2(), observations: [] })
+        .success,
+    ).toBe(false);
+    expect(
+      recruitmentAssessmentSchema.safeParse({
+        ...v2(),
+        ratings: v2().ratings.map((r) => ({ ...r, evidence: "" })),
+      }).success,
+    ).toBe(false);
+    expect(
+      recruitmentAssessmentSchema.safeParse({
+        ...v2(),
+        observations: [
+          { question: "12345", answer: "12345", signal: "invalid" },
+        ],
+      }).success,
+    ).toBe(false);
+    expect(assessmentPercent(v2())).toBe(assessmentPercent(review()));
+    expect(
+      recruitmentAssessmentSchema.safeParse({
+        ...review(),
+        ratings: review().ratings.map((r) => ({ ...r, evidence: "" })),
+      }).success,
+    ).toBe(true);
+  });
+  it("bounds the complete candidate record including assessment history", () => {
+    const { s, a, c } = setup();
+    c.history[0].reason = "ế".repeat(240_000);
+    expect(() =>
+      recruiting.evaluateCandidate(s, a, c.id, evaluate(v2())),
+    ).toThrow("Nội dung đánh giá quá dài");
+  });
+  it("preserves earlier assessments when a reviewer revises the result", () => {
+    const { s, a, c } = setup();
+    recruiting.evaluateCandidate(s, a, c.id, evaluate());
+    const current = s.candidates[c.id];
+    recruiting.evaluateCandidate(s, a, c.id, {
+      ...evaluate(v2()),
+      version: current.version,
+      result: "failed",
+      reason: "Cần bổ sung minh chứng chuyên môn",
+    });
+    const round = current.rounds[0];
+    expect(round.evaluationHistory).toHaveLength(1);
+    expect(round.evaluationHistory![0].result).toBe("passed");
+    expect(round.evaluationHistory![0].assessment?.rubricVersion).toBe(1);
+    expect(round.assessment?.rubricVersion).toBe(2);
+    expect(round.assessment?.observations?.[0].signal).toBe("strong");
+    expect(round.result).toBe("failed");
+    expect(JSON.stringify(round)).not.toContain("undefined");
+  });
+});

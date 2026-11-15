@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--navy);
+  color: var(--heading);
   font-size: 27px;
   font-weight: 750;
   letter-spacing: -1.2px;
@@ -16,7 +16,10 @@
   justify-content: center;
   width: 35px;
   height: 35px;
-  background: var(--action-bg);
+  background: linear-gradient(145deg, #739dff 0%, #3b68e9 45%, #2446bc 100%);
+  box-shadow:
+    inset 0 1px 0 #ffffff66,
+    0 2px 5px #152c6920;
   color: var(--on-accent);
   border-radius: 11px;
   font-size: 26px;
@@ -27,7 +30,7 @@
 .brand-dot {
   height: 5px;
   width: 5px;
-  background: light-dark(#60b6a9, #60b6a9);
+  background: var(--brand-detail);
   border-radius: 50%;
   margin-left: -6px;
   align-self: flex-end;

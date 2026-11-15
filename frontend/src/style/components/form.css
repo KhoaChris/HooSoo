@@ -18,16 +18,16 @@
 }
 .form-required-note {
   font-size: 11px;
-  color: light-dark(#637784, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .form-required-note > span,
 .field-required {
-  color: light-dark(#ad5144, hsl(7 44% 75%));
+  color: var(--danger-text);
 }
 .form-section {
   font-size: 13px;
   font-weight: 650;
-  color: var(--navy);
+  color: var(--heading);
   padding-top: 18px;
   border-top: 1px solid var(--line);
 }
@@ -37,8 +37,8 @@
 }
 .form-validation {
   font-size: 12px;
-  color: light-dark(#a44335, var(--danger-text));
-  background: light-dark(#fff4ef, var(--danger-bg));
+  color: var(--danger-text);
+  background: var(--danger-bg);
   border-radius: 7px;
   padding: 10px 12px;
 }
@@ -53,7 +53,7 @@
 .field > label {
   font-size: 12px;
   font-weight: 550;
-  color: light-dark(#526574, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .field input,
 .field .select-trigger,
@@ -65,7 +65,7 @@
   font-size: 11px;
 }
 .field .field-error {
-  color: light-dark(#b8584d, var(--danger-text));
+  color: var(--danger-text);
 }
 .checkbox-field {
   flex-direction: row;
@@ -78,10 +78,12 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--action-gap);
   padding-top: 16px;
   border-top: 1px solid var(--line);
   margin-top: 6px;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 .editor-panel {
   max-width: 900px;
@@ -106,5 +108,5 @@
   }
 }
 .field small {
-  color: light-dark(#647784, var(--text-secondary));
+  color: var(--text-secondary);
 }

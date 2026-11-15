@@ -45,7 +45,7 @@ function apply() {
       : "HooSoo · Quản trị nhân lực";
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", current.theme === "dark" ? "#101216" : "#f7f9fb");
+    ?.setAttribute("content", current.theme === "dark" ? "#11151d" : "#f3f5f8");
 }
 apply();
 export function setPreferences(update: Partial<Preferences>) {

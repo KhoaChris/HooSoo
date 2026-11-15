@@ -1,3 +1,5 @@
+import { rewardLabel } from "../compensation/compensation-model";
+import { benefitPresets } from "@hoosoo/shared";
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
 import { useState } from "react";
@@ -148,7 +150,7 @@ export function RecruitmentPage() {
               {hr && (
                 <Button variant="secondary" onClick={() => setEditJob("edit")}>
                   <SlidersHorizontal size={16} />
-                  {t("Quy trình")}
+                  {t("Thiết lập đợt tuyển dụng")}
                 </Button>
               )}
               {hr && job.active && (
@@ -159,6 +161,30 @@ export function RecruitmentPage() {
               )}
             </div>
           </section>
+          {job.rewards && (
+            <div className="recruitment-reward-summary">
+              <strong>{rewardLabel(job.rewards)}</strong>
+              {job.rewards.benefits.length > 0 && (
+                <details className="recruitment-benefits">
+                  <summary>
+                    {t("Xem {0} phúc lợi", [job.rewards.benefits.length])}
+                  </summary>
+                  <ul>
+                    {job.rewards.benefits.map((b) => (
+                      <li key={b.id}>
+                        <strong>
+                          {b.kind === "custom"
+                            ? b.name
+                            : t(benefitPresets[b.kind])}
+                        </strong>
+                        {b.detail && <p>{b.detail}</p>}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
+          )}
           <div className="recruitment-filters">
             <label className="search-input">
               <Search size={16} />
@@ -211,6 +237,7 @@ export function RecruitmentPage() {
               : t("Thiết lập đợt tuyển dụng")
           }
           size="wide"
+          className="compensation-dialog"
           onClose={() => setEditJob(null)}
         >
           <JobEditor

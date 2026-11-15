@@ -34,7 +34,7 @@
   color: var(--text-secondary);
 }
 .evaluation-overview strong {
-  color: var(--teal);
+  color: var(--brand);
   font-size: 26px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -56,7 +56,7 @@
 .evaluation-meter > span {
   display: block;
   height: 100%;
-  background: var(--teal);
+  background: var(--brand);
   transition: width 150ms;
 }
 .evaluation-criterion {
@@ -102,7 +102,7 @@
   padding: 3px 0;
   cursor: pointer;
   font-size: 11px;
-  color: var(--teal);
+  color: var(--brand);
 }
 .evaluation-evidence-toggle[aria-expanded="true"] svg {
   transform: rotate(180deg);
@@ -290,5 +290,83 @@
 @media (prefers-reduced-motion: reduce) {
   .evaluation-meter > span {
     transition: none;
+  }
+}
+
+.evaluation-observations {
+  display: grid;
+  gap: 18px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+  min-width: 0;
+}
+.evaluation-observations legend {
+  font-weight: 700;
+  color: var(--heading);
+  padding-top: 18px;
+}
+.evaluation-observations label {
+  display: grid;
+  gap: 8px;
+}
+.evaluation-observation {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-width: 0;
+}
+.evaluation-observation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.evaluation-question-suggestions {
+  display: grid;
+  gap: 6px;
+}
+.evaluation-question-suggestions button {
+  text-align: left;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  background: var(--surface-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.evaluation-question-suggestions button:hover {
+  color: var(--brand);
+  background: var(--surface-hover);
+}
+.assessment-observations article,
+.evaluation-history > article {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.evaluation-history {
+  margin: 18px 0;
+}
+.evaluation-history summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.evaluation-history small {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.assessment-observations p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .evaluation-observation {
+    padding: 12px;
   }
 }

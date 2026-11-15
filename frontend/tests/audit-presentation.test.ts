@@ -23,6 +23,23 @@ const entry = (action: string, changes: Record<string, unknown>): Audit => ({
   createdAt: "2026-11-12T09:00:00Z",
 });
 describe("Business-readable audit history", () => {
+  it("uses review-specific status labels for performance audit entries", () => {
+    const result = auditChanges(
+      entry("performance.manager_submitted", {
+        employeeId: "e1",
+        title: "Q4",
+        status: "hr_review",
+      }),
+      lookups,
+    );
+    expect(result.rows.find((r) => r.key === "status")?.after).toBe(
+      "Chờ công bố",
+    );
+    expect(auditTitle(entry("performance.manager_submitted", {}))).toBe(
+      "Gửi đánh giá quản lý",
+    );
+  });
+
   it("shows recorded leave results without inventing a previous status or refund", () => {
     const result = auditChanges(
       entry("leave.cancel", { status: "cancelled", days: 1 }),

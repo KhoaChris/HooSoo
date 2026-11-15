@@ -1,4 +1,9 @@
 import {
+  saveCompensation,
+  compensationAction,
+} from "../compensation/compensation.service";
+import { createOnboarding } from "../employment/employment.service";
+import {
   candidateHireSchema,
   employeeSchema,
   type State,
@@ -60,5 +65,20 @@ export function createHiredEmployee(
   );
   employee.recruitmentCandidateId = c.id;
   c.employeeId = employee.id;
+  createOnboarding(s, a, employee.id, hire.hireDate);
+  if (hire.compensation) {
+    const record = saveCompensation(s, a, {
+      employeeId: employee.id,
+      effectiveDate: hire.hireDate,
+      package: hire.compensation,
+      version: 0,
+      reason: "Lương khi nhận việc",
+    });
+    record.sourceCandidateId = c.id;
+    compensationAction(s, a, record.id, "publish", {
+      version: record.version,
+      reason: "Xác nhận lương khi nhận việc",
+    });
+  }
   return employee;
 }

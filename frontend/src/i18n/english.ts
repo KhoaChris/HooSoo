@@ -1,5 +1,43 @@
 // Application copy only. Stored names, messages and business data are not translated.
 export const english: Record<string, string> = {
+  "Tùy chọn nhóm": "Group options",
+  "Lưu trữ": "Archive",
+  "Bỏ lưu trữ": "Unarchive",
+  "Đã lưu trữ": "Archived",
+  "Chưa có nhóm được lưu trữ": "No archived groups",
+  "Rời nhóm": "Leave group",
+  "Giải tán nhóm": "Dissolve group",
+  "Xóa khỏi hộp thư": "Remove from inbox",
+  "Nhóm đã giải tán": "Group dissolved",
+  "Chỉ xem lịch sử": "History is read-only",
+  "{0} đã rời nhóm.": "{0} left the group.",
+  "{0} đã giải tán nhóm.": "{0} dissolved the group.",
+  "Nhóm đã được {0} giải tán.": "This group was dissolved by {0}.",
+  "Bạn sẽ không còn xem hoặc gửi tin nhắn trong nhóm.":
+    "You will no longer be able to view or send messages in this group.",
+  "Nhóm sẽ ngừng nhận tin nhắn. Mọi thành viên vẫn xem được lịch sử.":
+    "Messaging will stop. All members can still view the history.",
+  "Nhóm chỉ biến mất khỏi hộp thư của bạn.":
+    "The group will only be removed from your inbox.",
+  "Đã lưu trữ nhóm": "Group archived",
+  "Đã đưa nhóm về hộp thư": "Group moved to inbox",
+  "Đã rời nhóm": "You left the group",
+  "Đã giải tán nhóm": "Group dissolved",
+  "Đã xóa nhóm khỏi hộp thư": "Group removed from inbox",
+  "Nhóm đã giải tán. Không thể gửi tin nhắn hoặc thay đổi thành viên.":
+    "This group has been dissolved. Messages and membership can no longer be changed.",
+  "Chuyển quyền chủ nhóm trước khi rời nhóm.":
+    "Transfer ownership before leaving the group.",
+  "Chỉ chủ nhóm được giải tán nhóm.":
+    "Only the group owner can dissolve the group.",
+  "Chỉ có thể xóa khỏi hộp thư sau khi nhóm đã giải tán.":
+    "You can remove a group from your inbox after it has been dissolved.",
+  "Nhóm vừa thay đổi. Vui lòng thử lại.":
+    "The group has changed. Please try again.",
+  "Hộp thư vừa thay đổi. Vui lòng thử lại.":
+    "Your inbox has changed. Please try again.",
+  "Thao tác này chỉ áp dụng cho nhóm chat.":
+    "This action is only available for group chats.",
   "Công cụ nghiệp vụ": "Operations",
   "Toàn cảnh doanh nghiệp": "Company overview",
   "Điều hành nhân sự": "People operations",
@@ -213,6 +251,18 @@ export const english: Record<string, string> = {
   "Các thông tin mới sẽ xuất hiện tại đây.":
     "New information will appear here.",
   "Mã tra cứu:": "Reference:",
+  "Chi tiết lỗi": "Error details",
+  "Sao chép mã tra cứu": "Copy reference",
+  "Đã sao chép mã": "Reference copied",
+  "Chưa sao chép được. Bạn có thể chọn mã để sao chép.":
+    "Unable to copy. Select the reference to copy it.",
+  "Chưa có quyền truy cập": "Access unavailable",
+  "Phiên đăng nhập không hợp lệ": "Invalid session",
+  "Không thể kết nối": "Unable to connect",
+  "Chưa thể mở không gian làm việc": "Unable to open workspace",
+  "Không thể hoàn tất thao tác.": "Unable to complete this action.",
+  "Tài khoản chưa được cấp quyền hoặc đã bị vô hiệu hóa.":
+    "Your account has not been granted access or has been disabled.",
   "Thử lại": "Try again",
   "Lưu thay đổi": "Save changes",
   "Thông tin bắt buộc": "Required information",

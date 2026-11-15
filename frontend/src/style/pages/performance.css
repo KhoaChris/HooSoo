@@ -1,0 +1,750 @@
+.performance-page {
+  min-width: 0;
+}
+.performance-workspace-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+  border: 1px solid var(--brand-line);
+  border-radius: 16px;
+  background: var(--accent-sheen);
+  color: var(--brand);
+}
+.performance-workspace-summary > svg {
+  flex-shrink: 0;
+}
+.performance-workspace-summary > div {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.performance-workspace-summary strong {
+  color: var(--heading);
+  font-size: 16px;
+}
+.performance-workspace-summary span {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.performance-workspace-summary button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--brand-line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--brand);
+  padding: 10px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+.performance-workspace-summary button:hover,
+.performance-workspace-summary button[aria-pressed="true"] {
+  background: var(--selected-surface);
+  border-color: var(--brand);
+}
+.performance-list-dates {
+  display: grid;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.performance-list-dates small {
+  color: var(--muted);
+}
+.performance-list-dates small[data-overdue="true"] {
+  color: var(--danger-text);
+}
+.performance-list-score {
+  font-variant-numeric: tabular-nums;
+  color: var(--brand);
+}
+.performance-detail,
+.performance-form,
+.performance-goal-editor {
+  min-width: 0;
+}
+.performance-detail-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.performance-detail-meta > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.performance-detail-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  background: var(--surface-subtle);
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.performance-detail-tabs button {
+  min-width: 0;
+  min-height: 44px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.performance-detail-tabs button > svg {
+  flex-shrink: 0;
+}
+.performance-detail-tabs button:hover {
+  background: var(--surface-hover);
+}
+.performance-detail-tabs button[aria-current] {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--brand);
+  box-shadow: var(--panel-shadow);
+}
+.performance-detail-panel {
+  padding: 24px 0;
+  min-width: 0;
+}
+.performance-deadlines {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 20px;
+}
+.performance-deadlines dt {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.performance-deadlines dd {
+  margin: 0;
+  color: var(--heading);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.performance-detail-goals > section {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.performance-goal-number {
+  color: var(--brand);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.performance-detail-goals > section > div {
+  flex: 1;
+  min-width: 0;
+}
+.performance-detail h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.performance-detail-goals span,
+.performance-detail-goals small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.performance-detail-goals strong {
+  max-width: 38%;
+  overflow-wrap: anywhere;
+  text-align: right;
+  color: var(--heading);
+}
+.performance-detail-goals strong small {
+  display: block;
+  margin-top: 6px;
+}
+.performance-score-comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.performance-score-comparison > div {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  background: var(--surface-subtle);
+}
+.performance-score-comparison strong {
+  font-size: 30px;
+  color: var(--brand);
+  line-height: 1.2;
+}
+.performance-score-comparison small,
+.performance-score-method {
+  color: var(--muted);
+  font-size: 12px;
+}
+.performance-final-note {
+  margin: 20px 0;
+  padding: 18px;
+  border-inline-start: 3px solid var(--success-text);
+  background: var(--success-bg);
+}
+.performance-final-note p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.performance-final-note small {
+  color: var(--muted);
+}
+.performance-assessment-detail {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 16px;
+}
+.performance-assessment-detail summary {
+  cursor: pointer;
+  color: var(--heading);
+  font-weight: 600;
+  padding-bottom: 12px;
+}
+.performance-saved-author {
+  color: var(--muted);
+  font-size: 12px;
+}
+.performance-saved dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.performance-saved dt {
+  font-weight: 600;
+}
+.performance-saved dd {
+  margin: 0;
+  color: var(--brand);
+}
+.performance-saved dl p {
+  grid-column: 1/-1;
+  margin: 0;
+  color: var(--text-secondary);
+}
+.performance-saved p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.performance-saved h4 {
+  margin: 18px 0 8px;
+}
+.performance-timeline {
+  margin: 0;
+  padding: 0 0 0 20px;
+  list-style: none;
+  border-left: 1px solid var(--line);
+}
+.performance-timeline li {
+  position: relative;
+  padding: 0 0 24px;
+}
+.performance-timeline li::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+  left: -24px;
+  top: 6px;
+}
+.performance-timeline strong,
+.performance-timeline span {
+  display: block;
+}
+.performance-timeline span {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.performance-timeline p {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.performance-empty {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--muted);
+}
+.performance-detail-actions {
+  flex-wrap: wrap;
+}
+.performance-goal-row {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 12px 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+.performance-goal-row legend {
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 6px;
+}
+.performance-goal-row label,
+.performance-form label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+}
+.performance-full {
+  grid-column: 1/-1;
+}
+.performance-remove {
+  justify-self: start;
+}
+.performance-goal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+}
+.performance-goal-footer [data-invalid="true"] {
+  color: var(--danger-text);
+}
+.performance-score-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--brand-line);
+  background: var(--accent-sheen);
+  border-radius: 12px;
+  margin-bottom: 22px;
+  color: var(--brand);
+}
+.performance-score-strip > div {
+  flex: 1;
+  display: grid;
+  gap: 6px;
+}
+.performance-score-strip strong {
+  color: var(--heading);
+}
+.performance-score-strip small {
+  color: var(--muted);
+}
+.performance-score-strip b {
+  font-size: 28px;
+}
+.performance-assessment-section {
+  min-width: 0;
+  margin: 0;
+  padding: 22px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 18px;
+}
+.performance-assessment-section legend {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+  padding-top: 18px;
+}
+.performance-section-heading h3 {
+  font-size: 15px;
+  margin: 0 0 6px;
+  color: var(--heading);
+}
+.performance-section-heading small {
+  color: var(--muted);
+}
+.performance-assessment-goal + .performance-assessment-goal {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.performance-two-fields {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.6fr) minmax(0, 1.4fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+.performance-two-fields textarea,
+.performance-competency textarea {
+  min-height: 76px;
+}
+.performance-competency {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+}
+.performance-self-reference {
+  margin: 12px 0;
+  padding: 12px;
+  font-size: 13px;
+  background: var(--surface-subtle);
+  border-left: 2px solid var(--brand-line);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .performance-workspace-summary {
+    flex-wrap: wrap;
+    padding: 18px;
+  }
+  .performance-workspace-summary button {
+    width: 100%;
+  }
+  .performance-detail-tabs button {
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .performance-detail-tabs button span {
+    min-height: 2.8em;
+    display: grid;
+    place-items: center;
+  }
+  .performance-deadlines {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .performance-deadlines > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .performance-goal-row {
+    padding: 12px;
+    gap: 12px;
+  }
+  .performance-two-fields,
+  .performance-competency {
+    grid-template-columns: 1fr;
+  }
+  .performance-saved dl > div {
+    grid-template-columns: 1fr;
+  }
+  .performance-saved dd {
+    text-align: left;
+  }
+  .performance-score-comparison > div {
+    padding: 16px 12px;
+    align-content: start;
+  }
+  .performance-score-comparison > div > span {
+    min-height: 2.8em;
+    line-height: 1.4;
+  }
+  .evaluation-observation {
+    padding: 12px;
+  }
+}
+
+.performance-workspace-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+.performance-workspace-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.performance-workspace-tabs button:hover {
+  color: var(--brand);
+}
+.performance-workspace-tabs button[aria-current] {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+  font-weight: 600;
+}
+.performance-workspace-tabs button span {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+.performance-report-selection {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.performance-report-selection li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.performance-report-selection li > :first-child {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.performance-report-selection strong {
+  color: var(--heading);
+}
+.performance-report-selection small {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.performance-report-selection b {
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
+}
+.performance-report-note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.performance-revision-reason {
+  margin: 20px 0;
+}
+@media (max-width: 600px) {
+  .performance-workspace-tabs {
+    gap: 16px;
+  }
+  .performance-workspace-tabs button {
+    flex: 1;
+    font-size: 13px;
+    justify-content: center;
+  }
+  .performance-report-selection li {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .performance-report-selection li > :first-child {
+    flex-basis: 65%;
+  }
+  .performance-report-selection li > button {
+    width: 100%;
+  }
+}
+
+/* Quarter planning and qualitative goals share the existing modal surfaces. */
+.performance-review-dialog {
+  overflow: clip;
+}
+.performance-schedule {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+.performance-schedule label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+}
+.performance-quarter-range {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface-subtle);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.performance-quarter-range svg {
+  flex-shrink: 0;
+}
+.performance-goal-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.performance-goal-controls > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.performance-qualitative-goal {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 16px 0 22px;
+  margin: 12px 0 0;
+}
+.performance-qualitative-goal legend {
+  padding: 0 12px 0 0;
+  color: var(--heading);
+}
+.performance-goal-response {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+.performance-outcomes {
+  border: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+.performance-outcomes legend {
+  font-size: 13px;
+  font-weight: 400;
+  padding: 0 0 8px;
+}
+.performance-outcomes > div {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.performance-outcomes label {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.performance-outcomes input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+}
+.performance-outcomes label > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  height: 100%;
+  padding: 9px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.performance-outcomes label:hover > span {
+  background: var(--surface-hover);
+}
+.performance-outcomes input:focus-visible + span {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.performance-outcomes [data-tone="danger"] input:checked + span {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border-color: var(--danger-line);
+}
+.performance-outcomes [data-tone="warning"] input:checked + span {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  border-color: var(--warning-line);
+}
+.performance-outcomes [data-tone="success"] input:checked + span {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-color: var(--success-line);
+}
+.performance-outcomes input:disabled + span {
+  cursor: default;
+  opacity: 0.65;
+}
+.performance-outcomes[aria-invalid="true"] > div {
+  outline: 1px solid var(--danger-line);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+.performance-expectation {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 6px 0 0;
+}
+.performance-legacy-result {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+.performance-legacy-goals ol {
+  padding-inline-start: 20px;
+}
+.performance-legacy-goals li {
+  padding: 8px 0;
+}
+.performance-legacy-goals span {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+@media (max-width: 600px) {
+  .performance-qualitative-goal {
+    grid-template-columns: 1fr;
+    padding-inline: 0;
+  }
+  .performance-outcomes > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .performance-outcomes label:last-child {
+    grid-column: 1/-1;
+  }
+  .performance-detail-goals > section {
+    flex-wrap: wrap;
+  }
+  .performance-detail-goals > section > div {
+    flex-basis: 70%;
+  }
+  .performance-detail-goals strong {
+    max-width: none;
+    margin-inline-start: 30px;
+    text-align: start;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .performance-outcomes label > span {
+    transition: none;
+  }
+}

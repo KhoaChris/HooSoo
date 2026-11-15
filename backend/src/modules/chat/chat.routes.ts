@@ -4,6 +4,7 @@ import {
   chatCreateSchema,
   chatGroupSchema,
   chatMessageSchema,
+  chatLifecycleSchema,
 } from "@hoosoo/shared";
 import { context, param } from "../../routes/helpers";
 import { readState, mergeState } from "../../database/store";
@@ -15,6 +16,8 @@ import {
   roomFor,
   sendMessage,
   updateGroup,
+  roomView,
+  changeLifecycle,
 } from "./chat.service";
 export const chatRoutes = Router();
 chatRoutes.get("/chat/people", async (_req, res) => {
@@ -42,11 +45,14 @@ chatRoutes.get("/chat/rooms", async (_req, res) => {
     },
   });
   res.json(
-    Object.values(s.chatRooms).sort((a, b) =>
-      (b.lastMessage?.sentAt || b.createdAt || "").localeCompare(
-        a.lastMessage?.sentAt || a.createdAt || "",
+    Object.values(s.chatRooms)
+      .map((room) => roomView(room, a))
+      .filter((room) => !room.viewer.hidden)
+      .sort((a, b) =>
+        (b.lastMessage?.sentAt || b.createdAt || "").localeCompare(
+          a.lastMessage?.sentAt || a.createdAt || "",
+        ),
       ),
-    ),
   );
 });
 chatRoutes.get("/chat/rooms/:roomId/messages", async (req, res) => {
@@ -92,7 +98,7 @@ chatRoutes.post("/chat/rooms", async (req, res) => {
             )
           : chatId("group|" + a.uid + "|" + key),
       input.memberIds,
-      (s, a, id) => createRoom(s, a, id, input),
+      (s, a, id) => roomView(createRoom(s, a, id, input), a),
     ),
   );
 });
@@ -107,7 +113,22 @@ chatRoutes.patch("/chat/rooms/:roomId", async (req, res) => {
       input,
       () => id,
       input.memberIds,
-      (s, a) => updateGroup(s, a, id, input),
+      (s, a) => roomView(updateGroup(s, a, id, input), a),
+    ),
+  );
+});
+chatRoutes.post("/chat/rooms/:roomId/lifecycle", async (req, res) => {
+  const id = param(req, "roomId"),
+    input = validate(chatLifecycleSchema, req.body);
+  res.json(
+    await chatCommand(
+      res.locals.uid,
+      req.header("Idempotency-Key"),
+      req.path,
+      input,
+      () => id,
+      [],
+      (s, a) => changeLifecycle(s, a, id, input),
     ),
   );
 });

@@ -1,3 +1,5 @@
+import { presenceHub } from "../presence/presence-hub";
+import { readPresencePreference } from "../presence/presence.repository";
 import { Router } from "express";
 import { ensureFirebaseCredentials } from "../../config/firebase-admin";
 import { env } from "../../config/env";
@@ -49,6 +51,7 @@ eventsRoutes.get("/events", async (_req, res) => {
       env.DB_TIMEOUT_MS * 3,
     ),
   );
+  const preference = await readPresencePreference(uid);
   if (res.destroyed) return;
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache, no-store, no-transform");
@@ -58,6 +61,8 @@ eventsRoutes.get("/events", async (_req, res) => {
   let closed = false;
   let pending = Promise.resolve();
   let sent = false;
+  let presenceId = "";
+  let unsubscribe = () => {};
   const send = (event: string, data: object) => {
     if (!closed && !res.destroyed)
       res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
@@ -66,12 +71,14 @@ eventsRoutes.get("/events", async (_req, res) => {
     if (closed) return;
     closed = true;
     connections.delete(close);
+    if (presenceId) presenceHub.disconnect(uid, presenceId);
     unsubscribe();
     clearInterval(heartbeat);
     clearTimeout(expiry);
     res.end();
   };
   const heartbeat = setInterval(() => {
+    presenceHub.sweep();
     if (!closed) res.write(": keepalive\n\n");
   }, 15000);
   // Reconnect with a fresh bearer token; never let the stream outlive its token.
@@ -80,7 +87,14 @@ eventsRoutes.get("/events", async (_req, res) => {
   connections.add(close);
   res.on("close", close);
 
-  const unsubscribe = subscribeChanges({
+  presenceId = presenceHub.connect(
+    uid,
+    actor.employeeId,
+    preference,
+    (packet) => send("presence", packet),
+    close,
+  );
+  unsubscribe = subscribeChanges({
     change: (change) => {
       pending = pending.then(async () => {
         if (closed) return;
@@ -91,10 +105,16 @@ eventsRoutes.get("/events", async (_req, res) => {
               change.collections.some(
                 (k) => k === "memberships" || k === "employees",
               ))
-          )
+          ) {
+            const previousEmployeeId = actor.employeeId;
             actor = await firestoreOperation(() =>
               timeout(checkAccess(uid), env.DB_TIMEOUT_MS),
             );
+            if (actor.employeeId !== previousEmployeeId) {
+              close();
+              return;
+            }
+          }
           // Only an opaque version is sent. Actual records use role-scoped GETs.
           const collections = visibleCollections(change, actor.employeeId);
           if (collections?.length === 0) return;

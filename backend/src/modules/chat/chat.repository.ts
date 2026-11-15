@@ -52,7 +52,15 @@ export async function chatCommand<T>(
           "IDEMPOTENCY_CONFLICT",
           "Mã yêu cầu đã dùng cho nội dung khác.",
         );
-        roomFor(s, a, id);
+        // A successful leave revokes membership itself. Its own minimal receipt
+        // can still be replayed, without reopening access to room history.
+        if (!(
+          route.endsWith("/lifecycle") &&
+          (body as { action?: string }).action === "leave" &&
+          (receipt.result as { left?: boolean; id?: string })?.left === true &&
+          (receipt.result as { id?: string }).id === id
+        ))
+          roomFor(s, a, id);
         return receipt.result as T;
       }
       const result = operation(s, a, id);

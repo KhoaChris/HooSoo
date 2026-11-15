@@ -18,7 +18,7 @@
 }
 .metric > span {
   display: block;
-  color: light-dark(#6c7d89, var(--text-secondary));
+  color: var(--text-secondary);
   font-size: 11px;
   font-weight: 500;
 }
@@ -27,7 +27,7 @@
   font-size: 32px;
   letter-spacing: -1px;
   font-weight: 650;
-  color: var(--navy);
+  color: var(--heading);
   margin: 11px 0 9px;
   line-height: 1.2;
 }
@@ -35,11 +35,11 @@
   font-size: 10px;
 }
 .metric.accent {
-  background: light-dark(#ecf5f2, var(--surface));
-  border-color: light-dark(#d6eae2, var(--line));
+  background: var(--accent-sheen);
+  border-color: var(--brand-line);
 }
 .metric.accent strong {
-  color: light-dark(#147d6b, var(--navy));
+  color: var(--brand);
 }
 @media (max-width: 1200px) {
   .metrics {

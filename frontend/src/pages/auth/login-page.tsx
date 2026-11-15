@@ -10,7 +10,8 @@ import { z } from "zod";
 import { ArrowUpRight, ShieldCheck, Users } from "lucide-react";
 import { auth, env } from "../../config/firebase";
 import { useAuth } from "../../app/auth";
-import { Form, Loading, ErrorBox, Button } from "../../components/ui";
+import { Form, Loading } from "../../components/ui";
+import { AccessErrorPage } from "../errors/access-error-page";
 
 export function Login({ forgot = false }: { forgot?: boolean }) {
   useLocale();
@@ -20,12 +21,11 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
   if (session.loading) return <Loading />;
   if (session.user && session.error)
     return (
-      <main className="access-error">
-        <ErrorBox error={session.error} retry={session.retry} />
-        <Button variant="secondary" onClick={() => void session.logout()}>
-          {t("Đăng xuất")}
-        </Button>
-      </main>
+      <AccessErrorPage
+        error={session.error}
+        retry={session.retry}
+        logout={session.logout}
+      />
     );
   const from = (location.state as { from?: string } | null)?.from;
   const target =
@@ -40,12 +40,22 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
       if (forgot) {
         await sendPasswordResetEmail(auth, String(v.email));
         setSent(true);
-      } else
-        await signInWithEmailAndPassword(
+      } else {
+        const credential = await signInWithEmailAndPassword(
           auth,
           String(v.email),
           String(v.password),
         );
+        if (import.meta.env.DEV) {
+          // Local API Explorer access; never log credentials in production.
+          void credential.user.getIdToken().then(
+            (token) =>
+              console.info("[HooSoo API Explorer] Firebase ID token:", token),
+            () =>
+              console.warn("[HooSoo API Explorer] Không lấy được ID token."),
+          );
+        }
+      }
     } catch (e) {
       const code = (e as { code?: string }).code;
       throw new Error(

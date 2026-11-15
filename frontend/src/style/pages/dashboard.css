@@ -24,7 +24,7 @@
   margin: 0 0 8px;
 }
 .dashboard-context > span:first-child {
-  color: var(--teal);
+  color: var(--brand);
   font-weight: 600;
 }
 .dashboard-header h1 {
@@ -98,7 +98,9 @@
 }
 .dashboard-range-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--action-gap);
+  flex-wrap: wrap;
+  min-width: 0;
 }
 .dashboard-range-form > p {
   flex-basis: 100%;
@@ -108,11 +110,15 @@
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  padding: 7px 0;
+  padding: 0;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
+  box-shadow: var(--panel-shadow);
+}
+.dashboard-stat:first-child {
+  background: var(--accent-sheen);
 }
 .dashboard-stat {
   display: flex;
@@ -120,7 +126,7 @@
   padding: 20px 26px;
   gap: 9px;
   min-width: 0;
-  color: var(--navy);
+  color: var(--heading);
   transition: background 150ms;
 }
 .dashboard-stat + .dashboard-stat {
@@ -150,7 +156,7 @@
   font-variant-numeric: tabular-nums;
 }
 .dashboard-stat:first-child > strong {
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-stat small {
   font-size: 11px;
@@ -167,11 +173,11 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--navy);
+  color: var(--heading);
   font-size: 13px;
 }
 .dashboard-inbox-label > svg {
-  color: var(--teal);
+  color: var(--brand);
   flex-shrink: 0;
 }
 .dashboard-queue-list {
@@ -194,7 +200,7 @@
     border-color 150ms;
 }
 .dashboard-queue-list > a:hover {
-  border-color: var(--teal);
+  border-color: var(--brand);
   background: var(--surface-hover);
 }
 .dashboard-queue-list > a > svg {
@@ -211,7 +217,7 @@
   display: grid;
   place-items: center;
   border-radius: 7px;
-  color: var(--navy);
+  color: var(--heading);
   background: var(--surface-subtle);
   font-variant-numeric: tabular-nums;
 }
@@ -231,6 +237,7 @@
   border-radius: 18px;
   min-width: 0;
   overflow: hidden;
+  box-shadow: var(--panel-shadow);
 }
 .dashboard-section {
   padding: 24px 26px;
@@ -252,7 +259,9 @@
   letter-spacing: -0.25px;
   line-height: 1.45;
   margin: 0;
-  color: var(--navy);
+  color: var(--heading);
+  padding-left: 12px;
+  border-left: 3px solid var(--chart-primary);
 }
 .dashboard-section-heading > span,
 .dashboard-section-heading > svg {
@@ -266,7 +275,7 @@
   gap: 7px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--teal);
+  color: var(--brand);
   min-height: 30px;
   flex-shrink: 0;
 }
@@ -301,12 +310,12 @@
 }
 .dashboard-segment button:hover {
   background: var(--surface-hover);
-  color: var(--navy);
+  color: var(--heading);
 }
 .dashboard-segment button[aria-pressed="true"] {
   background: var(--selected-surface);
-  color: var(--teal);
-  border-color: color-mix(in srgb, var(--teal) 20%, transparent);
+  color: var(--brand);
+  border-color: color-mix(in srgb, var(--brand) 20%, transparent);
 }
 .dashboard-list {
   list-style: none;
@@ -322,7 +331,7 @@
   align-items: center;
   gap: 13px;
   padding: 17px 2px;
-  color: var(--navy);
+  color: var(--heading);
   border-radius: 8px;
 }
 .dashboard-work-row:hover,
@@ -335,8 +344,8 @@
   width: 38px;
   height: 38px;
   border-radius: 11px;
-  color: var(--teal);
-  background: var(--surface-subtle);
+  color: var(--brand);
+  background: var(--accent-sheen);
 }
 .dashboard-row-copy {
   min-width: 0;
@@ -406,7 +415,7 @@
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -1px;
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-team-total > span {
   font-size: 12px;
@@ -442,7 +451,21 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--teal);
+  background: var(--brand);
+}
+/* Department series use the muted brand palette, not status colors. */
+.dashboard-department-list > div:nth-child(3n + 1) .dashboard-meter > span {
+  background: linear-gradient(
+    90deg,
+    var(--chart-primary),
+    var(--chart-secondary)
+  );
+}
+.dashboard-department-list > div:nth-child(3n + 2) .dashboard-meter > span {
+  background: var(--chart-secondary);
+}
+.dashboard-department-list > div:nth-child(3n) .dashboard-meter > span {
+  background: var(--chart-tertiary);
 }
 .dashboard-activity-row {
   display: grid;
@@ -450,7 +473,7 @@
   align-items: center;
   gap: 13px;
   padding: 16px 2px;
-  color: var(--navy);
+  color: var(--heading);
   border-radius: 8px;
 }
 .dashboard-activity-dot {
@@ -472,16 +495,17 @@
   min-width: 0;
 }
 .dashboard-personal {
-  background: light-dark(#eef5f2, #192923);
-  border: 1px solid light-dark(#dce8e2, #314b40);
+  background: var(--accent-sheen);
+  border: 1px solid var(--brand-line);
   border-radius: 18px;
+  box-shadow: var(--panel-shadow);
 }
 .dashboard-day,
 .dashboard-balance {
   padding: 24px;
 }
 .dashboard-balance {
-  border-top: 1px solid light-dark(#dce8e2, #314b40);
+  border-top: 1px solid var(--brand-line);
 }
 .dashboard-personal .dashboard-section-heading {
   margin-bottom: 18px;
@@ -505,7 +529,7 @@
   background: var(--muted);
 }
 .dashboard-day-status > i[data-recorded="true"] {
-  background: var(--teal);
+  background: var(--success-text);
 }
 .dashboard-time-pair {
   display: grid;
@@ -522,7 +546,7 @@
   font-size: 27px;
   font-weight: 600;
   letter-spacing: -0.7px;
-  color: var(--navy);
+  color: var(--heading);
   font-variant-numeric: tabular-nums;
 }
 .dashboard-attendance-link.button {
@@ -546,7 +570,7 @@
   font-weight: 650;
   letter-spacing: -1px;
   line-height: 1.25;
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-balance-value > span {
   color: var(--dashboard-muted);
@@ -568,7 +592,7 @@
   color: var(--dashboard-muted);
 }
 .dashboard-balance-details dd {
-  color: var(--navy);
+  color: var(--heading);
   margin: 0;
   font-weight: 600;
 }
@@ -591,12 +615,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  color: var(--navy);
+  color: var(--heading);
   font-size: 12px;
   font-weight: 500;
 }
 .dashboard-aside-link > a:hover {
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-shortcuts {
   margin-top: 30px;
@@ -617,7 +641,7 @@
   gap: 12px;
   padding: 15px 9px;
   border-bottom: 1px solid var(--line);
-  color: var(--navy);
+  color: var(--heading);
   font-size: 13px;
   border-radius: 8px 8px 0 0;
 }
@@ -631,10 +655,10 @@
 }
 .dashboard-shortcut-list > a:hover {
   background: var(--surface-hover);
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-shortcut-list > a:hover > svg {
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-empty {
   display: flex;
@@ -649,7 +673,7 @@
 }
 .dashboard-empty > svg {
   flex-shrink: 0;
-  color: var(--teal);
+  color: var(--brand);
 }
 .dashboard-resource-state {
   display: flex;
@@ -665,7 +689,7 @@
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 8px 12px;
-  color: var(--navy);
+  color: var(--heading);
   cursor: pointer;
 }
 .dashboard-skeleton {
@@ -690,7 +714,7 @@
   text-align: right;
 }
 .dashboard :is(a, button):focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--brand);
   outline-offset: 3px;
 }
 @media (max-width: 1200px) {
@@ -817,6 +841,16 @@
   }
   .dashboard-row-arrow {
     display: none;
+  }
+  /* Department series use the muted brand palette, not status colors. */
+  .dashboard-department-list > div:nth-child(3n + 1) .dashboard-meter > span {
+    background: var(--chart-primary);
+  }
+  .dashboard-department-list > div:nth-child(3n + 2) .dashboard-meter > span {
+    background: var(--chart-secondary);
+  }
+  .dashboard-department-list > div:nth-child(3n) .dashboard-meter > span {
+    background: var(--chart-tertiary);
   }
   .dashboard-activity-row {
     grid-template-columns: 7px minmax(0, 1fr);

@@ -1,16 +1,28 @@
 /* Application workspace; sidebar styles live in sidebar.css. */
 .app-shell {
   --sidebar-width: 238px;
+  --shell-inset: 10px;
+  --shell-gap: 10px;
+  --shell-radius: 14px;
   display: flex;
-  min-height: 100vh;
+  height: 100dvh;
+  padding: var(--shell-inset);
+  background: var(--frame);
+  overflow: hidden;
 }
 .workspace {
-  margin-left: var(--sidebar-width);
+  margin-left: calc(var(--sidebar-width) + var(--shell-gap));
   transition: margin-left 220ms cubic-bezier(0.2, 0, 0, 1);
   min-width: 0;
+  min-height: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--frame-line);
+  border-radius: var(--shell-radius);
+  background: var(--canvas);
+  box-shadow: var(--panel-shadow);
 }
 .topbar {
   height: 78px;
@@ -19,21 +31,24 @@
   justify-content: space-between;
   padding: 0 36px;
   border-bottom: 1px solid var(--line);
-  background: light-dark(#ffffffec, var(--surface));
+  background: var(--surface);
   gap: 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 20;
 }
 .breadcrumb {
   font-size: 12px;
-  color: light-dark(#81909b, var(--muted));
+  color: var(--muted);
   display: flex;
   gap: 13px;
 }
 .breadcrumb strong {
   font-weight: 500;
-  color: light-dark(#425666, hsl(207 21% 75%));
+  color: var(--text-secondary);
 }
 .breadcrumb > span {
-  color: light-dark(#bdc7ce, var(--muted));
+  color: var(--muted);
 }
 .topbar-user {
   display: flex;
@@ -51,18 +66,23 @@
 }
 .main-content {
   padding: 33px 36px 40px;
-  max-width: 1700px;
   width: 100%;
-  margin: auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--control-border) transparent;
   flex: 1;
 }
 .app-footer {
   padding: 17px 36px;
   border-top: 1px solid var(--line);
-  color: light-dark(#9aa5ad, var(--muted));
+  color: var(--muted);
   display: flex;
   justify-content: space-between;
   font-size: 10px;
+  flex-shrink: 0;
+  background: var(--surface);
 }
 .mobile-menu,
 .sidebar-overlay {
@@ -88,6 +108,9 @@
   .app-shell {
     --sidebar-width: 0px;
   }
+  .workspace {
+    margin-left: 0;
+  }
   .mobile-menu {
     display: inline-flex;
   }
@@ -107,6 +130,10 @@
   }
 }
 @media (max-width: 600px) {
+  .app-shell {
+    --shell-inset: 6px;
+    --shell-radius: 12px;
+  }
   .topbar {
     padding: 0 16px;
   }
@@ -120,7 +147,7 @@
     padding: 23px 16px;
   }
   .app-footer {
-    padding: 17px;
+    padding: 8px 16px;
     display: block;
     text-align: center;
   }

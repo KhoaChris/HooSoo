@@ -19,6 +19,7 @@
   gap: 20px;
   padding: 24px 28px;
   border-bottom: 1px solid var(--line);
+  background: var(--surface-sheen);
 }
 .section-eyebrow {
   font-size: 0.7rem;
@@ -30,7 +31,7 @@
   margin: 6px 0 0;
   font-size: 1.4rem;
   letter-spacing: -0.03em;
-  color: var(--navy);
+  color: var(--heading);
 }
 .calendar-scroll {
   overflow-x: auto;
@@ -70,10 +71,10 @@
   cursor: pointer;
 }
 .calendar-day:not(:disabled):hover {
-  background: light-dark(#f2f9f7, var(--surface-hover));
+  background: var(--surface-hover);
 }
 .calendar-day:focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--brand);
   outline-offset: -3px;
 }
 .calendar-day.is-off,
@@ -81,7 +82,7 @@
   background: var(--surface-subtle);
 }
 .calendar-day.is-off .calendar-date {
-  color: light-dark(#9aa7ad, var(--muted));
+  color: var(--muted);
 }
 .calendar-day:disabled {
   opacity: 1;
@@ -96,17 +97,17 @@
 }
 .calendar-date small {
   font-size: 0.62rem;
-  color: var(--teal);
+  color: var(--brand);
   font-weight: 500;
 }
 .is-today .calendar-date {
-  color: var(--teal);
+  color: var(--brand);
 }
 .calendar-add {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: var(--teal);
+  color: var(--brand);
   font-size: 0.75rem;
   opacity: 0.85;
   transition: opacity 0.15s;
@@ -117,7 +118,7 @@
 }
 .calendar-off {
   font-size: 0.7rem;
-  color: light-dark(#9aa7ad, var(--muted));
+  color: var(--muted);
 }
 .calendar-event {
   display: flex;
@@ -194,11 +195,11 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   line-height: 1.75;
-  color: light-dark(#516774, var(--text-secondary));
+  color: var(--text-secondary);
   margin: 15px 0 24px;
 }
 .workflow-notice {
-  color: var(--teal);
+  color: var(--brand);
   font-size: 0.85rem;
   padding: 10px 0;
 }
@@ -220,7 +221,7 @@
 }
 .approval-steps .current {
   font-weight: 650;
-  color: var(--teal);
+  color: var(--brand);
 }
 .workflow-history {
   list-style: none;
@@ -250,8 +251,8 @@
   height: 9px;
   flex: none;
   border-radius: 50%;
-  background: light-dark(#91b6ad, #91b6ad);
-  border: 2px solid light-dark(#e9f2ee, var(--line));
+  background: var(--brand-line);
+  border: 2px solid var(--line);
   margin-top: 5px;
   z-index: 1;
 }
@@ -273,7 +274,7 @@
 }
 .workflow-actions {
   display: flex;
-  gap: 10px;
+  gap: var(--action-gap);
   justify-content: flex-end;
   flex-wrap: wrap;
   border-top: 1px solid var(--line);
@@ -298,8 +299,8 @@
 }
 .workflow-resolution {
   padding: 18px 20px;
-  background: light-dark(#f1f8f5, var(--surface));
-  border-left: 2px solid var(--teal);
+  background: var(--surface);
+  border-left: 2px solid var(--brand);
   border-radius: 5px;
   margin: 24px 0;
 }
@@ -325,10 +326,10 @@
   transition: background 0.15s;
 }
 .request-kind-list button:hover {
-  background: light-dark(#f1f8f5, var(--surface-hover));
+  background: var(--surface-hover);
 }
 .request-kind-list button > svg {
-  color: var(--teal);
+  color: var(--brand);
   flex: none;
 }
 .request-kind-list button > span {
@@ -385,7 +386,7 @@
     padding: 18px 5px;
   }
   .workflow-actions .button {
-    flex: 1;
+    flex: 1 1 auto;
   }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -97,9 +97,39 @@ export const assessmentCriteria = {
   ],
 } as const;
 
+export const interviewObservationSchema = z
+  .object({
+    question: z.string().trim().min(5).max(300),
+    answer: z.string().trim().min(5).max(1500),
+    signal: z.enum(["strong", "adequate", "weak", "not_observed"]),
+  })
+  .strict();
+export const observationLabels = {
+  strong: "Minh chứng tốt",
+  adequate: "Đáp ứng",
+  weak: "Cần cải thiện",
+  not_observed: "Chưa đủ minh chứng",
+} as const;
+export const interviewQuestionPrompts: Record<AssessmentKind, string[]> = {
+  screening: [
+    "Kinh nghiệm nào phù hợp nhất với vị trí này?",
+    "Sản phẩm hoặc dự án nào chứng minh năng lực chuyên môn?",
+  ],
+  interview: [
+    "Bạn đã xử lý một vấn đề kỹ thuật khó như thế nào?",
+    "Bạn phối hợp với nhóm khi có bất đồng ra sao?",
+    "Bạn ưu tiên công việc khi thời hạn thay đổi thế nào?",
+  ],
+  decision: [
+    "Còn khoảng trống nào cần hỗ trợ khi nhận việc?",
+    "Minh chứng nào từ các vòng trước hỗ trợ quyết định?",
+  ],
+};
 export const recruitmentAssessmentSchema = z
   .object({
-    rubricVersion: z.literal(1),
+    rubricVersion: z.union([z.literal(1), z.literal(2)]),
+    observations: z.array(interviewObservationSchema).max(8).optional(),
+    followUp: z.string().trim().max(1000).optional(),
     kind: z.enum(["screening", "interview", "decision"]),
     ratings: z
       .array(
@@ -122,6 +152,22 @@ export const recruitmentAssessmentSchema = z
   })
   .strict()
   .superRefine((value, ctx) => {
+    if (value.rubricVersion === 2) {
+      value.ratings.forEach((r, i) => {
+        if (r.evidence.length < 5)
+          ctx.addIssue({
+            code: "custom",
+            path: ["ratings", i, "evidence"],
+            message: "Nhập minh chứng cho từng tiêu chí.",
+          });
+      });
+      if (!value.observations?.length)
+        ctx.addIssue({
+          code: "custom",
+          path: ["observations"],
+          message: "Ghi nhận ít nhất một câu hỏi và câu trả lời.",
+        });
+    }
     const expected = assessmentCriteria[value.kind].map((c) => c.id);
     const actual = value.ratings.map((r) => r.criterionId);
     if (

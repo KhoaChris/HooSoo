@@ -186,6 +186,7 @@ export function UsersPage() {
             render: (u) => (
               <div className="account-person">
                 <PersonCell
+                  employeeId={u.employeeId}
                   name={u.name || t("Nhân viên")}
                   detail={u.email}
                   avatarUrl={

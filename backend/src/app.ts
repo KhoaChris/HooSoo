@@ -3,7 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import { randomUUID } from "node:crypto";
-import { api } from "./routes/index";
+import { api, apiRouteGroups } from "./routes/index";
+import { createApiExplorer } from "./modules/api-explorer/api-explorer.routes";
 import { env } from "./config/env";
 import { authenticate } from "./middleware/authenticate";
 import { errorHandler, logger } from "./middleware/error-handler";
@@ -74,6 +75,7 @@ app.use(
       ),
   }),
 );
+app.use(createApiExplorer(apiRouteGroups));
 app.get("/api/health", (_req, res) =>
   res.json({
     status: "ok",

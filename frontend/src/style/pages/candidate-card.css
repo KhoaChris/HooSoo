@@ -5,14 +5,14 @@
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--surface);
-  box-shadow: 0 2px 4px light-dark(#203e3708, #00000012);
+  box-shadow: 0 2px 4px var(--shadow-color);
   transition:
     border-color 150ms,
     box-shadow 150ms;
 }
 .candidate-card:hover {
   border-color: var(--control-border-hover);
-  box-shadow: 0 4px 12px light-dark(#203e3712, #00000030);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 .candidate-card.card-hired {
   border-color: var(--success-line);
@@ -49,7 +49,7 @@
   height: 32px;
   flex: 0 0 32px;
   border-radius: 8px;
-  color: var(--teal);
+  color: var(--brand);
   background: var(--selected-surface);
   font-size: max(12px, 0.75rem);
   font-weight: 700;
@@ -80,11 +80,11 @@
   line-height: 1.4;
 }
 .candidate-open:hover strong {
-  color: var(--teal);
+  color: var(--brand);
 }
 .candidate-open:focus-visible,
 .candidate-card-action:focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--brand);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -146,7 +146,7 @@
 }
 .candidate-match-heading strong {
   flex-shrink: 0;
-  color: var(--teal);
+  color: var(--brand);
   font-size: 12px;
   font-weight: 650;
   font-variant-numeric: tabular-nums;
@@ -167,7 +167,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--teal);
+  background: var(--brand);
   transition: width 160ms ease;
 }
 .candidate-stage-content {
@@ -246,7 +246,7 @@
 .candidate-interview-date > svg {
   flex: none;
   margin-top: 2px;
-  color: var(--teal);
+  color: var(--brand);
 }
 .candidate-interview-date > div {
   flex: 1;
@@ -403,7 +403,7 @@
   padding: 6px 0 6px 4px;
   min-height: 30px;
   background: none;
-  color: var(--teal);
+  color: var(--brand);
   font-size: max(12px, 0.72rem);
   font-weight: 600;
   cursor: pointer;

@@ -1,7 +1,7 @@
 /* pages/attendance: keep responsive rules with the styles they adjust. */
 
 .history-entry {
-  background: light-dark(#f7fafa, var(--surface));
+  background: var(--surface);
   padding: 14px;
   border-radius: 7px;
   margin: 12px 0;
@@ -31,13 +31,13 @@
   height: 53px;
   display: grid;
   place-items: center;
-  background: light-dark(#e9f5ef, var(--surface));
-  color: light-dark(#398e75, hsl(162 43% 75%));
+  background: var(--surface);
+  color: var(--brand);
   border-radius: 50%;
 }
 .checkin-title p {
   font-size: 11px;
-  color: light-dark(#8a99a3, var(--muted));
+  color: var(--muted);
   margin-top: 4px;
 }
 .checkin-times {
@@ -48,13 +48,13 @@
 .checkin-times span {
   display: block;
   font-size: 10px;
-  color: light-dark(#8a99a3, var(--muted));
+  color: var(--muted);
 }
 .checkin-times strong {
   font-size: 24px;
   display: block;
   font-weight: 600;
-  color: light-dark(#385766, hsl(200 29% 75%));
+  color: var(--heading);
   margin-top: 6px;
 }
 @media (max-width: 600px) {
@@ -99,7 +99,7 @@
   gap: 12px;
 }
 .attendance-time-cell small {
-  color: light-dark(#8b999f, var(--muted));
+  color: var(--muted);
   width: 28px;
   flex: 0 0 28px;
   font-size: 10px;

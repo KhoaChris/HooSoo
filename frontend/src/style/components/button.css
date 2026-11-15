@@ -4,7 +4,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--action-icon-gap);
   font-size: 13px;
   font-weight: 600;
   border-radius: 7px;
@@ -15,33 +15,44 @@
   transition:
     background-color 0.15s,
     border-color 0.15s,
-    color 0.15s;
+    color 0.15s,
+    box-shadow 0.15s;
+  max-width: 100%;
 }
 .button.primary {
-  background: var(--action-bg);
+  background: var(--action-gradient);
   color: var(--on-accent);
   border-color: var(--action-bg);
 }
 .button.primary:hover:not(:disabled) {
-  background: var(--action-hover);
+  background: var(--action-gradient-hover);
   border-color: var(--action-hover);
+}
+.button.primary:not([data-tone]) {
+  box-shadow: var(--action-shadow);
+}
+.button.primary:not([data-tone]):hover:not(:disabled) {
+  box-shadow: var(--action-shadow-hover);
+}
+.button.primary:not([data-tone]):active:not(:disabled) {
+  box-shadow: inset 0 2px 4px #122b742e;
 }
 .button.secondary {
   background: var(--surface);
-  border-color: light-dark(#dce4e9, var(--control-border));
-  color: light-dark(#344957, var(--navy));
+  border-color: var(--control-border);
+  color: var(--heading);
 }
 .button.secondary:hover:not(:disabled) {
-  background: light-dark(#f3f7f8, var(--surface-hover));
+  background: var(--surface-hover);
 }
 .button.ghost {
   padding: 5px 7px;
   min-height: 31px;
   background: transparent;
-  color: var(--teal);
+  color: var(--brand);
 }
 .button.ghost:hover:not(:disabled) {
-  background: light-dark(#edf6f4, var(--surface-hover));
+  background: var(--surface-hover);
 }
 .button[data-tone="danger"] {
   --button-tone-bg: var(--danger-bg);
@@ -96,22 +107,47 @@
   width: 34px;
   height: 34px;
   border-radius: 6px;
-  color: light-dark(#6c7c88, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .icon-button:hover:not(:disabled) {
-  background: light-dark(#edf3f5, var(--surface-hover));
+  background: var(--surface-hover);
 }
 .text-link {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  color: var(--teal);
+  gap: var(--action-icon-gap);
+  color: var(--brand);
   font-size: 13px;
   font-weight: 600;
+  max-width: 100%;
 }
 .row-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--action-gap);
   flex-wrap: wrap;
   align-items: center;
+  min-width: 0;
+}
+
+/* Action labels may wrap as a unit; icons keep their own breathing room. */
+:is(
+    .row-actions,
+    .form-actions,
+    .data-table-actions,
+    .dashboard-range-actions,
+    .modal-discard-actions,
+    .avatar-editor-tools,
+    .employment-detail-actions,
+    .compensation-detail-actions,
+    .workflow-actions,
+    .professional-actions,
+    .candidate-primary-actions,
+    .candidate-secondary-actions
+  )
+  > :is(.button, .text-link) {
+  min-width: 0;
+  white-space: normal;
+}
+.text-link > svg {
+  flex-shrink: 0;
 }

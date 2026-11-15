@@ -1,4 +1,4 @@
-/* Shared surfaces and states. Page/component rules retain their light values. */
+/* Graphite & Cobalt: gradients accent navigation and actions, never status. */
 @theme {
   --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
 }
@@ -9,59 +9,137 @@
   color-scheme: light;
   color: var(--text-primary);
   background: var(--canvas);
-  --canvas: #f7f9fb;
+
+  --canvas: #f3f5f8;
+  --frame: #e7ebf1;
+  --frame-line: #d0d7e3;
   --surface: #ffffff;
-  --surface-subtle: #f5f7f8;
-  --surface-hover: #edf3f1;
-  --selected-surface: #e7f3ee;
-  --navy: #172f42;
-  --text-primary: #243747;
-  --text-secondary: #526777;
-  --muted: #73818e;
-  --line: #e5ebef;
-  --control-border: #dce4e9;
-  --control-border-hover: #9ebbb2;
-  --teal: #087e78;
-  --action-bg: #087e78;
-  --action-hover: #066c67;
+  --surface-subtle: #f5f7fa;
+  --surface-hover: #eaf0fa;
+  --selected-surface: #e8efff;
+  --selection-gradient: linear-gradient(110deg, #edf3ff, #e1eaff);
+  --popover-shadow: 0 12px 32px #20345324, 0 2px 6px #20345312;
+  --dialog-shadow: 0 24px 80px #182c4a30, 0 4px 16px #182c4a1c;
+  --heading: #202938;
+  --text-primary: #354052;
+  --text-secondary: #596579;
+  --muted: #637084;
+  --line: #dfe4ec;
+  --control-border: #929eb0;
+  --control-border-hover: #5974a3;
+
+  --action-gap: 12px;
+  --action-gap-compact: 8px;
+  --action-link-gap: 28px;
+  --action-icon-gap: 8px;
+
+  --brand: #2c54c3;
+  --brand-soft: #edf2ff;
+  --brand-line: #c6d4f6;
+  --brand-detail: #79a9ff;
+  --action-bg: #315fe5;
+  --action-hover: #244cc8;
+  --action-gradient: linear-gradient(180deg, #3b68e9 0%, #2853d6 100%);
+  --action-gradient-hover: linear-gradient(180deg, #315fdf 0%, #2046bf 100%);
+  --action-shadow: 0 2px 4px #193ca224, inset 0 1px 0 #ffffff30;
+  --action-shadow-hover: 0 4px 10px #193ca22e, inset 0 1px 0 #ffffff30;
+  --accent-sheen: linear-gradient(
+    125deg,
+    #e6eeff 0%,
+    #f3f7ff 55%,
+    #ffffff 100%
+  );
+  --surface-sheen: linear-gradient(110deg, #ffffff 25%, #f1f5fe 100%);
+  --panel-shadow: 0 2px 3px #25365204, 0 8px 24px #25365205;
   --on-accent: #ffffff;
   --hover-surface: var(--surface-hover);
-  --focus-ring: #299d8c;
+  --focus-ring: #426fe5;
+  --focus-halo: color-mix(in srgb, var(--focus-ring) 18%, transparent);
+  --avatar-bg: #e9edf7;
+  --avatar-text: #4f6187;
+  --chart-primary: #4b74e5;
+  --chart-secondary: #709ac7;
+  --chart-tertiary: #a3b0c9;
+  --shadow-color: #1e304512;
+  --overlay: #1726385c;
+
+  /* Inverse surfaces, including navigation in dark appearance. */
+  --inverse-bg: #191d25;
+  --inverse-raised: #242b38;
+  --inverse-line: #3c475a;
+  --inverse-text: #f4f6fc;
+  --inverse-muted: #b9c2d2;
+  --inverse-accent: #a9c6ff;
+  --inverse-gradient:
+    radial-gradient(
+      ellipse 135% 220px at 38% 108%,
+      #769bff 0%,
+      #325ad9b8 32%,
+      #18327955 60%,
+      transparent 100%
+    ),
+    linear-gradient(165deg, #20232b 0%, #191d25 60%, #172033 100%);
+
   --success-bg: #eaf5ef;
   --success-text: #267757;
-  --success-line: #cfe4d8;
+  --success-line: #b9d8c7;
   --success-action: #24714f;
   --success-action-hover: #195a3e;
   --warning-bg: #fff5df;
   --warning-text: #8a651b;
-  --warning-line: #ead9ad;
+  --warning-line: #dcc58f;
   --danger-bg: #fcefeb;
   --danger-text: #a34436;
-  --danger-line: #eccdc5;
+  --danger-line: #e2b9af;
   --danger-action: #b63c3c;
   --danger-action-hover: #982f2f;
   --info-bg: #eaf1f9;
   --info-text: #3f698d;
-  --info-line: #cbdceb;
+  --info-line: #b8ccdf;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --canvas: #101216;
-  --surface: #1a1e25;
-  --surface-subtle: #20262f;
-  --surface-hover: #303a47;
-  --selected-surface: #183b33;
-  --navy: #edf0f4;
-  --text-primary: #dce1e8;
-  --text-secondary: #b9c1cc;
-  --muted: #9ca7b6;
-  --line: #343c48;
-  --control-border: #647184;
-  --control-border-hover: #849487;
-  --teal: #75cbb5;
-  --action-bg: #19776a;
-  --action-hover: #208172;
-  --focus-ring: #80d5be;
+  --canvas: #11151d;
+  --frame: #0b1018;
+  --frame-line: #3c485c;
+  --surface: #1c222d;
+  --surface-subtle: #242c39;
+  --surface-hover: #303f57;
+  --selected-surface: #293d62;
+  --selection-gradient: linear-gradient(110deg, #304c77, #293d62);
+  --popover-shadow: 0 12px 32px #00000050, 0 2px 6px #00000030;
+  --dialog-shadow: 0 24px 80px #00000070, 0 4px 16px #00000040;
+  --heading: #f1f4fb;
+  --text-primary: #e0e6f0;
+  --text-secondary: #bac5d7;
+  --muted: #a6b2c5;
+  --line: #364154;
+  --control-border: #708198;
+  --control-border-hover: #9db8e1;
+
+  --brand: #a2bfff;
+  --brand-soft: #233451;
+  --brand-line: #46618b;
+  --brand-detail: #8eb6ff;
+  --accent-sheen: linear-gradient(
+    125deg,
+    #293d63 0%,
+    #222e43 55%,
+    #1c222d 100%
+  );
+  --surface-sheen: linear-gradient(110deg, #1c222d 25%, #24324b 100%);
+  --panel-shadow: 0 2px 4px #00000010, 0 10px 28px #00000014;
+  --action-shadow: 0 2px 8px #00000030, inset 0 1px 0 #ffffff30;
+  --action-shadow-hover: 0 4px 14px #00000048, inset 0 1px 0 #ffffff40;
+  --focus-ring: #a2bfff;
+  --avatar-bg: #2d3b55;
+  --avatar-text: #bdd1f8;
+  --chart-primary: #87a9ff;
+  --chart-secondary: #8ab5d9;
+  --chart-tertiary: #a9b7ce;
+  --shadow-color: #00000030;
+  --overlay: #0b131db8;
+
   --success-bg: #18392c;
   --success-text: #95d8b2;
   --success-line: #365d47;

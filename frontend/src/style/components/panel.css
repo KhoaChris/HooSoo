@@ -1,9 +1,10 @@
 /* components/panel: keep responsive rules with the styles they adjust. */
 
 .panel {
-  background: light-dark(#fff, var(--surface));
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 9px;
+  box-shadow: var(--panel-shadow);
   padding: 23px;
   margin-bottom: 23px;
 }
@@ -17,7 +18,7 @@
   border-top: 1px solid var(--line);
   padding-top: 17px;
   margin-top: 27px;
-  color: var(--teal);
+  color: var(--brand);
   font-size: 11px;
   font-weight: 600;
 }
@@ -37,17 +38,17 @@
 .details dt,
 .details dd {
   padding: 13px 0;
-  border-bottom: 1px solid light-dark(#edf1f3, var(--line));
+  border-bottom: 1px solid var(--line);
   line-height: 1.8;
 }
 .details dt {
-  color: light-dark(#8896a0, var(--muted));
+  color: var(--muted);
   display: flex;
   gap: 8px;
   align-items: center;
 }
 .details dd {
-  color: light-dark(#425a6a, hsl(204 23% 75%));
+  color: var(--text-secondary);
   word-break: break-word;
   margin: 0;
   font-weight: 500;

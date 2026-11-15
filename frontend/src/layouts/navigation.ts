@@ -1,6 +1,9 @@
+import { compensationReaders } from "@hoosoo/shared";
+import { WalletCards } from "lucide-react";
 import { professionalRoles } from "@hoosoo/shared";
 import { supervisorRoles } from "@hoosoo/shared";
 import {
+  Target,
   MessageCircle,
   LayoutDashboard,
   CalendarRange,
@@ -67,6 +70,24 @@ export const navigation = [
     roles: all,
   },
   {
+    label: "Kết quả đánh giá",
+    path: "/performance/my",
+    icon: Target,
+    roles: all,
+  },
+  {
+    label: "Lương & phúc lợi của tôi",
+    path: "/compensation/my",
+    icon: WalletCards,
+    roles: all,
+  },
+  {
+    label: "Hành trình của tôi",
+    path: "/employment/my",
+    icon: ClipboardCheck,
+    roles: all,
+  },
+  {
     label: "Vai trò & quyền truy cập",
     path: "/access",
     icon: ShieldCheck,
@@ -85,6 +106,24 @@ export const navigation = [
     icon: Users,
     roles: supervisors,
     group: "QUẢN LÝ NHÂN SỰ",
+  },
+  {
+    label: "Đánh giá hiệu suất",
+    path: "/performance",
+    icon: Target,
+    roles: supervisors,
+  },
+  {
+    label: "Lương & phúc lợi",
+    path: "/compensation",
+    icon: WalletCards,
+    roles: compensationReaders,
+  },
+  {
+    label: "Vòng đời nhân sự",
+    path: "/employment",
+    icon: FileText,
+    roles: supervisors,
   },
   { label: "Phòng ban", path: "/departments", icon: Building2, roles: hr },
   {

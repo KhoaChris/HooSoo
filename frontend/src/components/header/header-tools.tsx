@@ -1,3 +1,4 @@
+import { usePresence } from "../../services/presence-state";
 import { useEffect, useRef, useState } from "react";
 import {
   Bell,
@@ -98,6 +99,8 @@ export function HeaderTools() {
   );
 }
 function Notifications({ uid }: { uid: string }) {
+  const { mode } = usePresence();
+  const muted = mode === "dnd";
   usePreferences();
   const query = useApi<NotificationFeed>("/notifications");
   const [open, setOpen] = useState(false),
@@ -159,7 +162,8 @@ function Notifications({ uid }: { uid: string }) {
         className={"header-tool" + (open ? " is-active" : "")}
         type="button"
         aria-label={
-          t("Thông báo") + (unread.length ? ` (${unread.length})` : "")
+          t("Thông báo") +
+          (!muted && unread.length ? ` (${unread.length})` : "")
         }
         aria-expanded={open}
         aria-controls="notification-panel"
@@ -167,7 +171,7 @@ function Notifications({ uid }: { uid: string }) {
         onClick={() => setOpen((v) => !v)}
       >
         <Bell size={20} />
-        {unread.length > 0 && (
+        {!muted && unread.length > 0 && (
           <span className="notification-count" aria-hidden="true">
             {unread.length > 9 ? "9+" : unread.length}
           </span>

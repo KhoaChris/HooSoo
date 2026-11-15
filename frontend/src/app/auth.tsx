@@ -49,8 +49,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading: loading || (!!user && me.isPending),
         me: me.data,
         error: me.error,
-        live,
-        logout: () => signOut(auth),
+        live: live.connected,
+        logout: async () => {
+          live.disconnect();
+          await signOut(auth);
+        },
         retry: () => {
           void me.refetch();
         },

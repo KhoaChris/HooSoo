@@ -1,3 +1,4 @@
+export * from "./compensation";
 export type { NotificationItem, NotificationFeed } from "./notifications";
 import type {
   WorkRegistration,
@@ -252,6 +253,12 @@ export interface Receipt extends Meta {
   actorId: string;
 }
 export interface Tables {
+  compensationRecords: import("./compensation").CompensationRecord;
+  performanceReports: import("./performance").PerformanceReport;
+  performanceReviews: import("./performance").PerformanceReview;
+  employmentContracts: import("./employment").EmploymentContract;
+  probationReviews: import("./employment").ProbationReview;
+  onboardingPlans: import("./employment").OnboardingPlan;
   employeeSequences: Meta & { lastNumber: number };
   chatRooms: import("./chat").ChatRoom;
   chatMessages: import("./chat").ChatMessage;
@@ -348,3 +355,9 @@ export const labels: Record<string, string> = {
 export * from "./hr";
 
 export * from "./chat";
+
+export * from "./employment";
+
+export * from "./performance";
+
+export * from "./presence";

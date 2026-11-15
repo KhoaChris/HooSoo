@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>HooSoo · API Explorer</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/api-explorer/styles.css" />
+    <script src="/api-explorer/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Đến danh sách API</a>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="HooSoo API Explorer"
+        ><span class="brand-mark">h.</span
+        ><span>HooSoo<span class="brand-dot">.</span></span
+        ><span class="brand-divider"></span
+        ><span class="product-name">API Explorer</span></a
+      >
+      <div class="topbar-actions">
+        <code id="origin"></code
+        ><button
+          id="theme-toggle"
+          class="icon-button"
+          type="button"
+          aria-label="Đổi giao diện sáng tối"
+          title="Đổi giao diện sáng tối"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-heading">
+          <span>DANH MỤC API</span><span class="version">v1</span>
+        </div>
+        <nav id="group-nav" aria-label="Nhóm API">
+          <p class="loading">Đang tải danh mục…</p>
+        </nav>
+        <div class="sidebar-foot">
+          <span class="static-dot"></span><span>Chế độ kiểm tra thủ công</span>
+        </div>
+      </aside>
+      <main id="workspace" tabindex="-1">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">DEVELOPER WORKSPACE</p>
+            <h1 id="group-title">Tất cả API</h1>
+          </div>
+          <span class="total-count" id="total-count"></span>
+        </div>
+        <div class="toolbar">
+          <label class="search"
+            ><svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m16 16 5 5" /></svg
+            ><input
+              id="search"
+              type="search"
+              placeholder="Tìm tên hoặc đường dẫn API…"
+              aria-label="Tìm API"
+              autocomplete="off"
+            /><kbd>/</kbd></label
+          >
+          <fieldset class="method-filter">
+            <legend class="sr-only">Lọc HTTP method</legend>
+            <label
+              ><input type="radio" name="method" value="all" checked /><span
+                >Tất cả</span
+              ></label
+            ><label
+              ><input type="radio" name="method" value="GET" /><span
+                >GET</span
+              ></label
+            ><label
+              ><input type="radio" name="method" value="POST" /><span
+                >POST</span
+              ></label
+            ><label
+              ><input type="radio" name="method" value="PATCH" /><span
+                >PATCH</span
+              ></label
+            >
+          </fieldset>
+        </div>
+        <div id="load-error" class="notice error" hidden></div>
+        <div class="workspace-grid">
+          <section class="route-panel" aria-label="Danh sách routes">
+            <div class="panel-heading">
+              <h2>Endpoints</h2>
+              <span id="result-count" aria-live="polite"></span>
+            </div>
+            <div id="route-list" class="route-list"></div>
+            <div class="list-footer">
+              Chọn một endpoint để xem chi tiết
+              <span aria-hidden="true">↗</span>
+            </div>
+          </section>
+          <section
+            id="inspector"
+            class="inspector"
+            aria-labelledby="detail-title"
+            hidden
+          >
+            <div class="inspector-heading">
+              <span id="detail-group" class="eyebrow"></span
+              ><span id="detail-access" class="access-label"></span>
+            </div>
+            <h2 id="detail-title"></h2>
+            <div class="endpoint">
+              <span id="detail-method" class="method"></span
+              ><code id="detail-path"></code
+              ><button
+                id="copy-path"
+                type="button"
+                class="icon-button"
+                title="Sao chép đường dẫn"
+                aria-label="Sao chép đường dẫn"
+              >
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  aria-hidden="true"
+                >
+                  <rect x="8" y="8" width="12" height="13" rx="2" />
+                  <path
+                    d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+              </button>
+            </div>
+            <dl class="endpoint-meta">
+              <div>
+                <dt>Truy cập</dt>
+                <dd id="detail-permission"></dd>
+              </div>
+              <div>
+                <dt>Response</dt>
+                <dd><code id="detail-response"></code></dd>
+              </div>
+            </dl>
+            <p id="effect-note" class="notice"></p>
+            <form id="request-form">
+              <div id="path-fields" class="path-fields"></div>
+              <div id="query-field" class="field">
+                <label for="query"
+                  >Query parameters <span>Không bắt buộc</span></label
+                ><input
+                  id="query"
+                  placeholder="page=1&amp;pageSize=20"
+                  autocomplete="off"
+                  spellcheck="false"
+                /><small id="query-hint"
+                  >Nhập tên và giá trị theo endpoint.</small
+                >
+              </div>
+              <div id="auth-field" class="field">
+                <label for="token"
+                  >Firebase ID token
+                  <button id="clear-token" class="text-button" type="button">
+                    Xóa token
+                  </button></label
+                ><input
+                  id="token"
+                  type="password"
+                  autocomplete="off"
+                  placeholder="Dán ID token của tài khoản"
+                  spellcheck="false"
+                  aria-describedby="token-hint"
+                /><small id="token-hint"
+                  >Chỉ giữ trong tab này, không lưu vào trình duyệt.</small
+                >
+              </div>
+              <div id="write-headers" class="notice" hidden></div>
+              <div id="request-actions" class="request-actions">
+                <button id="send" class="button primary" type="submit">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    aria-hidden="true"
+                  >
+                    <path d="m5 3 15 9-15 9V3Z" /></svg
+                  >Gửi kiểm tra</button
+                ><button id="cancel" type="button" class="button" hidden>
+                  Dừng</button
+                ><button id="copy-curl" type="button" class="button">
+                  Sao chép cURL
+                </button>
+              </div>
+              <p
+                id="request-error"
+                class="inline-error"
+                role="alert"
+                hidden
+              ></p>
+            </form>
+            <section class="response-section" aria-labelledby="response-title">
+              <div class="response-heading">
+                <h3 id="response-title">Phản hồi</h3>
+                <span id="response-meta" aria-live="polite"></span>
+              </div>
+              <div id="response-empty" class="response-empty">
+                <span class="terminal-symbol" aria-hidden="true">&gt;_</span
+                ><strong>Chưa gửi yêu cầu</strong
+                ><span>Không tự gọi API hay làm mới dữ liệu.</span>
+              </div>
+              <pre
+                id="response-body"
+                tabindex="0"
+                aria-label="Nội dung phản hồi"
+                hidden
+              ></pre>
+              <p id="request-id" class="request-id" hidden></p>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <noscript
+      ><p class="notice">
+        Bật JavaScript để xem danh mục API. Không có yêu cầu database tự động.
+      </p></noscript
+    >
+  </body>
+</html>

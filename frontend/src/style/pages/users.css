@@ -5,9 +5,9 @@
   gap: 12px;
 }
 .account-self {
-  background: light-dark(#f1f5f7, var(--surface));
-  color: light-dark(#6e8390, var(--text-secondary));
-  border: 1px solid light-dark(#e5ebef, var(--line));
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--line);
   font-size: 10px;
   padding: 1px 6px;
   border-radius: 4px;
@@ -16,16 +16,16 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: light-dark(#4b6b65, var(--text-secondary));
+  color: var(--text-secondary);
   font-size: 12px;
   white-space: nowrap;
 }
 .account-role svg {
-  color: light-dark(#6d9383, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .role-guide {
   margin: 8px 0 24px;
-  color: light-dark(#4c6a60, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .role-guide > summary {
   display: flex;
@@ -52,14 +52,14 @@
 }
 .role-guide dl {
   margin: 0;
-  border-top: 1px solid light-dark(#e1e9e4, var(--line));
+  border-top: 1px solid var(--line);
 }
 .role-guide dl > div {
   display: grid;
   grid-template-columns: 180px 1fr;
   gap: 16px;
   padding: 15px 0;
-  border-bottom: 1px solid light-dark(#e1e9e4, var(--line));
+  border-bottom: 1px solid var(--line);
 }
 .role-guide dt {
   display: flex;
@@ -67,12 +67,12 @@
   align-items: center;
   font-size: 12px;
   font-weight: 550;
-  color: light-dark(#375c50, var(--navy));
+  color: var(--heading);
 }
 .role-guide dd {
   margin: 0;
   font-size: 12px;
-  color: light-dark(#71867b, var(--text-secondary));
+  color: var(--text-secondary);
   line-height: 1.75;
 }
 .account-dialog-person {
@@ -81,7 +81,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 0 0 19px;
-  border-bottom: 1px solid light-dark(#e5ece8, var(--line));
+  border-bottom: 1px solid var(--line);
 }
 .account-dialog-person .person-cell {
   min-width: 0;
@@ -91,7 +91,7 @@
 }
 .account-role-context {
   font-size: 12px;
-  color: light-dark(#6c8077, var(--text-secondary));
+  color: var(--text-secondary);
   line-height: 1.8;
   margin-top: 15px;
 }
@@ -104,7 +104,7 @@
 }
 .account-status-message {
   font-size: 13px;
-  color: light-dark(#61756e, var(--text-secondary));
+  color: var(--text-secondary);
   line-height: 1.85;
   margin: 22px 0;
 }
@@ -113,12 +113,12 @@
   align-items: center;
   gap: 15px;
   padding: 18px 22px;
-  border: 1px solid light-dark(#eedfbd, var(--line));
-  background: light-dark(#fffaf0, var(--warning-bg));
+  border: 1px solid var(--line);
+  background: var(--warning-bg);
   border-radius: 10px;
   margin-bottom: 20px;
-  color: light-dark(#9a782e, hsl(41 54% 75%));
-  border-color: light-dark(#eedfbd, var(--warning-line));
+  color: var(--warning-text);
+  border-color: var(--warning-line);
 }
 .account-job > svg {
   flex-shrink: 0;
@@ -129,11 +129,11 @@
 }
 .account-job strong {
   font-size: 13px;
-  color: light-dark(#836528, hsl(40 53% 75%));
+  color: var(--warning-text);
 }
 .account-job p {
   font-size: 12px;
-  color: light-dark(#8e815d, hsl(44 21% 75%));
+  color: var(--text-secondary);
   margin-top: 5px;
   overflow-wrap: anywhere;
 }

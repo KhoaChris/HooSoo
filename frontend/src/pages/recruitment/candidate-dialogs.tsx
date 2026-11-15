@@ -1,3 +1,9 @@
+import { SalaryPackageEditor } from "../compensation/reward-fields";
+import {
+  emptySalaryPackage,
+  rewardLabel,
+} from "../compensation/compensation-model";
+import type { SalaryPackage } from "@hoosoo/shared";
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
 import { catalogPath } from "../../services/query-cache";
@@ -275,6 +281,33 @@ export function CandidateActionDialog({
                 },
               ]
             : []),
+          ...(hiring
+            ? [
+                {
+                  name: "compensation",
+                  label: t("Lương & phúc lợi khi nhận việc"),
+                  span: "full" as const,
+                  render: (
+                    p: import("../../components/ui/form").CustomFieldProps,
+                  ) => (
+                    <SalaryPackageEditor
+                      id={p.id}
+                      labelledBy={p.labelId}
+                      value={p.value as SalaryPackage | null}
+                      defaultPackage={{
+                        ...emptySalaryPackage(),
+                        benefits: job.rewards?.benefits ?? [],
+                      }}
+                      onChange={p.onChange}
+                      optional
+                      disabled={p.disabled}
+                      invalid={p.invalid}
+                      describedBy={p.describedBy}
+                    />
+                  ),
+                },
+              ]
+            : []),
           {
             name: "reason",
             label: t("Lý do / nội dung xác nhận"),
@@ -297,6 +330,7 @@ export function CandidateActionDialog({
         "hireDate",
         "workEmail",
         "employmentStatus",
+        "compensation",
       ]
     : action === "interview"
       ? ["version", "date", "start", "end", "interviewerId", "location"]
@@ -314,6 +348,7 @@ export function CandidateActionDialog({
     hireDate: today(),
     workEmail: c.email,
     employmentStatus: "probation",
+    compensation: null,
     stageId: moveTargetId ?? next?.id ?? "",
     reason: "",
     date: interview?.date ?? today(),
@@ -327,6 +362,7 @@ export function CandidateActionDialog({
       title={title}
       description={`${c.name}${action === "move" ? ` → ${next?.name}` : ""}`}
       onClose={onClose}
+      className={hiring ? "compensation-dialog" : undefined}
       size={action === "interview" || hiring ? "wide" : "medium"}
     >
       {hiring && (
@@ -338,6 +374,9 @@ export function CandidateActionDialog({
           {directory.reviewers.find((r) => r.id === job.hiringManagerId)
             ?.name ?? t("Người phụ trách tuyển dụng")}
         </p>
+      )}
+      {hiring && job.rewards && (
+        <p className="recruitment-reward-summary">{rewardLabel(job.rewards)}</p>
       )}
       {hiring && positions.isPending ? (
         <Loading />

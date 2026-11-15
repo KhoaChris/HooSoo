@@ -1,6 +1,8 @@
+import { RecruitmentRewardEditor } from "../compensation/reward-fields";
+import { emptyRecruitmentReward } from "../compensation/compensation-model";
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import {
   defaultRecruitmentStages,
@@ -33,11 +35,13 @@ export function JobEditor({
       openings: job?.openings ?? 1,
       stages: job?.stages ?? defaultRecruitmentStages,
       active: job?.active ?? true,
+      rewards: job?.rewards ?? emptyRecruitmentReward(),
       version: job?.version ?? 0,
     })),
     [value, setValue] = useState(initial),
     [error, setError] = useState<Error | null>(null);
   const save = useAction(),
+    errorRef = useRef<HTMLDivElement>(null),
     modal = useModalForm(),
     setStatus = modal?.setFormStatus;
   useEffect(() => {
@@ -57,6 +61,11 @@ export function JobEditor({
   }, [value, initial]);
   const set = <K extends keyof typeof value>(key: K, v: (typeof value)[K]) =>
     setValue((old) => ({ ...old, [key]: v }));
+  useEffect(() => {
+    if (!error) return;
+    errorRef.current?.scrollIntoView({ block: "nearest" });
+    errorRef.current?.focus({ preventScroll: true });
+  }, [error]);
   return (
     <form
       className="job-editor"
@@ -81,7 +90,11 @@ export function JobEditor({
         }
       }}
     >
-      <ErrorBox error={error} />
+      {error && (
+        <div ref={errorRef} tabIndex={-1}>
+          <ErrorBox error={error} />
+        </div>
+      )}
       <div className="job-fields">
         <label>
           <StableText>{t("Vị trí tuyển dụng")}</StableText>
@@ -147,6 +160,11 @@ export function JobEditor({
           onChange={(e) => set("description", e.target.value)}
         />
       </label>
+      <RecruitmentRewardEditor
+        value={value.rewards}
+        onChange={(v) => set("rewards", v)}
+        disabled={save.isPending}
+      />
       <div className="stage-editor-heading">
         <div>
           <h3>
@@ -275,7 +293,7 @@ export function JobEditor({
           {t("Hủy")}
         </Button>
         <Button type="submit" busy={save.isPending}>
-          {job ? t("Lưu quy trình") : t("Tạo đợt tuyển dụng")}
+          {job ? t("Lưu đợt tuyển dụng") : t("Tạo đợt tuyển dụng")}
         </Button>
       </div>
     </form>

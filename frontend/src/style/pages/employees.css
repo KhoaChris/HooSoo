@@ -9,7 +9,7 @@
   gap: 10px;
   margin-bottom: 20px;
   font-size: 12px;
-  color: light-dark(#637784, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .employee-profile-breadcrumb a {
   display: inline-flex;
@@ -18,10 +18,10 @@
   min-height: 36px;
 }
 .employee-profile-breadcrumb > span[aria-hidden] {
-  color: light-dark(#a9b6bf, var(--muted));
+  color: var(--muted);
 }
 .employee-profile-surface {
-  background: light-dark(#fff, var(--surface));
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
@@ -32,6 +32,7 @@
   gap: 22px;
   padding: 32px;
   border-bottom: 1px solid var(--line);
+  background: var(--surface-sheen);
 }
 .employee-profile-avatar {
   display: grid;
@@ -40,9 +41,9 @@
   width: 76px;
   height: 76px;
   border-radius: 18px;
-  background: light-dark(#eaf4f0, var(--surface-subtle));
+  background: var(--surface-subtle);
   border: 1px solid var(--line);
-  color: var(--teal);
+  color: var(--brand);
   font-size: 26px;
   font-weight: 600;
   letter-spacing: -0.5px;
@@ -72,17 +73,17 @@
   flex-wrap: wrap;
   gap: 4px 9px;
   font-size: 13px;
-  color: light-dark(#5c7380, var(--text-secondary));
+  color: var(--text-secondary);
   margin-top: 8px;
 }
 .employee-profile-code {
   display: block;
   font-size: 11px;
-  color: light-dark(#6c7f8a, var(--text-secondary));
+  color: var(--text-secondary);
   margin-top: 9px;
 }
 .employee-profile-code strong {
-  color: light-dark(#334f5e, var(--navy));
+  color: var(--heading);
   font-weight: 550;
   margin-left: 6px;
   font-variant-numeric: tabular-nums;
@@ -114,11 +115,11 @@
 }
 .employee-section-heading p {
   font-size: 12px;
-  color: light-dark(#667c87, var(--text-secondary));
+  color: var(--text-secondary);
   margin-top: 5px;
 }
 .employee-section-heading > svg {
-  color: light-dark(#7b9796, var(--text-secondary));
+  color: var(--text-secondary);
   flex-shrink: 0;
   margin-top: 3px;
 }
@@ -133,26 +134,34 @@
 }
 .employee-work-grid dt {
   font-size: 11px;
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .employee-work-grid dd {
   margin: 8px 0 0;
-  color: light-dark(#2c4758, var(--navy));
+  color: var(--heading);
   font-size: 14px;
   font-weight: 550;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
+.employee-work-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--action-gap-compact) var(--action-link-gap);
+}
 .employee-organization-link {
   display: inline-flex;
+  max-width: 100%;
   align-items: center;
   gap: 8px;
   min-height: 40px;
-  color: var(--teal);
+  color: var(--brand);
   font-weight: 550;
   font-size: 12px;
 }
 .employee-organization-link svg {
+  flex-shrink: 0;
   transition: transform 160ms;
 }
 .employee-organization-link:hover svg {
@@ -170,7 +179,7 @@
   align-items: baseline;
   gap: 18px;
   padding: 15px 0;
-  border-bottom: 1px solid light-dark(#edf1f3, var(--line));
+  border-bottom: 1px solid var(--line);
 }
 .employee-contact-list > div:last-child {
   border-bottom: 0;
@@ -180,42 +189,42 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
   font-size: 12px;
 }
 .employee-contact-list dt svg {
-  color: light-dark(#839b9d, var(--muted));
+  color: var(--muted);
   flex-shrink: 0;
   align-self: center;
 }
 .employee-contact-list dd {
   margin: 0;
   font-size: 13px;
-  color: light-dark(#344e5e, var(--navy));
+  color: var(--heading);
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
 .employee-contact-list a {
   text-decoration: underline;
-  text-decoration-color: light-dark(#d3e2e0, hsl(172 25% 21%));
+  text-decoration-color: var(--brand-line);
   text-underline-offset: 4px;
 }
 .employee-contact-list a:hover {
-  text-decoration-color: var(--teal);
+  text-decoration-color: var(--brand);
 }
 .employee-missing {
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
   font-weight: 400;
 }
 .employee-profile-help {
   padding: 0 32px 28px;
-  color: light-dark(#637784, var(--text-secondary));
+  color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.8;
 }
 .employee-profile-activity {
   border-left: 1px solid var(--line);
-  background: light-dark(#fafcfb, var(--surface));
+  background: var(--surface);
   min-width: 0;
 }
 .employee-history {
@@ -229,7 +238,7 @@
 .employee-history-list > li {
   position: relative;
   padding: 0 0 26px 22px;
-  border-left: 1px solid light-dark(#dae6e2, var(--line));
+  border-left: 1px solid var(--line);
   margin-left: 5px;
 }
 .employee-history-list > li:last-child {
@@ -243,21 +252,21 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: light-dark(#b0cac1, hsl(159 25% 21%));
-  border: 2px solid light-dark(#fafcfb, var(--line));
+  background: var(--brand-line);
+  border: 2px solid var(--line);
 }
 .employee-history-list > li:first-child .employee-history-dot {
-  background: var(--teal);
+  background: var(--brand);
 }
 .employee-history-list h3 {
   font-size: 13px;
   font-weight: 600;
-  color: light-dark(#334f5e, var(--navy));
+  color: var(--heading);
 }
 .employee-history-list time {
   display: block;
   font-size: 11px;
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
   margin-top: 6px;
 }
 .employee-history-change {
@@ -269,7 +278,7 @@
   gap: 7px;
   cursor: pointer;
   font-size: 12px;
-  color: var(--teal);
+  color: var(--brand);
   list-style: none;
   min-height: 32px;
 }
@@ -286,7 +295,7 @@
 .employee-history-change dl {
   margin: 8px 0 0;
   padding: 2px 0 2px 12px;
-  border-left: 2px solid light-dark(#ddece6, var(--line));
+  border-left: 2px solid var(--line);
   animation: employee-profile-enter 160ms ease-out;
 }
 .employee-history-change dl > div + div {
@@ -294,7 +303,7 @@
 }
 .employee-history-change dt {
   font-size: 10px;
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .employee-history-change dd {
   margin: 5px 0 0;
@@ -304,10 +313,10 @@
 }
 .employee-history-change dd strong {
   font-weight: 550;
-  color: light-dark(#2c4e48, var(--navy));
+  color: var(--heading);
 }
 .employee-history-before {
-  color: light-dark(#6f8188, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .employee-history-more {
   width: 100%;
@@ -318,7 +327,7 @@
 }
 .employee-history-note {
   margin-top: 9px;
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
   font-size: 11px;
 }
 .employee-history-empty {
@@ -326,7 +335,7 @@
   padding: 44px 0 24px;
 }
 .employee-history-empty > svg {
-  color: light-dark(#8aa99c, var(--muted));
+  color: var(--muted);
   margin: 0 auto 16px;
 }
 .employee-history-empty h3 {
@@ -336,7 +345,7 @@
 .employee-history-empty p {
   margin-top: 8px;
   font-size: 12px;
-  color: light-dark(#697e8a, var(--text-secondary));
+  color: var(--text-secondary);
 }
 @keyframes employee-profile-enter {
   from {

@@ -1,4 +1,5 @@
-import { t, useLocale } from "../i18n";
+import { compensationReaders } from "@hoosoo/shared";
+import { useLocale } from "../i18n";
 import { professionalRoles } from "@hoosoo/shared";
 import { supervisorRoles } from "@hoosoo/shared";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
@@ -6,12 +7,28 @@ import { lazy, Suspense } from "react";
 import type { Role } from "@hoosoo/shared";
 import { useAuth } from "../app/auth";
 import { AppLayout } from "../layouts/app-layout";
-import { Loading, ErrorBox, Button } from "../components/ui";
+import { Loading } from "../components/ui";
+import { AccessErrorPage } from "../pages/errors/access-error-page";
 import { ErrorPage } from "../pages/errors/error-page";
 import { Login } from "../pages/auth/login-page";
 import { ApiError } from "../services/api-client";
 import { RecordDialog } from "./record-dialog";
 import { recordDialogBackground } from "./record-dialog-routes";
+const Compensation = lazy(() =>
+  import("../pages/compensation/compensation-page").then((m) => ({
+    default: m.CompensationPage,
+  })),
+);
+const Performance = lazy(() =>
+  import("../pages/performance/performance-page").then((m) => ({
+    default: m.PerformancePage,
+  })),
+);
+const Employment = lazy(() =>
+  import("../pages/employment/employment-page").then((m) => ({
+    default: m.EmploymentPage,
+  })),
+);
 const Chat = lazy(() =>
   import("../pages/chat/chat-page").then((m) => ({ default: m.ChatPage })),
 );
@@ -131,14 +148,7 @@ function Guard({ roles }: { roles?: Role[] }) {
   // Keep mounted forms and previously loaded data during a dependency outage.
   // Invalid credentials or revoked membership must still block access at once.
   if (error && (!me || !(error instanceof ApiError) || error.status < 500))
-    return (
-      <main className="access-error">
-        <ErrorBox error={error} retry={retry} />
-        <Button variant="secondary" onClick={() => void logout()}>
-          {t("Đăng xuất")}
-        </Button>
-      </main>
-    );
+    return <AccessErrorPage error={error} retry={retry} logout={logout} />;
   if (!me) return <Loading />;
   if (roles && !roles.includes(me.actor.role))
     return <Navigate to="/403" replace />;
@@ -164,6 +174,15 @@ export function AppRoutes() {
                 <Route path="professional" element={<Professional />} />
               </Route>
               <Route path="profile" element={<EmployeeDetail personal />} />
+              <Route path="performance/my" element={<Performance personal />} />
+              <Route
+                path="compensation/my"
+                element={<Compensation personal />}
+              />
+              <Route element={<Guard roles={compensationReaders} />}>
+                <Route path="compensation" element={<Compensation />} />
+              </Route>
+              <Route path="employment/my" element={<Employment personal />} />
               <Route path="organization" element={<Organization />} />
               <Route path="attendance/my" element={<Attendance personal />} />
               <Route path="work-schedule" element={<WorkSchedule />} />
@@ -172,6 +191,8 @@ export function AppRoutes() {
               <Route path="leave/new" element={<LeaveCreate />} />
               <Route path="leave/:requestId" element={<LeaveDetail />} />
               <Route element={<Guard roles={supervisorRoles} />}>
+                <Route path="performance" element={<Performance />} />
+                <Route path="employment" element={<Employment />} />
                 <Route
                   path="work-schedule/approvals"
                   element={<WorkSchedule approvals />}

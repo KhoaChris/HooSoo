@@ -1,3 +1,6 @@
+import { authorizeCompensationReplay } from "../modules/compensation/compensation.service";
+import { authorizePerformanceReplay } from "../modules/performance/performance.service";
+import { authorizeEmploymentReplay } from "../modules/employment/employment.service";
 import { workFor } from "../modules/professional/professional.service";
 import { professionalRoles } from "@hoosoo/shared";
 import { assertManageEmployee } from "./authorization";
@@ -62,6 +65,18 @@ function authorizeReplay(
   result: unknown,
 ) {
   const route = path.split(" ")[1];
+  if (route.startsWith("/compensation/")) {
+    authorizeCompensationReplay(s, a, result);
+    return;
+  }
+  if (route.startsWith("/performance/")) {
+    authorizePerformanceReplay(s, a, route, result);
+    return;
+  }
+  if (route.startsWith("/employment/")) {
+    authorizeEmploymentReplay(s, a, route, body, result);
+    return;
+  }
   if (route.startsWith("/professional/")) {
     requireRole(a, professionalRoles);
     const id = route.split("/")[3] ?? (result as { id: string }).id;

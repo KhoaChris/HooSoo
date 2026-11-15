@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  Plus,
+  Trash2,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -7,6 +9,8 @@ import {
   XCircle,
 } from "lucide-react";
 import {
+  observationLabels,
+  interviewQuestionPrompts,
   assessmentCriteria,
   assessmentLevels,
   assessmentRatingPercent,
@@ -27,6 +31,14 @@ import {
 import { useModalForm } from "../../components/ui/modal";
 import { useAction } from "../../hooks/data";
 import { intlLocale, t, useLocale } from "../../i18n";
+
+function observationTitle(kind: string) {
+  return kind === "screening"
+    ? "Đối chiếu hồ sơ"
+    : kind === "decision"
+      ? "Căn cứ quyết định"
+      : "Ghi nhận phỏng vấn";
+}
 
 export function CandidateEvaluationDialog({
   candidate,
@@ -76,6 +88,12 @@ function EvaluationForm({
         existing?.ratings.find((r) => r.criterionId === c.id)?.evidence ?? "",
     })),
   );
+  const [observations, setObservations] = useState(
+    existing?.observations ?? [
+      { question: "", answer: "", signal: "not_observed" as const },
+    ],
+  );
+  const [followUp, setFollowUp] = useState(existing?.followUp ?? "");
   const [strengths, setStrengths] = useState(existing?.strengths ?? "");
   const [concerns, setConcerns] = useState(existing?.concerns ?? "");
   const [summary, setSummary] = useState(round?.feedback ?? "");
@@ -91,6 +109,8 @@ function EvaluationForm({
   const form = useRef<HTMLFormElement>(null),
     submitting = useRef(false);
   const state = JSON.stringify({
+    observations,
+    followUp,
     ratings,
     strengths,
     concerns,
@@ -137,7 +157,15 @@ function EvaluationForm({
         event.preventDefault();
         if (submitting.current) return;
         const fields = [
-          ...ratings.filter((r) => !r.rating).map((r) => r.criterionId),
+          ...ratings
+            .filter((r) => !r.rating || r.evidence.trim().length < 5)
+            .map((r) => r.criterionId),
+          ...(!observations.length ||
+          observations.some(
+            (o) => o.question.trim().length < 5 || o.answer.trim().length < 5,
+          )
+            ? ["observations"]
+            : []),
           ...(strengths.trim().length < 5 ? ["strengths"] : []),
           ...(concerns.trim().length < 5 ? ["concerns"] : []),
           ...(summary.trim().length < 5 ? ["summary"] : []),
@@ -146,6 +174,7 @@ function EvaluationForm({
         setInvalid(fields);
         if (fields.length) {
           setError(new Error(t("Hoàn tất các mục đánh giá được đánh dấu.")));
+          setExpanded(criteria.map((c) => c.id));
           requestAnimationFrame(() =>
             form.current
               ?.querySelector<HTMLElement>('[aria-invalid="true"]')
@@ -158,7 +187,9 @@ function EvaluationForm({
           result,
           reason: summary,
           assessment: {
-            rubricVersion: 1,
+            rubricVersion: 2,
+            observations,
+            followUp,
             kind: stage.kind,
             ratings,
             strengths,
@@ -263,6 +294,8 @@ function EvaluationForm({
                   id={`evidence-${criterion.id}`}
                   className="evaluation-evidence"
                   aria-label={t("Minh chứng: {0}", [t(criterion.label)])}
+                  aria-invalid={invalid.includes(criterion.id)}
+                  aria-required="true"
                   value={rating.evidence}
                   maxLength={300}
                   placeholder={t("Ví dụ hoặc quan sát cụ thể…")}
@@ -274,6 +307,143 @@ function EvaluationForm({
             </div>
           );
         })}
+      </fieldset>
+      <fieldset disabled={busy} className="evaluation-observations">
+        <legend>{t(observationTitle(stage.kind))} *</legend>
+        {observations.map((o, i) => (
+          <div className="evaluation-observation" key={i}>
+            <div className="evaluation-observation-heading">
+              <strong>
+                {t(stage.kind === "interview" ? "Câu hỏi {0}" : "Căn cứ {0}", [
+                  i + 1,
+                ])}
+              </strong>
+              <Button
+                variant="ghost"
+                type="button"
+                tone="danger"
+                disabled={observations.length === 1}
+                aria-label={t(
+                  stage.kind === "interview"
+                    ? "Xóa câu hỏi {0}"
+                    : "Xóa căn cứ {0}",
+                  [i + 1],
+                )}
+                onClick={() =>
+                  setObservations((rows) => rows.filter((_, n) => n !== i))
+                }
+              >
+                <Trash2 size={16} />
+              </Button>
+            </div>
+            <label>
+              <span>
+                {t(
+                  stage.kind === "interview"
+                    ? "Câu hỏi / tình huống"
+                    : "Nội dung cần kiểm tra",
+                )}
+              </span>
+              <Input
+                aria-invalid={
+                  invalid.includes("observations") &&
+                  o.question.trim().length < 5
+                }
+                value={o.question}
+                maxLength={300}
+                onChange={(e) => {
+                  clearIssue("observations");
+                  setObservations((rows) =>
+                    rows.map((x, n) =>
+                      n === i ? { ...x, question: e.target.value } : x,
+                    ),
+                  );
+                }}
+              />
+            </label>
+            {!o.question && (
+              <div className="evaluation-question-suggestions">
+                {interviewQuestionPrompts[stage.kind].map((prompt) => (
+                  <button
+                    type="button"
+                    key={prompt}
+                    onClick={() =>
+                      setObservations((rows) =>
+                        rows.map((x, n) =>
+                          n === i ? { ...x, question: t(prompt) } : x,
+                        ),
+                      )
+                    }
+                  >
+                    {t(prompt)}
+                  </button>
+                ))}
+              </div>
+            )}
+            <label>
+              <span>
+                {t(
+                  stage.kind === "screening"
+                    ? "Minh chứng trong hồ sơ"
+                    : stage.kind === "decision"
+                      ? "Căn cứ tổng hợp"
+                      : "Câu trả lời & quan sát",
+                )}
+              </span>
+              <Textarea
+                aria-invalid={
+                  invalid.includes("observations") && o.answer.trim().length < 5
+                }
+                value={o.answer}
+                maxLength={1500}
+                onChange={(e) => {
+                  clearIssue("observations");
+                  setObservations((rows) =>
+                    rows.map((x, n) =>
+                      n === i ? { ...x, answer: e.target.value } : x,
+                    ),
+                  );
+                }}
+              />
+            </label>
+            <Select
+              aria-label={t("Mức độ minh chứng")}
+              value={o.signal}
+              options={Object.entries(observationLabels).map(
+                ([value, label]) => ({ value, label: t(label) }),
+              )}
+              onValueChange={(v) =>
+                setObservations((rows) =>
+                  rows.map((x, n) =>
+                    n === i ? { ...x, signal: v as typeof o.signal } : x,
+                  ),
+                )
+              }
+            />
+          </div>
+        ))}
+        <Button
+          type="button"
+          variant="secondary"
+          disabled={observations.length >= 8}
+          onClick={() =>
+            setObservations((rows) => [
+              ...rows,
+              { question: "", answer: "", signal: "not_observed" },
+            ])
+          }
+        >
+          <Plus size={16} />
+          {t(stage.kind === "interview" ? "Thêm câu hỏi" : "Thêm căn cứ")}
+        </Button>
+        <label>
+          <span>{t("Cần xác minh ở vòng tiếp theo")}</span>
+          <Textarea
+            value={followUp}
+            maxLength={1000}
+            onChange={(e) => setFollowUp(e.target.value)}
+          />
+        </label>
       </fieldset>
       <fieldset disabled={busy} className="evaluation-notes">
         <legend>{t("Nhận xét có căn cứ")}</legend>
@@ -406,6 +576,37 @@ export function AssessmentSummary({
           );
         })}
       </dl>
+      {assessment.observations?.length ? (
+        <section className="assessment-observations">
+          <h4>{t(observationTitle(assessment.kind))}</h4>
+          {assessment.observations.map((o, i) => (
+            <article key={i}>
+              <strong>{o.question}</strong>
+              <p>{o.answer}</p>
+              <span
+                className="badge status-tone"
+                data-tone={
+                  o.signal === "strong"
+                    ? "success"
+                    : o.signal === "weak"
+                      ? "danger"
+                      : o.signal === "not_observed"
+                        ? "warning"
+                        : "neutral"
+                }
+              >
+                {t(observationLabels[o.signal])}
+              </span>
+            </article>
+          ))}
+        </section>
+      ) : null}
+      {assessment.followUp && (
+        <section>
+          <h4>{t("Cần xác minh ở vòng tiếp theo")}</h4>
+          <p>{assessment.followUp}</p>
+        </section>
+      )}
       <div className="assessment-saved-notes">
         <section>
           <h4>{t("Điểm mạnh")}</h4>
@@ -443,6 +644,31 @@ export function EvaluationResult({ round }: { round: CandidateRound }) {
         </small>
       )}
       {round.assessment && <AssessmentSummary assessment={round.assessment} />}
+      {!!round.evaluationHistory?.length && (
+        <details className="evaluation-history">
+          <summary>
+            {t("Lịch sử đánh giá ({0})", [round.evaluationHistory.length])}
+          </summary>
+          {[...round.evaluationHistory].reverse().map((revision, i) => (
+            <article key={i}>
+              <strong>
+                {t(revision.result === "passed" ? "Đạt yêu cầu" : "Chưa đạt")} ·{" "}
+                {revision.assessment?.totalPercent !== undefined
+                  ? `${revision.assessment.totalPercent}%`
+                  : `${revision.score}/5`}
+              </strong>
+              <small>
+                {revision.evaluatedAt &&
+                  new Date(revision.evaluatedAt).toLocaleString(intlLocale())}
+              </small>
+              <p>{revision.feedback}</p>
+              {revision.assessment && (
+                <AssessmentSummary assessment={revision.assessment} />
+              )}
+            </article>
+          ))}
+        </details>
+      )}
       {round.feedback && (
         <p className="evaluation-result-summary">{round.feedback}</p>
       )}

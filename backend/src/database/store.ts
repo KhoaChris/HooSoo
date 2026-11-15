@@ -7,7 +7,7 @@ import {
 } from "firebase-admin/firestore";
 import { db, ensureFirebaseCredentials } from "../config/firebase-admin";
 import { ORG_ID, env } from "../config/env";
-import type { State, Table } from "@hoosoo/shared";
+import { chatChangedMembers, type State, type Table } from "@hoosoo/shared";
 import { AppError, assert } from "../utils/errors";
 import { firestoreOperation } from "./firestore-operation";
 import { recordUsage } from "../observability/firestore-usage";
@@ -28,6 +28,12 @@ export type ReadSelection =
 export type ReadPlan = Partial<Record<Table, ReadSelection>>;
 export type StateReader = (plan: ReadPlan) => Promise<State>;
 export const capacities: Record<Table, number> = {
+  compensationRecords: 2000,
+  performanceReviews: 1000,
+  performanceReports: 500,
+  employmentContracts: 1000,
+  probationReviews: 500,
+  onboardingPlans: 200,
   employeeSequences: 1,
   chatRooms: 1000,
   chatMessages: 1000,
@@ -239,10 +245,12 @@ export async function mutate<T>(
                                 JSON.stringify(room) !==
                                 JSON.stringify(before.chatRooms[room.id]),
                             )
-                            .flatMap((room) => [
-                              ...room.memberIds,
-                              ...(before.chatRooms[room.id]?.memberIds ?? []),
-                            ]),
+                            .flatMap((room) =>
+                              chatChangedMembers(
+                                before.chatRooms[room.id],
+                                room,
+                              ),
+                            ),
                         ),
                       ].map((id) => [id, FieldValue.increment(1)]),
                     ),

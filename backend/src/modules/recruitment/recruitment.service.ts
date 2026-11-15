@@ -268,6 +268,28 @@ export function evaluateCandidate(
     "Cần có phiếu đánh giá hợp lệ.",
   );
   const totalPercent = assessment ? assessmentPercent(assessment) : undefined;
+  if (round.result) {
+    assert(
+      (round.evaluationHistory?.length ?? 0) < 20,
+      409,
+      "EVALUATION_HISTORY_LIMIT",
+      "Đã đạt giới hạn chỉnh sửa đánh giá của vòng này.",
+    );
+    const previous = Object.fromEntries(
+      Object.entries({
+        result: round.result,
+        score: round.score,
+        assessment: round.assessment,
+        feedback: round.feedback,
+        evaluatedBy: round.evaluatedBy,
+        evaluatedAt: round.evaluatedAt,
+      }).filter(([, v]) => v !== undefined),
+    );
+    (round.evaluationHistory ??= []).push({
+      ...structuredClone(previous),
+      result: round.result,
+    });
+  }
   // Keep the legacy score for older clients; it is never authoritative for a scorecard.
   if (assessment)
     round.assessment = {
@@ -285,6 +307,13 @@ export function evaluateCandidate(
     evaluatedBy: a.uid,
     evaluatedAt: new Date().toISOString(),
   });
+  // Reserve room for workflow history and command receipts.
+  assert(
+    Buffer.byteLength(JSON.stringify(c), "utf8") <= 700_000,
+    413,
+    "ASSESSMENT_TOO_LARGE",
+    "Nội dung đánh giá quá dài. Rút gọn minh chứng trước khi lưu.",
+  );
   return changed(s, a, c, input.result, input.reason);
 }
 export function moveCandidate(

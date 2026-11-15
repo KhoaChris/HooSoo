@@ -15,11 +15,11 @@ pre {
   margin: 14px 0;
 }
 .teal {
-  color: var(--teal);
+  color: var(--brand);
 }
 .warning-text {
   display: block;
-  color: light-dark(#9c5f10, hsl(34 60% 75%));
+  color: var(--warning-text);
 }
 .spin {
   animation: spin 1s linear infinite;

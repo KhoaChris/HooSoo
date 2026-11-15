@@ -150,7 +150,7 @@ function ChatForm({
       <div className="chat-people-picker">
         {list.map((p) => (
           <label className="chat-person-option" key={p.id}>
-            <Avatar name={p.name} src={p.avatarUrl} />
+            <Avatar name={p.name} src={p.avatarUrl} employeeId={p.id} />
             <span className="chat-person-name">
               {p.name}
               {p.id === self && (
@@ -196,7 +196,7 @@ function ChatForm({
         </p>
       )}
       {action.error && <ErrorBox error={action.error} />}
-      <div className="chat-dialog-footer">
+      <div className="form-actions chat-dialog-footer">
         <Button
           type="button"
           variant="secondary"

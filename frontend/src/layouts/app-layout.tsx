@@ -1,7 +1,8 @@
 import { t, useLocale } from "../i18n";
+import { useLayoutEffect, useRef } from "react";
 import { HeaderTools } from "../components/header/header-tools";
-import { Avatar } from "../components/ui/avatar";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { PresenceControl } from "../components/header/presence-control";
+import { Outlet, useLocation } from "react-router-dom";
 import { Menu, LogOut } from "lucide-react";
 import { labels } from "@hoosoo/shared";
 import { useAuth } from "../app/auth";
@@ -16,6 +17,10 @@ export function AppLayout() {
   const { me, logout, live, error, retry } = useAuth();
   const sidebar = useSidebar();
   const location = useLocation();
+  const mainContent = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    mainContent.current?.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname]);
   const active = navigation.find((n) => n.path === location.pathname);
   const name = me!.employee.name;
   return (
@@ -60,17 +65,12 @@ export function AppLayout() {
           <div className="topbar-actions">
             <HeaderTools />
             <div className="topbar-user">
-              <Link
-                to="/profile"
-                aria-label={t("Mở hồ sơ và đổi ảnh đại diện")}
-                className="topbar-avatar-link"
-              >
-                <Avatar name={name} src={me!.employee.avatarUrl} />
-              </Link>
-              <div className="topbar-identity">
-                <strong>{name}</strong>
-                <small>{t(labels[me!.actor.role])}</small>
-              </div>
+              <PresenceControl
+                name={name}
+                employeeId={me!.employee.id}
+                avatarUrl={me!.employee.avatarUrl}
+                roleLabel={t(labels[me!.actor.role])}
+              />
               <button
                 className="icon-button"
                 title={t("Đăng xuất")}
@@ -82,7 +82,7 @@ export function AppLayout() {
             </div>
           </div>
         </header>
-        <main className="main-content">
+        <main className="main-content" ref={mainContent}>
           {error && (
             <>
               <ErrorBox error={error} retry={retry} />

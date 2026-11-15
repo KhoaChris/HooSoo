@@ -1,3 +1,4 @@
+import { compensationReaders, roleDefinitions } from "@hoosoo/shared";
 import { t, useLocale } from "../../i18n";
 import { AvatarDialog } from "./avatar-dialog";
 import { useState } from "react";
@@ -78,6 +79,16 @@ export function EmployeeDetail({ personal = false }: { personal?: boolean }) {
       />
       <EmployeeProfileView
         employee={e}
+        compensationLink={
+          id === me!.actor.employeeId
+            ? "/compensation/my"
+            : compensationReaders.includes(me!.actor.role) &&
+                !!e.accessRole &&
+                roleDefinitions[me!.actor.role].rank >
+                  roleDefinitions[e.accessRole].rank
+              ? `/compensation?employeeId=${e.id}`
+              : undefined
+        }
         personal={personal}
         canEdit={e.canEdit === true}
         work={work}

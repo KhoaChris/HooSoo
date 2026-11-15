@@ -45,6 +45,7 @@ export function EmployeeProfileView({
   onEditContact,
   onEditAvatar,
   history,
+  compensationLink,
 }: {
   employee: EmployeeView;
   personal: boolean;
@@ -53,6 +54,7 @@ export function EmployeeProfileView({
   onEditContact: () => void;
   onEditAvatar: () => void;
   history: ReactNode;
+  compensationLink?: string;
 }) {
   useLocale();
   return (
@@ -75,6 +77,7 @@ export function EmployeeProfileView({
         <header className="employee-profile-header">
           <div className="employee-avatar-control">
             <Avatar
+              employeeId={e.id}
               name={e.name}
               src={e.avatarUrl}
               className="employee-profile-avatar"
@@ -150,10 +153,21 @@ export function EmployeeProfileView({
                   {dateText(e.hireDate)}
                 </WorkField>
               </dl>
-              <Link className="employee-organization-link" to="/organization">
-                {t("Xem sơ đồ tổ chức")}
-                <ArrowUpRight size={15} aria-hidden="true" />
-              </Link>
+              <div className="employee-work-links">
+                {compensationLink && (
+                  <Link
+                    className="employee-organization-link"
+                    to={compensationLink}
+                  >
+                    <span>{t("Xem lương & phúc lợi")}</span>
+                    <ArrowUpRight size={15} aria-hidden="true" />
+                  </Link>
+                )}
+                <Link className="employee-organization-link" to="/organization">
+                  <span>{t("Xem sơ đồ tổ chức")}</span>
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </Link>
+              </div>
             </section>
             <section
               className="employee-contact"

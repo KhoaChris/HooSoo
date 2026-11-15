@@ -1,0 +1,380 @@
+.employment-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  margin: 0 0 26px;
+  padding-bottom: 12px;
+  overflow-x: auto;
+}
+.employment-tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 0 0 180px;
+  min-width: 0;
+  min-height: 46px;
+  padding: 12px 18px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--text-secondary);
+  background: transparent;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.employment-tabs button:hover {
+  background: var(--surface-hover);
+  color: var(--heading);
+}
+.employment-tabs button[aria-current] {
+  background: var(--selection-gradient);
+  color: var(--brand);
+  border-color: var(--brand-line);
+}
+.employment-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.employment-person > div:last-child {
+  min-width: 0;
+}
+.employment-person strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--heading);
+}
+.employment-person small,
+.employment-dates small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+}
+.employment-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 6px;
+  width: max-content;
+  max-width: 100%;
+  font-size: 12px;
+  white-space: normal;
+}
+.employment-list-progress {
+  display: grid;
+  grid-template-columns: 38px minmax(70px, 120px);
+  align-items: center;
+  gap: 9px;
+  font-variant-numeric: tabular-nums;
+}
+.employment-list-progress .employment-badge {
+  grid-column: 1/-1;
+}
+.employment-progress {
+  appearance: none;
+  height: 5px;
+  border: 0;
+  border-radius: 10px;
+  width: 100%;
+  background: var(--line);
+  overflow: hidden;
+}
+.employment-progress::-webkit-progress-bar {
+  background: var(--line);
+}
+.employment-progress::-webkit-progress-value {
+  background: var(--brand);
+  border-radius: 10px;
+  transition: width 0.2s;
+}
+.employment-progress::-moz-progress-bar {
+  background: var(--brand);
+}
+.employment-detail-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.employment-switch {
+  display: flex;
+  gap: 4px;
+}
+.employment-switch button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 6px;
+  padding: 9px 12px;
+  background: transparent;
+  color: var(--muted);
+}
+.employment-switch button:hover {
+  background: var(--surface-hover);
+}
+.employment-switch button[aria-pressed="true"] {
+  background: var(--selection-gradient);
+  color: var(--brand);
+}
+.employment-document {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 26px 0;
+}
+.employment-document > svg {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+.employment-document > div {
+  flex: 1;
+  min-width: 0;
+}
+.employment-document h3 {
+  margin: 5px 0 8px;
+  color: var(--heading);
+  overflow-wrap: anywhere;
+}
+.employment-document small,
+.employment-document span {
+  color: var(--text-secondary);
+}
+.employment-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin: 24px 0;
+}
+.employment-facts dt {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+.employment-facts dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--heading);
+}
+.employment-notes {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.employment-notes h3 {
+  font-size: 14px;
+  margin: 0 0 10px;
+  color: var(--heading);
+}
+.employment-notes p,
+.employment-assessment p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+  margin: 0;
+}
+.employment-assessment {
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+}
+.employment-assessment header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.employment-assessment h3 {
+  font-size: 15px;
+  margin: 0;
+}
+.employment-assessment header span {
+  color: var(--muted);
+}
+.employment-assessment dl {
+  margin: 20px 0;
+}
+.employment-assessment dl > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.employment-assessment dd {
+  margin: 0;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.employment-assessment h4 {
+  font-size: 13px;
+  margin: 18px 0 7px;
+  color: var(--text-secondary);
+}
+.employment-assessment > strong {
+  display: block;
+  margin-top: 20px;
+  color: var(--brand);
+}
+.employment-progress-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 25px 0 14px;
+}
+.employment-progress-heading span {
+  margin-left: auto;
+  color: var(--brand);
+  font-weight: 700;
+}
+.employment-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+}
+.employment-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.employment-task-mark {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--control-border);
+  border-radius: 50%;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.employment-checklist li[data-done="true"] .employment-task-mark {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-color: var(--success-line);
+}
+.employment-task-copy {
+  flex: 1;
+  min-width: 0;
+}
+.employment-task-copy strong {
+  font-size: 13px;
+  display: block;
+  overflow-wrap: anywhere;
+}
+.employment-task-copy small {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  color: var(--muted);
+}
+.employment-overdue {
+  color: var(--danger-text);
+}
+.employment-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--action-gap);
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.employment-detail-actions:empty {
+  display: none;
+}
+.employment-history {
+  list-style: none;
+  padding: 24px 0 0;
+  margin: 0;
+}
+.employment-history li {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 24px;
+}
+.employment-history li > div {
+  min-width: 0;
+  flex: 1;
+}
+.employment-history time {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.employment-history p {
+  margin: 10px 0 5px;
+}
+.employment-history small {
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .employment-tabs button {
+    flex-basis: 150px;
+    padding: 10px;
+  }
+  .employment-detail-bar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .employment-document {
+    flex-wrap: wrap;
+  }
+  .employment-document a {
+    margin-left: 44px;
+  }
+  .employment-checklist .button span {
+    display: none;
+  }
+  .employment-checklist .button {
+    padding: 8px;
+  }
+  .employment-facts {
+    gap: 18px;
+  }
+  .employment-detail-actions .button {
+    flex: 1 1 auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .employment-page *,
+  .employment-dialog * {
+    transition: none !important;
+  }
+}
+
+.employment-choice {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.employment-choice button {
+  min-height: 48px;
+  padding: 10px 8px;
+  border: 1px solid var(--control-border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.employment-choice button:hover {
+  background: var(--surface-hover);
+  color: var(--heading);
+}
+.employment-choice button[aria-checked="true"] {
+  background: var(--selection-gradient);
+  border-color: var(--brand);
+  color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}

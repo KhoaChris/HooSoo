@@ -2,7 +2,7 @@
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--action-gap);
   align-items: center;
   margin-bottom: 20px;
 }
@@ -17,8 +17,8 @@
   max-width: 188px;
   flex: 0 0 188px;
   padding: 8px 11px;
-  background: light-dark(#fff, var(--surface));
-  border-color: light-dark(#dfe7e5, var(--control-border));
+  background: var(--surface);
+  border-color: var(--control-border);
 }
 .search-input {
   display: flex;
@@ -28,14 +28,14 @@
   min-width: 200px;
   max-width: 360px;
   padding-left: 12px;
-  background: light-dark(#fafcfb, var(--surface));
-  border: 1px solid light-dark(#dde6e2, var(--control-border));
+  background: var(--surface);
+  border: 1px solid var(--control-border);
   border-radius: 7px;
-  color: light-dark(#8a9b98, var(--muted));
+  color: var(--muted);
 }
 .search-input:focus-within {
-  border-color: light-dark(#86b4a4, var(--control-border-hover));
-  box-shadow: 0 0 0 3px light-dark(#edf5f0, #00000066);
+  border-color: var(--control-border-hover);
+  box-shadow: 0 0 0 3px var(--focus-halo);
 }
 .search-input > svg {
   flex-shrink: 0;
@@ -60,13 +60,13 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: light-dark(#76898e, var(--text-secondary));
+  color: var(--text-secondary);
 }
 .filter-label input {
   min-height: 38px;
   font-size: 12px;
   padding: 7px 9px;
-  border-color: light-dark(#dfe7e5, var(--control-border));
+  border-color: var(--control-border);
 }
 .filter-label .input-control[type="number"] {
   min-width: 65px;
@@ -74,7 +74,7 @@
 }
 @media (max-width: 600px) {
   .filters {
-    gap: 9px;
+    gap: var(--action-gap);
   }
   .filters .select-trigger {
     flex: 1 1 160px;

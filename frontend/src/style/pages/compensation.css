@@ -1,0 +1,419 @@
+.compensation-dialog {
+  overflow: clip;
+}
+.compensation-page,
+.salary-package-editor,
+.reward-benefits,
+.package-summary {
+  min-width: 0;
+}
+.reward-section {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+.reward-section:first-child {
+  border-top: 0;
+  padding-top: 8px;
+}
+.reward-section h3,
+.compensation-benefits h3 {
+  margin: 0 0 14px;
+  color: var(--heading);
+  font-size: 14px;
+}
+.reward-section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 14px;
+}
+.reward-section-title h3 {
+  margin: 0;
+}
+.reward-section-title > span,
+.reward-section-title > small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 16px 0;
+}
+.reward-grid > *,
+.reward-allowance-row > *,
+.reward-add-row > * {
+  min-width: 0;
+}
+.reward-grid label > span,
+.reward-allowance-row label > span,
+label.reward-section > span {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 12px;
+}
+.reward-check {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  min-height: 24px;
+  margin-bottom: 9px;
+  font-size: 12px;
+}
+.reward-check .checkbox-control {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+}
+.reward-allowance-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 36px;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+.reward-allowance-row > .button {
+  padding: 10px;
+  min-width: 0;
+}
+.reward-add-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  margin-top: 12px;
+}
+.reward-add-row .button {
+  white-space: normal;
+}
+.reward-benefit-row {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+.reward-row-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.reward-row-heading strong {
+  color: var(--heading);
+  font-size: 13px;
+}
+.reward-benefit-row .input-control {
+  margin-bottom: 10px;
+}
+.reward-total {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding: 18px;
+  border-left: 3px solid var(--brand);
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.reward-total > div {
+  min-width: 0;
+}
+.reward-total span {
+  font-size: 12px;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+.reward-total strong {
+  display: block;
+  font-size: 21px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.compensation-badge {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.compensation-record-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+}
+.compensation-record-bar > span:not(.compensation-badge) {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.compensation-record-bar > .button {
+  margin-left: auto;
+}
+.compensation-amount {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 26px 0 20px;
+  color: var(--brand);
+}
+.compensation-amount > svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.compensation-amount > div {
+  min-width: 0;
+}
+.compensation-amount span,
+.compensation-amount small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.compensation-amount strong {
+  display: block;
+  margin: 8px 0;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.compensation-breakdown {
+  margin: 0;
+}
+.compensation-breakdown > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.compensation-breakdown dt {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.compensation-breakdown dd {
+  margin: 0;
+  color: var(--heading);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.compensation-breakdown .compensation-probation {
+  margin-top: 12px;
+  border-bottom: 0;
+}
+.compensation-benefits {
+  padding: 22px 0 8px;
+}
+.compensation-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 28px;
+}
+.compensation-benefits strong {
+  color: var(--heading);
+  font-size: 13px;
+}
+.compensation-benefits p {
+  margin: 7px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.compensation-detail-actions {
+  display: flex;
+  gap: var(--action-gap);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  position: sticky;
+  bottom: -24px;
+  padding: 18px 28px;
+  margin: 24px -28px -24px;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  z-index: 2;
+}
+.compensation-detail-actions:empty {
+  display: none;
+}
+.compensation-detail-actions .button {
+  min-width: 0;
+  white-space: normal;
+}
+.compensation-current {
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.compensation-history-section {
+  margin-top: 30px;
+}
+.compensation-history-section > header {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.compensation-history-section h2 {
+  font-size: 18px;
+  color: var(--heading);
+}
+.compensation-history-section small {
+  color: var(--muted);
+}
+.compensation-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.compensation-history-list li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding: 17px 0;
+}
+.compensation-history-list li > div {
+  flex: 1;
+  min-width: 0;
+}
+.compensation-history-list strong {
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+.compensation-history-list small {
+  display: block;
+  margin-top: 6px;
+}
+.compensation-table-total {
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
+}
+.compensation-empty {
+  padding: 28px 0;
+  color: var(--muted);
+}
+.recruitment-reward-summary {
+  display: flex;
+  gap: 12px 24px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding: 12px 0 20px;
+  font-size: 13px;
+}
+.recruitment-reward-summary strong {
+  color: var(--brand);
+}
+.recruitment-reward-summary span {
+  color: var(--text-secondary);
+}
+.recruitment-benefits {
+  min-width: 0;
+  flex: 1 1 240px;
+}
+.recruitment-benefits summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--brand);
+  border-radius: 4px;
+}
+.recruitment-benefits summary:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+}
+.recruitment-benefits ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px 24px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.recruitment-benefits li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.recruitment-benefits li strong {
+  color: var(--heading);
+}
+.recruitment-benefits li p {
+  margin: 6px 0 0;
+  white-space: pre-wrap;
+  color: var(--text-secondary);
+}
+@media (max-width: 600px) {
+  .reward-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .reward-add-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .reward-allowance-row {
+    grid-template-columns: minmax(0, 1fr) 36px;
+  }
+  .reward-allowance-row > label:first-child {
+    grid-column: 1/-1;
+  }
+  .reward-total {
+    gap: 14px;
+    padding: 15px;
+  }
+  .reward-total > svg {
+    display: none;
+  }
+  .reward-total > div {
+    width: 100%;
+  }
+  .compensation-benefits ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compensation-detail-actions {
+    bottom: -20px;
+    padding: 15px 20px max(15px, env(safe-area-inset-bottom));
+    margin: 24px -20px -20px;
+    gap: var(--action-gap);
+  }
+  .compensation-detail-actions .button {
+    flex: 1 1 auto;
+  }
+  .compensation-current {
+    padding: 20px;
+  }
+  .compensation-breakdown > div {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+  .compensation-history-list li {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .compensation-history-list li > div {
+    flex-basis: calc(100% - 140px);
+  }
+}
+
+.reward-grid > label > span {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+}

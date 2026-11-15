@@ -37,6 +37,7 @@ function MemberNode({
     <>
       <div className="org-member-main">
         <Avatar
+          employeeId={member.id}
           name={member.name}
           src={member.avatarUrl}
           className="org-member-avatar"
@@ -56,8 +57,7 @@ function MemberNode({
         <span>
           {member.managerName ? (
             <>
-              {t("Quản lý:")}{" "}
-              <strong>{member.managerName}</strong>
+              {t("Quản lý:")} <strong>{member.managerName}</strong>
             </>
           ) : (
             t("Chưa phân công quản lý")
@@ -332,8 +332,8 @@ export function OrganizationChart({
                 </span>
                 <h2>{companyName}</h2>
                 <p>
-                  {departments.length} {" "}{t("phòng ban")}{" "}
-                  <span aria-hidden="true">·</span> {count} {" "}{t("thành viên")}
+                  {departments.length} {t("phòng ban")}{" "}
+                  <span aria-hidden="true">·</span> {count} {t("thành viên")}
                 </p>
               </div>
             </div>

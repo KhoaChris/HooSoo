@@ -1,3 +1,8 @@
+import {
+  performanceHistoryLabels,
+  performanceStatusLabels,
+} from "@hoosoo/shared";
+import { employmentHistoryLabels } from "../employment/employment-labels";
 import { weekdayLabel } from "../../i18n/preferences";
 import { t } from "../../i18n";
 import {
@@ -11,6 +16,19 @@ import {
 import { dateText, timeText } from "../../utils/date-time";
 
 export const auditActions: Record<string, string> = {
+  ...Object.fromEntries(
+    Object.entries(performanceHistoryLabels).map(([key, label]) => [
+      "performance." + key,
+      label,
+    ]),
+  ),
+  ...Object.fromEntries(
+    Object.entries(employmentHistoryLabels).map(([key, label]) => [
+      "employment." + key,
+      label,
+    ]),
+  ),
+  "employment.onboarding_created": "Tạo checklist tiếp nhận",
   "work.submitted": "Gửi lịch làm việc",
   "work.approve": "Duyệt lịch làm việc",
   "work.reject": "Từ chối lịch làm việc",
@@ -135,6 +153,7 @@ export function auditCategory(action: string) {
   return (
     (
       {
+        performance: t("Đánh giá hiệu suất"),
         professional: t("Công việc chuyên môn"),
         work: t("Lịch làm việc"),
         request: t("Phiếu đề nghị"),
@@ -173,6 +192,7 @@ function formatValue(
   key: string,
   value: unknown,
   lookups: AuditLookups,
+  action = "",
 ): string {
   if (value === null || value === undefined || value === "")
     return t("Chưa có");
@@ -200,9 +220,14 @@ function formatValue(
       : value === false
         ? t("Không trừ phép năm")
         : t("Chưa xác định");
+  if (key === "status" && action.startsWith("performance."))
+    return (
+      t((performanceStatusLabels as Record<string, string>)[text]) ||
+      t("Chưa xác định")
+    );
   if (key === "status" || key === "role")
     return (
-      (workStatusLabels as Record<string, string>)[text] ||
+      t((workStatusLabels as Record<string, string>)[text]) ||
       t(workflowLabels[text]) ||
       t(labels[text]) ||
       t("Chưa xác định")
@@ -313,8 +338,10 @@ export function auditChanges(
           key === "name" && audit.action.startsWith("employee.")
             ? t("Họ tên")
             : label,
-        ...(comparison ? { before: formatValue(key, prev, lookups) } : {}),
-        after: formatValue(key, next, lookups),
+        ...(comparison
+          ? { before: formatValue(key, prev, lookups, audit.action) }
+          : {}),
+        after: formatValue(key, next, lookups, audit.action),
       },
     ];
   });

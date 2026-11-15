@@ -1,0 +1,207 @@
+/* Status UI is kept separate from employment status and avatar geometry. */
+.presence-avatar {
+  position: relative;
+  display: inline-flex;
+  width: max-content;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+.presence-dot {
+  position: absolute;
+  right: -1px;
+  bottom: 0;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--muted);
+  box-sizing: content-box;
+}
+.presence-dot[data-state="online"],
+.presence-label[data-state="online"] i {
+  background: var(--success-text);
+}
+.presence-dot[data-state="dnd"],
+.presence-label[data-state="dnd"] i {
+  background: var(--danger-text);
+}
+.presence-dot[data-state="dnd"]::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 2px;
+  right: 2px;
+  height: 1px;
+  background: var(--surface);
+}
+.presence-dot[data-state="unknown"] {
+  opacity: 0.45;
+}
+.presence-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.presence-label i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: 0 0 auto;
+}
+.presence-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px;
+  margin: -6px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  transition:
+    background 150ms,
+    border-color 150ms;
+}
+.presence-trigger:hover,
+.presence-trigger[data-state="open"] {
+  background: var(--hover-surface);
+  border-color: var(--line);
+}
+.presence-trigger .topbar-identity {
+  min-width: 0;
+}
+.presence-trigger-chevron {
+  flex: 0 0 auto;
+  color: var(--muted);
+}
+.presence-menu {
+  width: 290px;
+  max-width: calc(100vw - 24px);
+  max-height: var(--radix-popover-content-available-height);
+  overflow: auto;
+  z-index: 100;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--popover-shadow);
+  animation: presence-enter 140ms ease-out;
+}
+.presence-menu header {
+  display: grid;
+  gap: 5px;
+  padding: 18px;
+  background: var(--surface-sheen);
+  border-bottom: 1px solid var(--line);
+}
+.presence-menu header strong {
+  font-size: 14px;
+  color: var(--heading);
+}
+.presence-menu header small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.presence-menu [role="group"] {
+  padding: 6px;
+}
+.presence-menu [role="group"] button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  width: 100%;
+  border: 0;
+  border-radius: 9px;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+}
+.presence-menu [role="group"] button:hover,
+.presence-menu [aria-pressed="true"] {
+  background: var(--hover-surface);
+}
+.presence-menu button > span {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+.presence-menu button strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.presence-menu button small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.presence-menu button > svg {
+  flex: 0 0 auto;
+}
+.presence-menu button[data-state="online"] > svg:first-child {
+  color: var(--success-text);
+}
+.presence-menu button[data-state="dnd"] > svg:first-child {
+  color: var(--danger-text);
+}
+.presence-menu button[data-state="invisible"] > svg:first-child {
+  color: var(--muted);
+}
+.presence-menu button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+.presence-menu footer {
+  padding: 6px;
+  border-top: 1px solid var(--line);
+}
+.presence-menu footer a {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+.presence-menu footer a:hover {
+  background: var(--hover-surface);
+  color: var(--brand);
+}
+.presence-error {
+  margin: 0 12px 12px;
+  color: var(--danger-text);
+  font-size: 12px;
+}
+@keyframes presence-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 640px) {
+  .presence-trigger {
+    padding: 4px;
+    margin: -4px;
+    gap: 4px;
+  }
+  .presence-trigger-chevron,
+  .presence-trigger .topbar-identity {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .presence-menu {
+    animation: none;
+  }
+  .presence-trigger {
+    transition: none;
+  }
+}

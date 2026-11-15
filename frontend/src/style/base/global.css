@@ -6,6 +6,9 @@
 html {
   scrollbar-gutter: stable;
 }
+html:has(.app-shell) {
+  scrollbar-gutter: auto;
+}
 body {
   margin: 0;
 }
@@ -36,7 +39,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: var(--teal);
+  color: var(--brand);
 }
 h1,
 h2,
@@ -49,13 +52,13 @@ h1 {
   line-height: 1.4;
   letter-spacing: -0.7px;
   font-weight: 650;
-  color: var(--navy);
+  color: var(--heading);
 }
 h2 {
   font-size: 17px;
   font-weight: 650;
   line-height: 1.5;
-  color: var(--navy);
+  color: var(--heading);
 }
 h3 {
   font-size: 15px;

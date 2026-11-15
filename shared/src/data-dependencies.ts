@@ -1,10 +1,17 @@
+import { employmentTables, type EmploymentSection } from "./employment";
 import type { Table } from "./index";
 
 export function queryCollections(path: string): Table[] | null {
   const route = path.split("?")[0];
   const authorization: Table[] = ["memberships", "employees"];
   let data: Table[];
-  if (route === "/notifications")
+  if (route === "/compensation") data = ["compensationRecords"];
+  else if (route.startsWith("/performance/"))
+    data = ["performanceReviews", "performanceReports"];
+  else if (route.startsWith("/employment/")) {
+    const table = employmentTables[route.split("/")[2] as EmploymentSection];
+    data = table ? [table] : [];
+  } else if (route === "/notifications")
     data = [
       "chatRooms",
       "leaveRequests",
@@ -64,6 +71,20 @@ export function queryCollections(path: string): Table[] | null {
 }
 
 export function mutationCollections(path: string): Table[] | null {
+  if (path.startsWith("/compensation/"))
+    return ["compensationRecords", "auditLogs"];
+  if (path.startsWith("/performance/"))
+    return ["performanceReviews", "performanceReports", "auditLogs"];
+  if (path.startsWith("/employment/")) {
+    const table = employmentTables[path.split("/")[2] as EmploymentSection];
+    return table
+      ? [
+          table,
+          "auditLogs",
+          ...(path.endsWith("/confirm") ? ["employees" as const] : []),
+        ]
+      : null;
+  }
   if (path.startsWith("/chat/")) return ["chatRooms", "chatMessages"];
   if (/^\/(me|employees\/[^/]+)\/avatar$/.test(path.split("?")[0]))
     return ["employees", "auditLogs"];
@@ -72,7 +93,13 @@ export function mutationCollections(path: string): Table[] | null {
       path.split("?")[0],
     )
   )
-    return ["candidates", "employees", "auditLogs"];
+    return [
+      "candidates",
+      "employees",
+      "onboardingPlans",
+      "compensationRecords",
+      "auditLogs",
+    ];
   if (path.startsWith("/recruitment/candidates"))
     return ["candidates", "auditLogs"];
   if (path.startsWith("/recruitment/jobs"))

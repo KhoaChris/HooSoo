@@ -8,7 +8,7 @@
   padding: 13px 23px;
   border-radius: 8px;
   font-size: 12px;
-  box-shadow: 0 8px 25px light-dark(#153b3322, #00000055);
+  box-shadow: 0 8px 25px var(--shadow-color);
   opacity: 0;
   pointer-events: none;
   transition: 0.2s;

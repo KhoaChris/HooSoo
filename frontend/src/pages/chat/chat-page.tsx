@@ -1,5 +1,9 @@
+import { PresenceLabel } from "../../components/ui/presence-label";
 import { t, useLocale, intlLocale } from "../../i18n";
 import { appendSentMessage } from "./chat-history";
+import { ChatMessageList } from "./chat-message-list";
+import { ChatRoomActions } from "./chat-room-actions";
+import { chatEventText } from "./chat-labels";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,12 +17,14 @@ import {
   Settings2,
   ShieldCheck,
   UsersRound,
+  LockKeyhole,
 } from "lucide-react";
 import type {
   ChatMessage,
   ChatMessagePage,
   ChatPerson,
-  ChatRoom,
+  ChatRoomView as ChatRoom,
+  ChatLifecycleInput,
 } from "@hoosoo/shared";
 import { useAuth } from "../../app/auth";
 import { useApi } from "../../hooks/data";
@@ -34,18 +40,6 @@ import {
   type MessageHistory,
 } from "./chat-data";
 import "../../style/pages/chat.css";
-const day = (value: string) =>
-  new Intl.DateTimeFormat(intlLocale(), {
-    weekday: "long",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(value));
-const time = (value: string) =>
-  new Intl.DateTimeFormat(intlLocale(), {
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(value));
 export function ChatPage() {
   useLocale();
   const { me, live } = useAuth(),
@@ -57,12 +51,25 @@ export function ChatPage() {
     [dialog, setDialog] = useState<"new" | "edit" | null>(null);
   const id = params.get("room") ?? "",
     room = rooms.data?.find((r) => r.id === id);
-  const select = (id: string) => setParams(id ? { room: id } : {});
+  const archived = params.get("view") === "archived";
+  const select = (id: string) =>
+    setParams((current) => {
+      const next = new URLSearchParams(current);
+      if (id) next.set("room", id);
+      else next.delete("room");
+      return next;
+    });
+  const onLifecycle = (action: ChatLifecycleInput["action"]) => {
+    if (action === "restore") setParams({ room: id });
+    else if (action !== "dissolve") select("");
+  };
   const directory = people.data ?? [],
-    list = (rooms.data ?? []).filter((r) =>
-      roomName(r, directory, self)
-        .toLocaleLowerCase("vi")
-        .includes(search.toLocaleLowerCase("vi")),
+    list = (rooms.data ?? []).filter(
+      (r) =>
+        Boolean(r.viewer?.archived) === archived &&
+        roomName(r, directory, self)
+          .toLocaleLowerCase("vi")
+          .includes(search.toLocaleLowerCase("vi")),
     );
   return (
     <div className="chat-page">
@@ -89,11 +96,35 @@ export function ChatPage() {
         <aside className="chat-rail" aria-label={t("Cuộc trò chuyện")}>
           <div className="chat-rail-heading">
             <h2>
-              {t("Hộp thư")} <span>{rooms.data?.length ?? 0}</span>
+              {t("Hộp thư")}{" "}
+              <span>
+                {rooms.data?.filter((r) => !r.viewer?.archived).length ?? 0}
+              </span>
             </h2>
             <small className={live ? "chat-connected" : "chat-disconnected"}>
               {live ? t("Đang đồng bộ") : t("Đang kết nối lại")}
             </small>
+          </div>
+          <div
+            className="chat-mailbox-tabs"
+            role="group"
+            aria-label={t("Hộp thư")}
+          >
+            {[false, true].map((value) => (
+              <button
+                type="button"
+                key={String(value)}
+                aria-pressed={archived === value}
+                onClick={() => setParams(value ? { view: "archived" } : {})}
+              >
+                {t(value ? "Đã lưu trữ" : "Cuộc trò chuyện")}
+                {value && (
+                  <span>
+                    {rooms.data?.filter((r) => r.viewer?.archived).length ?? 0}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
           <label className="chat-search">
             <Search size={17} />
@@ -117,7 +148,7 @@ export function ChatPage() {
                   <button
                     type="button"
                     key={r.id}
-                    className={`chat-room ${r.id === id ? "is-selected" : ""}`}
+                    className={`chat-room ${r.id === id ? "is-selected" : ""} ${r.dissolved ? "is-dissolved" : ""}`}
                     aria-current={r.id === id ? "true" : undefined}
                     onClick={() => select(r.id)}
                   >
@@ -126,14 +157,22 @@ export function ChatPage() {
                         <UsersRound size={21} />
                       </span>
                     ) : (
-                      <Avatar name={name} src={other?.avatarUrl} />
+                      <Avatar
+                        name={name}
+                        src={other?.avatarUrl}
+                        employeeId={other?.id}
+                      />
                     )}
                     <span className="chat-room-copy">
                       <strong>{name}</strong>
                       <small>
-                        {r.lastMessage
-                          ? `${r.lastMessage.senderId === self ? t("Bạn: ") : ""}${r.lastMessage.text}`
-                          : t("Chưa có tin nhắn")}
+                        {r.dissolved
+                          ? t("Nhóm đã giải tán")
+                          : r.lastMessage?.event
+                            ? chatEventText(r.lastMessage.event)
+                            : r.lastMessage
+                              ? `${r.lastMessage.senderId === self ? t("Bạn: ") : ""}${r.lastMessage.text}`
+                              : t("Chưa có tin nhắn")}
                       </small>
                     </span>
                     {r.lastMessage && (
@@ -154,7 +193,11 @@ export function ChatPage() {
                 <p>
                   {search
                     ? t("Không có kết quả phù hợp")
-                    : t("Chưa có cuộc trò chuyện")}
+                    : t(
+                        archived
+                          ? "Chưa có nhóm được lưu trữ"
+                          : "Chưa có cuộc trò chuyện",
+                      )}
                 </p>
                 <small>{t("Chọn đồng nghiệp để bắt đầu.")}</small>
               </div>
@@ -173,6 +216,7 @@ export function ChatPage() {
             self={self}
             onBack={() => select("")}
             onManage={() => setDialog("edit")}
+            onLifecycle={onLifecycle}
           />
         ) : (
           <section className="chat-welcome">
@@ -203,18 +247,20 @@ export function ChatPage() {
           </section>
         )}
       </div>
-      {dialog && (
-        <ChatDialog
-          people={directory}
-          self={self}
-          room={dialog === "edit" ? room : undefined}
-          onClose={() => setDialog(null)}
-          onSaved={(id) => {
-            setDialog(null);
-            select(id);
-          }}
-        />
-      )}
+      {dialog &&
+        (dialog === "new" ||
+          (room && !room.dissolved && room.ownerId === self)) && (
+          <ChatDialog
+            people={directory}
+            self={self}
+            room={dialog === "edit" ? room : undefined}
+            onClose={() => setDialog(null)}
+            onSaved={(id) => {
+              setDialog(null);
+              select(id);
+            }}
+          />
+        )}
     </div>
   );
 }
@@ -224,12 +270,14 @@ function Conversation({
   self,
   onBack,
   onManage,
+  onLifecycle,
 }: {
   room: ChatRoom;
   people: ChatPerson[];
   self: string;
   onBack: () => void;
   onManage: () => void;
+  onLifecycle: (action: ChatLifecycleInput["action"]) => void;
 }) {
   useLocale();
   const messages = useMessages(room.id),
@@ -254,7 +302,8 @@ function Conversation({
     messages.error instanceof ApiError &&
     [401, 403, 404].includes(messages.error.status);
   const send = async () => {
-    if (!draft.trim() || sending || messages.isPending) return;
+    if (!draft.trim() || sending || messages.isPending || room.dissolved)
+      return;
     const text = draft.trim(),
       key =
         retry.current?.text === text ? retry.current.key : crypto.randomUUID();
@@ -326,37 +375,55 @@ function Conversation({
             <UsersRound size={21} />
           </span>
         ) : (
-          <Avatar name={name} src={other?.avatarUrl} />
+          <Avatar name={name} src={other?.avatarUrl} employeeId={other?.id} />
         )}
         <div>
           <h2>{name}</h2>
           <p>
-            {room.kind === "group"
-              ? t("{0} thành viên · {1}", [
-                  room.memberIds.length,
-                  room.ownerId === self ? "Bạn là chủ nhóm" : "Nhóm riêng tư",
-                ])
-              : t("Cuộc trò chuyện riêng tư")}
+            {room.dissolved ? (
+              t("Nhóm đã giải tán")
+            ) : room.kind === "group" ? (
+              t("{0} thành viên · {1}", [
+                room.memberIds.length,
+                t(room.ownerId === self ? "Bạn là chủ nhóm" : "Nhóm riêng tư"),
+              ])
+            ) : (
+              <PresenceLabel employeeId={other?.id} />
+            )}
           </p>
         </div>
-        {room.kind === "group" && room.ownerId === self && (
-          <Button variant="ghost" onClick={onManage}>
+        {room.kind === "group" && !room.dissolved && room.ownerId === self && (
+          <Button
+            variant="ghost"
+            onClick={onManage}
+            aria-label={t("Quản lý nhóm")}
+          >
             <Settings2 size={17} />
             <span>{t("Quản lý nhóm")}</span>
           </Button>
         )}
+        {room.kind === "group" && (
+          <ChatRoomActions room={room} self={self} onFinished={onLifecycle} />
+        )}
       </header>
-      {room.kind === "group" && (
-        <div className="chat-members-line">
-          <UsersRound size={14} />
-          <span>
-            {room.memberIds
-              .map(
-                (id) =>
-                  people.find((p) => p.id === id)?.name ?? t("Thành viên"),
-              )
-              .join(", ")}
-          </span>
+      {room.kind === "group" && !room.dissolved && (
+        <div
+          className="chat-members-line chat-members-presence"
+          aria-label={t("Thành viên")}
+        >
+          {room.memberIds.map((id) => {
+            const person = people.find((p) => p.id === id);
+            return (
+              <span className="chat-member-presence" key={id}>
+                <Avatar
+                  name={person?.name ?? t("Thành viên")}
+                  src={person?.avatarUrl}
+                  employeeId={id}
+                />
+                <span>{person?.name ?? t("Thành viên")}</span>
+              </span>
+            );
+          })}
         </div>
       )}
       <div
@@ -401,40 +468,7 @@ function Conversation({
                   </strong>
                 </div>
               )}
-              {items.map((m, index) => {
-                const sender = people.find((p) => p.id === m.senderId),
-                  mine = m.senderId === self,
-                  showDate =
-                    index === 0 ||
-                    day(m.sentAt) !== day(items[index - 1].sentAt);
-                return (
-                  <div key={m.id}>
-                    {showDate && (
-                      <div className="chat-day">{day(m.sentAt)}</div>
-                    )}
-                    <article
-                      className={`chat-message ${mine ? "is-mine" : ""}`}
-                    >
-                      {!mine && (
-                        <Avatar
-                          name={sender?.name ?? t("Đồng nghiệp")}
-                          src={sender?.avatarUrl}
-                        />
-                      )}
-                      <div className="chat-message-content">
-                        {!mine && (
-                          <strong>{sender?.name ?? t("Đồng nghiệp")}</strong>
-                        )}
-                        <p>{m.text}</p>
-                        <time dateTime={m.sentAt}>
-                          {time(m.sentAt)}
-                          {mine && t(" · Đã gửi")}
-                        </time>
-                      </div>
-                    </article>
-                  </div>
-                );
-              })}
+              <ChatMessageList items={items} people={people} self={self} />
             </>
           )
         )}
@@ -454,47 +488,65 @@ function Conversation({
           {t("Có tin nhắn mới ↓")}
         </button>
       )}
-      <form
-        className="chat-composer"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void send();
-        }}
-      >
-        {error && <ErrorBox error={error} />}
-        <div>
-          <textarea
-            aria-label={t("Nội dung tin nhắn")}
-            placeholder={t("Viết tin nhắn…")}
-            maxLength={4000}
-            value={draft}
-            disabled={denied || sending || messages.isPending}
-            onChange={(e) => setDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (
-                e.key === "Enter" &&
-                !e.shiftKey &&
-                !e.nativeEvent.isComposing
-              ) {
-                e.preventDefault();
-                void send();
-              }
-            }}
+      {room.dissolved ? (
+        <div className="chat-ended" role="status">
+          <LockKeyhole size={19} />
+          <div>
+            <strong>
+              {t("Nhóm đã được {0} giải tán.", [room.dissolved.byName])}
+            </strong>
+            <span>{t("Chỉ xem lịch sử")}</span>
+          </div>
+          <ChatRoomActions
+            room={room}
+            self={self}
+            onFinished={onLifecycle}
+            removeOnly
           />
-          <Button
-            aria-label={t("Gửi tin nhắn")}
-            type="submit"
-            busy={sending}
-            disabled={!draft.trim() || denied || messages.isPending}
-          >
-            <Send size={19} />
-          </Button>
         </div>
-        <footer>
-          <span>{t("Enter để gửi · Shift + Enter để xuống dòng")}</span>
-          <span>{draft.length}/4.000</span>
-        </footer>
-      </form>
+      ) : (
+        <form
+          className="chat-composer"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void send();
+          }}
+        >
+          {error && <ErrorBox error={error} />}
+          <div>
+            <textarea
+              aria-label={t("Nội dung tin nhắn")}
+              placeholder={t("Viết tin nhắn…")}
+              maxLength={4000}
+              value={draft}
+              disabled={denied || sending || messages.isPending}
+              onChange={(e) => setDraft(e.target.value)}
+              onKeyDown={(e) => {
+                if (
+                  e.key === "Enter" &&
+                  !e.shiftKey &&
+                  !e.nativeEvent.isComposing
+                ) {
+                  e.preventDefault();
+                  void send();
+                }
+              }}
+            />
+            <Button
+              aria-label={t("Gửi tin nhắn")}
+              type="submit"
+              busy={sending}
+              disabled={!draft.trim() || denied || messages.isPending}
+            >
+              <Send size={19} />
+            </Button>
+          </div>
+          <footer>
+            <span>{t("Enter để gửi · Shift + Enter để xuống dòng")}</span>
+            <span>{draft.length}/4.000</span>
+          </footer>
+        </form>
+      )}
     </section>
   );
 }
