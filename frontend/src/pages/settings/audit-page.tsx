@@ -79,7 +79,7 @@ export function AuditPage() {
   );
   return (
     <>
-      <Heading eyebrow={t("QUẢN TRỊ")} title={t("Nhật ký thao tác")} />
+      <Heading eyebrow={t("Quản trị")} title={t("Nhật ký thao tác")} />
       <DataTable
         title={t("Lịch sử hoạt động")}
         icon={<History size={18} />}

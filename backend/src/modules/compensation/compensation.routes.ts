@@ -1,7 +1,11 @@
+import { requireRole } from "../../common/authorization";
+import { readState, mergeState } from "../../database/store";
+import { adminBandWorkspace, saveAdminBand } from "./admin-band.service";
 import { Router } from "express";
 import { z } from "zod";
 import {
   compensationSetupSchema,
+  adminBandSchema,
   compensationActionSchema,
   idSchema,
 } from "@hoosoo/shared";
@@ -31,6 +35,9 @@ compensationRoutes.get("/compensation", async (req, res) => {
   res.json({
     people: ids.map((id) => compensationPerson(s, a, id)),
     asOf: businessDate(),
+    ...(a.role === "Admin" && q.scope === "my"
+      ? { adminBand: s.compensationBands.Admin ?? null }
+      : {}),
   });
 });
 write("post", "/compensation/records", compensationSetupSchema, (s, a, input) =>
@@ -50,3 +57,19 @@ for (const action of ["publish", "cancel"] as const)
     (s, a, input, req) =>
       compensationAction(s, a, param(req, "id"), action, input),
   );
+
+compensationRoutes.get("/compensation/admin-band", async (_req, res) => {
+  const { s, a } = await context(res, [], true);
+  requireRole(a, ["Admin"]);
+  mergeState(
+    s,
+    await readState([], {
+      compensationBands: { field: "role", value: "Admin" },
+      compensationRecords: { field: "employeeId", value: a.employeeId },
+    }),
+  );
+  res.json(adminBandWorkspace(s, a));
+});
+write("post", "/compensation/admin-band", adminBandSchema, (s, a, input) =>
+  saveAdminBand(s, a, input),
+);

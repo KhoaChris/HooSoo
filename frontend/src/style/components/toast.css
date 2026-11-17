@@ -7,7 +7,7 @@
   transform: translate(-50%, 20px);
   padding: 13px 23px;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   box-shadow: 0 8px 25px var(--shadow-color);
   opacity: 0;
   pointer-events: none;

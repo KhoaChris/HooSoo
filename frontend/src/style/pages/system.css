@@ -26,19 +26,19 @@
 }
 .system-eyebrow {
   color: var(--text-secondary);
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 1.3px;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: normal;
 }
 .system-status-heading h2 {
-  font-size: 22px;
+  font-size: var(--font-size-section);
   margin-top: 6px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: -0.5px;
   color: var(--heading);
 }
 .system-status-heading p {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   line-height: 1.8;
   margin-top: 8px;
@@ -79,19 +79,19 @@
 }
 .system-service-name strong {
   display: block;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--heading);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .system-service-name small {
   display: block;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   margin-top: 6px;
   line-height: 1.8;
 }
 .system-service-state {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   display: flex;
   gap: 7px;
@@ -121,7 +121,7 @@
   border-top: 1px solid var(--line);
   padding: 18px 34px;
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .system-check-meta > div {
   display: flex;
@@ -133,7 +133,7 @@
   gap: 10px;
   margin: 22px 0;
   max-width: 850px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.9;
   color: var(--text-secondary);
 }
@@ -146,12 +146,12 @@
   max-width: 1000px;
   padding-top: 18px;
   border-top: 1px solid var(--line);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .system-connection-details summary {
   cursor: pointer;
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .system-connection-details dl {
   margin: 18px 0;
@@ -184,7 +184,7 @@
     width: 24px;
   }
   .system-status-heading h2 {
-    font-size: 18px;
+    font-size: var(--font-size-section);
   }
   .system-services {
     padding: 0 20px;

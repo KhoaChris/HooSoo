@@ -14,6 +14,26 @@ import { Login } from "../pages/auth/login-page";
 import { ApiError } from "../services/api-client";
 import { RecordDialog } from "./record-dialog";
 import { recordDialogBackground } from "./record-dialog-routes";
+const Workforce = lazy(() =>
+  import("../pages/workforce/workforce-page").then((m) => ({
+    default: m.WorkforcePage,
+  })),
+);
+const EmployeeServices = lazy(() =>
+  import("../pages/employee-services/employee-services-page").then((m) => ({
+    default: m.EmployeeServicesPage,
+  })),
+);
+const Security = lazy(() =>
+  import("../pages/security/security-page").then((m) => ({
+    default: m.SecurityPage,
+  })),
+);
+const Policies = lazy(() =>
+  import("../pages/security/policies-page").then((m) => ({
+    default: m.PoliciesPage,
+  })),
+);
 const Compensation = lazy(() =>
   import("../pages/compensation/compensation-page").then((m) => ({
     default: m.CompensationPage,
@@ -163,6 +183,7 @@ export function AppRoutes() {
       <Suspense fallback={<Loading />}>
         <Routes location={background ?? location}>
           <Route path="/login" element={<Login />} />
+          <Route path="/policies" element={<Policies />} />
           <Route path="/forgot-password" element={<Login forgot />} />
           <Route element={<Guard />}>
             <Route element={<AppLayout />}>
@@ -174,6 +195,7 @@ export function AppRoutes() {
                 <Route path="professional" element={<Professional />} />
               </Route>
               <Route path="profile" element={<EmployeeDetail personal />} />
+              <Route path="security" element={<Security />} />
               <Route path="performance/my" element={<Performance personal />} />
               <Route
                 path="compensation/my"
@@ -183,9 +205,14 @@ export function AppRoutes() {
                 <Route path="compensation" element={<Compensation />} />
               </Route>
               <Route path="employment/my" element={<Employment personal />} />
+              <Route
+                path="employee-services/my"
+                element={<EmployeeServices personal />}
+              />
               <Route path="organization" element={<Organization />} />
               <Route path="attendance/my" element={<Attendance personal />} />
               <Route path="work-schedule" element={<WorkSchedule />} />
+              <Route path="workforce/:section" element={<Workforce />} />
               <Route path="requests/my" element={<InternalRequests />} />
               <Route path="leave/my" element={<LeaveList personal />} />
               <Route path="leave/new" element={<LeaveCreate />} />
@@ -193,6 +220,10 @@ export function AppRoutes() {
               <Route element={<Guard roles={supervisorRoles} />}>
                 <Route path="performance" element={<Performance />} />
                 <Route path="employment" element={<Employment />} />
+                <Route
+                  path="employee-services"
+                  element={<EmployeeServices />}
+                />
                 <Route
                   path="work-schedule/approvals"
                   element={<WorkSchedule approvals />}

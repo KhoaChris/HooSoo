@@ -14,8 +14,8 @@
   border-radius: 7px;
   color: var(--text-secondary);
   background: var(--surface);
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   transition:
     background 140ms,
     border-color 140ms;

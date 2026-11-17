@@ -1,3 +1,4 @@
+import { WorkforceLinks } from "../workforce/common";
 import { useState } from "react";
 import type {
   InternalRequestView,
@@ -47,13 +48,16 @@ export function DashboardPage() {
   if (q.error)
     return <ErrorBox error={q.error} retry={() => void q.refetch()} />;
   return (
-    <DashboardView
-      data={q.data!}
-      me={me}
-      range={range}
-      onRangeChange={setRange}
-      refreshing={q.isFetching}
-      resources={{ schedules, requests, leaves, work, recruitment }}
-    />
+    <>
+      <WorkforceLinks group="company" />
+      <DashboardView
+        data={q.data!}
+        me={me}
+        range={range}
+        onRangeChange={setRange}
+        refreshing={q.isFetching}
+        resources={{ schedules, requests, leaves, work, recruitment }}
+      />
+    </>
   );
 }

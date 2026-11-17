@@ -94,7 +94,7 @@ export function HeaderTools() {
           }
         />
       </div>
-      <Notifications key={user?.uid} uid={user!.uid} />
+      {user && <Notifications key={user.uid} uid={user.uid} />}
     </div>
   );
 }
@@ -202,6 +202,14 @@ function Notifications({ uid }: { uid: string }) {
               <X size={18} />
             </button>
           </header>
+          <Link
+            className="notification-item"
+            to="/workforce/calendar"
+            onClick={() => setOpen(false)}
+          >
+            <CalendarDays size={18} />
+            {t("Lịch & nhắc hạn")}
+          </Link>
           <div className="notification-toolbar">
             <button
               type="button"

@@ -75,7 +75,7 @@ export function ChatPage() {
     <div className="chat-page">
       <header className="chat-page-heading">
         <div>
-          <span className="eyebrow">{t("KẾT NỐI ĐỒNG NGHIỆP")}</span>
+          <span className="eyebrow">{t("Kết nối đồng nghiệp")}</span>
           <h1>{t("Tin nhắn")}</h1>
         </div>
         <Button onClick={() => setDialog("new")} disabled={!people.data}>

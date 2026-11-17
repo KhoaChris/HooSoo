@@ -53,3 +53,6 @@ log/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Private personnel document objects (development only)
+.private/

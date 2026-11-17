@@ -1,6 +1,7 @@
 import { t, useLocale } from "../../i18n";
 import { Textarea } from "./textarea";
 import { Checkbox } from "./checkbox";
+import { Switch } from "./switch";
 import { Input } from "./input";
 import { DateTimePicker } from "./date-time-picker";
 import {
@@ -53,7 +54,8 @@ export type FormField = {
     | "textarea"
     | "select"
     | "choices"
-    | "checkbox";
+    | "checkbox"
+    | "switch";
   options?: SelectOption[];
   hint?: string;
   disabled?: boolean;
@@ -174,7 +176,9 @@ export function Form({
           <div
             className={
               "field " +
-              (f.type === "checkbox" ? "checkbox-field " : "") +
+              (f.type === "checkbox" || f.type === "switch"
+                ? "selection-field "
+                : "") +
               (f.span === "full" ? "field-full" : "")
             }
           >
@@ -350,13 +354,28 @@ export function Form({
                 rows={3}
                 {...register(f.name)}
               />
-            ) : f.type === "checkbox" ? (
-              <Checkbox
-                id={`${formId}-${f.name}`}
-                aria-label={t(f.label)}
-                {...register(f.name)}
-                disabled={f.disabled || isSubmitting}
-              />
+            ) : f.type === "checkbox" || f.type === "switch" ? (
+              (() => {
+                const Control = f.type === "switch" ? Switch : Checkbox;
+                return (
+                  <Control
+                    id={`${formId}-${f.name}`}
+                    aria-labelledby={`${formId}-${f.name}-label`}
+                    aria-invalid={!!errors[f.name]}
+                    aria-required={f.required}
+                    aria-describedby={
+                      [
+                        f.hint && `${formId}-${f.name}-hint`,
+                        errors[f.name] && `${formId}-${f.name}-error`,
+                      ]
+                        .filter(Boolean)
+                        .join(" ") || undefined
+                    }
+                    {...register(f.name)}
+                    disabled={f.disabled || isSubmitting}
+                  />
+                );
+              })()
             ) : (
               <Input
                 aria-invalid={!!errors[f.name]}

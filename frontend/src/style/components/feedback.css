@@ -12,10 +12,10 @@
 }
 .empty strong {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .empty p {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .loading {
   display: flex;
@@ -36,7 +36,7 @@
   padding: 16px;
   border-radius: 10px;
   margin: 16px 0;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .error-box-icon {
   margin-top: 2px;
@@ -46,19 +46,19 @@
   align-self: center;
 }
 .error-box-content > p {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   line-height: 1.65;
   overflow-wrap: anywhere;
 }
 .error-box .error-box-retry {
   min-height: 34px;
   padding: 6px 10px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .error-details {
   min-width: 0;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .error-box .error-details {
   margin-top: 8px;
@@ -73,7 +73,7 @@
   cursor: pointer;
   list-style: none;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 .error-details > summary::-webkit-details-marker {
   display: none;
@@ -105,11 +105,11 @@
 .error-reference-label {
   display: block;
   margin-bottom: 4px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .error-reference code {
   display: block;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   line-height: 1.65;
   color: var(--heading);
   overflow-wrap: anywhere;
@@ -148,7 +148,7 @@
   border: 1px solid var(--warning-line);
   border-radius: 8px;
   color: var(--warning-text);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   margin: 15px 0;
   line-height: 1.7;
 }

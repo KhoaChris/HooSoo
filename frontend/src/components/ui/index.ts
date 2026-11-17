@@ -15,6 +15,8 @@ export { Toast } from "./toast";
 export { Input } from "./input";
 export { Textarea } from "./textarea";
 export { Checkbox } from "./checkbox";
+export { Radio } from "./radio";
+export { Switch } from "./switch";
 export { Tooltip } from "./tooltip";
 export type { FormField } from "./form";
 export type { SelectOption } from "./select";

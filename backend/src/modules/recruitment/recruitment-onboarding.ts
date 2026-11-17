@@ -6,6 +6,7 @@ import { createOnboarding } from "../employment/employment.service";
 import {
   candidateHireSchema,
   employeeSchema,
+  emptyEmployeeBackground,
   type State,
   type Actor,
   type Candidate,
@@ -64,6 +65,19 @@ export function createHiredEmployee(
     }),
   );
   employee.recruitmentCandidateId = c.id;
+  // Persist with the employee in this same command transaction. The snapshot
+  // survives later profile edits and requires no additional candidate read.
+  employee.background = {
+    ...emptyEmployeeBackground(),
+    version: 1,
+    recruitment: {
+      candidateId: c.id,
+      capturedAt: new Date().toISOString(),
+      education: c.education,
+      experience: c.experience,
+      skills: c.skills,
+    },
+  };
   c.employeeId = employee.id;
   createOnboarding(s, a, employee.id, hire.hireDate);
   if (hire.compensation) {

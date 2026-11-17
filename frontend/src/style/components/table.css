@@ -38,8 +38,8 @@
   gap: 10px;
 }
 .data-table-title h2 {
-  font-size: 15px;
-  font-weight: 650;
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-heading);
   letter-spacing: -0.2px;
 }
 .data-table-count {
@@ -48,13 +48,13 @@
   background: var(--surface);
   border-radius: 6px;
   padding: 1px 7px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 .data-table-title p {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .data-table-actions {
@@ -77,8 +77,8 @@
 }
 .table-toolbar .filter-reset {
   margin-left: auto;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
 }
 .table-scroll {
   overflow-x: auto;
@@ -99,15 +99,15 @@
   background: var(--surface-subtle);
   color: var(--text-secondary);
   border-bottom: 1px solid var(--line);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.1px;
   white-space: nowrap;
 }
 .table-panel td {
   padding: 18px 20px;
   border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
   white-space: normal;
   overflow-wrap: anywhere;
@@ -122,7 +122,7 @@
   padding-right: 24px;
 }
 .table-panel td strong {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
 }
 .table-panel tbody tr:last-child td {
@@ -154,8 +154,8 @@
 .table-panel .row-actions .button {
   min-height: 32px;
   padding: 6px 10px;
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
   border-radius: 6px;
 }
 .table-panel .row-actions .button:not([data-tone]) {
@@ -180,8 +180,8 @@
   background: var(--surface-hover);
 }
 .table-panel .text-link {
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
 }
 .table-row-link {
   display: inline-flex;
@@ -189,12 +189,12 @@
   justify-content: center;
   gap: 6px;
   color: var(--text-secondary);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   padding: 6px 9px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--surface);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .table-row-link:hover {
   color: var(--brand);
@@ -213,8 +213,8 @@
   border-radius: 50%;
   background: var(--surface);
   color: var(--brand);
-  font-size: 12px;
-  font-weight: 650;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -228,13 +228,13 @@
   display: block;
 }
 .person-cell strong {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .person-cell small {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
   margin-top: 3px;
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
 }
 a.person-cell:hover strong {
   color: var(--brand);
@@ -245,14 +245,14 @@ a.person-cell:hover strong {
   gap: 3px;
 }
 .cell-stack > small {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
 }
 .cell-code {
   display: inline-flex;
-  font-size: 10px;
-  font-weight: 550;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
   padding: 3px 7px;
   background: var(--surface);
@@ -262,7 +262,7 @@ a.person-cell:hover strong {
   letter-spacing: 0.2px;
 }
 .cell-duration {
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   color: var(--heading);
   font-variant-numeric: tabular-nums;
 }
@@ -274,10 +274,10 @@ a.person-cell:hover strong {
   align-items: center;
   gap: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .cell-member-count strong {
-  font-size: 14px;
+  font-size: var(--font-size-body);
 }
 .cell-catalog {
   display: flex;
@@ -299,13 +299,13 @@ a.person-cell:hover strong {
 }
 .cell-catalog strong {
   display: block;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .cell-catalog small {
   display: block;
   margin-top: 4px;
-  font-size: 12px;
-  font-weight: 400;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-regular);
   color: var(--text-secondary);
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -318,12 +318,12 @@ a.person-cell:hover strong {
   gap: 14px;
   padding: 15px 24px;
   border-top: 1px solid var(--line);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
 }
 .table-footer strong {
   color: var(--text-secondary);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .table-pagination {
   display: flex;
@@ -345,7 +345,7 @@ a.person-cell:hover strong {
   min-width: 30px;
   height: 31px;
   padding: 0 7px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .table-pagination button:hover:not(:disabled) {
@@ -356,7 +356,7 @@ a.person-cell:hover strong {
   background: var(--selected-surface);
   border-color: var(--line);
   color: var(--brand);
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
   opacity: 1;
 }
 .table-pagination .table-page-arrow {
@@ -371,7 +371,7 @@ a.person-cell:hover strong {
   align-items: flex-start;
   gap: 8px;
   padding: 13px 24px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.8;
   color: var(--text-secondary);
   background: var(--surface);
@@ -416,10 +416,10 @@ a.person-cell:hover strong {
     gap: 12px;
   }
   .data-table-title h2 {
-    font-size: 14px;
+    font-size: var(--font-size-section);
   }
   .data-table-title p {
-    font-size: 10px;
+    font-size: var(--font-size-micro);
   }
   .table-toolbar {
     padding: 0 16px 16px;

@@ -15,15 +15,15 @@
   display: block;
 }
 .timeline strong {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .timeline p {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   margin-top: 8px;
 }
 .timeline small {
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   margin-top: 5px;
 }
 .timeline-dot {
@@ -40,5 +40,5 @@
   background: var(--surface);
   margin-top: 10px;
   padding: 10px;
-  font-size: 10px;
+  font-size: var(--font-size-micro);
 }

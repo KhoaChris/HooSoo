@@ -71,7 +71,7 @@ export function UsersPage() {
   return (
     <>
       <Heading
-        eyebrow={t("QUẢN TRỊ")}
+        eyebrow={t("Quản trị")}
         title={t("Tài khoản & phân quyền")}
         action={
           <Button

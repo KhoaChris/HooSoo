@@ -3103,3 +3103,623 @@ describe("protected compensation API and hiring packages", () => {
     ).not.toContain("23456789");
   });
 });
+
+describe("Admin salary band and request expansion", () => {
+  const band = (version = 0, baseSalary = 30_000_000) => ({
+    version,
+    reason: "Band quản trị doanh nghiệp",
+    package: {
+      currency: "VND" as const,
+      basis: "gross_monthly" as const,
+      baseSalary,
+      probationSalary: null,
+      allowances: [],
+      benefits: [],
+      bonusPolicy: "",
+    },
+  });
+  it("rejects other roles before reading pay and never exposes the band to them", async () => {
+    for (const role of ["hr", "manager", "employee"]) {
+      memory.plans = [];
+      expect((await call(role, "/compensation/admin-band")).status).toBe(403);
+      expect(
+        (await call(role, "/compensation/admin-band", "POST", band())).status,
+      ).toBe(403);
+      expect(
+        memory.plans.some(
+          (plan) => plan.compensationBands || plan.compensationRecords,
+        ),
+      ).toBe(false);
+    }
+    await call("admin", "/compensation/admin-band", "POST", band());
+    for (const role of ["hr", "manager", "employee"])
+      expect(
+        (await call(role, "/compensation?scope=my")).body.adminBand,
+      ).toBeUndefined();
+  });
+  it("prefills existing pay and applies a shared band with immutable history and version checks", async () => {
+    const s = memory.state!;
+    s.compensationRecords.legacy = {
+      ...band(),
+      id: "legacy",
+      employeeId: "admin",
+      effectiveDate: "2026-01-01",
+      version: 1,
+      status: "published",
+      history: [],
+      sourceCandidateId: "",
+    };
+    expect(
+      (await call("admin", "/compensation/admin-band")).body.existingPackage
+        .baseSalary,
+    ).toBe(30_000_000);
+    s.employees.admin2 = {
+      ...s.employees.admin,
+      id: "admin2",
+      email: "admin2@example.test",
+    };
+    s.memberships["test-admin2"] = {
+      ...s.memberships["test-admin"],
+      id: "test-admin2",
+      employeeId: "admin2",
+    };
+    expect(
+      (await call("admin", "/compensation/admin-band", "POST", band())).status,
+    ).toBe(200);
+    expect(
+      (await call("admin2", "/compensation?scope=my")).body.adminBand.package
+        .baseSalary,
+    ).toBe(30_000_000);
+    expect(
+      (await call("admin", "/compensation/admin-band", "POST", band())).status,
+    ).toBe(409);
+    expect(
+      (
+        await call(
+          "admin2",
+          "/compensation/admin-band",
+          "POST",
+          band(1, 32_000_000),
+        )
+      ).status,
+    ).toBe(200);
+    const result = (await call("admin", "/compensation/admin-band")).body;
+    expect(result.history.map((v: { version: number }) => v.version)).toEqual([
+      2, 1,
+    ]);
+    expect(result.history[1].package.baseSalary).toBe(30_000_000);
+    expect(result.band.package.baseSalary).toBe(32_000_000);
+    expect(JSON.stringify(Object.values(s.auditLogs))).not.toContain(
+      "30000000",
+    );
+  });
+  it("replays idempotently, validates pay and reauthorizes after demotion", async () => {
+    const key = crypto.randomUUID();
+    expect(
+      (await call("admin", "/compensation/admin-band", "POST", band(), key))
+        .status,
+    ).toBe(200);
+    expect(
+      (await call("admin", "/compensation/admin-band", "POST", band(), key))
+        .body.version,
+    ).toBe(1);
+    expect(Object.keys(memory.state!.compensationBands)).toHaveLength(2);
+    expect(
+      (await call("admin", "/compensation/admin-band", "POST", band(1, -1)))
+        .status,
+    ).toBe(400);
+    memory.state!.memberships["test-admin"].role = "HR";
+    expect(
+      (await call("admin", "/compensation/admin-band", "POST", band(), key))
+        .status,
+    ).toBe(403);
+  });
+  const request = (kind: string) => ({
+    kind,
+    title: "Đề nghị hỗ trợ công việc",
+    reason: "Phục vụ công việc của phòng ban",
+    startDate: futureWorkDate(),
+    endDate: futureWorkDate(),
+    resource: "Thiết bị hoặc chương trình",
+    amount: kind === "expense_reimbursement" ? 500_000 : null,
+    reference: "HD-2026-001",
+  });
+  it.each([
+    "equipment",
+    "training",
+    "expense_reimbursement",
+    "benefit_support",
+  ])("persists %s and enforces scoped two-step approval", async (kind) => {
+    const created = await call(
+      "employee",
+      "/internal-requests",
+      "POST",
+      request(kind),
+    );
+    expect(created.status).toBe(200);
+    const path = `/internal-requests/${created.body.id}/approve`;
+    for (const reviewer of ["employee", "manager2", "hr"])
+      expect(
+        (
+          await call(reviewer, path, "POST", {
+            version: 1,
+            reason: "Xác nhận yêu cầu",
+          })
+        ).status,
+      ).toBe(403);
+    expect(
+      (
+        await call("manager", path, "POST", {
+          version: 1,
+          reason: "Đồng ý đề nghị",
+        })
+      ).body.status,
+    ).toBe("pending_hr");
+    const approved = await call("hr", path, "POST", {
+      version: 2,
+      reason: "Đã kiểm tra và chấp thuận",
+    });
+    expect(approved.body.status).toBe("approved");
+    expect(approved.body.history).toHaveLength(3);
+    expect(approved.body.resource).toBe(request(kind).resource);
+    expect(Object.keys(memory.state!.compensationRecords)).toHaveLength(0);
+  });
+  it("requires receipts and amounts, validates quantities and allows withdrawal", async () => {
+    for (const patch of [
+      { amount: 0 },
+      { amount: -100 },
+      { amount: 1.5 },
+      { reference: "" },
+    ])
+      expect(
+        (
+          await call("employee", "/internal-requests", "POST", {
+            ...request("expense_reimbursement"),
+            ...patch,
+          })
+        ).status,
+      ).toBe(400);
+    expect(
+      (
+        await call("employee", "/internal-requests", "POST", {
+          ...request("equipment"),
+          quantity: 0,
+        })
+      ).status,
+    ).toBe(400);
+    const created = await call(
+      "employee",
+      "/internal-requests",
+      "POST",
+      request("training"),
+    );
+    expect(created.status).toBe(200);
+    expect(
+      (
+        await call(
+          "employee",
+          "/internal-requests",
+          "POST",
+          request("training"),
+        )
+      ).status,
+    ).toBe(409);
+    expect(
+      (
+        await call(
+          "employee",
+          `/internal-requests/${created.body.id}/cancel`,
+          "POST",
+          { version: 1, reason: "Chưa cần tham gia đợt này" },
+        )
+      ).body.status,
+    ).toBe("cancelled");
+  });
+});
+
+describe("employee services over scoped HTTP transactions", () => {
+  const asset = (employeeId = "employee", assetCode = "LT-100") => ({
+    section: "assets",
+    employeeId,
+    title: "Laptop công việc",
+    assetCode,
+    startDate: "2026-01-01",
+    notes: "Cấp đủ phụ kiện",
+    version: 0,
+  });
+  const decision = (version: number) => ({
+    version,
+    reason: "Đã kiểm tra hồ sơ",
+  });
+  it("assigns once, validates source quantity, and completes receipt and return", async () => {
+    memory.state!.internalRequests.req = {
+      id: "req",
+      employeeId: "employee",
+      kind: "equipment",
+      status: "approved",
+      quantity: 1,
+    } as never;
+    const key = crypto.randomUUID(),
+      body = { ...asset(), sourceRequestId: "req" };
+    const first = await call("hr", "/employee-services", "POST", body, key);
+    expect(first.status).toBe(200);
+    const id = first.body.id;
+    expect(
+      (await call("hr", "/employee-services", "POST", body, key)).body.id,
+    ).toBe(id);
+    expect(Object.keys(memory.state!.employeeServices)).toHaveLength(1);
+    expect(
+      (await call("hr", "/employee-services?section=assets&scope=team")).body
+        .requests,
+    ).toEqual([]);
+    expect(
+      (
+        await call("hr", "/employee-services", "POST", {
+          ...body,
+          assetCode: "LT-101",
+        })
+      ).status,
+    ).toBe(409);
+    expect(
+      (
+        await call(
+          "manager",
+          `/employee-services/${id}/acknowledge`,
+          "POST",
+          decision(1),
+        )
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await call(
+          "employee",
+          `/employee-services/${id}/acknowledge`,
+          "POST",
+          decision(1),
+        )
+      ).body.status,
+    ).toBe("in_use");
+    expect(
+      (
+        await call(
+          "employee",
+          `/employee-services/${id}/request-return`,
+          "POST",
+          decision(2),
+        )
+      ).body.status,
+    ).toBe("return_requested");
+    expect(
+      (
+        await call(
+          "hr",
+          `/employee-services/${id}/receive-return`,
+          "POST",
+          decision(2),
+        )
+      ).status,
+    ).toBe(409);
+    expect(
+      (
+        await call(
+          "hr",
+          `/employee-services/${id}/receive-return`,
+          "POST",
+          decision(3),
+        )
+      ).body.status,
+    ).toBe("returned");
+    expect(
+      memory.plans.every(
+        (p) =>
+          p.employeeServices !== true &&
+          p.internalRequests !== true &&
+          !p.auditLogs,
+      ),
+    ).toBe(true);
+  });
+  it("filters lists and rejects foreign records, elevated roles and unknown fields", async () => {
+    const own = await call("hr", "/employee-services", "POST", asset());
+    await call("hr", "/employee-services", "POST", asset("outsider", "LT-200"));
+    const list = await call(
+      "manager",
+      "/employee-services?section=assets&scope=team",
+    );
+    expect(list.status).toBe(200);
+    expect(
+      list.body.items.map((r: { employeeId: string }) => r.employeeId),
+    ).toEqual(["employee"]);
+    expect(list.body.canCreate).toBe(false);
+    expect(list.body.people).toEqual([]);
+    expect(
+      (await call("employee", "/employee-services?section=assets&scope=team"))
+        .status,
+    ).toBe(403);
+    expect(
+      (
+        await call(
+          "manager2",
+          `/employee-services/${own.body.id}/receive-return`,
+          "POST",
+          decision(1),
+        )
+      ).status,
+    ).toBe(404);
+    expect(
+      (await call("hr", "/employee-services", "POST", asset("admin", "LT-300")))
+        .status,
+    ).toBe(403);
+    expect(
+      (
+        await call("hr", "/employee-services", "POST", {
+          ...asset(),
+          status: "returned",
+        })
+      ).status,
+    ).toBe(400);
+    expect(
+      (await call("employee", "/employee-services", "POST", asset())).status,
+    ).toBe(403);
+  });
+  it("serializes duplicate assignment attempts and invalidates replay after lost scope", async () => {
+    const results = await Promise.all([
+      call("hr", "/employee-services", "POST", asset()),
+      call("hr", "/employee-services", "POST", asset("outsider")),
+    ]);
+    expect(results.map((r) => r.status).sort()).toEqual([200, 409]);
+    const input = {
+      section: "training",
+      employeeId: "employee",
+      title: "Dữ liệu an toàn",
+      provider: "Learning Center",
+      startDate: "2026-01-01",
+      endDate: "2026-01-02",
+      version: 0,
+    };
+    const created = await call("hr", "/employee-services", "POST", input),
+      id = created.body.id;
+    await call(
+      "employee",
+      `/employee-services/${id}/submit-learning`,
+      "POST",
+      decision(1),
+    );
+    const key = crypto.randomUUID();
+    expect(
+      (
+        await call(
+          "manager",
+          `/employee-services/${id}/accept-learning`,
+          "POST",
+          decision(2),
+          key,
+        )
+      ).status,
+    ).toBe(200);
+    memory.state!.employees.employee.departmentId = "b";
+    memory.state!.employees.employee.managerId = "manager2";
+    expect(
+      (
+        await call(
+          "manager",
+          `/employee-services/${id}/accept-learning`,
+          "POST",
+          decision(2),
+          key,
+        )
+      ).status,
+    ).toBe(404);
+  });
+  it("requires each handover owner, then closes employment, contracts and access atomically", async () => {
+    const endDate = new Date().toISOString().slice(0, 10);
+    memory.state!.employmentContracts.contract = {
+      id: "contract",
+      employeeId: "employee",
+      startDate: "2026-01-01",
+      status: "active",
+      version: 1,
+      history: [],
+    } as never;
+    const created = await call("hr", "/employee-services", "POST", {
+      section: "offboarding",
+      employeeId: "employee",
+      title: "Bàn giao nghỉ việc",
+      notes: "Kết thúc theo thỏa thuận",
+      endDate,
+      version: 0,
+    });
+    expect(created.status).toBe(200);
+    const id = created.body.id;
+    expect(
+      (
+        await call(
+          "hr",
+          `/employee-services/${id}/complete`,
+          "POST",
+          decision(1),
+        )
+      ).status,
+    ).toBe(409);
+    let version = 1;
+    for (const task of created.body.tasks) {
+      const taskInput = {
+        version,
+        taskId: task.id,
+        done: true,
+        reason: "Bàn giao đã hoàn tất",
+      };
+      expect(
+        (
+          await call(
+            "manager2",
+            `/employee-services/${id}/task`,
+            "POST",
+            taskInput,
+          )
+        ).status,
+      ).toBe(404);
+      const result = await call(
+        task.owner,
+        `/employee-services/${id}/task`,
+        "POST",
+        taskInput,
+      );
+      expect(result.status).toBe(200);
+      version = result.body.version;
+    }
+    const key = crypto.randomUUID();
+    expect(
+      (
+        await call(
+          "hr",
+          `/employee-services/${id}/complete`,
+          "POST",
+          decision(version),
+          key,
+        )
+      ).status,
+    ).toBe(200);
+    expect(memory.state!.employees.employee.status).toBe("terminated");
+    expect(memory.state!.memberships["test-employee"].active).toBe(false);
+    expect(memory.state!.employmentContracts.contract.status).toBe("ended");
+    expect(
+      (
+        await call(
+          "employee",
+          "/employee-services?section=offboarding&scope=my",
+        )
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await call(
+          "hr",
+          `/employee-services/${id}/complete`,
+          "POST",
+          decision(version),
+          key,
+        )
+      ).status,
+    ).toBe(200);
+  });
+});
+
+it("rechecks current task ownership when replaying handover confirmation", async () => {
+  const created = await call("hr", "/employee-services", "POST", {
+    section: "offboarding",
+    employeeId: "employee",
+    title: "Bàn giao nghỉ việc",
+    notes: "Theo thỏa thuận",
+    endDate: new Date().toISOString().slice(0, 10),
+    version: 0,
+  });
+  const task = created.body.tasks.find(
+      (t: { owner: string }) => t.owner === "manager",
+    ),
+    key = crypto.randomUUID();
+  const body = {
+    taskId: task.id,
+    done: true,
+    reason: "Đã kiểm tra bàn giao",
+    version: 1,
+  };
+  const path = `/employee-services/${created.body.id}/task`;
+  expect((await call("manager", path, "POST", body, key)).status).toBe(200);
+  memory.state!.employees.employee.managerId = "";
+  expect((await call("manager", path, "POST", body, key)).status).toBe(403);
+});
+
+describe("employee background API", () => {
+  const body = {
+    section: "skills",
+    version: 0,
+    items: ["TypeScript", "Project management"],
+  };
+  it("persists personal changes, enforces versions and replays idempotently without account changes", async () => {
+    const key = crypto.randomUUID(),
+      memberships = structuredClone(memory.state!.memberships);
+    const saved = await call("employee", "/me/background", "PATCH", body, key);
+    expect(saved.status).toBe(200);
+    expect(saved.body.background).toMatchObject({
+      version: 1,
+      skills: body.items,
+    });
+    expect(
+      (await call("employee", "/me/background", "PATCH", body, key)).body,
+    ).toEqual(saved.body);
+    expect(
+      (await call("employee", "/me/background", "PATCH", body)).status,
+    ).toBe(409);
+    expect(
+      (await call("employee", "/employees/employee")).body.background.skills,
+    ).toEqual(body.items);
+    expect(memory.state!.memberships).toEqual(memberships);
+  });
+  it("allows HR to update a subordinate using targeted reads, and rejects replay after a target promotion", async () => {
+    const key = crypto.randomUUID();
+    expect(
+      (await call("hr", "/employees/employee/background", "PATCH", body, key))
+        .status,
+    ).toBe(200);
+    expect(
+      memory.plans.flatMap((p) => Object.values(p)).every((s) => s !== true),
+    ).toBe(true);
+    expect(memory.plans.some((p) => p.auditLogs)).toBe(false);
+    memory.state!.memberships["test-employee"].role = "Admin";
+    expect(
+      (await call("hr", "/employees/employee/background", "PATCH", body, key))
+        .status,
+    ).toBe(403);
+  });
+  it.each([
+    ["hr", "admin", 403],
+    ["manager", "employee", 403],
+    ["manager", "outsider", 403],
+    ["employee", "outsider", 403],
+  ])("rejects %s writing %s", async (role, id, status) => {
+    expect(
+      (await call(String(role), `/employees/${id}/background`, "PATCH", body))
+        .status,
+    ).toBe(status);
+  });
+  it("lets managers read only scoped subordinate background", async () => {
+    await call("employee", "/me/background", "PATCH", body);
+    const ownTeam = await call("manager", "/employees/employee");
+    expect(ownTeam.status).toBe(200);
+    expect(ownTeam.body.background.skills).toEqual(body.items);
+    expect(ownTeam.body.canEditBackground).toBe(false);
+    expect((await call("manager2", "/employees/employee")).status).toBe(404);
+  });
+  it("rejects mass assignment and preserves background when status changes", async () => {
+    expect(
+      (
+        await call("employee", "/me/background", "PATCH", {
+          ...body,
+          status: "terminated",
+        })
+      ).status,
+    ).toBe(400);
+    await call("employee", "/me/background", "PATCH", body);
+    const changed = await call("hr", "/employees/employee/status", "PATCH", {
+      status: "probation",
+    });
+    expect(changed.status).toBe(200);
+    expect(changed.body.background.skills).toEqual(body.items);
+    expect(memory.state!.memberships["test-employee"].active).toBe(true);
+  });
+});
+
+describe("personal background replay identity", () => {
+  it("rejects receipts after an account is reassigned to another employee", async () => {
+    const key = crypto.randomUUID();
+    const body = { section: "skills", version: 0, items: ["Project planning"] };
+    expect(
+      (await call("employee", "/me/background", "PATCH", body, key)).status,
+    ).toBe(200);
+    memory.state!.memberships["test-employee"].employeeId = "outsider";
+    expect(
+      (await call("employee", "/me/background", "PATCH", body, key)).status,
+    ).toBe(403);
+  });
+});

@@ -138,3 +138,11 @@ The script updates the existing collection-version signals so connected sessions
 A supervisor can select up to 20 completed assessments and send a report to an eligible superior. Submission atomically locks all entries for the assigned reviewer. That reviewer can amend assessments with a reason, return the report for revision, or publish all results together. Returned entries must go back to the same reviewer; authors cannot bypass the report by publishing individually. Finalized reports remain locked. Version checks and idempotency receipts protect concurrent and repeated submissions. Assessment revisions preserve prior submitted content and attribution.
 
 Reports are stored in `organizations/{ORG_ID}/performanceReports`; reviews remain in `performanceReviews`. Both use the existing cache, transaction and collection-change notification infrastructure. There is no new polling timer. Read paths filter by employee/report scope; writes load only affected records and fresh authorization dependencies. Tests in `tests/performance.test.ts` and `tests/hr-api.test.ts` exercise direct publication, report decisions, returned revisions, hierarchy and scope enforcement without cloud reads.
+
+## Workforce completion
+
+`modules/employee-services/` contains scoped reads, transactional equipment/learning/offboarding rules and registered API routes. See [contracts and database policy](docs/employee-services.md), [feature coverage](docs/feature-coverage.md) and [security boundaries](../SECURITY.md). The API Explorer uses the same route registry automatically. No background Firestore polling or scheduled cleanup job is added.
+
+## Workforce completion
+
+See [workforce workflows and storage](docs/workforce-completion.md) for payroll/payslips, overtime/hourly leave, calendar deadlines, protected documents, effective personnel changes, bounded imports and policy acknowledgements.

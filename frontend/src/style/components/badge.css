@@ -5,15 +5,15 @@
   border: 1px solid;
   border-radius: 5px;
   padding: 4px 8px;
-  font-size: 10px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
 }
 .table-panel .badge {
   gap: 6px;
-  font-size: 11px;
+  font-size: var(--font-size-caption);
   line-height: 1.7;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 .table-panel .badge::before {
   content: "";

@@ -3,7 +3,7 @@
   padding: 22px 24px 16px;
 }
 .schedule-approvals .data-table-title h2 {
-  font-size: 19px;
+  font-size: var(--font-size-section);
   line-height: 1.4;
 }
 .schedule-approvals .data-table-count {
@@ -18,7 +18,7 @@
 .schedule-month-controls .button {
   min-height: 36px;
   padding: 7px 12px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .schedule-month-controls .button[aria-label] {
   width: 36px;
@@ -56,8 +56,8 @@
   border-radius: 0;
   background: transparent;
   color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   cursor: pointer;
   transition:
@@ -87,7 +87,7 @@
   border-radius: 4px;
   background: var(--surface-subtle);
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   font-variant-numeric: tabular-nums;
 }
 [aria-pressed="true"] > .schedule-filter-count {
@@ -103,7 +103,7 @@
 .schedule-search input {
   min-height: 36px;
   padding: 8px 6px;
-  font-size: 12px;
+  font-size: var(--font-size-control);
 }
 .schedule-search input::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -132,7 +132,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
@@ -143,7 +143,7 @@
 .schedule-approvals .schedule-review-action {
   min-height: 36px;
   padding: 7px 9px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   white-space: nowrap;
   color: var(--text-secondary);
 }
@@ -184,10 +184,10 @@
     max-width: none;
   }
   .schedule-search input {
-    font-size: 16px;
+    font-size: var(--font-size-control);
   }
   .schedule-search input::placeholder {
-    font-size: 12px;
+    font-size: var(--font-size-control);
   }
   .schedule-status-filters {
     gap: 12px;

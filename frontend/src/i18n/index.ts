@@ -1,3 +1,8 @@
+import { workforceEnglish } from "./workforce";
+import { employeeBackgroundEnglish } from "./employee-background";
+import { securityEnglish } from "./security";
+import { employeeServicesEnglish } from "./employee-services";
+import { workspaceEnglish } from "./workspace";
 import { compensationEnglish } from "./compensation";
 import { presenceEnglish } from "./presence";
 import { performanceEnglish } from "./performance";
@@ -15,7 +20,12 @@ export function t(
   const key = message.replace(/\s+/g, " ").trim();
   const translated =
     getPreferences().locale === "en"
-      ? (compensationEnglish[key] ??
+      ? (workforceEnglish[key] ??
+        employeeBackgroundEnglish[key] ??
+        securityEnglish[key] ??
+        employeeServicesEnglish[key] ??
+        workspaceEnglish[key] ??
+        compensationEnglish[key] ??
         presenceEnglish[key] ??
         performanceEnglish[key] ??
         employmentEnglish[key] ??

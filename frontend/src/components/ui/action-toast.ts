@@ -26,6 +26,23 @@ export function actionToast({
       message: messages[String(values.action)] ?? "Đã lưu thay đổi thành công",
     };
   }
+  if (path.startsWith("/employee-services"))
+    return {
+      tone: path.endsWith("/cancel")
+        ? "error"
+        : path.endsWith("/revise-learning") || path.endsWith("/complete")
+          ? "warning"
+          : "success",
+      message: path.endsWith("/cancel")
+        ? "Đã hủy hồ sơ"
+        : path.endsWith("/complete")
+          ? "Đã hoàn tất nghỉ việc"
+          : path.endsWith("/revise-learning")
+            ? "Đã yêu cầu bổ sung"
+            : "Đã lưu thay đổi thành công",
+    };
+  if (path === "/compensation/admin-band")
+    return { tone: "success", message: "Đã áp dụng band lương Admin" };
   if (path.startsWith("/compensation/")) {
     if (path.endsWith("/cancel"))
       return { tone: "error", message: "Đã hủy điều chỉnh lương" };

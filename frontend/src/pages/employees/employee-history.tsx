@@ -97,13 +97,15 @@ export function EmployeeHistory({
                   <span className="employee-history-dot" aria-hidden="true" />
                   <h3>
                     <StableText>
-                      {item.action === "employee.avatar_updated"
-                        ? t("Đổi ảnh đại diện")
-                        : item.action === "employee.avatar_removed"
-                          ? t("Gỡ ảnh đại diện")
-                          : item.action === "employee.created"
-                            ? t("Khởi tạo hồ sơ")
-                            : t("Cập nhật hồ sơ")}
+                      {item.action === "employee.background_updated"
+                        ? t("Cập nhật học vấn, kinh nghiệm")
+                        : item.action === "employee.avatar_updated"
+                          ? t("Đổi ảnh đại diện")
+                          : item.action === "employee.avatar_removed"
+                            ? t("Gỡ ảnh đại diện")
+                            : item.action === "employee.created"
+                              ? t("Khởi tạo hồ sơ")
+                              : t("Cập nhật hồ sơ")}
                     </StableText>
                   </h3>
                   <time dateTime={item.createdAt}>

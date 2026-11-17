@@ -3,7 +3,7 @@ import { type ReactNode } from "react";
 import { StableText } from "../../i18n/stable-text";
 
 export function Heading({
-  eyebrow = t("KHÔNG GIAN LÀM VIỆC"),
+  eyebrow = t("Không gian làm việc"),
   title,
   description,
   action,

@@ -27,6 +27,10 @@ export function parseFrontendEnv(
     !/^https?:\/\//.test(e.VITE_API_BASE_URL)
   )
     throw new Error("Invalid VITE_API_BASE_URL");
+  if (production && e.VITE_API_BASE_URL.startsWith("http://"))
+    throw new Error(
+      "Production requires an HTTPS API URL or a same-origin path",
+    );
   if (e.VITE_API_BASE_URL.startsWith("//"))
     throw new Error("Protocol-relative API URL is not allowed");
   if (e.VITE_FIREBASE_MODE === "emulator") {

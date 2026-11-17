@@ -2,11 +2,15 @@
 
 A standalone HR management demo by **Bùi Đức Đăng Khoa (22114833)**. React/TypeScript frontend, Express/TypeScript API, Firebase Authentication and Firestore. All organization records are synthetic. HooSoo is not a Lạc Việt/SureHCS product and contains no company source, branding, accounts, or customer data.
 
-The current workspace is connected to Firebase project **`hoosoo-37881`** in ignored `frontend/.env.local` and `backend/.env` files. The backend uses Google ADC with service-account impersonation; no service-account private key was created. All 13 API collections and four synthetic accounts are initialized. See [Firebase connection status](docs/firebase-connection.md) for access, startup and verified checks. The emulator quick start below replaces that configuration; keep the cloud env files before switching.
+The workspace supports Firebase cloud and an isolated emulator configuration. Environment files are ignored. Historical connection and quota observations are retained in [Firebase connection status](docs/firebase-connection.md); they do not describe current service availability.
 
-**Current cloud limitation (2026-11-11):** Firestore is returning `RESOURCE_EXHAUSTED: Quota exceeded` on the Spark project. The latest department was committed before the refresh failed. Scoped reads and quota backoff are implemented, but stable cloud recovery is not yet verified. Spark is retained as requested; see the incident notes in the connection status above.
+## Current feature coverage
 
-The subsequent [free-tier optimization](docs/firebase-free-tier.md) removes whole-history transaction reads, targets client refreshes and shares one live listener per API process. Its isolated benchmark measured 3 reads for a session and 4 for a profile save even with 2,000 added history records. Admins can inspect current-process counters through `GET /api/v1/system/usage`.
+HooSoo includes employee records and organization structure; role-scoped dashboards; attendance, leave and request approvals; recruitment and interview scorecards; contracts, probation and onboarding; manager-led performance reviews; compensation and benefits; chat and presence; audit and operational reports.
+
+The workforce-completion update adds **equipment assignment and return, learning outcomes, offboarding clearance, account password changes, and public policies/copyright**. See [feature coverage](backend/docs/feature-coverage.md), [employee-service contracts](backend/docs/employee-services.md), and [security boundaries](SECURITY.md) for implemented behavior and deployment limits. Compensation records are **not** a statutory payroll engine. No enterprise security certification is claimed.
+
+Database access uses scoped queries, transaction read plans, per-account caches and collection-change invalidation. New employee-service pages have no polling interval or login-time preloading. API usage counters remain available to Admins through `GET /api/v1/system/usage`.
 
 ## Local quick start
 
@@ -66,27 +70,27 @@ The initial seed has 25 employees, five departments, three leave types, historic
 
 To inspect real API responses using the existing cloud demo accounts, run `npm run api:request -- Admin GET /employees`. See [UI → API → Firestore verification](docs/api/firebase-data-flow.md) for writes, document paths and browser Network checks.
 
-| Command                                        | Purpose                                                                  |
-| ---------------------------------------------- | ------------------------------------------------------------------------ |
-| `npm run dev:frontend` / `npm run dev:backend` | Independent dev servers                                                  |
-| `npm run emulators` / `npm run seed`           | Local services and synthetic fixtures                                    |
-| `npm run check:env -w frontend` / `-w backend` | Validate mode-specific configuration                                     |
-| `npm run check:db -w backend`                  | Real bounded Firestore read, nonzero exit on failure; no business writes |
-| `npm run lint` / `npm run typecheck`           | ESLint and all workspace TypeScript checks                               |
-| `npm test`                                     | Business-rule unit tests; no running API needed                          |
-| `npm run test:integration`                     | Real Auth + API + Firestore tests; emulators must be running             |
-| `npm run test:rules`                           | Deny client reads/writes, including forged Admin claims                  |
-| `npm run test:e2e`                             | Chrome browser flows; emulators, seed, API, and Vite must be running     |
-| `npm run build`                                | API + production frontend build; rejects emulator mode                   |
-| `npm run build:demo`                           | API + local demo frontend build                                          |
+| Command                                        | Purpose                                                                   |
+| ---------------------------------------------- | ------------------------------------------------------------------------- |
+| `npm run dev:frontend` / `npm run dev:backend` | Independent dev servers                                                   |
+| `npm run emulators` / `npm run seed`           | Local services and synthetic fixtures                                     |
+| `npm run check:env -w frontend` / `-w backend` | Validate mode-specific configuration                                      |
+| `npm run check:db -w backend`                  | Real bounded Firestore read, nonzero exit on failure; no business writes  |
+| `npm run lint` / `npm run typecheck`           | ESLint and all workspace TypeScript checks                                |
+| `npm test`                                     | Business-rule unit tests; no running API needed                           |
+| `npm run test:integration`                     | Real Auth + API + Firestore tests; emulators must be running              |
+| `npm run test:rules`                           | Deny client reads/writes, including forged Admin claims                   |
+| `npm run test:e2e`                             | Chrome browser flows; emulators, seed, API, and Vite must be running      |
+| `npm run build`                                | API + production frontend build; rejects emulator mode                    |
+| `npm run build:demo`                           | API + local demo frontend build                                           |
 | `npm run check:firebase`                       | Read-only project, Admin Auth, Firestore and initialization checks        |
 | `npm run check:cloud-api`                      | Cloud demo sign-in, role permissions, reads, profile write/replay and CSV |
-| `npm run start -w backend`                     | Start compiled API with backend environment                              |
-| `npm run build:cloud -w frontend`              | Cloud frontend build, rejects emulator configuration                     |
+| `npm run start -w backend`                     | Start compiled API with backend environment                               |
+| `npm run build:cloud -w frontend`              | Cloud frontend build, rejects emulator configuration                      |
 
 Integration tests use **`organizations/hoosoo-tests`**, never the live demo organization. Browser tests add identifiable synthetic QA records to the demo. See [testing](docs/testing/README.md) before running tests against data you want to preserve. Browser screenshots live in `output/playwright/`. Trace archives are ignored because they can contain local session material; do not publish traces or emulator exports.
 
-## Implemented P0 areas
+## Core modules
 
 - Firebase email/password login, reset, session restoration; no public registration UI.
 - Active membership authorization on every API business request; role, field and direct-team restrictions.

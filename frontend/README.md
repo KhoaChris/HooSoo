@@ -86,3 +86,11 @@ The account header controls live in `components/header/header-tools.tsx`, styled
 Application copy is translated through `t()` and `i18n/english.ts`. Subscribe with `useLocale()` in components that render translated copy. Keep names, messages, CV text and API payload values untouched; interpolate user content rather than translate it. `intlLocale()` selects display formatting while business dates continue to use the existing Vietnam timezone. Switching language preserves mounted form state.
 
 The bell reads `/notifications` through the account-scoped query cache and existing collection-change stream. There is no notification polling interval. Read markers are browser-local and scoped to the signed-in UID; a new record version appears unread. The feed contains the latest 40 accessible chat/leave/work-schedule/request updates. It is a current activity feed, not an immutable notification archive.
+
+## Workforce completion and public policies
+
+Equipment, learning and offboarding screens live in `pages/employee-services/`. Account password changes and public policies are in `pages/security/`. See [UI behavior](docs/employee-services.md), [feature coverage](../backend/docs/feature-coverage.md), and [security boundaries](../SECURITY.md). These screens reuse existing forms, modal actions, cache and semantic status colors.
+
+## Workforce workflows
+
+`pages/workforce/` extends compensation, requests and employee profiles through related links. Shared navigation contains news/policies and calendar deadlines. Forms reuse the existing sticky-action dialogs and bilingual theme tokens. ExcelJS is loaded only after choosing an XLSX file; CSV import does not load it. See [workflow boundaries](../backend/docs/workforce-completion.md).

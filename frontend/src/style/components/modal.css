@@ -42,14 +42,14 @@
   min-width: 0;
 }
 .modal-heading h2 {
-  font-size: 20px;
+  font-size: var(--font-size-dialog);
   line-height: 1.4;
   letter-spacing: -0.4px;
   outline: none;
 }
 .modal-heading p {
   margin-top: 6px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -79,7 +79,7 @@
   scrollbar-gutter: stable;
 }
 .modal-body > p {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
   margin-bottom: 18px;
 }
@@ -88,21 +88,21 @@
   gap: 18px 22px;
 }
 .modal .field > label {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--heading);
 }
-.modal .input-control:not([type="checkbox"]),
+.modal .input-control:not(.selection-control),
 .modal .select-trigger,
 .modal .textarea-control {
   min-height: 44px;
   background: var(--surface);
   border-radius: 8px;
-  font-size: 13px;
+  font-size: var(--font-size-control);
   transition:
     border-color 140ms,
     box-shadow 140ms;
 }
-.modal .input-control:focus,
+.modal .input-control:not(.selection-control):focus,
 .modal .textarea-control:focus {
   outline: none;
   border-color: var(--brand);
@@ -127,18 +127,6 @@
   min-height: 42px;
   min-width: 112px;
 }
-.modal .checkbox-field {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--surface-subtle);
-}
-.modal .checkbox-field small {
-  grid-column: 1/-1;
-}
 .modal-discard {
   position: absolute;
   inset: 0;
@@ -158,12 +146,12 @@
   margin-bottom: 16px;
 }
 .modal-discard h3 {
-  font-size: 20px;
+  font-size: var(--font-size-dialog);
   color: var(--heading);
   letter-spacing: -0.3px;
 }
 .modal-discard p {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
   margin-top: 10px;
 }
@@ -175,7 +163,7 @@
   margin-top: 24px;
 }
 .creation-form .form-intro {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   margin: 0 0 20px;
 }
@@ -191,14 +179,14 @@
   margin-bottom: 10px;
 }
 .creation-empty p {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
 }
 .creation-guidance {
   background: var(--surface-subtle);
   border-radius: 9px;
   margin-bottom: 24px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .creation-guidance summary {
@@ -209,7 +197,7 @@
   cursor: pointer;
   padding: 14px 16px;
   min-height: 48px;
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .creation-guidance summary::-webkit-details-marker {
   display: none;
@@ -260,10 +248,10 @@
     gap: 10px;
   }
   .modal-heading h2 {
-    font-size: 18px;
+    font-size: var(--font-size-dialog);
   }
   .modal-heading p {
-    font-size: 11px;
+    font-size: var(--font-size-micro);
   }
   .modal-icon {
     width: 36px;
@@ -283,10 +271,10 @@
     min-width: 0;
     white-space: normal;
   }
-  .modal .input-control:not([type="checkbox"]),
+  .modal .input-control:not(.selection-control),
   .modal .select-trigger,
   .modal .textarea-control {
-    font-size: 16px;
+    font-size: var(--font-size-control);
   }
   .modal-discard {
     padding: 22px;

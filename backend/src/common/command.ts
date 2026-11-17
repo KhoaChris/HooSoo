@@ -1,3 +1,5 @@
+import { workforceReplay } from "../modules/workforce/replay";
+import { authorizeServiceReplay } from "../modules/employee-services/employee-services.service";
 import { authorizeCompensationReplay } from "../modules/compensation/compensation.service";
 import { authorizePerformanceReplay } from "../modules/performance/performance.service";
 import { authorizeEmploymentReplay } from "../modules/employment/employment.service";
@@ -65,6 +67,27 @@ function authorizeReplay(
   result: unknown,
 ) {
   const route = path.split(" ")[1];
+  if (route.startsWith("/workforce/")) {
+    workforceReplay(s, a, route, result);
+    return;
+  }
+  if (route === "/me/background") {
+    assert(
+      (result as { id?: string })?.id === a.employeeId,
+      403,
+      "REPLAY_FORBIDDEN",
+      "Không còn quyền xem hồ sơ này.",
+    );
+    return;
+  }
+  if (route.startsWith("/employee-services")) {
+    authorizeServiceReplay(s, a, route, result, body);
+    return;
+  }
+  if (route === "/compensation/admin-band") {
+    requireRole(a, ["Admin"]);
+    return;
+  }
   if (route.startsWith("/compensation/")) {
     authorizeCompensationReplay(s, a, result);
     return;

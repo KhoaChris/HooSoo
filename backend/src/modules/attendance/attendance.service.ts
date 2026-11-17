@@ -1,3 +1,4 @@
+import { payrollUnlocked } from "../workforce/core";
 import { assertManageEmployee } from "../../common/authorization";
 import type {
   State,
@@ -79,6 +80,7 @@ export function adjustAttendance(
     checkIn: new Date(input.checkIn).toISOString(),
     checkOut: input.checkOut ? new Date(input.checkOut).toISOString() : null,
   };
+  payrollUnlocked(s, r.employeeId, r.date);
   r.adjustments.push({
     at: new Date().toISOString(),
     by: a.uid,

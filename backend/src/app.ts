@@ -58,7 +58,21 @@ app.use(
     exposedHeaders: ["Content-Disposition", "X-Request-Id"],
   }),
 );
-app.use(express.json({ limit: "64kb" }));
+app.use((req, res, next) => {
+  const upload =
+    /^\/api\/v1\/workforce\/documents(?:\/[^/]+)?$/.test(req.path) &&
+    ["POST", "PATCH"].includes(req.method);
+  const importing =
+    /^\/api\/v1\/workforce\/imports\/(preview|commit)$/.test(req.path) &&
+    req.method === "POST";
+  if (upload || importing)
+    authenticate(req, res, (error?: unknown) =>
+      error
+        ? next(error)
+        : express.json({ limit: upload ? "750kb" : "128kb" })(req, res, next),
+    );
+  else express.json({ limit: "64kb" })(req, res, next);
+});
 app.use(
   rateLimit({
     windowMs: 60000,
@@ -83,7 +97,21 @@ app.get("/api/health", (_req, res) =>
     checkedAt: new Date().toISOString(),
   }),
 );
-app.get("/api/ready", async (_req, res) => {
+const readinessLimit = rateLimit({
+  windowMs: 60000,
+  limit: 12,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  handler: (_req, _res, next) =>
+    next(
+      new AppError(
+        429,
+        "RATE_LIMITED",
+        "Vui lòng chờ trước khi kiểm tra kết nối lại.",
+      ),
+    ),
+});
+app.get("/api/ready", readinessLimit, async (_req, res) => {
   const r = await readiness();
   res.json({ status: r.status, checkedAt: r.checkedAt });
 });

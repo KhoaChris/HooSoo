@@ -26,7 +26,7 @@
   margin-bottom: 36px;
   color: var(--heading);
   font-size: 19px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.6px;
 }
 .access-error-brand .brand-mark {
@@ -53,7 +53,7 @@
   border: 1px solid var(--danger-line);
 }
 .access-error-message h1 {
-  font-size: 25px;
+  font-size: var(--font-size-page);
   line-height: 1.35;
   letter-spacing: -0.6px;
   overflow-wrap: anywhere;
@@ -61,7 +61,7 @@
 .access-error-message p {
   margin-top: 8px;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: var(--font-size-body);
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
@@ -92,7 +92,7 @@
     margin-bottom: 28px;
   }
   .access-error-message h1 {
-    font-size: 20px;
+    font-size: var(--font-size-page);
   }
   .access-error-message {
     grid-template-columns: 36px minmax(0, 1fr);
@@ -119,7 +119,7 @@
     padding: 20px;
   }
   .access-error-message h1 {
-    font-size: 18px;
+    font-size: var(--font-size-page);
   }
   .access-error-actions {
     grid-template-columns: minmax(0, 1fr);

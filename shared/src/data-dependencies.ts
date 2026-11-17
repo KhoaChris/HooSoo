@@ -5,7 +5,46 @@ export function queryCollections(path: string): Table[] | null {
   const route = path.split("?")[0];
   const authorization: Table[] = ["memberships", "employees"];
   let data: Table[];
-  if (route === "/compensation") data = ["compensationRecords"];
+  if (route.startsWith("/workforce/")) {
+    const section = route.split("/")[2];
+    const sources: Record<string, Table[]> = {
+      time: ["timeRequests", "leaveTypes", "settings", "leaveBalances"],
+      payroll: [
+        "payrollStatements",
+        "compensationRecords",
+        "compensationBands",
+        "attendanceRecords",
+        "leaveRequests",
+        "timeRequests",
+        "settings",
+      ],
+      changes: [
+        "personnelChanges",
+        "departments",
+        "positions",
+        "compensationRecords",
+        "employmentContracts",
+      ],
+      documents: ["personnelDocuments"],
+      announcements: ["announcements", "announcementReceipts", "departments"],
+      calendar: [
+        "employmentContracts",
+        "probationReviews",
+        "onboardingPlans",
+        "employeeServices",
+        "personnelChanges",
+        "personnelDocuments",
+        "recruitmentJobs",
+        "candidates",
+      ],
+      letters: ["internalRequests", "departments", "positions", "settings"],
+      imports: ["employees", "employeeImports", "departments", "positions"],
+    };
+    data = sources[section] ?? [];
+  } else if (route === "/employee-services")
+    data = ["employeeServices", "internalRequests"];
+  else if (route === "/compensation" || route === "/compensation/admin-band")
+    data = ["compensationRecords", "compensationBands"];
   else if (route.startsWith("/performance/"))
     data = ["performanceReviews", "performanceReports"];
   else if (route.startsWith("/employment/")) {
@@ -54,6 +93,7 @@ export function queryCollections(path: string): Table[] | null {
       "leaveBalances",
       "leaveRequests",
       "leaveBalanceTransactions",
+      "timeRequests",
     ];
   else if (route === "/reports/employees") data = ["departments", "positions"];
   else if (route === "/dashboard")
@@ -64,6 +104,7 @@ export function queryCollections(path: string): Table[] | null {
       "leaveRequests",
       "leaveBalances",
       "leaveBalanceTransactions",
+      "timeRequests",
     ];
   else if (route.startsWith("/system/")) data = [];
   else return null;
@@ -71,8 +112,33 @@ export function queryCollections(path: string): Table[] | null {
 }
 
 export function mutationCollections(path: string): Table[] | null {
+  if (path.startsWith("/workforce/")) {
+    const section = path.split("/")[2];
+    const writes: Record<string, Table[]> = {
+      time: ["timeRequests", "leaveBalances", "leaveBalanceTransactions"],
+      payroll: ["payrollStatements"],
+      changes: [
+        "personnelChanges",
+        ...(path.endsWith("/apply") ? ["employees" as const] : []),
+      ],
+      documents: path.endsWith("/download") ? [] : ["personnelDocuments"],
+      announcements: path.endsWith("/acknowledge")
+        ? ["announcementReceipts"]
+        : ["announcements"],
+      imports: ["employees", "employeeImports", "employeeSequences"],
+    };
+    return [...(writes[section] ?? []), "auditLogs"];
+  }
+  if (path.startsWith("/employee-services"))
+    return [
+      "employeeServices",
+      "auditLogs",
+      ...(path.endsWith("/complete")
+        ? (["employees", "memberships", "employmentContracts"] as Table[])
+        : []),
+    ];
   if (path.startsWith("/compensation/"))
-    return ["compensationRecords", "auditLogs"];
+    return ["compensationRecords", "compensationBands", "auditLogs"];
   if (path.startsWith("/performance/"))
     return ["performanceReviews", "performanceReports", "auditLogs"];
   if (path.startsWith("/employment/")) {
@@ -86,7 +152,7 @@ export function mutationCollections(path: string): Table[] | null {
       : null;
   }
   if (path.startsWith("/chat/")) return ["chatRooms", "chatMessages"];
-  if (/^\/(me|employees\/[^/]+)\/avatar$/.test(path.split("?")[0]))
+  if (/^\/(me|employees\/[^/]+)\/(avatar|background)$/.test(path.split("?")[0]))
     return ["employees", "auditLogs"];
   if (
     /^\/recruitment\/candidates\/[^/]+\/(hire|direct-hire|employee)$/.test(
@@ -124,6 +190,7 @@ export function mutationCollections(path: string): Table[] | null {
       "leaveRequests",
       "leaveBalances",
       "leaveBalanceTransactions",
+      "timeRequests",
     ],
     "leave-balances": ["leaveBalances", "leaveBalanceTransactions"],
   };

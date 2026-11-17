@@ -29,3 +29,18 @@
   background: var(--status-bg);
   border-color: var(--status-line);
 }
+.badge,
+.workflow-status,
+.employment-badge,
+.compensation-badge,
+.performance-status,
+.candidate-stage-status,
+.candidate-schedule-status,
+.dashboard-status,
+.professional-status,
+.professional-detail-status {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--font-leading-control);
+}
+

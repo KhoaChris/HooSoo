@@ -10,8 +10,8 @@
   border-radius: 7px;
   background: var(--inverse-bg);
   color: var(--inverse-text);
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   line-height: 1.4;
   box-shadow: 0 4px 14px var(--shadow-color);
   animation: tooltip-reveal 0.12s ease-out;

@@ -1,3 +1,5 @@
+import { workforceCommand } from "../modules/workforce/reads";
+import { servicesCommand } from "../modules/employee-services/employee-services.reads";
 import { compensationCommand } from "../modules/compensation/compensation.reads";
 import { performanceCommand } from "../modules/performance/performance.reads";
 import { employmentCommand } from "../modules/employment/employment.reads";
@@ -28,6 +30,28 @@ export async function commandState(
     await read({ employees: { ids: employeeId ? [employeeId] : [] } }),
   );
   const actor = actorFor(s, uid);
+  if (
+    await workforceCommand(
+      read,
+      s,
+      actor,
+      route,
+      body,
+      s.receipts[receiptId]?.result as { id?: string } | undefined,
+    )
+  )
+    return s;
+  if (
+    await servicesCommand(
+      read,
+      s,
+      actor,
+      route,
+      body,
+      s.receipts[receiptId]?.result as { id?: string } | undefined,
+    )
+  )
+    return s;
   if (
     await compensationCommand(
       read,
@@ -96,7 +120,7 @@ export async function commandState(
       break;
     case "employees":
       requireRole(actor, ["Admin", "HR"]);
-      if (parts[2] === "avatar") {
+      if (parts[2] === "avatar" || parts[2] === "background") {
         plan.employees = { ids: [parts[1]] };
         break;
       }
@@ -106,6 +130,8 @@ export async function commandState(
         departments: true,
         positions: true,
       });
+      if (parts[1])
+        plan.employeeServices = { field: "employeeId", value: parts[1] };
       if (!parts[1]) plan.employeeSequences = { ids: ["main"] };
       break;
     case "users":
@@ -149,6 +175,8 @@ export async function commandState(
       if (!parts[1]) {
         plan.memberships = true;
         plan.leaveRequests = { field: "employeeId", value: employeeId! };
+        plan.timeRequests = { field: "employeeId", value: employeeId! };
+        plan.payrollStatements = { field: "employeeId", value: employeeId! };
         plan.leaveTypes = { ids: [input.leaveTypeId!] };
         plan.leaveBalances = {
           ids: [employeeId + "_" + input.startDate!.slice(0, 4)],
@@ -156,6 +184,14 @@ export async function commandState(
       } else {
         mergeState(s, await read({ leaveRequests: { ids: [parts[1]] } }));
         const leave = s.leaveRequests[parts[1]];
+        plan.timeRequests = {
+          field: "employeeId",
+          value: leave?.employeeId ?? "missing",
+        };
+        plan.payrollStatements = {
+          field: "employeeId",
+          value: leave?.employeeId ?? "missing",
+        };
         plan.leaveBalances = {
           ids: leave
             ? [leave.employeeId + "_" + leave.startDate.slice(0, 4)]
@@ -177,5 +213,12 @@ export async function commandState(
           ? parts[1]
           : undefined;
   if (targetId) await loadEmployeeAccess(read, s, [targetId]);
+  if (parts[0] === "attendance" && parts[2] === "adjustment" && targetId)
+    mergeState(
+      s,
+      await read({
+        payrollStatements: { field: "employeeId", value: targetId },
+      }),
+    );
   return s;
 }

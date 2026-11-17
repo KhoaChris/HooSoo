@@ -10,14 +10,14 @@
 }
 .professional-context > span {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--font-size-micro);
   line-height: 1.7;
 }
 .professional-status {
   display: inline-flex;
   padding: 6px 10px;
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: var(--font-size-caption);
   white-space: nowrap;
   min-width: 144px;
   justify-content: center;
@@ -36,7 +36,7 @@
 .professional-detail-status {
   justify-content: space-between;
   color: var(--muted);
-  font-size: 0.83rem;
+  font-size: var(--font-size-caption);
 }
 .professional-actions {
   justify-content: flex-end;
@@ -62,7 +62,7 @@
 }
 .access-current h2 {
   margin: 8px 0;
-  font-size: 1.4rem;
+  font-size: var(--font-size-section);
 }
 .access-current p {
   max-width: 650px;
@@ -72,7 +72,7 @@
 }
 .access-current div > span:last-child {
   color: var(--brand);
-  font-size: 0.83rem;
+  font-size: var(--font-size-caption);
 }
 .access-rule {
   display: flex;
@@ -81,7 +81,7 @@
   margin: 24px 0;
   color: var(--muted);
   max-width: 900px;
-  font-size: 0.84rem;
+  font-size: var(--font-size-caption);
   line-height: 1.8;
 }
 .access-rule svg {
@@ -103,14 +103,14 @@
   border-collapse: collapse;
   min-width: 1000px;
   text-align: left;
-  font-size: 0.82rem;
+  font-size: var(--font-size-micro);
   table-layout: fixed;
 }
 .access-matrix caption {
   text-align: left;
   padding: 20px;
-  font-weight: 650;
-  font-size: 1rem;
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-body);
 }
 .access-matrix th,
 .access-matrix td {
@@ -121,7 +121,7 @@
 .access-matrix th {
   color: var(--muted);
   background: var(--surface-subtle);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .access-matrix td:first-child {
   min-width: 190px;
@@ -145,10 +145,10 @@
     margin-left: 40px;
   }
   .access-current p {
-    font-size: 0.85rem;
+    font-size: var(--font-size-caption);
   }
   .access-rule {
-    font-size: 0.8rem;
+    font-size: var(--font-size-micro);
   }
 }
 .professional-context > strong,

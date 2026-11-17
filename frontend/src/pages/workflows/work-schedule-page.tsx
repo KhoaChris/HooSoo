@@ -131,7 +131,7 @@ export function WorkSchedulePage({
           <div className="calendar-toolbar">
             <div>
               <span className="section-eyebrow">
-                <StableText>{t("KẾ HOẠCH LÀM VIỆC")}</StableText>
+                <StableText>{t("Kế hoạch làm việc")}</StableText>
               </span>
               <h2>
                 <StableText>{t("Tháng")}</StableText> {Number(month.slice(5))},{" "}

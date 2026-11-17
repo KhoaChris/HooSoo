@@ -8,7 +8,7 @@
   background: var(--surface);
   color: var(--text-secondary);
   border: 1px solid var(--line);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   padding: 1px 6px;
   border-radius: 4px;
 }
@@ -17,7 +17,7 @@
   align-items: center;
   gap: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   white-space: nowrap;
 }
 .account-role svg {
@@ -31,8 +31,8 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   padding: 13px 0;
   cursor: pointer;
   list-style: none;
@@ -44,7 +44,7 @@
   content: "+";
   margin-left: auto;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
   padding: 0 5px;
 }
 .role-guide[open] > summary:after {
@@ -65,13 +65,13 @@
   display: flex;
   gap: 9px;
   align-items: center;
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   color: var(--heading);
 }
 .role-guide dd {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   line-height: 1.75;
 }
@@ -90,7 +90,7 @@
   overflow-wrap: anywhere;
 }
 .account-role-context {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   line-height: 1.8;
   margin-top: 15px;
@@ -103,7 +103,7 @@
   gap: 12px;
 }
 .account-status-message {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
   line-height: 1.85;
   margin: 22px 0;
@@ -128,11 +128,11 @@
   min-width: 0;
 }
 .account-job strong {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--warning-text);
 }
 .account-job p {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   margin-top: 5px;
   overflow-wrap: anywhere;

@@ -39,8 +39,17 @@
 /* A cool paper surface with a soft cobalt wash; the dark palette stays intact. */
 :root:not([data-theme="dark"]) .sidebar {
   --sidebar-gradient:
-    radial-gradient(ellipse 145% 260px at 12% 108%, #9ab9ff 0%, #c9daffb3 38%, transparent 78%),
-    radial-gradient(ellipse 120% 220px at 110% 90%, #d8ecff 0%, transparent 85%),
+    radial-gradient(
+      ellipse 145% 260px at 12% 108%,
+      #9ab9ff 0%,
+      #c9daffb3 38%,
+      transparent 78%
+    ),
+    radial-gradient(
+      ellipse 120% 220px at 110% 90%,
+      #d8ecff 0%,
+      transparent 85%
+    ),
     linear-gradient(165deg, #ffffff 0%, #f4f7fd 58%, #edf3ff 100%);
   --sidebar-border: #cdd8eb;
   --sidebar-active: linear-gradient(105deg, #dce7ff 0%, #eaf1ff 100%);
@@ -60,7 +69,9 @@
   --control-border: #a6b8d3;
   --control-border-hover: #6583bb;
   --focus-ring: #426fe5;
-  box-shadow: 0 4px 16px #263d6810, inset 0 1px 0 #ffffff;
+  box-shadow:
+    0 4px 16px #263d6810,
+    inset 0 1px 0 #ffffff;
 }
 .sidebar-header {
   display: flex;
@@ -123,14 +134,14 @@
   min-width: 0;
 }
 .workspace-label strong {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .workspace-label small {
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   white-space: nowrap;
 }
 .workspace-icon {
@@ -143,7 +154,7 @@
   height: 30px;
   flex-shrink: 0;
   border-radius: 7px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 .sidebar nav {
   overflow-y: auto;
@@ -154,13 +165,21 @@
   scrollbar-color: var(--control-border) transparent;
   overscroll-behavior: contain;
 }
-.nav-group {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
+.nav-group,
+.nav-section-toggle {
+  font-family: inherit;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.45;
+  letter-spacing: normal;
+  text-transform: none;
   color: var(--text-secondary);
-  padding: 21px 12px 9px;
-  white-space: nowrap;
+}
+.nav-group {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 12px;
 }
 .sidebar nav a {
   position: relative;
@@ -172,8 +191,8 @@
   margin: 2px 0;
   border-radius: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
   transition:
     background 140ms,
@@ -189,7 +208,7 @@
 .sidebar nav a.active {
   background: var(--sidebar-active);
   color: var(--sidebar-active-text);
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
   box-shadow: inset 0 1px 0 #ffffff0d;
 }
 .sidebar nav a.active:hover {
@@ -214,7 +233,7 @@
   align-items: center;
   gap: 7px;
   border-top: 1px solid var(--line);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   color: var(--sidebar-footer-text);
   flex-shrink: 0;
   white-space: nowrap;
@@ -264,6 +283,7 @@
   }
   .sidebar-collapsed .nav-group {
     font-size: 0;
+    min-height: 0;
     height: 1px;
     padding: 0;
     margin: 13px 14px;
@@ -322,5 +342,154 @@
     background: var(--overlay);
     z-index: 29;
     border: 0;
+  }
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 2px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  min-width: 0;
+}
+.nav-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--font-size-control);
+  min-height: 22px;
+  height: 22px;
+}
+.nav-search input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+.nav-search:focus-within {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.nav-search button {
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 2px;
+}
+.nav-search > svg {
+  flex-shrink: 0;
+}
+.nav-section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  border-radius: 8px;
+}
+.nav-section-toggle:hover {
+  background: var(--surface-hover);
+  color: var(--heading);
+}
+.nav-section-toggle svg {
+  flex-shrink: 0;
+  transition: transform 150ms;
+}
+.nav-section-toggle[aria-expanded="false"] svg {
+  transform: rotate(-90deg);
+}
+.nav-section + .nav-section {
+  margin-top: 6px;
+}
+.sidebar nav .nav-label {
+  white-space: normal;
+  line-height: 1.45;
+}
+.nav-search-empty {
+  padding: 12px;
+  font-size: var(--font-size-caption);
+}
+.related-navigation {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 0 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--font-size-compact);
+}
+.related-navigation-label {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  flex-shrink: 0;
+  gap: 8px;
+  min-height: 24px;
+  max-width: 100%;
+  margin-block: 8px;
+  padding-inline-end: 20px;
+  border-inline-end: 1px solid var(--control-border);
+  color: var(--muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-leading-control);
+}
+.related-navigation-label svg {
+  flex-shrink: 0;
+}
+.related-navigation-links {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+.related-navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  max-width: 100%;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--font-leading-control);
+}
+.related-navigation a:hover {
+  background: var(--surface-hover);
+  color: var(--brand);
+}
+.related-navigation a.active {
+  background: var(--selected-surface);
+  color: var(--brand);
+  font-weight: var(--font-weight-heading);
+}
+@media (max-width: 600px) {
+  .related-navigation {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .related-navigation-label {
+    margin-block: 0;
+    padding-inline-end: 0;
+    border-inline-end: 0;
+  }
+  .related-navigation a {
+    min-height: 44px;
   }
 }

@@ -1,3 +1,6 @@
+import { WorkforceLinks } from "../workforce/common";
+import { useAuth } from "../../app/auth";
+import { AdminBandDialog } from "./admin-band-dialog";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -38,6 +41,9 @@ import {
 } from "./compensation-detail";
 export function CompensationPage({ personal = false }: { personal?: boolean }) {
   useLocale();
+  const { me } = useAuth();
+  const isAdmin = me?.actor.role === "Admin";
+  const [bandOpen, setBandOpen] = useState(false);
   const [params] = useSearchParams(),
     filterId = personal ? "" : params.get("employeeId");
   const q = useApi<CompensationWorkspace>(
@@ -92,7 +98,16 @@ export function CompensationPage({ personal = false }: { personal?: boolean }) {
                 {t("Hiệu lực từ")} {dayLabel(record.effectiveDate)}
               </small>
             </div>
-            <CompensationBadge record={record} />
+            {personal && q.data?.adminBand ? (
+              <span
+                className="compensation-badge status-tone"
+                data-tone="neutral"
+              >
+                {t("Hồ sơ trước band")}
+              </span>
+            ) : (
+              <CompensationBadge record={record} />
+            )}
             <Button variant="ghost" onClick={() => setDetailId(record.id)}>
               {t("Xem chi tiết")}
               <ArrowUpRight size={16} />
@@ -106,12 +121,30 @@ export function CompensationPage({ personal = false }: { personal?: boolean }) {
     <div className="compensation-page">
       <Heading
         title={t(personal ? "Lương & phúc lợi của tôi" : "Lương & phúc lợi")}
+        action={
+          isAdmin && (
+            <Button variant="secondary" onClick={() => setBandOpen(true)}>
+              {t("Cấu hình band Admin")}
+            </Button>
+          )
+        }
       />
+      <WorkforceLinks group="payroll" personal={personal} />
       {personal ? (
         q.isPending ? (
           <Loading />
         ) : q.error ? (
           <ErrorBox error={q.error} retry={() => void q.refetch()} />
+        ) : isAdmin && q.data?.adminBand ? (
+          <section className="compensation-current">
+            <div className="compensation-record-bar">
+              <strong>{t("Band lương Admin")}</strong>
+              <span>
+                {t("Người cập nhật")}: {q.data.adminBand.changedByName}
+              </span>
+            </div>
+            <PackageSummary value={q.data.adminBand.package} />
+          </section>
         ) : current ? (
           <section className="compensation-current">
             <div className="compensation-record-bar">
@@ -125,7 +158,11 @@ export function CompensationPage({ personal = false }: { personal?: boolean }) {
           </section>
         ) : (
           <p className="compensation-empty">
-            {t("Chưa có chế độ đãi ngộ được công bố.")}
+            {t(
+              isAdmin
+                ? "Chưa thiết lập band Admin."
+                : "Chưa có chế độ đãi ngộ được công bố.",
+            )}
           </p>
         )
       ) : (
@@ -228,9 +265,12 @@ export function CompensationPage({ personal = false }: { personal?: boolean }) {
           ]}
         />
       )}
+      {bandOpen && <AdminBandDialog onClose={() => setBandOpen(false)} />}
       {person &&
         (personal ? (
-          historyPanel
+          person.records.length > 0 ? (
+            historyPanel
+          ) : null
         ) : !detail && !editor && !decision ? (
           <Modal
             title={person.name}

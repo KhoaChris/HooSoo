@@ -1,11 +1,12 @@
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { MessageSquarePlus, UsersRound, Search } from "lucide-react";
 import type { ChatPerson, ChatRoom } from "@hoosoo/shared";
 import {
   Button,
   Checkbox,
+  Radio,
   Input,
   Modal,
   Select,
@@ -39,9 +40,11 @@ function ChatForm({
   onSaved,
 }: Parameters<typeof ChatDialog>[0]) {
   useLocale();
+  const peopleGroupId = useId();
   const [kind, setKind] = useState<"direct" | "group">(room?.kind ?? "direct"),
     [title, setTitle] = useState(room?.title ?? ""),
     [search, setSearch] = useState("");
+  const PersonControl = kind === "direct" ? Radio : Checkbox;
   const [version] = useState(room?.version);
   const [members, setMembers] = useState<string[]>(room?.memberIds ?? []),
     [owner, setOwner] = useState(room?.ownerId ?? self);
@@ -147,7 +150,11 @@ function ChatForm({
           onChange={(e) => setSearch(e.target.value)}
         />
       </label>
-      <div className="chat-people-picker">
+      <div
+        className="chat-people-picker"
+        role={kind === "direct" ? "radiogroup" : "group"}
+        aria-label={t(kind === "direct" ? "Chọn đồng nghiệp" : "Thành viên")}
+      >
         {list.map((p) => (
           <label className="chat-person-option" key={p.id}>
             <Avatar name={p.name} src={p.avatarUrl} employeeId={p.id} />
@@ -159,14 +166,17 @@ function ChatForm({
                 </small>
               )}
             </span>
-            <Checkbox
+            <PersonControl
+              name={kind === "direct" ? peopleGroupId : undefined}
+              value={p.id}
               aria-label={t("Chọn {0}", [p.name])}
               checked={members.includes(p.id)}
               onChange={() => toggle(p.id)}
               disabled={
-                kind === "group" &&
-                members.length >= (room ? 30 : 29) &&
-                !members.includes(p.id)
+                action.isPending ||
+                (kind === "group" &&
+                  members.length >= (room ? 30 : 29) &&
+                  !members.includes(p.id))
               }
             />
           </label>

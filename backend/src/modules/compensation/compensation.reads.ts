@@ -24,6 +24,11 @@ export async function compensationRead(
   employeeId?: string,
 ) {
   if (team) requireRole(a, compensationReaders);
+  if (!team && a.role === "Admin")
+    mergeState(
+      s,
+      await readState([], { compensationBands: { ids: ["Admin"] } }),
+    );
   const self = s.employees[a.employeeId];
   if (!team && employeeId && employeeId !== a.employeeId) notFound();
   if (team) {
@@ -74,6 +79,11 @@ export async function compensationCommand(
   replay?: { id?: string },
 ) {
   if (!route.startsWith("/compensation/")) return false;
+  if (route === "/compensation/admin-band") {
+    requireRole(a, ["Admin"]);
+    mergeState(s, await read({ compensationBands: { ids: ["Admin"] } }));
+    return true;
+  }
   requireRole(a, compensationWriters);
   const recordId = route.split("/")[3] || replay?.id;
   if (recordId)

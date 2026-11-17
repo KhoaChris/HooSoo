@@ -16,7 +16,7 @@ export function assert(
 ): asserts condition {
   if (!condition) throw new AppError(status, code, message);
 }
-export function notFound() {
+export function notFound(): never {
   throw new AppError(
     404,
     "NOT_FOUND",

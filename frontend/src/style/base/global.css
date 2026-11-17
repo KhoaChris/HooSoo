@@ -14,8 +14,17 @@ body {
 }
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
+}
+strong,
+b {
+  font-weight: var(--font-weight-semibold);
+}
+label,
+legend {
+  font-weight: var(--font-weight-medium);
 }
 button,
 a,
@@ -44,31 +53,42 @@ a:hover {
 h1,
 h2,
 h3,
+h4,
+h5,
 p {
   margin: 0;
 }
 h1 {
-  font-size: 27px;
+  font-size: var(--font-size-page);
   line-height: 1.4;
   letter-spacing: -0.7px;
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
   color: var(--heading);
 }
 h2 {
-  font-size: 17px;
-  font-weight: 650;
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-heading);
   line-height: 1.5;
   color: var(--heading);
 }
 h3 {
-  font-size: 15px;
-  font-weight: 650;
+  font-size: var(--font-size-subsection);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--font-leading-heading);
+  color: var(--heading);
+}
+h4,
+h5 {
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-leading-heading);
+  color: var(--heading);
 }
 p {
   line-height: 1.8;
 }
 small {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.6;
   color: var(--muted);
 }

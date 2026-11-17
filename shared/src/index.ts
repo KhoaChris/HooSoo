@@ -1,3 +1,7 @@
+export * from "./workforce";
+export * from "./employee-background";
+import type { EmployeeBackground } from "./employee-background";
+export * from "./employee-services";
 export * from "./compensation";
 export type { NotificationItem, NotificationFeed } from "./notifications";
 import type {
@@ -160,6 +164,7 @@ export interface Meta {
   createdBy?: string;
 }
 export interface Employee extends Meta, EmployeeInput {
+  background?: EmployeeBackground;
   employeeCode: string;
   avatarUrl?: string | null;
   avatarVersion?: number;
@@ -253,6 +258,15 @@ export interface Receipt extends Meta {
   actorId: string;
 }
 export interface Tables {
+  payrollStatements: import("./workforce").PayrollStatement;
+  timeRequests: import("./workforce").TimeRequest;
+  personnelChanges: import("./workforce").PersonnelChange;
+  personnelDocuments: import("./workforce").PersonnelDocument;
+  announcements: import("./workforce").Announcement;
+  announcementReceipts: import("./workforce").AnnouncementReceipt;
+  employeeImports: import("./workforce").EmployeeImport;
+  employeeServices: import("./employee-services").ServiceRecord;
+  compensationBands: import("./compensation").AdminSalaryBand;
   compensationRecords: import("./compensation").CompensationRecord;
   performanceReports: import("./performance").PerformanceReport;
   performanceReviews: import("./performance").PerformanceReview;
@@ -300,6 +314,7 @@ export type EmployeeView = Omit<Employee, "phone" | "address" | "uid"> &
   Partial<Pick<Employee, "phone" | "address" | "uid">> & {
     accessRole?: Role | null;
     canEdit?: boolean;
+    canEditBackground?: boolean;
   };
 export interface AttendanceView extends Attendance {
   canAdjust?: boolean;

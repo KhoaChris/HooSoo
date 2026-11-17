@@ -1,3 +1,5 @@
+import { WorkforceLinks } from "../workforce/common";
+import { EmployeeBackgroundSection } from "./employee-background";
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
 import { Avatar } from "../../components/ui/avatar";
@@ -153,6 +155,7 @@ export function EmployeeProfileView({
                   {dateText(e.hireDate)}
                 </WorkField>
               </dl>
+              <WorkforceLinks group="profile" employeeId={e.id} />
               <div className="employee-work-links">
                 {compensationLink && (
                   <Link
@@ -227,6 +230,7 @@ export function EmployeeProfileView({
                 )}
               </dl>
             </section>
+            <EmployeeBackgroundSection employee={e} />
           </div>
           <aside className="employee-profile-activity">{history}</aside>
         </div>

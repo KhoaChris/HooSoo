@@ -10,16 +10,16 @@
   padding: 10px 0;
 }
 .policy-overview-label {
-  font-size: 9px;
-  font-weight: 650;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
   color: var(--muted);
-  letter-spacing: 1.4px;
+  letter-spacing: normal;
 }
 .policy-overview h2 {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 15px;
+  font-size: var(--font-size-section);
   color: var(--heading);
   margin-top: 20px;
 }
@@ -31,7 +31,7 @@
   align-items: center;
   gap: 12px;
   font-size: 25px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
   margin-top: 16px;
   letter-spacing: -0.6px;
@@ -39,11 +39,11 @@
 }
 .policy-current-hours > span {
   font-size: 18px;
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
   color: var(--muted);
 }
 .policy-current-days {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   line-height: 1.9;
   margin: 10px 0 24px;
   color: var(--text-secondary);
@@ -60,7 +60,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 9px 0;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .policy-overview dt {
   color: var(--text-secondary);
@@ -68,13 +68,13 @@
 .policy-overview dd {
   margin: 0;
   color: var(--text-secondary);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .policy-overview-note {
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   line-height: 1.9;
   margin-top: 24px;
@@ -107,10 +107,10 @@
   color: var(--brand);
 }
 .policy-editor-heading h2 {
-  font-size: 16px;
+  font-size: var(--font-size-section);
 }
 .policy-editor-heading p {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   margin-top: 5px;
 }
@@ -120,7 +120,7 @@
   row-gap: 20px;
 }
 .policy-editor .form-section {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--brand);
   padding-top: 24px;
   margin-top: 5px;
@@ -135,11 +135,11 @@
   display: none;
 }
 .policy-editor .field > label {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .policy-editor .field small {
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   line-height: 1.8;
   color: var(--muted);
 }
@@ -160,7 +160,7 @@
   justify-content: flex-end;
   gap: 6px;
   padding: 12px 28px 22px;
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   line-height: 1.6;
   color: var(--muted);
 }
@@ -178,7 +178,7 @@
   gap: 16px;
   padding: 12px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .policy-review dt {
   color: var(--text-secondary);
@@ -186,7 +186,7 @@
 .policy-review dd {
   margin: 0;
   color: var(--text-secondary);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   overflow-wrap: anywhere;
 }
 @media (max-width: 1100px) {
@@ -203,7 +203,7 @@
     padding: 20px 18px;
   }
   .policy-editor-heading h2 {
-    font-size: 14px;
+    font-size: var(--font-size-section);
   }
   .policy-editor .form {
     padding: 20px 18px;
@@ -243,28 +243,28 @@
   background: var(--brand-soft);
   color: var(--brand);
   font-size: 29px;
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
   border: 1px solid var(--line);
 }
 .company-kicker {
   color: var(--text-secondary);
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 1.2px;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: normal;
 }
 .company-identity > div {
   min-width: 0;
   flex: 1;
 }
 .company-identity h2 {
-  font-size: 23px;
+  font-size: var(--font-size-section);
   margin: 4px 0;
   letter-spacing: -0.6px;
   overflow-wrap: anywhere;
 }
 .company-identity p {
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .company-content {
   display: grid;
@@ -273,12 +273,12 @@
   padding: 32px;
 }
 .company-content h3 {
-  font-size: 14px;
+  font-size: var(--font-size-subsection);
   margin-bottom: 9px;
 }
 .company-content p {
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.85;
   max-width: 260px;
 }
@@ -291,7 +291,7 @@
   gap: 20px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .company-content dl > div:first-child {
   padding-top: 0;
@@ -302,25 +302,25 @@
 }
 .company-content dt {
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .company-content dd {
   margin: 0;
   color: var(--heading);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   overflow-wrap: anywhere;
 }
 .company-content dd span {
   margin-left: 8px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
 }
 .admin-shortcuts {
   margin-top: 36px;
 }
 .admin-shortcuts h2 {
-  font-size: 13px;
+  font-size: var(--font-size-section);
   color: var(--text-secondary);
   margin-bottom: 14px;
 }
@@ -349,12 +349,12 @@
 }
 .admin-shortcuts strong {
   display: block;
-  font-size: 13px;
-  font-weight: 550;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-medium);
 }
 .admin-shortcuts small {
   display: block;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
   line-height: 1.8;
   margin-top: 5px;
@@ -391,7 +391,7 @@
     border-radius: 12px;
   }
   .company-identity h2 {
-    font-size: 20px;
+    font-size: var(--font-size-section);
   }
   .company-identity .button {
     width: 100%;

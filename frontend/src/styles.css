@@ -1,10 +1,11 @@
 /* Global stylesheet entry. Edit page/component styles in style/. */
 @import "tailwindcss";
+@import "./style/base/fonts.css";
 @import "./style/base/tokens.css";
 @import "./style/base/global.css";
 @import "./style/base/utilities.css";
 @import "./style/components/input.css";
-@import "./style/components/checkbox.css";
+@import "./style/components/selection-control.css";
 @import "./style/components/select.css";
 @import "./style/components/button.css";
 @import "./style/components/stable-text.css";
@@ -55,3 +56,7 @@
 @import "./style/pages/employment.css";
 
 @import "./style/pages/compensation.css";
+
+@import "./style/pages/employee-services.css";
+
+@import "./style/pages/security.css";

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   Plus,
   Trash2,
-  Check,
   CheckCircle2,
   ChevronDown,
   ClipboardCheck,
@@ -27,6 +26,7 @@ import {
   Modal,
   Select,
   Textarea,
+  Radio,
 } from "../../components/ui";
 import { useModalForm } from "../../components/ui/modal";
 import { useAction } from "../../hooks/data";
@@ -502,8 +502,7 @@ function EvaluationForm({
             key={value}
             className={`${value}${result === value ? " is-selected" : ""}`}
           >
-            <input
-              type="radio"
+            <Radio
               name="evaluation-result"
               required
               value={value}
@@ -514,9 +513,8 @@ function EvaluationForm({
                 setResult(value);
               }}
             />
-            <Icon size={18} />
+            <Icon size={18} aria-hidden="true" />
             <span>{t(label)}</span>
-            {result === value && <Check size={15} />}
           </label>
         ))}
       </fieldset>

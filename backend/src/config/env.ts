@@ -36,7 +36,11 @@ export function parseEnv(input: NodeJS.ProcessEnv) {
   const e = result.data;
   for (const origin of e.CORS_ORIGINS.split(",")) {
     const u = new URL(origin);
-    if (!["http:", "https:"].includes(u.protocol) || u.origin !== origin)
+    if (
+      (e.NODE_ENV === "production" && u.protocol !== "https:") ||
+      !["http:", "https:"].includes(u.protocol) ||
+      u.origin !== origin
+    )
       throw new Error("Invalid CORS_ORIGINS");
   }
   if (e.FIREBASE_MODE === "emulator") {

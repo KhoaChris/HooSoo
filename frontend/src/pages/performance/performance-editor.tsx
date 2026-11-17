@@ -18,6 +18,7 @@ import {
   Button,
   Select,
   Textarea,
+  Radio,
   Form,
   Modal,
   ErrorBox,
@@ -288,8 +289,7 @@ function AssessmentForm({
                             : "success"
                       }
                     >
-                      <input
-                        type="radio"
+                      <Radio
                         name={`goal-outcome-${goal.id}`}
                         value={outcome}
                         checked={draft.goals[i].outcome === outcome}

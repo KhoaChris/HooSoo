@@ -4,7 +4,7 @@
   align-items: center;
   gap: 8px;
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: var(--font-size-caption);
 }
 .work-calendar {
   background: var(--surface);
@@ -22,14 +22,14 @@
   background: var(--surface-sheen);
 }
 .section-eyebrow {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: normal;
   color: var(--muted);
 }
 .calendar-toolbar h2 {
   margin: 6px 0 0;
-  font-size: 1.4rem;
+  font-size: var(--font-size-section);
   letter-spacing: -0.03em;
   color: var(--heading);
 }
@@ -45,8 +45,8 @@
   padding: 14px 10px;
   text-align: center;
   color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
   border-bottom: 1px solid var(--line);
   background: var(--surface-subtle);
 }
@@ -92,13 +92,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 3px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-semibold);
 }
 .calendar-date small {
-  font-size: 0.62rem;
+  font-size: var(--font-size-micro);
   color: var(--brand);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 .is-today .calendar-date {
   color: var(--brand);
@@ -108,7 +108,7 @@
   align-items: center;
   gap: 5px;
   color: var(--brand);
-  font-size: 0.75rem;
+  font-size: var(--font-size-micro);
   opacity: 0.85;
   transition: opacity 0.15s;
 }
@@ -117,7 +117,7 @@
   opacity: 1;
 }
 .calendar-off {
-  font-size: 0.7rem;
+  font-size: var(--font-size-micro);
   color: var(--muted);
 }
 .calendar-event {
@@ -130,13 +130,13 @@
   background: var(--success-bg);
 }
 .calendar-event strong {
-  font-size: 0.78rem;
+  font-size: var(--font-size-micro);
 }
 .calendar-event .workflow-status {
   padding: 0;
   border: 0;
   background: transparent;
-  font-size: 0.65rem;
+  font-size: var(--font-size-micro);
   white-space: normal;
 }
 .calendar-event.status-pending_manager,
@@ -156,7 +156,7 @@
   justify-content: space-between;
   gap: 16px;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--font-size-micro);
 }
 .calendar-footer span {
   display: flex;
@@ -174,7 +174,7 @@
   gap: 7px;
   padding: 5px 9px;
   border: 1px solid;
-  font-size: 0.76rem;
+  font-size: var(--font-size-caption);
   border-radius: 6px;
   white-space: nowrap;
 }
@@ -187,7 +187,7 @@
 }
 .workflow-help {
   color: var(--muted);
-  font-size: 0.83rem;
+  font-size: var(--font-size-caption);
   line-height: 1.7;
   margin: 18px 0;
 }
@@ -200,7 +200,7 @@
 }
 .workflow-notice {
   color: var(--brand);
-  font-size: 0.85rem;
+  font-size: var(--font-size-caption);
   padding: 10px 0;
 }
 .approval-steps {
@@ -211,7 +211,7 @@
   padding: 22px 0;
   border-bottom: 1px solid var(--line);
   margin-bottom: 22px;
-  font-size: 0.78rem;
+  font-size: var(--font-size-micro);
   color: var(--muted);
 }
 .approval-steps > span {
@@ -220,7 +220,7 @@
   align-items: center;
 }
 .approval-steps .current {
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
   color: var(--brand);
 }
 .workflow-history {
@@ -257,16 +257,16 @@
   z-index: 1;
 }
 .workflow-history strong {
-  font-size: 0.87rem;
+  font-size: var(--font-size-caption);
 }
 .workflow-history small {
   display: block;
   color: var(--muted);
-  font-size: 0.74rem;
+  font-size: var(--font-size-micro);
   margin-top: 4px;
 }
 .workflow-history p {
-  font-size: 0.85rem;
+  font-size: var(--font-size-caption);
   line-height: 1.6;
   margin: 6px 0 0;
   white-space: pre-wrap;
@@ -288,13 +288,13 @@
   margin: 20px 0 28px;
 }
 .workflow-facts dt {
-  font-size: 0.76rem;
+  font-size: var(--font-size-micro);
   color: var(--muted);
   margin-bottom: 6px;
 }
 .workflow-facts dd {
   margin: 0;
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   overflow-wrap: anywhere;
 }
 .workflow-resolution {
@@ -337,12 +337,12 @@
 }
 .request-kind-list strong {
   display: block;
-  font-size: 0.96rem;
+  font-size: var(--font-size-compact);
 }
 .request-kind-list small {
   display: block;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--font-size-micro);
   line-height: 1.55;
   margin-top: 5px;
 }
@@ -356,7 +356,7 @@
     flex-wrap: wrap;
   }
   .calendar-toolbar h2 {
-    font-size: 1.15rem;
+    font-size: var(--font-size-section);
   }
   .calendar-toolbar .button {
     padding: 9px 12px;
@@ -379,7 +379,7 @@
   }
   .approval-steps {
     gap: 8px;
-    font-size: 0.7rem;
+    font-size: var(--font-size-micro);
   }
   .request-kind-list button {
     gap: 12px;
@@ -400,6 +400,62 @@
   display: block;
   margin-top: 4px;
   color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 400;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-regular);
+}
+
+.request-picker-search {
+  margin-bottom: 24px;
+}
+.request-catalog {
+  display: grid;
+  gap: 22px;
+}
+.request-catalog h3 {
+  font-size: var(--font-size-subsection);
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.request-kind-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.request-kind-grid button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: left;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-width: 0;
+}
+.request-kind-grid strong {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-compact);
+}
+.request-kind-grid svg {
+  flex-shrink: 0;
+  color: var(--brand);
+}
+.request-kind-grid button:hover {
+  background: var(--selected-surface);
+  border-color: var(--brand);
+}
+.request-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 600px) {
+  .request-kind-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

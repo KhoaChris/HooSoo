@@ -41,7 +41,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .presence-label i {
@@ -99,12 +99,12 @@
   border-bottom: 1px solid var(--line);
 }
 .presence-menu header strong {
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--heading);
 }
 .presence-menu header small {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .presence-menu [role="group"] {
   padding: 6px;
@@ -132,11 +132,11 @@
   min-width: 0;
 }
 .presence-menu button strong {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-semibold);
 }
 .presence-menu button small {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
 }
 .presence-menu button > svg {
@@ -165,7 +165,7 @@
   align-items: center;
   padding: 12px;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .presence-menu footer a:hover {
   background: var(--hover-surface);
@@ -174,7 +174,7 @@
 .presence-error {
   margin: 0 12px 12px;
   color: var(--danger-text);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 @keyframes presence-enter {
   from {

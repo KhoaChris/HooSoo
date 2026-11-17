@@ -167,6 +167,7 @@ export interface CompensationPerson {
 export interface CompensationWorkspace {
   people: CompensationPerson[];
   asOf: string;
+  adminBand?: AdminSalaryBand | null;
 }
 export function compensationPhase(
   record: CompensationRecord,
@@ -192,4 +193,28 @@ export function monthlyPackageTotal(value: SalaryPackage, probation = false) {
       : value.baseSalary) +
     value.allowances.reduce((sum, item) => sum + item.amount, 0)
   );
+}
+
+export const adminBandSchema = z
+  .object({
+    package: salaryPackageSchema.refine(
+      (value) => value.probationSalary === null,
+      {
+        message: "Band Admin không áp dụng lương thử việc",
+        path: ["probationSalary"],
+      },
+    ),
+    reason: z.string().trim().min(3, "Nhập lý do điều chỉnh").max(1000),
+    version: z.number().int().min(0),
+  })
+  .strict();
+export type AdminBandInput = z.infer<typeof adminBandSchema>;
+export interface AdminSalaryBand extends Meta, AdminBandInput {
+  role: "Admin";
+  changedByName: string;
+}
+export interface AdminBandWorkspace {
+  band: AdminSalaryBand | null;
+  history: AdminSalaryBand[];
+  existingPackage: SalaryPackage | null;
 }

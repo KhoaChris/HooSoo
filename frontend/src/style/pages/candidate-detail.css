@@ -20,8 +20,8 @@
   height: 46px;
   flex: 0 0 46px;
   border-radius: 12px;
-  font-size: 17px;
-  font-weight: 650;
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-heading);
   color: var(--brand);
   background: var(--selection-gradient);
   border: 1px solid var(--line);
@@ -47,14 +47,14 @@
   flex-wrap: wrap;
   flex-shrink: 0;
   padding: 14px 28px 10px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .candidate-detail-status {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   color: var(--text-primary);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .candidate-detail-status > span {
   width: 6px;
@@ -86,7 +86,7 @@
   gap: 6px;
   color: var(--brand);
   margin-left: auto;
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .candidate-employee-link:hover {
   text-decoration: underline;
@@ -98,54 +98,6 @@
   flex-shrink: 0;
   padding: 4px 28px 16px;
   border-bottom: 1px solid var(--line);
-}
-.candidate-detail-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 4px;
-  padding: 4px;
-  border-radius: 9px;
-  background: var(--surface-subtle);
-}
-.candidate-detail-tabs > button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 9px 10px;
-  min-width: 0;
-  min-height: 40px;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 550;
-  transition:
-    color 140ms,
-    background-color 140ms,
-    border-color 140ms;
-}
-.candidate-detail-tabs svg {
-  flex: none;
-}
-.candidate-detail-tabs > button:hover:not(:disabled) {
-  color: var(--text-primary);
-  background: var(--surface-hover);
-}
-.candidate-detail-tabs > button[aria-selected="true"] {
-  color: var(--brand);
-  border-color: var(--brand-line);
-  background: var(--selection-gradient);
-  box-shadow: 0 1px 3px var(--shadow-color);
-}
-.candidate-detail-tabs > button:focus-visible {
-  outline: 2px solid var(--brand);
-  outline-offset: 1px;
-}
-.candidate-detail-tabs > button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 .candidate-detail-panel {
   flex: 1;
@@ -172,18 +124,18 @@
   margin-bottom: 22px;
 }
 .candidate-panel-heading > h3 {
-  font-size: 15px;
-  font-weight: 650;
+  font-size: var(--font-size-subsection);
+  font-weight: var(--font-weight-heading);
   letter-spacing: -0.2px;
 }
 .candidate-panel-heading > span {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
 }
 .candidate-panel-heading .button {
   padding: 7px 11px;
   min-height: 36px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .candidate-profile-layout {
   display: grid;
@@ -205,8 +157,8 @@
   display: flex;
   gap: 9px;
   align-items: center;
-  font-size: 12px;
-  font-weight: 650;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-heading);
   color: var(--text-primary);
   margin-bottom: 12px;
 }
@@ -216,7 +168,7 @@
 }
 .candidate-profile-section p,
 .candidate-profile-note p {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   line-height: 1.8;
   color: var(--text-secondary);
   white-space: pre-wrap;
@@ -224,7 +176,25 @@
 }
 .candidate-profile-section .is-empty {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
+}
+.candidate-profile-skills .employee-skill-groups {
+  margin-top: 16px;
+}
+.candidate-skills-details {
+  min-width: 0;
+}
+.employee-skill-groups + .candidate-skills-details {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.candidate-skills-details h5 {
+  margin: 0 0 8px;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
 }
 .candidate-profile-note {
   border-left: 2px solid var(--line);
@@ -232,7 +202,7 @@
   margin-top: 4px;
 }
 .candidate-profile-note h4 {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
   margin-bottom: 7px;
 }
@@ -246,8 +216,8 @@
   margin-top: 22px;
 }
 .candidate-profile-aside h4 {
-  font-size: 12px;
-  font-weight: 650;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
   margin-bottom: 16px;
 }
 .candidate-info-list {
@@ -260,7 +230,7 @@
   align-items: center;
   gap: 6px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   margin-bottom: 5px;
 }
 .candidate-info-list dt svg {
@@ -269,7 +239,7 @@
 .candidate-info-list dd {
   margin: 0;
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
@@ -299,7 +269,7 @@
   margin-left: auto;
 }
 .candidate-detail-actions .button {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   min-height: 40px;
   padding: 9px 12px;
 }
@@ -336,7 +306,7 @@
   border: 1px solid var(--line);
   background: var(--surface-subtle);
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   font-variant-numeric: tabular-nums;
 }
 .is-passed > .candidate-detail-stage-marker {
@@ -367,12 +337,12 @@
   margin-bottom: 12px;
 }
 .candidate-detail-stage-content h4 {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-semibold);
   overflow-wrap: anywhere;
 }
 .candidate-detail-stage-status {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
 }
 .candidate-detail-stage-status.is-passed {
@@ -397,7 +367,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   min-width: 0;
 }
@@ -409,11 +379,11 @@
   min-width: 0;
 }
 .candidate-interview-info strong {
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
 }
 .candidate-interview-info .candidate-interview-confirmation {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .candidate-interview-confirmation.proposed {
   color: var(--warning-text);
@@ -422,7 +392,7 @@
   color: var(--success-text);
 }
 .candidate-detail-stage-empty {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
 }
 .candidate-detail-stage-evaluation {
@@ -433,7 +403,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 0;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--brand);
   cursor: pointer;
   list-style: none;
@@ -457,18 +427,18 @@
   margin-left: auto;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .candidate-detail-stage-evaluation[open] > summary > span {
   visibility: hidden;
 }
 .candidate-detail-stage-evaluation .evaluation-result {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.7;
 }
 .candidate-detail-stage-evaluation .evaluation-result-date {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .candidate-detail-panel .workflow-history {
   margin-top: 0;
@@ -483,7 +453,7 @@
   justify-items: center;
   gap: 12px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .candidate-detail-panel .cv-current {
   margin-top: 0;
@@ -536,33 +506,22 @@
     padding: 18px 16px;
   }
   .candidate-detail-modal .modal-heading h2 {
-    font-size: 17px;
+    font-size: var(--font-size-dialog);
   }
   .candidate-detail-modal .modal-icon,
   .person-avatar.candidate-detail-avatar {
     width: 38px;
     height: 38px;
     flex-basis: 38px;
-    font-size: 14px;
+    font-size: var(--font-size-body);
   }
   .candidate-detail-context {
     padding: 12px 16px 8px;
-    font-size: 10px;
+    font-size: var(--font-size-micro);
     gap: 8px;
   }
   .candidate-detail-navigation {
     padding: 4px 12px 12px;
-  }
-  .candidate-detail-tabs {
-    gap: 2px;
-    padding: 3px;
-  }
-  .candidate-detail-tabs > button {
-    flex-direction: column;
-    gap: 5px;
-    padding: 7px 2px;
-    min-height: 54px;
-    font-size: 11px;
   }
   .candidate-detail-panel {
     padding: 20px 16px 24px;
@@ -573,7 +532,7 @@
     margin-bottom: 20px;
   }
   .candidate-panel-heading > h3 {
-    font-size: 14px;
+    font-size: var(--font-size-subsection);
   }
   .candidate-profile-aside {
     grid-template-columns: 1fr;
@@ -599,7 +558,7 @@
   .candidate-detail-actions .button {
     min-width: 0;
     white-space: normal;
-    font-size: 11px;
+    font-size: var(--font-size-micro);
     padding: 8px 10px;
   }
   .candidate-interview-info {
@@ -614,7 +573,6 @@
   .candidate-panel-content {
     animation: none;
   }
-  .candidate-detail-tabs > button,
   .candidate-detail-stage-evaluation > summary::before {
     transition: none;
   }

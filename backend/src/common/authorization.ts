@@ -57,13 +57,16 @@ export function scopedEmployee(s: State, a: Actor, id: string) {
   return e;
 }
 export function employeeView(e: Employee, a: Actor, s?: State): EmployeeView {
-  const { phone, address, uid, ...work } = e;
+  const { phone, address, uid, background, ...work } = e;
   const canEdit = !!s && isHR(a) && canManageEmployee(s, a, e.id);
   const contact =
     a.employeeId === e.id || (isHR(a) && (a.role === "Admin" || canEdit));
   return {
     ...work,
     ...(contact ? { phone, address } : {}),
+    ...(s && (a.employeeId === e.id || canManageEmployee(s, a, e.id))
+      ? { background, canEditBackground: a.employeeId === e.id || canEdit }
+      : {}),
     ...(a.role === "Admin" ? { uid } : {}),
     ...(s ? { accessRole: employeeRole(s, e.id), canEdit } : {}),
   };

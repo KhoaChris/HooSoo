@@ -11,7 +11,7 @@ export function Checkbox({
     <Input
       {...props}
       type="checkbox"
-      className={`checkbox-control ${className}`.trim()}
+      className={`selection-control checkbox-control ${className}`.trim()}
     />
   );
 }

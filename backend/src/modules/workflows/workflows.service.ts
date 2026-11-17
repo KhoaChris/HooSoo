@@ -153,7 +153,7 @@ export function createInternalRequest(
       "PAST_REQUEST",
       "Chọn ngày từ hôm nay trở đi.",
     );
-    if (input.kind !== "employment_certificate") {
+    if (["business_trip", "remote_work"].includes(input.kind)) {
       assert(
         input.location.length >= 3,
         400,
@@ -241,7 +241,7 @@ export function actOnWorkflow(
           "ATTENDANCE_CHANGED",
           "Chấm công đã được điều chỉnh sau khi gửi đơn. Nhân viên cần tạo đề nghị mới.",
         );
-      } else if (req.kind !== "employment_certificate")
+      } else if (["business_trip", "remote_work"].includes(req.kind))
         noLeave(
           s,
           req.employeeId,

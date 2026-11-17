@@ -64,7 +64,7 @@ export function SettingsPage({ hr = false }: { hr?: boolean }) {
         {hr && (
           <aside className="policy-overview">
             <span className="policy-overview-label">
-              {t("CHÍNH SÁCH HIỆN TẠI")}
+              {t("Chính sách hiện tại")}
             </span>
             <h2>
               <Clock3 size={20} />

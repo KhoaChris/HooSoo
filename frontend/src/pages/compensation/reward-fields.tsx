@@ -153,6 +153,7 @@ export function SalaryPackageEditor({
   value,
   onChange,
   optional = false,
+  allowProbation = true,
   defaultPackage,
   disabled = false,
   invalid = false,
@@ -163,6 +164,7 @@ export function SalaryPackageEditor({
   value: SalaryPackage | null;
   onChange: (v: SalaryPackage | null) => void;
   optional?: boolean;
+  allowProbation?: boolean;
   defaultPackage?: SalaryPackage;
   disabled?: boolean;
   invalid?: boolean;
@@ -218,32 +220,37 @@ export function SalaryPackageEditor({
                   invalid={invalid && value.baseSalary <= 0}
                 />
               </label>
-              <div>
-                <label className="reward-check" htmlFor={`${unique}-probation`}>
-                  <Checkbox
-                    id={`${unique}-probation`}
-                    checked={value.probationSalary !== null}
-                    disabled={disabled}
-                    onChange={(e) =>
-                      set({ probationSalary: e.target.checked ? 0 : null })
-                    }
-                  />
-                  {t("Lương thử việc riêng")}
-                </label>
-                {value.probationSalary !== null && (
-                  <MoneyInput
-                    label={t("Lương thử việc")}
-                    value={value.probationSalary}
-                    onChange={(probationSalary) => set({ probationSalary })}
-                    disabled={disabled}
-                    invalid={
-                      invalid &&
-                      (value.probationSalary <= 0 ||
-                        value.probationSalary > value.baseSalary)
-                    }
-                  />
-                )}
-              </div>
+              {allowProbation && (
+                <div>
+                  <label
+                    className="reward-check"
+                    htmlFor={`${unique}-probation`}
+                  >
+                    <Checkbox
+                      id={`${unique}-probation`}
+                      checked={value.probationSalary !== null}
+                      disabled={disabled}
+                      onChange={(e) =>
+                        set({ probationSalary: e.target.checked ? 0 : null })
+                      }
+                    />
+                    {t("Lương thử việc riêng")}
+                  </label>
+                  {value.probationSalary !== null && (
+                    <MoneyInput
+                      label={t("Lương thử việc")}
+                      value={value.probationSalary}
+                      onChange={(probationSalary) => set({ probationSalary })}
+                      disabled={disabled}
+                      invalid={
+                        invalid &&
+                        (value.probationSalary <= 0 ||
+                          value.probationSalary > value.baseSalary)
+                      }
+                    />
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <section className="reward-section">

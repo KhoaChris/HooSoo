@@ -42,7 +42,9 @@ export function RecruitmentPage() {
     [create, setCreate] = useState<"new" | "sample" | null>(null),
     [editCandidate, setEditCandidate] = useState<Candidate | null>(null),
     [search, setSearch] = useState(""),
-    [detailId, setDetailId] = useState<string | null>(null),
+    [detailId, setDetailId] = useState<string | null>(
+      searchParams.get("candidate"),
+    ),
     [detailTab, setDetailTab] = useState<"profile" | "rounds">("profile"),
     [action, setAction] = useState<{
       candidate: Candidate;
@@ -122,7 +124,7 @@ export function RecruitmentPage() {
           <section className="recruitment-toolbar">
             <div className="recruitment-job">
               <span className="section-eyebrow">
-                <StableText>{t("ĐỢT TUYỂN DỤNG")}</StableText>
+                <StableText>{t("Đợt tuyển dụng")}</StableText>
               </span>
               <Select
                 aria-label={t("Chọn đợt tuyển dụng")}

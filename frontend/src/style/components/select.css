@@ -1,6 +1,9 @@
 /* components/select: keep responsive rules with the styles they adjust. */
 
 .select-trigger {
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-leading-control);
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -57,6 +60,10 @@
   transform: rotate(180deg);
 }
 .select-content {
+  font-family: var(--font-family-ui);
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-leading-control);
   z-index: 100;
   width: var(--radix-select-trigger-width);
   max-width: calc(100vw - 24px);
@@ -80,7 +87,7 @@
   min-height: 38px;
   padding: 9px 34px 9px 10px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: var(--font-size-control);
   line-height: 1.5;
   overflow-wrap: anywhere;
   cursor: pointer;
@@ -90,7 +97,7 @@
 .select-option[data-state="checked"] {
   color: var(--heading);
   background: var(--selection-gradient);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .select-option[data-highlighted] {
   background: var(--surface-hover);

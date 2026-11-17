@@ -200,3 +200,37 @@ describe("API explorer", () => {
       expect(serialized).not.toContain(key);
   });
 });
+
+it("limits explicit readiness probes without database reads for health or denied traffic", async () => {
+  const readiness = vi
+    .spyOn(store, "readiness")
+    .mockResolvedValue({
+      status: "ok",
+      checkedAt: new Date().toISOString(),
+      latencyMs: 1,
+      mode: "emulator",
+    } as Awaited<ReturnType<typeof store.readiness>>);
+  try {
+    let last;
+    for (let i = 0; i < 13; i++) {
+      last = await fetch(origin + "/api/ready");
+      await last.text();
+    }
+    expect(last!.status).toBe(429);
+    expect(readiness.mock.calls.length).toBeLessThanOrEqual(12);
+    const health = await fetch(origin + "/api/health");
+    expect(health.status).toBe(200);
+    expect(health.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(health.headers.get("x-powered-by")).toBeNull();
+    await health.text();
+    const denied = await fetch(
+      origin + "/api/v1/employee-services?section=assets",
+      { headers: { Origin: "https://outside.example.test" } },
+    );
+    expect(denied.status).toBe(403);
+    await denied.text();
+    expect(firebase.access).not.toHaveBeenCalled();
+  } finally {
+    readiness.mockRestore();
+  }
+});

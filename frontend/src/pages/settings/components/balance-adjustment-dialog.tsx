@@ -14,6 +14,7 @@ import {
   Input,
   Modal,
   Textarea,
+  Radio,
 } from "../../../components/ui";
 import { useModalForm } from "../../../components/ui/modal";
 import { StableText } from "../../../i18n/stable-text";
@@ -183,9 +184,7 @@ function BalanceAdjustmentForm({ balance, onClose, onSubmit }: Props) {
               key={mode}
               className={`balance-direction-option ${mode}${direction === mode ? " is-selected" : ""}`}
             >
-              <input
-                className="balance-direction-radio"
-                type="radio"
+              <Radio
                 name={`${id}-direction`}
                 value={mode}
                 checked={direction === mode}

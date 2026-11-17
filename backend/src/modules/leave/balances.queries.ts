@@ -1,3 +1,4 @@
+import { pendingDays } from "../workforce/time.service";
 import { isHR, canManageEmployee } from "../../common/authorization";
 import type { State, Actor, Query, BalanceView } from "@hoosoo/shared";
 import { inScope } from "../../common/authorization";
@@ -20,15 +21,7 @@ export function balanceList(s: State, a: Actor, q: Query): BalanceView[] {
         ...b,
         canAdjust: isHR(a) && canManageEmployee(s, a, e.id),
         employeeName: e.name,
-        pending: Object.values(s.leaveRequests)
-          .filter(
-            (r) =>
-              r.employeeId === e.id &&
-              r.status === "pending" &&
-              r.deductsBalance &&
-              Number(r.startDate.slice(0, 4)) === year,
-          )
-          .reduce((n, r) => n + r.days, 0),
+        pending: pendingDays(s, e.id, year),
         available: b.allowance - b.used,
         transactions: Object.values(s.leaveBalanceTransactions)
           .filter((t) => t.employeeId === e.id && t.year === year)

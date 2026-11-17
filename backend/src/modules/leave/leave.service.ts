@@ -1,3 +1,5 @@
+import { pendingDays } from "../workforce/time.service";
+import { payrollUnlocked } from "../workforce/core";
 import { assertManageEmployee } from "../../common/authorization";
 import { randomUUID } from "node:crypto";
 import type { State, Actor, LeaveRequest, leaveSchema } from "@hoosoo/shared";
@@ -64,6 +66,19 @@ export function createLeave(
     "LEAVE_OVERLAP",
     "Khoảng ngày đã có đơn chờ duyệt hoặc được duyệt.",
   );
+  for (const date of days) payrollUnlocked(s, a.employeeId, date);
+  assert(
+    !Object.values(s.timeRequests).some(
+      (r) =>
+        r.employeeId === a.employeeId &&
+        ["pending", "approved"].includes(r.status) &&
+        r.date >= input.startDate &&
+        r.date <= input.endDate,
+    ),
+    409,
+    "TIME_OVERLAP",
+    "Khoảng ngày đã có đề nghị tăng ca hoặc nghỉ theo giờ.",
+  );
   const approvers = Object.values(s.memberships)
     .filter(
       (m) =>
@@ -85,7 +100,18 @@ export function createLeave(
     "Chưa có người có quyền duyệt đơn của bạn. Cần quản trị viên cấu hình người duyệt khác.",
   );
   const year = Number(input.startDate.slice(0, 4));
-  persistBalance(s, a.employeeId, year, a.uid);
+  const currentBalance = persistBalance(s, a.employeeId, year, a.uid);
+  assert(
+    !type.deductsBalance ||
+      currentBalance.allowance -
+        currentBalance.used -
+        pendingDays(s, a.employeeId, year) +
+        0.0001 >=
+        days.length,
+    409,
+    "LEAVE_BALANCE_INSUFFICIENT",
+    "Quỹ phép còn lại sau các đơn đang chờ không đủ.",
+  );
   const r: LeaveRequest = {
     ...input,
     id: randomUUID(),
@@ -167,6 +193,7 @@ export function transitionLeave(
     );
   if (action === "cancel" && r.status === "approved")
     requireRole(a, ["Admin", "HR"]);
+  for (const date of r.workDates) payrollUnlocked(s, r.employeeId, date);
   const year = Number(r.startDate.slice(0, 4));
   const b = persistBalance(s, r.employeeId, year, a.uid);
   if (

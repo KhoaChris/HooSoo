@@ -3,8 +3,29 @@
   --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
 }
 :root {
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-family-ui: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-size-page: 27px;
+  --font-size-dialog: 20px;
+  --font-size-section: 17px;
+  --font-size-subsection: 15px;
+  --font-size-body: 14px;
+  --font-size-compact: 13px;
+  --font-size-control: 13px;
+  --font-size-caption: 12px;
+  --font-size-micro: 11px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-heading: 650;
+  --font-weight-bold: 700;
+  --font-leading-heading: 1.4;
+  --font-leading-control: 1.5;
+  --font-leading-body: 1.6;
+
+  font-family: var(--font-family-ui);
   font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-leading-body);
   font-synthesis: none;
   color-scheme: light;
   color: var(--text-primary);
@@ -96,6 +117,14 @@
   --info-bg: #eaf1f9;
   --info-text: #3f698d;
   --info-line: #b8ccdf;
+}
+@media (max-width: 600px) {
+  :root {
+    --font-size-page: 23px;
+    --font-size-dialog: 18px;
+    --font-size-section: 16px;
+    --font-size-control: 16px;
+  }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;

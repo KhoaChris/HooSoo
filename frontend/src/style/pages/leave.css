@@ -3,14 +3,14 @@
 .policy-note ul {
   padding-left: 20px;
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   line-height: 1.9;
 }
 .policy-note li {
   margin: 15px 0;
 }
 .policy-note > p {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .year-filter {
   justify-content: flex-end;
@@ -26,7 +26,7 @@
   padding: 16px 0;
   border-bottom: 1px solid var(--line);
   gap: 15px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .balance-entry small {
   display: block;

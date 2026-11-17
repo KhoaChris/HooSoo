@@ -17,7 +17,7 @@
   grid-column: 1/-1;
 }
 .form-required-note {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
 }
 .form-required-note > span,
@@ -25,8 +25,8 @@
   color: var(--danger-text);
 }
 .form-section {
-  font-size: 13px;
-  font-weight: 650;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-heading);
   color: var(--heading);
   padding-top: 18px;
   border-top: 1px solid var(--line);
@@ -36,7 +36,7 @@
   border-top: 0;
 }
 .form-validation {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--danger-text);
   background: var(--danger-bg);
   border-radius: 7px;
@@ -51,29 +51,47 @@
   gap: 7px;
 }
 .field > label {
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
 }
-.field input,
+.field input:not(.selection-control),
 .field .select-trigger,
 .field textarea {
   width: 100%;
-  font-size: 13px;
+  font-size: var(--font-size-control);
 }
 .field small {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .field .field-error {
   color: var(--danger-text);
 }
-.checkbox-field {
-  flex-direction: row;
+/* Keep binary options together and make the label a generous click target. */
+.selection-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
+  gap: 4px 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-subtle);
 }
-.checkbox-field input {
-  width: 18px;
+.selection-field > label {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 0;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.selection-field > small {
+  grid-column: 1 / -1;
+}
+.selection-field:has(:disabled) > label {
+  color: var(--muted);
+  cursor: not-allowed;
 }
 .form-actions {
   display: flex;

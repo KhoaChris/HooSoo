@@ -1,4 +1,5 @@
 import type { Candidate, CandidateRound, RecruitmentJob } from "@hoosoo/shared";
+import { candidateSkillsDefaults } from "./candidate-background-model";
 
 const englishEvidence = /\b(?:english|ielts|toeic|toefl|cefr)\b|tiếng\s+anh/iu;
 const clauses = (value: string) =>
@@ -12,10 +13,13 @@ const clauses = (value: string) =>
 export function candidateEnglish(
   candidate: Pick<Candidate, "skills" | "education">,
 ) {
+  const skills = candidateSkillsDefaults(candidate.skills);
   return (
-    [...clauses(candidate.skills), ...clauses(candidate.education)].find(
-      (clause) => englishEvidence.test(clause),
-    ) ?? null
+    [
+      ...clauses(skills.details),
+      ...skills.selected,
+      ...clauses(candidate.education),
+    ].find((clause) => englishEvidence.test(clause)) ?? null
   );
 }
 
@@ -23,7 +27,12 @@ export function candidateSkills(skills: string) {
   return clauses(skills)
     .flatMap((clause) => clause.split(/[,]+/))
     .map((skill) => skill.trim())
-    .filter((skill) => skill && !englishEvidence.test(skill));
+    .filter(
+      (skill) =>
+        skill &&
+        skill !== "Kỹ năng & chứng chỉ:" &&
+        !englishEvidence.test(skill),
+    );
 }
 
 export function candidateScore(round?: CandidateRound) {

@@ -3,14 +3,14 @@
 pre {
   white-space: pre-wrap;
   word-break: break-word;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .muted,
 .muted-note {
   color: var(--muted);
 }
 .muted-note {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.8;
   margin: 14px 0;
 }

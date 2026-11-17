@@ -1,5 +1,10 @@
+import { LetterButton } from "../workforce/letter-button";
+import { WorkforceLinks } from "../workforce/common";
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
+import { Link } from "react-router-dom";
+import { MoneyInput } from "../compensation/reward-fields";
+import { moneyLabel } from "../compensation/compensation-model";
 import { useState } from "react";
 import {
   Plus,
@@ -9,10 +14,16 @@ import {
   Laptop,
   BadgeCheck,
   Search,
+  Monitor,
+  GraduationCap,
+  Receipt,
+  HeartHandshake,
+  ArrowUpRight,
 } from "lucide-react";
 import {
   internalRequestSchema,
   requestKinds,
+  requestGroups,
   requestLabels,
   type InternalRequestView,
 } from "@hoosoo/shared";
@@ -40,6 +51,10 @@ const icons = {
   business_trip: MapPin,
   remote_work: Laptop,
   employment_certificate: BadgeCheck,
+  equipment: Monitor,
+  training: GraduationCap,
+  expense_reimbursement: Receipt,
+  benefit_support: HeartHandshake,
 };
 export function InternalRequestsPage({
   approvals = false,
@@ -48,6 +63,8 @@ export function InternalRequestsPage({
 }) {
   useLocale();
   const [kind, setKind] = useState<(typeof requestKinds)[number] | null>(null),
+    [kindFilter, setKindFilter] = useState(""),
+    [pickerSearch, setPickerSearch] = useState(""),
     [choose, setChoose] = useState(false),
     [detailRecord, setDetail] = useState<InternalRequestView | null>(null),
     [review, setReview] = useState<{
@@ -65,6 +82,7 @@ export function InternalRequestsPage({
   const detail = q.data?.items.find((r) => r.id === detailRecord?.id);
   const rows = (q.data?.items ?? []).filter(
     (r) =>
+      (!kindFilter || r.kind === kindFilter) &&
       (!status ||
         (status === "pending"
           ? r.status.startsWith("pending_")
@@ -113,7 +131,7 @@ export function InternalRequestsPage({
             required: true,
           },
         ]
-      : kind !== "employment_certificate"
+      : kind && ["business_trip", "remote_work"].includes(kind)
         ? [
             {
               name: "location",
@@ -126,6 +144,84 @@ export function InternalRequestsPage({
             },
           ]
         : []),
+    ...(kind && ["equipment", "training", "benefit_support"].includes(kind)
+      ? [
+          {
+            name: "resource",
+            label: t(
+              kind === "equipment"
+                ? "Thiết bị cần cấp"
+                : kind === "training"
+                  ? "Khóa học / chương trình"
+                  : "Phúc lợi đề nghị",
+            ),
+            required: true,
+            span: "full" as const,
+          },
+        ]
+      : []),
+    ...(kind === "equipment"
+      ? [
+          {
+            name: "quantity",
+            label: t("Số lượng"),
+            type: "select" as const,
+            options: [1, 2, 3, 4, 5, 10].map((value) => ({
+              value: String(value),
+              label: String(value),
+            })),
+            render: (
+              p: import("../../components/ui/form").CustomFieldProps,
+            ) => (
+              <Select
+                aria-labelledby={p.labelId}
+                value={String(p.value)}
+                onValueChange={(value) => p.onChange(Number(value))}
+                options={[1, 2, 3, 4, 5, 10].map((value) => ({
+                  value: String(value),
+                  label: String(value),
+                }))}
+                disabled={p.disabled}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(kind &&
+    ["training", "expense_reimbursement", "benefit_support"].includes(kind)
+      ? [
+          {
+            name: "amount",
+            label: t(
+              kind === "expense_reimbursement"
+                ? "Số tiền đề nghị (VND)"
+                : "Kinh phí đề nghị (VND, nếu có)",
+            ),
+            required: kind === "expense_reimbursement",
+            render: (
+              p: import("../../components/ui/form").CustomFieldProps,
+            ) => (
+              <MoneyInput
+                value={Number(p.value ?? 0)}
+                label={t("Số tiền đề nghị (VND)")}
+                onChange={(value) => p.onChange(value === 0 ? null : value)}
+                disabled={p.disabled}
+                invalid={p.invalid}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(kind === "expense_reimbursement"
+      ? [
+          {
+            name: "reference",
+            label: t("Mã / đường dẫn chứng từ"),
+            required: true,
+            span: "full" as const,
+          },
+        ]
+      : []),
     {
       name: "reason",
       label:
@@ -152,6 +248,7 @@ export function InternalRequestsPage({
           )
         }
       />
+      <WorkforceLinks group="time" personal={!approvals} />
       <DataTable
         title={
           approvals
@@ -162,7 +259,7 @@ export function InternalRequestsPage({
         loading={q.isPending}
         error={q.error}
         onRetry={() => void q.refetch()}
-        filtered={!!status || !!search}
+        filtered={!!status || !!search || !!kindFilter}
         toolbar={
           <div className="filters">
             <label className="search-input">
@@ -177,6 +274,21 @@ export function InternalRequestsPage({
                 }}
               />
             </label>
+            <Select
+              aria-label={t("Loại đề nghị")}
+              value={kindFilter}
+              onValueChange={(value) => {
+                setKindFilter(value);
+                setPage(1);
+              }}
+              options={[
+                { value: "", label: t("Tất cả loại đề nghị") },
+                ...requestKinds.map((value) => ({
+                  value,
+                  label: t(requestLabels[value]),
+                })),
+              ]}
+            />
             <Select
               aria-label={t("Trạng thái phiếu")}
               value={status}
@@ -277,28 +389,67 @@ export function InternalRequestsPage({
         ]}
       />
       {choose && (
-        <Modal title={t("Tạo phiếu đề nghị")} onClose={() => setChoose(false)}>
-          <div className="request-kind-list">
-            {requestKinds.map((k) => {
-              const Icon = icons[k];
-              return (
-                <button
-                  key={k}
-                  onClick={() => {
-                    setChoose(false);
-                    setKind(k);
-                  }}
-                >
-                  <Icon size={22} />
-                  <span>
-                    <strong>
-                      <StableText>{t(requestLabels[k])}</StableText>
-                    </strong>
-                  </span>
-                  <Plus size={17} />
-                </button>
+        <Modal
+          title={t("Tạo phiếu đề nghị")}
+          size="wide"
+          onClose={() => setChoose(false)}
+        >
+          <label className="search-input request-picker-search">
+            <Search size={17} />
+            <Input
+              aria-label={t("Tìm loại đề nghị")}
+              placeholder={t("Tìm loại đề nghị…")}
+              value={pickerSearch}
+              onChange={(event) => setPickerSearch(event.target.value)}
+            />
+          </label>
+          <div className="request-catalog">
+            {requestGroups.map((group) => {
+              const kinds = group.kinds.filter((k) =>
+                t(requestLabels[k])
+                  .toLocaleLowerCase()
+                  .includes(pickerSearch.toLocaleLowerCase().trim()),
               );
+              return kinds.length ? (
+                <section key={group.label}>
+                  <h3>{t(group.label)}</h3>
+                  <div className="request-kind-grid">
+                    {kinds.map((k) => {
+                      const Icon = icons[k];
+                      return (
+                        <button
+                          key={k}
+                          onClick={() => {
+                            setChoose(false);
+                            setKind(k);
+                            setPickerSearch("");
+                          }}
+                        >
+                          <Icon size={20} />
+                          <strong>{t(requestLabels[k])}</strong>
+                          <Plus size={16} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              ) : null;
             })}
+            {!requestKinds.some((k) =>
+              t(requestLabels[k])
+                .toLocaleLowerCase()
+                .includes(pickerSearch.toLocaleLowerCase().trim()),
+            ) && <p role="status">{t("Không tìm thấy loại đề nghị")}</p>}
+          </div>
+          <div className="request-shortcuts">
+            <Link className="text-link" to="/leave/my">
+              {t("Nghỉ phép của tôi")}
+              <ArrowUpRight size={16} />
+            </Link>
+            <Link className="text-link" to="/work-schedule">
+              {t("Lịch làm việc của tôi")}
+              <ArrowUpRight size={16} />
+            </Link>
           </div>
         </Modal>
       )}
@@ -321,8 +472,13 @@ export function InternalRequestsPage({
               checkOut: "",
               location: "",
               reason: "",
+              resource: "",
+              quantity: 1,
+              amount: null,
+              reference: "",
             }}
             fields={fields}
+            onCancel={() => setKind(null)}
             submitLabel={t("Gửi đề nghị")}
             onSubmit={async (body) => {
               await save.mutateAsync({ path: "/internal-requests", body });
@@ -370,6 +526,27 @@ export function InternalRequestsPage({
                 </dd>
               </div>
             )}
+            {detail.resource && (
+              <div>
+                <dt>{t("Nội dung cần đề nghị")}</dt>
+                <dd>
+                  {detail.resource}
+                  {detail.kind === "equipment" ? ` × ${detail.quantity}` : ""}
+                </dd>
+              </div>
+            )}
+            {detail.amount != null && (
+              <div>
+                <dt>{t("Số tiền đề nghị (VND)")}</dt>
+                <dd>{moneyLabel(detail.amount)}</dd>
+              </div>
+            )}
+            {detail.reference && (
+              <div>
+                <dt>{t("Mã / đường dẫn chứng từ")}</dt>
+                <dd>{detail.reference}</dd>
+              </div>
+            )}
           </dl>
           <h3>
             <StableText>{t("Nội dung đề nghị")}</StableText>
@@ -387,6 +564,10 @@ export function InternalRequestsPage({
             <StableText>{t("Lịch sử xử lý")}</StableText>
           </h3>
           <WorkflowHistory history={detail.history} />
+          {detail.kind === "employment_certificate" &&
+            detail.status === "approved" && (
+              <LetterButton requestId={detail.id} />
+            )}
           <div className="workflow-actions">
             {detail.canReview && (
               <>

@@ -1,3 +1,4 @@
+import { WorkforceLinks } from "../workforce/common";
 import { t, useLocale } from "../../i18n";
 import { DialogLink } from "../../components/navigation/dialog-link";
 import { PersonCell } from "../../components/ui/person-cell";
@@ -41,6 +42,7 @@ export function EmployeeList() {
           )
         }
       />
+      <WorkforceLinks group="people" />
       <DataTable
         title={t("Danh sách nhân viên")}
         icon={<UsersRound size={18} />}

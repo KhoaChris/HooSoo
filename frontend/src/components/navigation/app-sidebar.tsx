@@ -1,9 +1,20 @@
 import { t, useLocale } from "../../i18n";
-import { useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
-import { ArrowUpRight, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import {
+  ArrowUpRight,
+  PanelLeftClose,
+  PanelLeftOpen,
+  X,
+  Search,
+  ChevronDown,
+} from "lucide-react";
 import type { Role } from "@hoosoo/shared";
-import { navigation } from "../../layouts/navigation";
+import {
+  activeNavigation,
+  navigationFor,
+  normalizeNavigationSearch,
+} from "../../layouts/navigation";
 import { Tooltip } from "../ui/tooltip";
 
 type AppSidebarProps = {
@@ -28,6 +39,15 @@ export function AppSidebar({
   closeMobile,
 }: AppSidebarProps) {
   useLocale();
+  const location = useLocation();
+  const active = activeNavigation(location.pathname);
+  const groups = navigationFor(role);
+  const activeGroup = groups.find((group) =>
+    group.items.some((item) => item.path === active?.path),
+  );
+  const [search, setSearch] = useState("");
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const query = normalizeNavigationSearch(search);
   const sidebar = useRef<HTMLElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const compact = collapsed && !isMobile;
@@ -55,7 +75,7 @@ export function AppSidebar({
       if (event.key === "Tab") {
         const elements = Array.from(
           sidebar.current?.querySelectorAll<HTMLElement>(
-            "a[href], button:not([disabled])",
+            "a[href], button:not([disabled]), input:not([disabled])",
           ) ?? [],
         ).filter(
           (el) =>
@@ -151,34 +171,103 @@ export function AppSidebar({
           <small>{t("Không gian nhân sự")}</small>
         </div>
       </div>
-      <nav id="sidebar-navigation" aria-label={t("Điều hướng chính")}>
-        {navigation
-          .filter((n) => n.roles.includes(role))
-          .map((n) => (
-            <div
-              className={n.group ? "nav-section-start" : undefined}
-              key={n.path}
+      {!compact && (
+        <label className="nav-search">
+          <Search size={16} aria-hidden="true" />
+          <input
+            aria-label={t("Tìm tính năng")}
+            placeholder={t("Tìm tính năng…")}
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          {search && (
+            <button
+              type="button"
+              aria-label={t("Xóa tìm kiếm")}
+              onClick={() => setSearch("")}
             >
-              {n.group && (
-                <div className="nav-group" aria-hidden={compact || undefined}>
-                  {t(n.group)}
-                </div>
-              )}
-              <Tooltip content={t(n.label)} disabled={!compact}>
-                <NavLink
-                  end={["/attendance", "/settings", "/work-schedule"].includes(
-                    n.path,
-                  )}
-                  to={n.path}
-                  onClick={closeMobile}
-                  aria-label={t(n.label)}
-                >
-                  <n.icon size={18} aria-hidden="true" />
-                  <span className="nav-label">{t(n.label)}</span>
-                </NavLink>
-              </Tooltip>
-            </div>
-          ))}
+              <X size={14} />
+            </button>
+          )}
+        </label>
+      )}
+      <nav id="sidebar-navigation" aria-label={t("Điều hướng chính")}>
+        {groups.map((group) => {
+          const items =
+            query && !compact
+              ? group.items.filter((item) =>
+                  normalizeNavigationSearch(
+                    `${item.label} ${t(item.label)} ${t(group.label)}`,
+                  ).includes(query),
+                )
+              : group.items;
+          if (!items.length) return null;
+          const open =
+            compact ||
+            !!query ||
+            !group.collapsible ||
+            (expanded[group.id] ?? group.id === activeGroup?.id);
+          return (
+            <section className="nav-section" key={group.id}>
+              {!compact &&
+                (group.collapsible ? (
+                  <button
+                    type="button"
+                    className="nav-section-toggle"
+                    aria-expanded={open}
+                    aria-controls={`nav-${group.id}`}
+                    onClick={() =>
+                      setExpanded((previous) => ({
+                        ...previous,
+                        [group.id]: !open,
+                      }))
+                    }
+                  >
+                    <span>{t(group.label)}</span>
+                    <ChevronDown size={14} />
+                  </button>
+                ) : (
+                  <div className="nav-group">{t(group.label)}</div>
+                ))}
+              <div id={`nav-${group.id}`} hidden={!open}>
+                {items.map((item) => (
+                  <Tooltip
+                    key={item.path}
+                    content={t(item.label)}
+                    disabled={!compact}
+                  >
+                    <NavLink
+                      to={item.path}
+                      end={active?.path !== item.path}
+                      className={active?.path === item.path ? "active" : ""}
+                      aria-label={t(item.label)}
+                      onClick={() => {
+                        setSearch("");
+                        setExpanded({});
+                        closeMobile();
+                      }}
+                    >
+                      <item.icon size={18} aria-hidden="true" />
+                      <span className="nav-label">{t(item.label)}</span>
+                    </NavLink>
+                  </Tooltip>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+        {query &&
+          !groups.some((group) =>
+            group.items.some((item) =>
+              normalizeNavigationSearch(
+                `${item.label} ${t(item.label)} ${t(group.label)}`,
+              ).includes(query),
+            ),
+          ) && (
+            <p className="nav-search-empty" role="status">
+              {t("Không tìm thấy tính năng")}
+            </p>
+          )}
       </nav>
       <div className="sidebar-bottom" aria-label={workspaceLabel}>
         <span className="status-dot" aria-hidden="true" />

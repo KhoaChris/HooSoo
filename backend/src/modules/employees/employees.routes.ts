@@ -1,3 +1,5 @@
+import { employeeBackgroundChangeSchema } from "@hoosoo/shared";
+import { updateEmployeeBackground } from "./employee-background.service";
 import { supervisorRoles } from "@hoosoo/shared";
 import { Router } from "express";
 import { handlers, param } from "../../routes/helpers";
@@ -32,6 +34,19 @@ get("/employees/:employeeId/history", ["auditLogs"], (s, a, q, req) => {
     q,
   );
 });
+write(
+  "patch",
+  "/me/background",
+  employeeBackgroundChangeSchema,
+  (s, a, input) => updateEmployeeBackground(s, a, a.employeeId, input),
+);
+write(
+  "patch",
+  "/employees/:employeeId/background",
+  employeeBackgroundChangeSchema,
+  (s, a, input, req) =>
+    updateEmployeeBackground(s, a, param(req, "employeeId"), input),
+);
 write("post", "/employees", employeeSchema, (s, a, input) =>
   employeeView(saveEmployee(s, a, input), a, s),
 );
@@ -47,6 +62,7 @@ write(
     const {
       id: _id,
       uid: _uid,
+      background: _background,
       createdAt: _ca,
       updatedAt: _ua,
       createdBy: _cb,

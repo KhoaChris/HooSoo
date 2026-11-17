@@ -10,7 +10,9 @@ import {
 import type { Candidate } from "@hoosoo/shared";
 import { workflowLabels } from "@hoosoo/shared";
 import { Button } from "../../components/ui";
-import { intlLocale, t } from "../../i18n";
+import { intlLocale, t, useLocale } from "../../i18n";
+import { candidateSummaryText } from "./candidate-background-display";
+import { CandidateSkillsDisplay } from "./candidate-skills-display";
 
 export const candidateDate = (value?: string) =>
   value
@@ -31,6 +33,7 @@ export function CandidateProfile({
   editable: boolean;
   onEdit: () => void;
 }) {
+  useLocale();
   return (
     <>
       <div className="candidate-panel-heading">
@@ -47,15 +50,14 @@ export function CandidateProfile({
           {[
             {
               label: "Học vấn & bằng cấp",
-              value: c.education,
+              value: candidateSummaryText(c.education, "education"),
               Icon: GraduationCap,
             },
             {
               label: "Kinh nghiệm làm việc",
-              value: c.experience,
+              value: candidateSummaryText(c.experience, "experience"),
               Icon: BriefcaseBusiness,
             },
-            { label: "Kỹ năng & chứng chỉ", value: c.skills, Icon: Sparkles },
           ].map(({ label, value, Icon }) => (
             <section className="candidate-profile-section" key={label}>
               <h4>
@@ -67,6 +69,13 @@ export function CandidateProfile({
               </p>
             </section>
           ))}
+          <section className="candidate-profile-section candidate-profile-skills">
+            <h4>
+              <Sparkles size={17} aria-hidden="true" />
+              {t("Kỹ năng & chứng chỉ")}
+            </h4>
+            <CandidateSkillsDisplay value={c.skills} />
+          </section>
           {c.note && (
             <section className="candidate-profile-note">
               <h4>{t("Ghi chú tiếp nhận")}</h4>

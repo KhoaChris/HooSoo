@@ -33,7 +33,7 @@
   padding-left: 39px;
   padding-right: 37px;
   min-height: 42px;
-  font-size: 12px;
+  font-size: var(--font-size-control);
 }
 .organization-search > button {
   position: absolute;
@@ -46,20 +46,20 @@
 .organization-filter .select-trigger {
   width: 100%;
   min-height: 42px;
-  font-size: 12px;
+  font-size: var(--font-size-control);
 }
 .organization-total {
   display: flex;
   align-items: baseline;
   gap: 5px;
   margin-left: auto;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   white-space: nowrap;
 }
 .organization-total strong {
   color: var(--heading);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .organization-total > span {
   padding: 0 5px;
@@ -78,7 +78,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
 }
 .organization-view-actions {
@@ -93,7 +93,7 @@
   align-items: center;
   gap: 7px;
   min-height: 34px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   padding: 0 9px;
   border-radius: 6px;
@@ -110,7 +110,7 @@
   border-left: 1px solid var(--line);
 }
 .org-zoom-value {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   min-width: 44px;
   height: 34px;
   color: var(--text-secondary);
@@ -199,21 +199,21 @@ button.org-chart-node {
   min-width: 0;
 }
 .org-company-eyebrow {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1.4px;
+  font-size: var(--font-size-micro);
+  text-transform: none;
+  letter-spacing: normal;
   color: var(--inverse-muted);
 }
 .org-company h2 {
   color: white;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-semibold);
   line-height: 1.4;
   margin: 4px 0 6px;
   overflow-wrap: anywhere;
 }
 .org-company p {
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   color: var(--inverse-muted);
 }
 .org-company p span {
@@ -288,16 +288,16 @@ button.org-chart-node {
 }
 .org-department-identity strong {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
   overflow-wrap: anywhere;
 }
 .org-department-identity small {
   display: block;
   margin-top: 5px;
-  font-size: 11px;
-  font-weight: 400;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-regular);
   color: var(--text-secondary);
 }
 .org-branch-chevron {
@@ -373,8 +373,8 @@ a.org-member-node:hover {
   width: 34px;
   height: 34px;
   flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-secondary);
   background: var(--surface);
   border-radius: 50%;
@@ -390,8 +390,8 @@ a.org-member-node:hover {
   gap: 5px;
 }
 .org-member-name > strong {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -399,15 +399,15 @@ a.org-member-node:hover {
 .org-member-position {
   display: block;
   margin-top: 3px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   line-height: 1.6;
   color: var(--text-secondary);
   overflow-wrap: anywhere;
 }
 .org-self-label {
   display: inline-flex;
-  font-size: 9px;
-  font-weight: 600;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
   color: var(--brand);
   background: var(--brand-soft);
   padding: 1px 5px;
@@ -420,7 +420,7 @@ a.org-member-node:hover {
   padding: 8px 13px;
   border-top: 1px solid var(--line);
   color: var(--text-secondary);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   line-height: 1.7;
 }
 .org-member-manager > svg {
@@ -432,7 +432,7 @@ a.org-member-node:hover {
   overflow-wrap: anywhere;
 }
 .org-member-manager strong {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
 }
 .org-member-node.is-self {
@@ -447,7 +447,7 @@ a.org-member-node:hover {
   margin: 16px 0 0 18px;
   padding: 14px 18px;
   border-left: 1px dashed var(--line);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
 }
 .organization-caption {
@@ -459,7 +459,7 @@ a.org-member-node:hover {
   padding: 14px 22px;
   border-top: 1px solid var(--line);
   color: var(--text-secondary);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
 }
 .organization-caption > p {
   display: flex;
@@ -497,12 +497,12 @@ a.org-member-node:hover {
   margin-bottom: 22px;
 }
 .organization-empty h2 {
-  font-size: 18px;
+  font-size: var(--font-size-section);
 }
 .organization-empty p {
   margin: 10px 0 22px;
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   max-width: 350px;
 }
 @media (max-width: 1100px) {
@@ -520,7 +520,7 @@ a.org-member-node:hover {
     gap: 16px;
   }
   .organization-page .page-heading > .button {
-    font-size: 12px;
+    font-size: var(--font-size-caption);
   }
   .organization-toolbar {
     padding: 16px;
@@ -530,10 +530,10 @@ a.org-member-node:hover {
     flex-basis: 100%;
   }
   .organization-search .input-control {
-    font-size: 16px;
+    font-size: var(--font-size-control);
   }
   .organization-search .input-control::placeholder {
-    font-size: 12px;
+    font-size: var(--font-size-control);
   }
   .organization-filter {
     width: 100%;
@@ -563,7 +563,7 @@ a.org-member-node:hover {
     padding-left: 8px;
   }
   .org-collapse-all {
-    font-size: 11px;
+    font-size: var(--font-size-micro);
     padding: 0 5px;
   }
   .organization-canvas {

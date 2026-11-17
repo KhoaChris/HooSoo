@@ -8,7 +8,24 @@ import {
   QUOTA_RETRY_SECONDS,
 } from "../database/firestore-operation";
 
-export const logger = pino({ level: env.LOG_LEVEL });
+export const logger = pino({
+  level: env.LOG_LEVEL,
+  redact: {
+    paths: [
+      "req.headers.authorization",
+      "req.headers.cookie",
+      "authorization",
+      "password",
+      "token",
+      "idToken",
+      "refreshToken",
+      "body.password",
+      "body.currentPassword",
+      "body.newPassword",
+    ],
+    censor: "[REDACTED]",
+  },
+});
 export const errorHandler: ErrorRequestHandler = (error, req, res, _next) => {
   let e =
     error instanceof AppError

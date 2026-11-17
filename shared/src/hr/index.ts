@@ -65,16 +65,48 @@ export const requestKinds = [
   "business_trip",
   "remote_work",
   "employment_certificate",
+  "equipment",
+  "training",
+  "expense_reimbursement",
+  "benefit_support",
 ] as const;
 export const requestLabels: Record<(typeof requestKinds)[number], string> = {
   attendance_correction: "Điều chỉnh chấm công",
   business_trip: "Đề nghị công tác",
   remote_work: "Làm việc từ xa",
   employment_certificate: "Xác nhận thông tin nhân sự",
+  equipment: "Cấp thiết bị làm việc",
+  training: "Đề nghị đào tạo",
+  expense_reimbursement: "Thanh toán chi phí",
+  benefit_support: "Hỗ trợ phúc lợi",
 };
+export const requestGroups = [
+  {
+    label: "Thời gian & công việc",
+    kinds: ["attendance_correction", "business_trip", "remote_work"],
+  },
+  {
+    label: "Hồ sơ & phát triển",
+    kinds: ["employment_certificate", "equipment", "training"],
+  },
+  {
+    label: "Chi phí & phúc lợi",
+    kinds: ["expense_reimbursement", "benefit_support"],
+  },
+] satisfies { label: string; kinds: (typeof requestKinds)[number][] }[];
 export const internalRequestSchema = z
   .object({
     kind: z.enum(requestKinds),
+    resource: z.string().trim().max(200).default(""),
+    quantity: z.number().int().min(1).max(100).default(1),
+    amount: z
+      .number()
+      .int()
+      .positive()
+      .max(1_000_000_000)
+      .nullable()
+      .default(null),
+    reference: z.string().trim().max(500).default(""),
     title: z.string().trim().min(3).max(150),
     reason,
     startDate: day,
@@ -89,8 +121,36 @@ export const internalRequestSchema = z
       v.startDate <= v.endDate &&
       Date.parse(v.endDate) - Date.parse(v.startDate) <= 31 * 86400000,
     "Khoảng ngày tối đa 31 ngày",
-  );
-export type InternalRequestInput = z.infer<typeof internalRequestSchema>;
+  )
+  .superRefine((value, ctx) => {
+    const required = (path: string, message: string) =>
+      ctx.addIssue({ code: "custom", path: [path], message });
+    if (
+      ["equipment", "training", "benefit_support"].includes(value.kind) &&
+      value.resource.length < 3
+    )
+      required("resource", "Nhập nội dung cần đề nghị");
+    if (value.kind === "expense_reimbursement") {
+      if (!value.amount) required("amount", "Nhập số tiền đề nghị");
+      if (value.reference.length < 3)
+        required("reference", "Nhập mã hoặc đường dẫn chứng từ");
+    }
+    if (
+      !["training", "expense_reimbursement", "benefit_support"].includes(
+        value.kind,
+      ) &&
+      value.amount !== null
+    )
+      required("amount", "Loại đề nghị này không có số tiền");
+    if (value.kind !== "equipment" && value.quantity !== 1)
+      required("quantity", "Số lượng chỉ áp dụng cho thiết bị");
+  });
+type RequestDetails = "resource" | "quantity" | "amount" | "reference";
+export type InternalRequestInput = Omit<
+  z.infer<typeof internalRequestSchema>,
+  RequestDetails
+> &
+  Partial<Pick<z.infer<typeof internalRequestSchema>, RequestDetails>>;
 export interface InternalRequest extends ApprovalRecord, InternalRequestInput {
   attendanceBefore: { checkIn: string; checkOut: string | null } | null;
   resolution: string;

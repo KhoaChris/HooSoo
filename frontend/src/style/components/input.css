@@ -2,6 +2,9 @@
 
 input,
 textarea {
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-leading-control);
   border: 1px solid var(--control-border);
   background: var(--surface);
   border-radius: 7px;

@@ -30,11 +30,41 @@ const all: Role[] = [...roles],
   supervisors: Role[] = supervisorRoles;
 export const navigation = [
   {
+    label: "Bản tin & chính sách",
+    path: "/workforce/announcements",
+    icon: FileText,
+    roles: all,
+  },
+  {
+    label: "Lịch & nhắc hạn",
+    path: "/workforce/calendar",
+    icon: CalendarDays,
+    roles: all,
+  },
+  {
+    label: "Bảo mật tài khoản",
+    path: "/security",
+    icon: ShieldCheck,
+    roles: all,
+  },
+  {
+    label: "Tài sản & phát triển của tôi",
+    path: "/employee-services/my",
+    icon: ClipboardCheck,
+    roles: all,
+  },
+  {
+    label: "Dịch vụ nhân sự",
+    path: "/employee-services",
+    icon: ClipboardCheck,
+    roles: supervisors,
+  },
+  {
     label: "Tổng quan",
     path: "/dashboard",
     icon: LayoutDashboard,
     roles: all,
-    group: "KHÔNG GIAN CHUNG",
+    group: "Không gian chung",
   },
   { label: "Tin nhắn", path: "/chat", icon: MessageCircle, roles: all },
   { label: "Sơ đồ tổ chức", path: "/organization", icon: Network, roles: all },
@@ -43,7 +73,7 @@ export const navigation = [
     path: "/profile",
     icon: UserRound,
     roles: all,
-    group: "CÁ NHÂN",
+    group: "Cá nhân",
   },
   {
     label: "Chấm công của tôi",
@@ -98,14 +128,14 @@ export const navigation = [
     path: "/professional",
     icon: BriefcaseBusiness,
     roles: professionalRoles,
-    group: "CHUYÊN MÔN",
+    group: "Chuyên môn",
   },
   {
     label: "Nhân viên",
     path: "/employees",
     icon: Users,
     roles: supervisors,
-    group: "QUẢN LÝ NHÂN SỰ",
+    group: "Quản lý nhân sự",
   },
   {
     label: "Đánh giá hiệu suất",
@@ -179,7 +209,7 @@ export const navigation = [
     path: "/settings",
     icon: Building2,
     roles: ["Admin"] as Role[],
-    group: "QUẢN TRỊ",
+    group: "Quản trị",
   },
   {
     label: "Tài khoản & quyền",
@@ -200,3 +230,116 @@ export const navigation = [
     roles: ["Admin"] as Role[],
   },
 ];
+
+export const navigationGroups = [
+  {
+    id: "shared",
+    label: "Không gian chung",
+    paths: [
+      "/dashboard",
+      "/chat",
+      "/organization",
+      "/workforce/announcements",
+      "/workforce/calendar",
+    ],
+    collapsible: false,
+  },
+  {
+    id: "personal",
+    label: "Cá nhân",
+    paths: [
+      "/profile",
+      "/attendance/my",
+      "/leave/my",
+      "/work-schedule",
+      "/requests/my",
+      "/performance/my",
+      "/compensation/my",
+      "/employment/my",
+      "/employee-services/my",
+      "/access",
+      "/security",
+    ],
+    collapsible: true,
+  },
+  {
+    id: "professional",
+    label: "Chuyên môn",
+    paths: ["/professional"],
+    collapsible: false,
+  },
+  {
+    id: "people",
+    label: "Hồ sơ & tổ chức",
+    paths: ["/employees", "/departments", "/positions", "/employee-services"],
+    collapsible: true,
+    hr: true,
+  },
+  {
+    id: "hiring",
+    label: "Tuyển dụng & tiếp nhận",
+    paths: ["/recruitment", "/employment"],
+    collapsible: true,
+    hr: true,
+  },
+  {
+    id: "operations",
+    label: "Thời gian & phê duyệt",
+    paths: [
+      "/attendance",
+      "/leave/approvals",
+      "/work-schedule/approvals",
+      "/requests/approvals",
+    ],
+    collapsible: true,
+    hr: true,
+  },
+  {
+    id: "rewards",
+    label: "Hiệu suất & đãi ngộ",
+    paths: ["/performance", "/compensation", "/reports", "/settings/hr"],
+    collapsible: true,
+    hr: true,
+  },
+  {
+    id: "admin",
+    label: "Quản trị",
+    paths: ["/settings", "/settings/users", "/settings/system", "/audit-logs"],
+    collapsible: true,
+  },
+];
+export function activeNavigation(pathname: string) {
+  const aliases: Record<string, string> = {
+    "/workforce/payroll": "/compensation",
+    "/workforce/time": "/requests",
+    "/workforce/changes": "/employees",
+    "/workforce/documents": "/employees",
+    "/workforce/imports": "/employees",
+  };
+  pathname = aliases[pathname] ?? pathname;
+  return [...navigation]
+    .sort((a, b) => b.path.length - a.path.length)
+    .find(
+      (item) => pathname === item.path || pathname.startsWith(item.path + "/"),
+    );
+}
+export function navigationFor(role: Role) {
+  return navigationGroups
+    .map((group) => ({
+      ...group,
+      items: group.paths.flatMap((path) =>
+        navigation.filter(
+          (item) => item.path === path && item.roles.includes(role),
+        ),
+      ),
+    }))
+    .filter((group) => group.items.length);
+}
+export function normalizeNavigationSearch(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/gi, "d")
+    .toLowerCase()
+    .trim();
+}

@@ -8,7 +8,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .employee-profile-breadcrumb a {
@@ -45,7 +45,7 @@
   border: 1px solid var(--line);
   color: var(--brand);
   font-size: 26px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: -0.5px;
 }
 .employee-profile-identity {
@@ -59,12 +59,12 @@
   align-items: center;
 }
 .employee-profile-title h1 {
-  font-size: 27px;
+  font-size: var(--font-size-page);
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
 .employee-profile-title .badge {
-  font-size: 11px;
+  font-size: var(--font-size-caption);
   padding: 5px 9px;
 }
 .employee-profile-identity > p {
@@ -72,19 +72,19 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px 9px;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
   margin-top: 8px;
 }
 .employee-profile-code {
   display: block;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   margin-top: 9px;
 }
 .employee-profile-code strong {
   color: var(--heading);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   margin-left: 6px;
   font-variant-numeric: tabular-nums;
 }
@@ -110,11 +110,11 @@
   gap: 16px;
 }
 .employee-section-heading h2 {
-  font-size: 16px;
+  font-size: var(--font-size-section);
   letter-spacing: -0.2px;
 }
 .employee-section-heading p {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   margin-top: 5px;
 }
@@ -133,14 +133,14 @@
   min-width: 0;
 }
 .employee-work-grid dt {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
 }
 .employee-work-grid dd {
   margin: 8px 0 0;
   color: var(--heading);
-  font-size: 14px;
-  font-weight: 550;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
@@ -157,8 +157,8 @@
   gap: 8px;
   min-height: 40px;
   color: var(--brand);
-  font-weight: 550;
-  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-caption);
 }
 .employee-organization-link svg {
   flex-shrink: 0;
@@ -190,7 +190,7 @@
   align-items: center;
   gap: 10px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .employee-contact-list dt svg {
   color: var(--muted);
@@ -199,7 +199,7 @@
 }
 .employee-contact-list dd {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--heading);
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -214,12 +214,12 @@
 }
 .employee-missing {
   color: var(--text-secondary);
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
 }
 .employee-profile-help {
   padding: 0 32px 28px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.8;
 }
 .employee-profile-activity {
@@ -259,13 +259,13 @@
   background: var(--brand);
 }
 .employee-history-list h3 {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-subsection);
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
 }
 .employee-history-list time {
   display: block;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   margin-top: 6px;
 }
@@ -277,7 +277,7 @@
   align-items: center;
   gap: 7px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--brand);
   list-style: none;
   min-height: 32px;
@@ -302,17 +302,17 @@
   margin-top: 13px;
 }
 .employee-history-change dt {
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
 }
 .employee-history-change dd {
   margin: 5px 0 0;
   line-height: 1.8;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   overflow-wrap: anywhere;
 }
 .employee-history-change dd strong {
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   color: var(--heading);
 }
 .employee-history-before {
@@ -322,13 +322,13 @@
   width: 100%;
   min-height: 40px;
   margin-top: 24px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   justify-content: space-between;
 }
 .employee-history-note {
   margin-top: 9px;
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .employee-history-empty {
   text-align: center;
@@ -339,12 +339,12 @@
   margin: 0 auto 16px;
 }
 .employee-history-empty h3 {
-  font-size: 13px;
-  font-weight: 550;
+  font-size: var(--font-size-subsection);
+  font-weight: var(--font-weight-medium);
 }
 .employee-history-empty p {
   margin-top: 8px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 @keyframes employee-profile-enter {
@@ -363,7 +363,7 @@
     gap: 18px;
   }
   .employee-profile-title h1 {
-    font-size: 24px;
+    font-size: var(--font-size-page);
   }
   .employee-profile-avatar {
     width: 64px;
@@ -371,7 +371,7 @@
     font-size: 23px;
   }
   .employee-profile-header > .button {
-    font-size: 12px;
+    font-size: var(--font-size-caption);
   }
   .employee-profile-body {
     grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
@@ -416,7 +416,7 @@
 @media (max-width: 600px) {
   .employee-profile-breadcrumb {
     margin-bottom: 12px;
-    font-size: 11px;
+    font-size: var(--font-size-micro);
   }
   .employee-profile-header {
     padding: 22px 20px;
@@ -433,10 +433,10 @@
     gap: 8px;
   }
   .employee-profile-title h1 {
-    font-size: 22px;
+    font-size: var(--font-size-page);
   }
   .employee-profile-identity > p {
-    font-size: 12px;
+    font-size: var(--font-size-caption);
     gap: 4px 7px;
   }
   .employee-profile-header > .button {
@@ -444,7 +444,7 @@
     width: 100%;
   }
   .employee-profile-title .badge {
-    font-size: 10px;
+    font-size: var(--font-size-caption);
   }
   .employee-work,
   .employee-contact,
@@ -455,7 +455,7 @@
     gap: 22px 18px;
   }
   .employee-work-grid dd {
-    font-size: 13px;
+    font-size: var(--font-size-compact);
   }
   .employee-contact-list > div {
     grid-template-columns: 1fr;
@@ -466,7 +466,7 @@
   }
   .employee-profile-help {
     padding: 0 20px 24px;
-    font-size: 11px;
+    font-size: var(--font-size-micro);
   }
 }
 @media (max-width: 360px) {

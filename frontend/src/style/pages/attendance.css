@@ -5,7 +5,7 @@
   padding: 14px;
   border-radius: 7px;
   margin: 12px 0;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .history-entry p {
   margin-top: 8px;
@@ -36,7 +36,7 @@
   border-radius: 50%;
 }
 .checkin-title p {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
   margin-top: 4px;
 }
@@ -47,13 +47,13 @@
 }
 .checkin-times span {
   display: block;
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   color: var(--muted);
 }
 .checkin-times strong {
   font-size: 24px;
   display: block;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
   margin-top: 6px;
 }
@@ -66,10 +66,10 @@
     gap: 10px;
   }
   .checkin-title h2 {
-    font-size: 15px;
+    font-size: var(--font-size-section);
   }
   .checkin-title p {
-    font-size: 10px;
+    font-size: var(--font-size-micro);
   }
   .clock-icon {
     width: 40px;
@@ -102,10 +102,10 @@
   color: var(--muted);
   width: 28px;
   flex: 0 0 28px;
-  font-size: 10px;
+  font-size: var(--font-size-micro);
 }
 .attendance-time-cell strong {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .checkin-title {

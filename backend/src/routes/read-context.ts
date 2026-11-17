@@ -168,6 +168,7 @@ export async function requestState(
     path === "/dashboard"
       ? visibleIds.filter((id) => id === a.employeeId)
       : visibleIds;
+  if (plan.leaveBalances) plan.timeRequests = byEmployees(balanceIds);
   if (plan.leaveBalances)
     plan.leaveBalances = { ids: balanceIds.map((id) => `${id}_${year}`) };
   if (plan.leaveBalanceTransactions)

@@ -1,0 +1,160 @@
+/* Shared geometry and interaction for native inputs with custom visuals. */
+.selection-control {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--control-border-hover);
+  background: var(--surface);
+  color: var(--on-accent);
+  vertical-align: middle;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+.selection-control:not(:disabled):hover {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--focus-halo);
+}
+.selection-control:focus {
+  outline: none;
+}
+.selection-control:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.selection-control[aria-invalid="true"] {
+  border-color: var(--danger-text);
+}
+.selection-control:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.checkbox-control {
+  border-radius: 4px;
+}
+.checkbox-control:checked,
+.checkbox-control:indeterminate {
+  border-color: var(--action-bg);
+  background: var(--action-bg);
+}
+.checkbox-control:checked::after,
+.checkbox-control:indeterminate::after {
+  content: "";
+  position: absolute;
+  border: solid var(--on-accent);
+}
+.checkbox-control:checked::after {
+  width: 5px;
+  height: 9px;
+  top: 2px;
+  left: 5px;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.checkbox-control:indeterminate::after {
+  width: 8px;
+  height: 0;
+  top: 7px;
+  left: 4px;
+  border-width: 2px 0 0;
+  transform: none;
+}
+.radio-control {
+  border-radius: 50%;
+}
+.radio-control:checked {
+  border-color: var(--selection-accent, var(--brand));
+  background: var(--surface);
+}
+.radio-control:checked::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--selection-accent, var(--brand));
+}
+.switch-control {
+  width: 42px;
+  min-width: 42px;
+  height: 24px;
+  min-height: 24px;
+  border-radius: 999px;
+  border-color: var(--control-border-hover);
+  background: var(--control-border-hover);
+}
+.switch-control::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  background: var(--on-accent);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 16%);
+  transition: transform 140ms ease;
+}
+.switch-control:checked {
+  border-color: var(--action-bg);
+  background: var(--action-bg);
+}
+.switch-control:checked::after {
+  transform: translateX(18px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .selection-control,
+  .selection-control::after {
+    transition: none;
+  }
+}
+/* Keep custom geometry in OS high contrast and use its chosen system colors. */
+@media (forced-colors: active) {
+  .selection-control {
+    forced-color-adjust: none;
+    border-color: ButtonText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  .selection-control:not(:disabled):hover {
+    border-color: Highlight;
+    box-shadow: none;
+  }
+  .selection-control:focus-visible {
+    outline-color: Highlight;
+  }
+  .checkbox-control:is(:checked, :indeterminate),
+  .switch-control:checked {
+    border-color: Highlight;
+    background: Highlight;
+  }
+  .checkbox-control::after {
+    border-color: HighlightText;
+  }
+  .radio-control:checked {
+    border-color: Highlight;
+  }
+  .radio-control:checked::after {
+    background: Highlight;
+  }
+  .switch-control::after {
+    background: ButtonText;
+    box-shadow: none;
+  }
+  .switch-control:checked::after {
+    background: HighlightText;
+  }
+  .selection-control:disabled {
+    border-color: GrayText;
+  }
+}

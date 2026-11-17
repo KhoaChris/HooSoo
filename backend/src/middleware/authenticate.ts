@@ -13,7 +13,10 @@ export const authenticate: RequestHandler = async (req, res, next) => {
         "Vui lòng đăng nhập để tiếp tục.",
       );
     try {
-      const decoded = await timeout(auth.verifyIdToken(header.slice(7)), 5000);
+      const decoded = await timeout(
+        auth.verifyIdToken(header.slice(7), true),
+        5000,
+      );
       res.locals.uid = decoded.uid;
       res.locals.tokenExpiresAt = decoded.exp * 1000;
     } catch (e) {

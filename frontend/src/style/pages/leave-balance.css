@@ -22,20 +22,20 @@
   padding-right: 0;
 }
 .balance-adjustment-summary dt {
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   min-height: 34px;
 }
 .balance-adjustment-summary dd {
   margin: 4px 0 0;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
   color: var(--heading);
 }
 .balance-adjustment-summary dd small {
-  font-size: 11px;
-  font-weight: 400;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-regular);
   color: var(--text-secondary);
 }
 .balance-adjustment-summary > div:last-child dd {
@@ -45,7 +45,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -70,8 +70,8 @@
   padding: 0;
   margin-bottom: 9px;
   color: var(--heading);
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
 }
 .balance-direction-options {
   display: grid;
@@ -95,8 +95,8 @@
 }
 .balance-direction-option strong {
   display: block;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
 }
 .balance-direction-icon {
@@ -109,7 +109,7 @@
   background: var(--surface-subtle);
   color: var(--text-secondary);
 }
-.balance-direction-option:hover {
+.balance-direction-option:not(:has(:disabled)):hover {
   background: var(--surface-hover);
   border-color: var(--control-border-hover);
 }
@@ -121,6 +121,9 @@
   background: var(--action-bg);
   color: var(--on-accent);
 }
+.balance-direction-option.decrease {
+  --selection-accent: var(--warning-text);
+}
 .balance-direction-option.decrease.is-selected {
   background: var(--warning-bg);
   border-color: var(--warning-text);
@@ -129,23 +132,9 @@
   background: var(--warning-text);
   color: var(--warning-bg);
 }
-.balance-direction-option:focus-within {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
 .balance-adjustment-direction:disabled .balance-direction-option {
   opacity: 0.65;
   cursor: not-allowed;
-}
-.balance-direction-radio {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 .balance-day-stepper {
   display: grid;
@@ -197,12 +186,12 @@
   background: transparent;
   text-align: center;
   font-size: 22px;
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
   font-variant-numeric: tabular-nums;
   box-shadow: none;
 }
 .balance-day-unit {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
   padding-right: 16px;
 }
@@ -214,8 +203,8 @@
 }
 .balance-adjustment-preview h3 {
   margin: 0 0 9px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-subsection);
+  font-weight: var(--font-weight-semibold);
   color: var(--heading);
 }
 .balance-preview-columns {
@@ -223,7 +212,7 @@
   grid-template-columns: minmax(0, 1fr) 64px 20px 64px;
   gap: 8px;
   text-align: right;
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   color: var(--text-secondary);
   margin-bottom: 3px;
 }
@@ -236,7 +225,7 @@
   gap: 8px;
   align-items: center;
   padding: 7px 0;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .balance-adjustment-preview dt {
   color: var(--text-secondary);
@@ -256,8 +245,8 @@
 }
 .balance-adjustment-preview dd > strong {
   color: var(--brand);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-semibold);
 }
 .balance-adjustment-preview.decrease dd > strong {
   color: var(--warning-text);
@@ -274,8 +263,8 @@
   cursor: pointer;
   list-style: none;
   color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 550;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
 }
 .balance-adjustment-history summary::-webkit-details-marker {
   display: none;
@@ -305,7 +294,7 @@
   gap: 16px;
   padding: 12px 0;
   border-top: 1px solid var(--line);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
 }
 .balance-adjustment-history li:first-child {
   border-top: 0;
@@ -316,12 +305,12 @@
 }
 .balance-adjustment-history li > span {
   flex-shrink: 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 .balance-adjustment-history time {
   display: block;
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   margin: 3px 0;
   color: var(--muted);
 }

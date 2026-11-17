@@ -23,6 +23,12 @@ import { dateText } from "../../utils/date-time";
 import { dayLabel } from "../workflows/workflow-ui";
 import { candidateCardModel, candidateInitials } from "./candidate-card-model";
 import { statusTone } from "../../components/ui/status-tone";
+import { candidateSummaryText } from "./candidate-background-display";
+import {
+  presetLabel,
+  skillOptions,
+  certificateNames,
+} from "../employees/background-options";
 
 export type CandidateDetailTab = "profile" | "rounds";
 
@@ -135,7 +141,7 @@ export function CandidateCardContent({
               <CardFact
                 icon={<GraduationCap size={15} />}
                 label="Học vấn"
-                value={c.education}
+                value={candidateSummaryText(c.education, "education")}
               />
               <CardFact
                 icon={<Languages size={15} />}
@@ -147,7 +153,7 @@ export function CandidateCardContent({
               <div className="candidate-skills" aria-label={t("Kỹ năng")}>
                 {model.skills.slice(0, 2).map((skill, index) => (
                   <span key={`${skill}-${index}`} title={skill}>
-                    {skill}
+                    {presetLabel(skill, [...skillOptions, ...certificateNames])}
                   </span>
                 ))}
                 {model.skills.length > 2 && (

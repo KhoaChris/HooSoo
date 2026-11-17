@@ -22,7 +22,7 @@
 }
 .login-story .eyebrow {
   color: var(--inverse-accent);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
 }
 .login-story h1 {
   color: var(--inverse-text);
@@ -33,13 +33,13 @@
 }
 .login-story > p {
   color: var(--inverse-muted);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   line-height: 1.9;
   margin-top: 25px;
   max-width: 350px;
 }
 .login-story footer {
-  font-size: 10px;
+  font-size: var(--font-size-micro);
   color: var(--inverse-muted);
   margin-top: auto;
   padding-top: 45px;
@@ -91,7 +91,7 @@
   border: 1px solid var(--inverse-line);
   border-radius: 7px;
   color: var(--inverse-muted);
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   padding: 12px 8px;
   background: var(--inverse-raised);
   position: relative;
@@ -118,12 +118,12 @@
   max-width: 390px;
 }
 .login-inner h2 {
-  font-size: 29px;
+  font-size: var(--font-size-page);
   letter-spacing: -0.8px;
   margin: 12px 0;
 }
 .login-inner > p {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--muted);
   margin-bottom: 35px;
 }
@@ -140,7 +140,7 @@
   height: 45px;
 }
 .login-inner > .text-link {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   display: flex;
   justify-content: center;
   margin-top: 22px;
@@ -154,7 +154,7 @@
   align-items: center;
   justify-content: center;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
 }
 .login-note svg {
   color: var(--muted);
@@ -181,13 +181,13 @@
     display: none;
   }
   .login-story .eyebrow {
-    font-size: 8px;
+    font-size: var(--font-size-micro);
   }
   .login-form {
     padding: 35px 25px;
   }
   .login-inner h2 {
-    font-size: 26px;
+    font-size: var(--font-size-page);
   }
   .login-note {
     margin-top: 30px;

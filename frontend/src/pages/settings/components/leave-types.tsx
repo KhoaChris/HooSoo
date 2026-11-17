@@ -80,12 +80,12 @@ export function LeaveTypes() {
               {
                 name: "deductsBalance",
                 label: translate("Trừ vào quỹ phép năm"),
-                type: "checkbox",
+                type: "switch",
               },
               {
                 name: "active",
                 label: translate("Cho phép tạo đơn mới"),
-                type: "checkbox",
+                type: "switch",
               },
             ]}
             defaults={

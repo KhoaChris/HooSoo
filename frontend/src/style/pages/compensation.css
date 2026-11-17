@@ -20,7 +20,7 @@
 .compensation-benefits h3 {
   margin: 0 0 14px;
   color: var(--heading);
-  font-size: 14px;
+  font-size: var(--font-size-subsection);
 }
 .reward-section-title {
   display: flex;
@@ -35,7 +35,7 @@
 }
 .reward-section-title > span,
 .reward-section-title > small {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
 }
 .reward-grid {
@@ -54,20 +54,25 @@
 label.reward-section > span {
   display: block;
   margin-bottom: 9px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .reward-check {
   display: flex;
   gap: 9px;
   align-items: center;
-  min-height: 24px;
+  min-height: 44px;
   margin-bottom: 9px;
-  font-size: 12px;
+  cursor: pointer;
+  font-size: var(--font-size-caption);
 }
 .reward-check .checkbox-control {
   flex: 0 0 18px;
   width: 18px;
   height: 18px;
+}
+.reward-check:has(:disabled) {
+  cursor: not-allowed;
+  color: var(--muted);
 }
 .reward-allowance-row {
   display: grid;
@@ -102,7 +107,7 @@ label.reward-section > span {
 }
 .reward-row-heading strong {
   color: var(--heading);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .reward-benefit-row .input-control {
   margin-bottom: 10px;
@@ -121,7 +126,7 @@ label.reward-section > span {
   min-width: 0;
 }
 .reward-total span {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   display: block;
   margin-bottom: 6px;
   color: var(--text-secondary);
@@ -139,7 +144,7 @@ label.reward-section > span {
   border: 1px solid;
   border-radius: 6px;
   padding: 5px 9px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.45;
 }
 .compensation-record-bar {
@@ -154,7 +159,7 @@ label.reward-section > span {
   display: flex;
   gap: 7px;
   align-items: center;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
 }
 .compensation-record-bar > .button {
@@ -178,7 +183,7 @@ label.reward-section > span {
 .compensation-amount small {
   display: block;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .compensation-amount strong {
   display: block;
@@ -201,12 +206,12 @@ label.reward-section > span {
 }
 .compensation-breakdown dt {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .compensation-breakdown dd {
   margin: 0;
   color: var(--heading);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -227,14 +232,14 @@ label.reward-section > span {
 }
 .compensation-benefits strong {
   color: var(--heading);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .compensation-benefits p {
   margin: 7px 0 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   line-height: 1.65;
 }
 .compensation-detail-actions {
@@ -275,7 +280,7 @@ label.reward-section > span {
   margin-bottom: 14px;
 }
 .compensation-history-section h2 {
-  font-size: 18px;
+  font-size: var(--font-size-section);
   color: var(--heading);
 }
 .compensation-history-section small {
@@ -319,7 +324,7 @@ label.reward-section > span {
   align-items: baseline;
   flex-wrap: wrap;
   padding: 12px 0 20px;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
 }
 .recruitment-reward-summary strong {
   color: var(--brand);
@@ -416,4 +421,46 @@ label.reward-section > span {
   min-height: 24px;
   display: flex;
   align-items: center;
+}
+
+.band-scope {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--selected-surface);
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+  font-size: var(--font-size-compact);
+}
+.band-history {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+.band-history summary {
+  cursor: pointer;
+  color: var(--brand);
+  font-weight: var(--font-weight-semibold);
+}
+.band-history ol {
+  list-style: none;
+  padding: 0;
+}
+.band-history li {
+  display: grid;
+  gap: 6px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.band-history li span,
+.band-history li p {
+  color: var(--muted);
+  font-size: var(--font-size-caption);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.band-prefill {
+  color: var(--muted);
+  font-size: var(--font-size-caption);
+  margin: 0 0 20px;
 }

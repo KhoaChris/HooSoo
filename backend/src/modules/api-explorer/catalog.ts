@@ -11,7 +11,9 @@ type RegisteredLayer = {
 };
 
 const resources: Record<string, string> = {
+  "employee-services": "Tài sản, đào tạo & bàn giao",
   compensation: "Lương & phúc lợi",
+  "admin-band": "Band lương Admin",
   records: "Hồ sơ lương",
   reviews: "Đánh giá hiệu suất",
   reports: "Báo cáo đánh giá",
@@ -21,6 +23,7 @@ const resources: Record<string, string> = {
   tasks: "Mục tiếp nhận",
   me: "Hồ sơ cá nhân",
   profile: "Thông tin cá nhân",
+  background: "Học vấn, kinh nghiệm & kỹ năng",
   avatar: "Ảnh đại diện",
   users: "Tài khoản",
   employees: "Nhân viên",
@@ -69,6 +72,12 @@ const resources: Record<string, string> = {
   events: "Luồng cập nhật SSE",
 };
 const actions: Record<string, string> = {
+  "request-return": "Đề nghị thu hồi",
+  "receive-return": "Xác nhận thu hồi",
+  "submit-learning": "Gửi kết quả đào tạo",
+  "accept-learning": "Công nhận hoàn thành",
+  "revise-learning": "Yêu cầu bổ sung",
+  task: "Xác nhận bàn giao",
   publish: "Công bố",
   finalize: "Chốt kết quả",
   launch: "Mở đánh giá",
@@ -123,6 +132,7 @@ const pagination = ["page", "pageSize"];
 const scope = ["departmentId", "employeeId", "positionId"];
 const dates = ["startDate", "endDate"];
 function queriesFor(path: string): string[] {
+  if (path === "/employee-services") return ["section", "scope"];
   if (path === "/compensation") return ["scope", "employeeId"];
   if (path.startsWith("/employment/") || path === "/performance/reviews")
     return ["scope"];

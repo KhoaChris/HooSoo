@@ -95,6 +95,18 @@ export function saveEmployee(
       "MANAGER_HAS_REPORTS",
       "Hãy điều chuyển cấp dưới trước khi điều chuyển hoặc kết thúc người quản lý.",
     );
+  if (input.status === "terminated" && old)
+    assert(
+      !Object.values(s.employeeServices).some(
+        (r) =>
+          r.employeeId === old.id &&
+          r.section === "assets" &&
+          !["returned", "cancelled"].includes(r.status),
+      ),
+      409,
+      "ASSETS_OUTSTANDING",
+      "Nhân viên còn tài sản chưa thu hồi.",
+    );
   if (input.status === "terminated" && old?.uid) {
     const member = s.memberships[old.uid];
     if (member?.active && member.role === "Admin") protectAdmin(s, member.id);

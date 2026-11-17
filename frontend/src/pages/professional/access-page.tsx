@@ -24,7 +24,7 @@ export function AccessPage() {
       <section className="access-current">
         <ShieldCheck size={26} />
         <div>
-          <span className="section-eyebrow">{t("VAI TRÒ CỦA BẠN")}</span>
+          <span className="section-eyebrow">{t("Vai trò của bạn")}</span>
           <h2>
             <StableText>{t(def.label)}</StableText>
           </h2>

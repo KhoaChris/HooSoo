@@ -1,3 +1,5 @@
+import { workforceRoutes } from "../modules/workforce/routes";
+import { employeeServicesRoutes } from "../modules/employee-services/employee-services.routes";
 import { compensationRoutes } from "../modules/compensation/compensation.routes";
 import { presenceRoutes } from "../modules/presence/presence.routes";
 import { performanceRoutes } from "../modules/performance/performance.routes";
@@ -23,6 +25,12 @@ import { chatRoutes } from "../modules/chat/chat.routes";
 export const api = Router();
 // The explorer reads this same registry; it never invokes route handlers.
 export const apiRouteGroups = [
+  { id: "workforce", name: "Vận hành nhân sự", router: workforceRoutes },
+  {
+    id: "employee-services",
+    name: "Tài sản, đào tạo & bàn giao",
+    router: employeeServicesRoutes,
+  },
   { id: "compensation", name: "Lương & phúc lợi", router: compensationRoutes },
   { id: "presence", name: "Trạng thái hoạt động", router: presenceRoutes },
   { id: "performance", name: "Đánh giá hiệu suất", router: performanceRoutes },

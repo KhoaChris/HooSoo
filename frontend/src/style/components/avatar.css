@@ -9,8 +9,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
   flex-shrink: 0;
 }
 .avatar.light {
@@ -65,8 +65,8 @@
   border-radius: 20px;
   background: var(--surface);
   color: var(--brand);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background 150ms;
 }
@@ -103,13 +103,13 @@
   height: 100%;
   color: var(--brand);
   font-size: 44px;
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
 }
 .avatar-editor-caption {
   text-align: center;
   margin: 0;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .avatar-editor-tools {
   display: flex;
@@ -127,8 +127,8 @@
   gap: 12px;
 }
 .avatar-crop-controls legend {
-  font-size: 12px;
-  font-weight: 650;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
   padding-right: 12px;
 }
 .avatar-crop-controls label {
@@ -137,7 +137,7 @@
   flex-wrap: wrap;
   gap: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .avatar-crop-controls output {
   margin-left: auto;
@@ -190,14 +190,14 @@
 }
 .avatar-crop-controls > button {
   justify-self: end;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .avatar-editor-error {
   padding: 12px;
   border-radius: 8px;
   background: var(--danger-bg);
   color: var(--danger-text);
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   overflow-wrap: anywhere;
 }
 .avatar-editor-footer {

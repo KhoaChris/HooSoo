@@ -1,0 +1,90 @@
+export const employeeServicesEnglish: Record<string, string> = {
+  "Nhân viên cần có tài khoản đang hoạt động để nhận mục bàn giao.":
+    "The employee needs an active account to own a handover task.",
+  "Cần cấp tài khoản đang hoạt động trước khi giao tài sản hoặc ghi danh đào tạo.":
+    "Provision an active account before assigning equipment or enrolling in training.",
+  "Tài sản & phát triển của tôi": "My equipment & development",
+  "Dịch vụ nhân sự": "Employee services",
+  "Tài sản được cấp": "Assigned equipment",
+  "Đào tạo & phát triển": "Learning & development",
+  "Nghỉ việc & bàn giao": "Offboarding & handover",
+  "Cấp phát tài sản": "Assign equipment",
+  "Ghi danh đào tạo": "Enroll in training",
+  "Lập hồ sơ bàn giao": "Plan offboarding",
+  "Chờ nhận tài sản": "Awaiting receipt",
+  "Đang sử dụng": "In use",
+  "Chờ thu hồi": "Return pending",
+  "Đã thu hồi": "Returned",
+  "Chờ công nhận": "Awaiting recognition",
+  "Đề nghị thu hồi": "Request return",
+  "Xác nhận thu hồi": "Confirm return",
+  "Gửi kết quả đào tạo": "Submit learning outcome",
+  "Công nhận hoàn thành": "Recognize completion",
+  "Hủy hồ sơ": "Cancel record",
+  "Hoàn tất nghỉ việc": "Complete offboarding",
+  "Đã hoàn tất nghỉ việc": "Offboarding completed",
+  "Đã hủy hồ sơ": "Record cancelled",
+  "Tên tài sản": "Equipment name",
+  "Mã tài sản": "Asset code",
+  "Khóa đào tạo": "Training course",
+  "Tên hồ sơ bàn giao": "Handover title",
+  "Ngày cấp phát": "Issue date",
+  "Hạn thu hồi": "Return due",
+  "Đơn vị đào tạo": "Training provider",
+  "Ngày làm việc cuối": "Last working day",
+  "Lý do nghỉ việc": "Leaving reason",
+  "Nội dung bàn giao / yêu cầu": "Handover details / requirements",
+  "Từ phiếu đã duyệt": "From an approved request",
+  "Tạo trực tiếp": "Create directly",
+  "Thêm mục bàn giao": "Add handover task",
+  "Mở lại mục bàn giao": "Reopen handover task",
+  "Xác nhận bàn giao": "Confirm handover",
+  "Nội dung bàn giao": "Handover item",
+  "Kết quả & nội dung đã học": "Learning outcome & reflection",
+  "Nhận xét / lý do": "Feedback / reason",
+  "Liên kết chứng nhận (HTTPS)": "Certificate link (HTTPS)",
+  "Hoàn tất sẽ kết thúc hồ sơ làm việc, hợp đồng đang hiệu lực và quyền truy cập của nhân viên.":
+    "Completing offboarding ends employment, active contracts and the employee's access.",
+  "Kết quả đào tạo": "Learning outcome",
+  "Xem chứng nhận": "View certificate",
+  "Danh sách bàn giao": "Handover checklist",
+  "mục bàn giao": "handover tasks",
+  "Hợp đồng & hành trình": "Contracts & employee journey",
+  "Tìm hồ sơ": "Search records",
+  "Tìm tên, mã hoặc nội dung…": "Search name, code or content…",
+  "Chưa đến ngày làm việc cuối.": "The last working day has not arrived.",
+  "Chưa hoàn tất các mục bàn giao.": "Handover tasks are incomplete.",
+  "Nhân viên còn tài sản chưa thu hồi.":
+    "The employee still has equipment to return.",
+  "Cần điều chuyển nhân viên cấp dưới.": "Reassign direct reports first.",
+  "Chỉ dùng liên kết HTTPS": "Use an HTTPS link",
+  "Chỉ nhân sự có thẩm quyền được lập hồ sơ cho cấp dưới.":
+    "Only authorized HR staff can create records for subordinate employees.",
+  "Không thể đổi nhân viên hoặc phiếu nguồn.":
+    "The employee and source request cannot be changed.",
+  "Hồ sơ không còn cho phép chỉnh sửa.": "This record can no longer be edited.",
+  "Không thể đổi mã tài sản đã cấp.":
+    "The code of an assigned asset cannot be changed.",
+  "Tài sản đang được cấp cho một nhân viên khác.":
+    "This asset is already assigned.",
+  "Tài khoản Admin cần được bàn giao quyền quản trị trước khi nghỉ việc.":
+    "Transfer Admin authority before offboarding this account.",
+  "Ngày nghỉ việc phải sau ngày nhận việc.":
+    "The last working day must be on or after the hire date.",
+  "Nhân viên đã có hồ sơ bàn giao đang mở.":
+    "An offboarding plan is already open for this employee.",
+  "Phiếu nguồn chưa được duyệt hoặc không khớp nhân viên và loại đề nghị.":
+    "The source request is not approved or does not match the employee and request type.",
+  "Phiếu đề nghị đã được thực hiện đủ.":
+    "This request has already been fulfilled.",
+  "Bạn không có quyền thực hiện thao tác này hoặc trạng thái đã thay đổi.":
+    "You do not have permission for this action, or the record status has changed.",
+  "Khóa đào tạo chưa bắt đầu.": "This course has not started yet.",
+  "Không được thêm mục bàn giao.": "You cannot add handover tasks.",
+  "Tối đa 30 mục bàn giao.": "Up to 30 handover tasks are allowed.",
+  "Bạn không phụ trách mục bàn giao này.":
+    "You are not responsible for this handover task.",
+  "Bàn giao công việc và hồ sơ": "Hand over work and records",
+  "Xác nhận công việc đã bàn giao": "Confirm work handover",
+  "Đối soát quyền lợi và tài sản": "Reconcile benefits and equipment",
+};

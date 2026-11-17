@@ -49,7 +49,7 @@ export function EmploymentPage({ personal = false }: { personal?: boolean }) {
     [status, setStatus] = useState(""),
     [page, setPage] = useState(1);
   const [editor, setEditor] = useState<EmploymentView | "new" | null>(null),
-    [detailId, setDetailId] = useState<string | null>(null),
+    [detailId, setDetailId] = useState<string | null>(params.get("record")),
     [decision, setDecision] = useState<{
       item: EmploymentView;
       action: EmploymentAction | "add-task";

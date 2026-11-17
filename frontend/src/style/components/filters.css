@@ -9,7 +9,7 @@
 .filters input,
 .filters .select-trigger {
   min-height: 38px;
-  font-size: 12px;
+  font-size: var(--font-size-control);
 }
 .filters .select-trigger {
   width: 188px;
@@ -59,12 +59,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .filter-label input {
   min-height: 38px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   padding: 7px 9px;
   border-color: var(--control-border);
 }
@@ -87,13 +87,13 @@
     min-width: 100%;
   }
   .filters input {
-    font-size: 16px;
+    font-size: var(--font-size-section);
   }
   .filters input::placeholder {
-    font-size: 12px;
+    font-size: var(--font-size-caption);
   }
   .filter-label {
-    font-size: 10px;
+    font-size: var(--font-size-micro);
     gap: 5px;
     flex: 1 1 135px;
   }
@@ -101,7 +101,7 @@
     min-width: 0;
     width: 100%;
     max-width: 170px;
-    font-size: 13px;
+    font-size: var(--font-size-compact);
   }
   .table-toolbar .filter-reset {
     margin-left: 0;

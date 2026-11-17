@@ -2,15 +2,15 @@ import { t, useLocale } from "../i18n";
 import { useLayoutEffect, useRef } from "react";
 import { HeaderTools } from "../components/header/header-tools";
 import { PresenceControl } from "../components/header/presence-control";
-import { Outlet, useLocation } from "react-router-dom";
-import { Menu, LogOut } from "lucide-react";
+import { Outlet, useLocation, NavLink, Link } from "react-router-dom";
+import { FolderTree, Menu, LogOut } from "lucide-react";
 import { labels } from "@hoosoo/shared";
 import { useAuth } from "../app/auth";
 import { env } from "../config/firebase";
 import { ErrorBox } from "../components/ui";
 import { AppSidebar } from "../components/navigation/app-sidebar";
 import { useSidebar } from "../hooks/sidebar";
-import { navigation } from "./navigation";
+import { activeNavigation, navigationFor } from "./navigation";
 
 export function AppLayout() {
   useLocale();
@@ -21,7 +21,11 @@ export function AppLayout() {
   useLayoutEffect(() => {
     mainContent.current?.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [location.pathname]);
-  const active = navigation.find((n) => n.path === location.pathname);
+  const active = activeNavigation(location.pathname);
+  const related = navigationFor(me!.actor.role).find(
+    (group) =>
+      group.hr && group.items.some((item) => item.path === active?.path),
+  );
   const name = me!.employee.name;
   return (
     <div
@@ -93,10 +97,39 @@ export function AppLayout() {
               </p>
             </>
           )}
+          {related && (
+            <nav
+              className="related-navigation"
+              aria-labelledby={`related-navigation-${related.id}`}
+            >
+              <span
+                className="related-navigation-label"
+                id={`related-navigation-${related.id}`}
+              >
+                <FolderTree size={16} aria-hidden="true" />
+                <span>{t(related.label)}</span>
+              </span>
+              <div className="related-navigation-links">
+                {related.items.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    end={active?.path !== item.path}
+                    className={active?.path === item.path ? "active" : ""}
+                  >
+                    {t(item.label)}
+                  </NavLink>
+                ))}
+              </div>
+            </nav>
+          )}
           <Outlet />
         </main>
         <footer className="app-footer">
-          <span>{t("HooSoo · Quản trị nhân lực")}</span>
+          <div className="footer-legal">
+            <span>© {new Date().getFullYear()} HooSoo</span>
+            <Link to="/policies">{t("Chính sách & bản quyền")}</Link>
+          </div>
           <span role="status">
             {live
               ? t("Đang nhận cập nhật trực tiếp")

@@ -20,14 +20,14 @@ export function CompanySettings({ settings }: { settings: Settings }) {
     action = useAction();
   return (
     <>
-      <Heading eyebrow={t("QUẢN TRỊ")} title={t("Thông tin doanh nghiệp")} />
+      <Heading eyebrow={t("Quản trị")} title={t("Thông tin doanh nghiệp")} />
       <section className="company-workspace">
         <header className="company-identity">
           <span className="company-monogram" aria-hidden="true">
             {settings.companyName.trim().slice(0, 1).toUpperCase()}
           </span>
           <div>
-            <span className="company-kicker">{t("DOANH NGHIỆP")}</span>
+            <span className="company-kicker">{t("Doanh nghiệp")}</span>
             <h2>{settings.companyName}</h2>
           </div>
           <Button variant="secondary" onClick={() => setEdit(true)}>

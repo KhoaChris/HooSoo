@@ -1,3 +1,4 @@
+import { localTokenLogging } from "../security/security-model";
 import { StableText } from "../../i18n/stable-text";
 import { t, useLocale } from "../../i18n";
 import { useState } from "react";
@@ -46,7 +47,7 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
           String(v.email),
           String(v.password),
         );
-        if (import.meta.env.DEV) {
+        if (localTokenLogging(import.meta.env.DEV, window.location.hostname)) {
           // Local API Explorer access; never log credentials in production.
           void credential.user.getIdToken().then(
             (token) =>
@@ -86,7 +87,7 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
           <span className="brand-mark">h.</span>HooSoo
         </div>
         <span className="eyebrow">
-          <StableText>{t("CON NGƯỜI LÀ TRỌNG TÂM")}</StableText>
+          <StableText>{t("Con người là trọng tâm")}</StableText>
         </span>
         <h1>
           <StableText>{t("Một không gian.")}</StableText>
@@ -122,7 +123,7 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
       <section className="login-form">
         <div className="login-inner">
           <span className="eyebrow">
-            <StableText>{t("CHÀO MỪNG ĐẾN HOOSOO")}</StableText>
+            <StableText>{t("Chào mừng đến HooSoo")}</StableText>
           </span>
           <h2>
             <StableText>
@@ -172,6 +173,9 @@ export function Login({ forgot = false }: { forgot?: boolean }) {
               {forgot ? t("Quay lại đăng nhập") : t("Quên mật khẩu?")}
             </StableText>
             <ArrowUpRight size={16} />
+          </Link>
+          <Link className="text-link login-policy-link" to="/policies">
+            {t("Chính sách & bản quyền")}
           </Link>
           <div className="login-note">
             <ShieldCheck size={18} />

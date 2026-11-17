@@ -153,7 +153,10 @@ export async function featureCommandState(
       const date =
         r && "startDate" in r ? r.startDate : String(input.startDate ?? "");
       if (date)
-        await load({ attendanceRecords: { ids: [`${employeeId}_${date}`] } });
+        await load({
+          attendanceRecords: { ids: [`${employeeId}_${date}`] },
+          payrollStatements: { field: "employeeId", value: employeeId },
+        });
     }
     return true;
   }

@@ -1,3 +1,4 @@
+import { env } from "../../config/env";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { Router, static as serveStatic } from "express";
@@ -17,7 +18,7 @@ export function createApiExplorer(groups: RouteGroup[]) {
     res.setHeader("Cache-Control", "no-store");
     // Local HTTP development must work in browsers that enforce CSP upgrades.
     const csp = String(res.getHeader("Content-Security-Policy") ?? "");
-    if (csp)
+    if (csp && env.NODE_ENV !== "production")
       res.setHeader(
         "Content-Security-Policy",
         csp.replace(/(?:^|;)upgrade-insecure-requests(?:;|$)/, ";"),

@@ -38,7 +38,7 @@ export function SystemPage() {
   return (
     <>
       <Heading
-        eyebrow={t("QUẢN TRỊ")}
+        eyebrow={t("Quản trị")}
         title={t("Trạng thái hệ thống")}
         action={
           <Button
@@ -61,7 +61,7 @@ export function SystemPage() {
             <StateIcon size={30} className={checking ? "spin" : undefined} />
           </span>
           <div>
-            <span className="system-eyebrow">{t("KẾT QUẢ KIỂM TRA")}</span>
+            <span className="system-eyebrow">{t("Kết quả kiểm tra")}</span>
             <h2>
               <StableText>
                 {checking

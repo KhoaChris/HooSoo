@@ -11,8 +11,8 @@
 .evaluation-form legend {
   margin-bottom: 12px;
   padding: 0;
-  font-size: 13px;
-  font-weight: 650;
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-heading);
   color: var(--text-primary);
 }
 .evaluation-overview {
@@ -30,7 +30,7 @@
   gap: 16px;
 }
 .evaluation-overview > div:first-child > span {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   color: var(--text-secondary);
 }
 .evaluation-overview strong {
@@ -43,7 +43,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--muted);
 }
 .evaluation-meter {
@@ -73,20 +73,20 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
 }
 .evaluation-criterion-label label > span {
   color: var(--muted);
-  font-size: 11px;
-  font-weight: 400;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-regular);
 }
 .evaluation-criterion-label small {
   display: block;
   margin-top: 4px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   line-height: 1.5;
 }
 .evaluation-criterion.is-invalid .select-trigger {
@@ -101,7 +101,7 @@
   background: transparent;
   padding: 3px 0;
   cursor: pointer;
-  font-size: 11px;
+  font-size: var(--font-size-micro);
   color: var(--brand);
 }
 .evaluation-evidence-toggle[aria-expanded="true"] svg {
@@ -120,7 +120,7 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-secondary);
 }
 .evaluation-summary {
@@ -148,27 +148,23 @@
   border: 1px solid var(--control-border);
   border-radius: 8px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--font-size-caption);
 }
 .evaluation-outcome > label > span {
   flex: 1;
 }
-.evaluation-outcome input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-.evaluation-outcome > label:focus-within {
-  outline: 2px solid var(--outcome-text);
-  outline-offset: 2px;
+.evaluation-outcome > label:has(:disabled) {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 .evaluation-outcome .passed {
   --outcome-text: var(--success-text);
+  --selection-accent: var(--success-text);
   --outcome-bg: var(--success-bg);
 }
 .evaluation-outcome .failed {
   --outcome-text: var(--danger-text);
+  --selection-accent: var(--danger-text);
   --outcome-bg: var(--danger-bg);
 }
 .evaluation-outcome > label.is-selected,
@@ -203,7 +199,7 @@
 .evaluation-result-heading > span {
   color: var(--text-primary);
   font-size: 20px;
-  font-weight: 650;
+  font-weight: var(--font-weight-heading);
   font-variant-numeric: tabular-nums;
 }
 .evaluation-result-date {
@@ -224,7 +220,7 @@
   padding: 9px 0;
   border-top: 1px solid var(--line);
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--font-size-caption);
 }
 .assessment-saved dt small {
   margin-left: 8px;
@@ -233,11 +229,11 @@
 .assessment-saved dd {
   margin: 0;
   color: var(--text-primary);
-  font-weight: 550;
+  font-weight: var(--font-weight-medium);
 }
 .assessment-saved dl p {
   grid-column: 1/-1;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   margin: 0;
 }
 .assessment-saved-notes {
@@ -249,7 +245,7 @@
   border-top: 1px solid var(--line);
 }
 .assessment-saved-notes h4 {
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   color: var(--text-primary);
   margin-bottom: 6px;
 }
@@ -302,7 +298,7 @@
   min-width: 0;
 }
 .evaluation-observations legend {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--heading);
   padding-top: 18px;
 }
@@ -334,7 +330,7 @@
   border: 1px solid var(--line);
   border-radius: 8px;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--font-size-caption);
   background: var(--surface-subtle);
   color: var(--text-secondary);
   cursor: pointer;
@@ -353,7 +349,7 @@
 }
 .evaluation-history summary {
   cursor: pointer;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .evaluation-history small {
   display: block;

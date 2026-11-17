@@ -35,6 +35,16 @@ import type { RecruitmentDirectory } from "./job-editor";
 import { candidateMovement } from "./candidate-movement";
 import { CandidateEvaluationDialog } from "./candidate-evaluation";
 import {
+  CandidateSummaryField,
+  CandidateSkillsField,
+} from "./candidate-background-fields";
+import {
+  candidateSummaryDefaults,
+  candidateSkillsDefaults,
+  candidateSummarySchema,
+  candidateSkillsSchema,
+} from "./candidate-background-model";
+import {
   InterviewLocation,
   interviewLocationDefaults,
   interviewLocationSchema,
@@ -97,9 +107,22 @@ export function CandidateCreate({
       onClose={onClose}
     >
       <Form
-        schema={candidate ? candidateEditSchema : candidateSchema}
+        schema={(candidate ? candidateEditSchema : candidateSchema).extend({
+          education: candidateSummarySchema("education"),
+          experience: candidateSummarySchema("experience"),
+          skills: candidateSkillsSchema,
+        })}
         defaults={{
           ...editableDefaults,
+          education: candidateSummaryDefaults(
+            candidate?.education ?? defaults.education,
+            "education",
+          ),
+          experience: candidateSummaryDefaults(
+            candidate?.experience ?? defaults.experience,
+            "experience",
+          ),
+          skills: candidateSkillsDefaults(candidate?.skills ?? defaults.skills),
           ...(candidate ? { version: candidate.version } : {}),
         }}
         columns={2}
@@ -124,24 +147,27 @@ export function CandidateCreate({
           {
             name: "education",
             label: t("Học vấn & bằng cấp"),
-            type: "textarea",
             required: true,
             span: "full",
             section: t("Nội dung hồ sơ"),
+            render: (props) => (
+              <CandidateSummaryField {...props} kind="education" />
+            ),
           },
           {
             name: "experience",
             label: t("Kinh nghiệm làm việc"),
-            type: "textarea",
             required: true,
             span: "full",
+            render: (props) => (
+              <CandidateSummaryField {...props} kind="experience" />
+            ),
           },
           {
             name: "skills",
             label: t("Kỹ năng & chứng chỉ"),
-            placeholder: t("React, TypeScript; Tiếng Anh: IELTS 6.5"),
-            type: "textarea",
             span: "full",
+            render: (props) => <CandidateSkillsField {...props} />,
           },
           {
             name: "note",
